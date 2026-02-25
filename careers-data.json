@@ -1,0 +1,44 @@
+{
+  "careers": [
+    {
+      "id": "43ee6e029b45d32b",
+      "title": "Lead Developer (VFX)",
+      "department": "Development",
+      "type": "Contract",
+      "location": "Remote",
+      "description": "We are looking for a talented Visual Effects Artist to bring our anime-style and stylized games to life. You will create dynamic, eye-catching effects for abilities, attacks, environment interactions, UI animations, and more, helping our worlds feel vibrant and polished.\n\nThe ideal candidate has a strong sense of timing, color, and motion, and can craft effects that enhance gameplay while maintaining performance on Roblox. You will work closely with developers, builders, and UI designers to ensure your effects integrate seamlessly into the game’s style and mechanics.\n\nThis role is perfect for someone passionate about anime aesthetics, flashy abilities, and visually striking gameplay experiences.",
+      "requirements": [
+        "1+ Year Roblox Studio Experience"
+      ],
+      "niceToHave": [
+        "A Strong Portfolio"
+      ],
+      "questions": [],
+      "active": false,
+      "createdAt": "2026-02-17T18:52:23.955Z",
+      "updatedAt": "2026-02-19T19:52:22.525Z"
+    },
+    {
+      "id": "23a8ad769c8e542a",
+      "title": "Lead Developer (Programmer)",
+      "department": "Development",
+      "type": "Part-time",
+      "location": "Remote",
+      "description": "You will play a key role in developing our Switch Titles, including Tsubasa: Soccer and future upcoming projects. As Lead Developer, you will handle core gameplay systems, structure the codebase, and help guide the overall technical direction of the game.\n\nThis is a hands-on role where you will collaborate with the development team to ensure systems are efficient, secure, and scalable as the project grows.",
+      "requirements": [
+        "16+",
+        "2+ Years Lua Programming",
+        "Experience With Roblox Studio"
+      ],
+      "niceToHave": [
+        "Previous game portfolio",
+        "Team management",
+        "Experience with large scale Roblox games"
+      ],
+      "questions": [],
+      "active": false,
+      "createdAt": "2026-02-17T18:40:51.576Z",
+      "updatedAt": "2026-02-19T19:52:24.711Z"
+    }
+  ]
+}

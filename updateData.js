@@ -1,6 +1,6 @@
 import { serverData } from "./data.js";
 import { getGameStats } from "./getData.js";
-import { projectSoulsUniverses } from "./info.js";
+import { Universes } from "./info.js";
 
 const SECONDS = 30;
 const MILISECONDS = SECONDS * 1000;
@@ -9,7 +9,7 @@ async function updateServerData() {
     let combinedCCU = 0;
     let combinedVisits = 0;
     
-    for (const universeId of projectSoulsUniverses) {
+    for (const universeId of Universes) {
         const stats = await getGameStats(universeId);
         combinedCCU += stats.playing;
         combinedVisits += stats.visits;

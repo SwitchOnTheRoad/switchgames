@@ -1,48 +1,794 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Switch - Game Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --primary: #FBBF24;
+            --primary-bright: #FCD34D;
+            --primary-dark: #D97706;
+            --background: #0A0A0A;
+            --surface: #141414;
+            --surface-light: #1C1C1C;
+            --border: #2A2A2A;
+            --text: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --gradient-primary: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+            --glow: 0 0 60px rgba(251, 191, 36, 0.3);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        .navbar.visible {
+            transform: translateY(0);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-img {
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        .nav-link {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--text);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero-logo {
+            max-width: min(90%, 800px);
+            height: auto;
+            margin-bottom: 1.5rem;
+            animation: glitch 5s infinite;
+        }
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); filter: none; }
+            91% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            92% { transform: translate(2px, -2px); filter: hue-rotate(-90deg); }
+            93% { transform: translate(-2px, -2px); }
+            94% { transform: translate(2px, 2px); }
+            95% { transform: translate(0); filter: none; }
+        }
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            text-align: center;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 1.25rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #000;
+            box-shadow: var(--glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 80px rgba(251, 191, 36, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #000;
+        }
+        .featured-game {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            padding: 0;
+            overflow: hidden;
+        }
+        .featured-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            min-height: 480px;
+            border-radius: 60px;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+        .featured-thumbnail {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .featured-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .featured-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+        .featured-info {
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            background: var(--surface-light);
+        }
+        .featured-tag {
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.75rem;
+        }
+        .featured-title {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.15;
+        }
+        .featured-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .featured-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: auto;
+        }
+        .featured-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .featured-stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+        .featured-stat-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        @media (max-width: 968px) {
+            .featured-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                border-radius: 40px;
+            }
+            .featured-thumbnail {
+                min-height: 360px;
+            }
+            .featured-info {
+                padding: 2.5rem 2rem;
+                gap: 1.25rem;
+            }
+            .featured-title {
+                font-size: 1.9rem;
+            }
+            .featured-stat-value {
+                font-size: 2rem;
+            }
+        }
+        @media (min-width: 1400px) {
+            .featured-container {
+                min-height: 520px;
+            }
+        }
+        .stats {
+            padding: 4rem 2rem;
+            background: var(--background);
+        }
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+        .stat { text-align: center; }
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+            position: relative;
+            padding: 1.5rem 0;
+        }
+        .section-header .section-title,
+        .section-header h2:not(.featured-title) {
+            position: relative;
+            display: inline-block;
+            padding: 0 1.5rem;
+            margin: 0.5rem 0;
+            background: var(--background);
+        }
+        .section-header .section-title::before,
+        .section-header .section-title::after,
+        .section-header h2:not(.featured-title)::before,
+        .section-header h2:not(.featured-title)::after {
+            content: '';
+            position: absolute;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: var(--gradient-primary);
+            opacity: 0.7;
+            border-radius: 2px;
+        }
+        .section-header .section-title::before,
+        .section-header h2:not(.featured-title)::before {
+            top: -0.8rem;
+        }
+        .section-header .section-title::after,
+        .section-header h2:not(.featured-title)::after {
+            bottom: -0.8rem;
+        }
+        .section-tag {
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            max-width: 700px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+        .blog-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .blog-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        .blog-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+        .blog-card-body {
+            padding: 2rem;
+        }
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .blog-date { color: var(--primary); font-weight: 600; }
+        .blog-title { font-size: 1.5rem; margin-bottom: 0.75rem; transition: color 0.3s; }
+        .blog-card:hover .blog-title { color: var(--primary); }
+        .blog-preview { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+        .contact-section {
+            padding: 8rem 0;
+            background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+            max-width: none;
+            width: 100%;
+        }
+        .contact-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        .contact-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        .contact-feature {
+            text-align: center;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+        .contact-feature:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        .contact-feature-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .contact-feature-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .contact-feature-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .contact-form-container {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 3rem;
+            padding: 3.5rem;
+            overflow: hidden;
+        }
+        .form-grid { display: grid; gap: 1.75rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 1rem 1.5rem; background: var(--background);
+            border: 2px solid var(--border); border-radius: 1.25rem; color: var(--text);
+            font-family: inherit; font-size: 1rem; transition: all 0.3s;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .modal.open { display: flex; }
+        .modal-content {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 1rem; max-width: 720px; width: 100%;
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .modal-close:hover {
+            color: var(--text);
+        }
+        .modal-header {
+            padding: 2rem 2rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .modal-body {
+            padding: 2rem;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
+        .footer-content {
+            max-width: 1400px; margin: 0 auto; display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem;
+        }
+        .footer-logo {
+            height: 40px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .footer-section h4 {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+        .footer-link:hover {
+            color: var(--text);
+        }
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
-
 <body>
-    <header>
-        <a href="#home" class="logo">
-            <!--<img src="https://ucomm.unl.edu/sites/unl.edu.university-communication/files/styles/no_crop_720/public/media/image/nebraska-n.jpg?itok=4Vj3-oUs" width="50" height="50">-->
-        </a>
-        
-        <nav>
-            <ul>
-                <li><a class="button" href="#home">Home</a></li>
-                <li><a class="button" href="#games">Games</a></li>
-                <li><a class="button" href="#blog">Blog</a></li>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/"><img src="heroextended.png" alt="Switch" class="logo-img"></a>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/games.html" class="nav-link">Games</a></li>
+                <li><a href="/blog.html" class="nav-link">Blog</a></li>
+                <li><a href="/careers.html" class="nav-link">Careers</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main>
-        <h1>      
-            Live Stats!
-        </h1>
-        <ul class="gamestats">
-            <li id="liveccu">
-                <img class="gamestatsicon" src="https://files.catbox.moe/jj9hmd.png" width="35" height="35">
-                <h2>Current ccu: <span id="ccu-display"></span></h2>
-            </li>
-            <li id="livevisits">
-                <img class="gamestatsicon" src="https://files.catbox.moe/jj9hmd.png" width="35" height="35">
-                <h2>Total Visits: <span id="visit-display"></span></h2>
-            </li>
-            <li id="mothlyactive">
-                <img class="gamestatsicon" src="https://files.catbox.moe/jj9hmd.png" width="35" height="35">
-                <h2>Over a million hours of playtime!</h2>
-            </li>
-        </ul>
-    </main>
-    <script src="main.js"></script>
+    <section class="hero">
+        <div class="hero-bg"><img src="hero.png" alt=""></div>
+        <div class="hero-content">
+            <img src="heroextended.png" alt="Switch" class="hero-logo">
+            <p class="hero-subtitle">Switch is an independent Roblox studio crafting immersive experiences that bring players together.</p>
+            <div class="hero-buttons">
+                <a href="/games.html" class="btn btn-primary">
+                    Explore Games
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#contact" class="btn btn-outline">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat"><div class="stat-value" id="games-count">-</div><div class="stat-label">Games</div></div>
+            <div class="stat"><div class="stat-value" id="ccu-display">-</div><div class="stat-label">Players Online</div></div>
+            <div class="stat"><div class="stat-value" id="visit-display">-</div><div class="stat-label">Total Visits</div></div>
+            <div class="stat"><div class="stat-value">2025</div><div class="stat-label">Founded</div></div>
+        </div>
+    </section>
+
+    <div class="section-header" id="featured-header" style="padding-top: 6rem; margin-bottom: 2rem; display: none;">
+        <span class="section-tag">Current Spotlight</span>
+        <h2 class="section-title">Featured Game</h2>
+    </div>
+
+    <section class="featured-game" id="featured-game" style="display: none;">
+        <div class="featured-container">
+            <a href="#" class="featured-thumbnail" id="featured-link">
+                <img src="" alt="" id="featured-img">
+            </a>
+            <div class="featured-info">
+                <span class="featured-tag">Special Mention</span>
+                <h2 class="featured-title" id="featured-name">Loading...</h2>
+                <p class="featured-description" id="featured-desc">An immersive experience full of action, strategy, and community-driven fun. Join thousands of players in epic battles and unique adventures.</p>
+                <div class="featured-stats">
+                    <div class="featured-stat">
+                        <div class="featured-stat-label">Players Online</div>
+                        <div class="featured-stat-value" id="featured-playing">-</div>
+                    </div>
+                    <div class="featured-stat">
+                        <div class="featured-stat-label">Total Visits</div>
+                        <div class="featured-stat-value" id="featured-visits">-</div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary featured-play" id="featured-play-btn">
+                    Play Now
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="blog">
+        <div class="section-header">
+            <span class="section-tag">Latest Updates</span>
+            <h2 class="section-title">Recent Posts</h2>
+        </div>
+        <div class="blog-grid" id="blog-grid"><div class="blog-empty">Loading posts...</div></div>
+    </section>
+
+    <div class="modal" id="blog-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">✕</button>
+            <div class="modal-header">
+                <div class="modal-meta">
+                    <span class="modal-date" id="modal-date"></span>
+                    <span class="modal-readtime" id="modal-readtime"></span>
+                </div>
+                <h2 class="modal-title" id="modal-title"></h2>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <section class="contact-section" id="contact">
+        <div class="contact-wrapper">
+            <div class="section-header">
+                <span class="section-tag">Get in Touch</span>
+                <h2 class="section-title">Contact Us</h2>
+            </div>
+            <form id="contact-form" class="contact-form-container">
+                <div class="form-grid">
+                    <div class="form-group"><label>Name *</label><input type="text" id="contact-name" required placeholder="Your name"></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="contact-email" required placeholder="your@email.com"></div>
+                    <div class="form-group"><label>Message *</label><textarea id="contact-message" required rows="7" placeholder="Tell us more..."></textarea></div>
+                    <div id="contact-status"></div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand"><img src="heroextended.png" alt="Switch" class="footer-logo"><p class="footer-desc">An independent Roblox studio crafting immersive experiences.</p></div>
+            <div class="footer-section"><h4>Product</h4><ul class="footer-links"><li><a href="/games.html" class="footer-link">Games</a></li><li><a href="/blog.html" class="footer-link">Blog</a></li></ul></div>
+            <div class="footer-section"><h4>Company</h4><ul class="footer-links"><li><a href="/#contact" class="footer-link">Contact</a></li><li><a href="https://discord.gg/switch" class="footer-link">Community</a></li></ul></div>
+            <div class="footer-section"><h4>Legal</h4><ul class="footer-links"><li><a href="#" class="footer-link">Privacy Policy</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 Switch. All rights reserved.</p></div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => { window.pageYOffset > 100 ? navbar.classList.add('visible') : navbar.classList.remove('visible'); });
+        function formatNumber(num) {
+            if (num >= 1e9) return (num / 1e9).toFixed(1) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+            return num.toLocaleString();
+        }
+        function formatDate(iso) { return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); }
+        function stripHtml(html) { const div = document.createElement("div"); div.innerHTML = html; return div.textContent || div.innerText || ""; }
+        function readTime(html) { const words = stripHtml(html).split(/\s+/).filter(Boolean).length; return `${Math.max(1, Math.round(words / 200))} min read`; }
+        function previewText(html, len = 130) { const text = stripHtml(html); return text.length > len ? text.slice(0, len).trimEnd() + "…" : text; }
+        async function loadGamesAndStats() {
+            try {
+                const res = await fetch("/api/games");
+                const data = await res.json();
+                const games = data.games || [];
+                document.getElementById("games-count").textContent = games.length;
+                document.getElementById("ccu-display").textContent = formatNumber(games.reduce((sum, game) => sum + (game.playing || 0), 0));
+                document.getElementById("visit-display").textContent = formatNumber(games.reduce((sum, game) => sum + (game.visits || 0), 0));
+                const featuredHeader = document.getElementById('featured-header');
+                const featuredSection = document.getElementById('featured-game');
+                const featuredGame = games.find(g => g.featured);
+                if (featuredGame) {
+                    featuredHeader.style.display = 'block';
+                    featuredSection.style.display = 'block';
+                    const img = document.getElementById('featured-img');
+                    img.src = featuredGame.thumbnail || (featuredGame.universeId ? `https://thumbnails.roblox.com/v1/games/icons?universeIds=${featuredGame.universeId}&returnPolicy=PlaceHolder&size=768x432&format=Png&isCircular=false` : '');
+                    document.getElementById('featured-name').textContent = featuredGame.name;
+                    document.getElementById('featured-desc').textContent = featuredGame.description || "An immersive experience full of action, strategy, and community-driven fun. Join thousands of players in epic battles and unique adventures.";
+                    document.getElementById('featured-playing').textContent = formatNumber(featuredGame.playing || 0);
+                    document.getElementById('featured-visits').textContent = formatNumber(featuredGame.visits || 0);
+                    const gameUrl = `https://www.roblox.com/games/start?placeId=${featuredGame.placeId || featuredGame.universeId}`;
+                    document.getElementById('featured-link').href = gameUrl;
+                    document.getElementById('featured-play-btn').href = gameUrl;
+                } else {
+                    featuredHeader.style.display = 'none';
+                    featuredSection.style.display = 'none';
+                }
+            } catch (error) { console.error(error); }
+        }
+        async function loadBlogPosts() {
+            try {
+                const res = await fetch("/api/blog/posts");
+                const posts = (await res.json()).posts;
+                const grid = document.getElementById("blog-grid");
+                if (!posts || posts.length === 0) {
+                    grid.innerHTML = `<div class="blog-empty">No posts yet.</div>`;
+                    return;
+                }
+                grid.innerHTML = posts.slice(0, 3).map(post => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = post.content;
+                    const firstImg = tempDiv.querySelector('img');
+                    const imgHtml = firstImg ? `<img src="${firstImg.src}" class="blog-card-img" alt="${post.title}">` : '';
+                    return `
+                        <div class="blog-card" data-id="${post.id}">
+                            ${imgHtml}
+                            <div class="blog-card-body">
+                                <div class="blog-meta">
+                                    <span class="blog-date">${formatDate(post.createdAt)}</span>
+                                    <span class="blog-readtime">${readTime(post.content)}</span>
+                                </div>
+                                <h3 class="blog-title">${post.title}</h3>
+                                <p class="blog-preview">${previewText(post.content)}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+                document.querySelectorAll(".blog-card").forEach(card => {
+                    card.addEventListener("click", () => {
+                        const post = posts.find(p => p.id === card.dataset.id);
+                        if (post) openModal(post);
+                    });
+                });
+            } catch {
+                grid.innerHTML = `<div class="blog-empty">Couldn't load posts.</div>`;
+            }
+        }
+        function openModal(post) {
+            document.getElementById("modal-date").textContent = formatDate(post.createdAt);
+            document.getElementById("modal-readtime").textContent = readTime(post.content);
+            document.getElementById("modal-title").textContent = post.title;
+            document.getElementById("modal-body").innerHTML = post.content;
+            document.getElementById("blog-modal").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+        function closeModal() { document.getElementById("blog-modal").classList.remove("open"); document.body.style.overflow = ""; }
+        document.getElementById("modal-close").addEventListener("click", closeModal);
+        document.getElementById("blog-modal").addEventListener("click", e => { if (e.target.id === "blog-modal") closeModal(); });
+        loadGamesAndStats();
+        loadBlogPosts();
+    </script>
 </body>
-
 </html>

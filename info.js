@@ -1,3 +1,2 @@
-const projectSoulsUniverses = [6037884519, 8032621473];
-
-export { projectSoulsUniverses };
+const Universes = [9167571801, 9463026019];
+export { Universes };

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers — Switch</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #141414;
+            --surface-light: #1C1C1C;
+            --border: #2A2A2A;
+            --text: #F9FAFB;
+            --muted: #9CA3AF;
+            --grad: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* --- Navigation --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 48px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--grad);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 140px 2rem 80px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            background: var(--grad);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- Careers Grid --- */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .careers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+
+        .career-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .career-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .career-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .career-meta {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .career-tag {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.75rem;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--muted);
+        }
+
+        .career-desc {
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .career-requirements h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .career-requirements ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .career-requirements li {
+            padding-left: 1.25rem;
+            position: relative;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .career-requirements li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            background: var(--grad);
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+        }
+
+        /* --- Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- Form --- */
+        .form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .form-status {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .form-status.success {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            height: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .careers-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/"><img src="heroextended.png" alt="Switch" class="logo-img"></a>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/games.html" class="nav-link">Games</a></li>
+                <li><a href="/blog.html" class="nav-link">Blog</a></li>
+                <li><a href="/careers.html" class="nav-link active">Careers</a></li>
+                <li><a href="/#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Join Switch</h1>
+        <p>Help us build the next generation of Roblox experiences. We're looking for passionate, talented people to join our growing team.</p>
+    </header>
+
+    <section class="section">
+        <div class="careers-grid" id="careers-list">
+            </div>
+    </section>
+
+    <div id="application-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-job-title">Apply</h3>
+                <button class="modal-close" onclick="closeApplicationModal()">&times;</button>
+            </div>
+            <form id="application-form" class="form">
+                <input type="hidden" id="job-position">
+                
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="app-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="app-email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Discord</label>
+                    <input type="text" id="app-discord">
+                </div>
+                
+                <div class="form-group">
+                    <label>Portfolio/GitHub</label>
+                    <input type="url" id="app-portfolio">
+                </div>
+                
+                <div class="form-group">
+                    <label>Why You're a Good Fit *</label>
+                    <textarea id="app-experience" rows="4" required></textarea>
+                </div>
+
+                <div id="custom-questions"></div>
+
+                <div class="form-status" id="application-status"></div>
+                
+                <button type="submit" class="btn" style="width:100%">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <img src="logo.png" alt="Switch" class="footer-logo">
+                <p class="footer-desc">An independent Roblox studio crafting immersive experiences.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul class="footer-links">
+                    <li><a href="/games.html" class="footer-link">Games</a></li>
+                    <li><a href="/blog.html" class="footer-link">Blog</a></li>
+                    <li><a href="/careers.html" class="footer-link">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="/#contact" class="footer-link">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Privacy</a></li>
+                    <li><a href="#" class="footer-link">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Switch. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentCareerQuestions = [];
+
+        // UI Functions
+        function openApplicationModal(career) {
+            document.getElementById("modal-job-title").textContent = `Apply — ${career.title}`;
+            document.getElementById("job-position").value = career.title;
+            
+            currentCareerQuestions = career.questions || [];
+            const container = document.getElementById("custom-questions");
+            
+            container.innerHTML = currentCareerQuestions.map((q, i) => `
+                <div class="form-group">
+                    <label>${q.label}${q.required ? ' *' : ''}</label>
+                    <textarea id="custom-q-${i}" rows="3" ${q.required ? 'required' : ''}></textarea>
+                </div>
+            `).join("");
+
+            document.getElementById("application-modal").classList.add("open");
+        }
+
+        window.closeApplicationModal = function() {
+            document.getElementById("application-modal").classList.remove("open");
+        }
+
+        // Fetch Careers from API
+        async function loadCareers() {
+            try {
+                const res = await fetch("/api/careers");
+                const { careers } = await res.json();
+                const list = document.getElementById("careers-list");
+
+                if (!careers || careers.length === 0) {
+                    list.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 5rem 2rem; color: var(--muted)">
+                            No open positions right now — check back soon!
+                        </div>`;
+                    return;
+                }
+
+                list.innerHTML = careers.map(c => `
+                    <div class="career-card">
+                        <h3 class="career-title">${c.title}</h3>
+                        <div class="career-meta">
+                            ${c.department ? `<span class="career-tag">${c.department}</span>` : ''}
+                            <span class="career-tag">${c.type}</span>
+                            <span class="career-tag">${c.location}</span>
+                        </div>
+                        ${c.description ? `<p class="career-desc">${c.description}</p>` : ''}
+                        ${c.requirements && c.requirements.length ? `
+                            <div class="career-requirements">
+                                <h4>Requirements</h4>
+                                <ul>${c.requirements.map(r => `<li>${r}</li>`).join('')}</ul>
+                            </div>
+                        ` : ''}
+                        <button class="btn" onclick='openApplicationModal(${JSON.stringify(c).replace(/'/g, "&#39;")})'>
+                            Apply Now
+                        </button>
+                    </div>
+                `).join("");
+
+            } catch (err) {
+                console.error("Error loading careers:", err);
+            }
+        }
+
+        // Form Handling
+        document.getElementById("application-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const status = document.getElementById("application-status");
+            const btn = this.querySelector("button[type=submit]");
+
+            btn.disabled = true;
+            btn.textContent = "Submitting…";
+
+            const answers = currentCareerQuestions.map((q, i) => ({
+                question: q.label,
+                answer: document.getElementById(`custom-q-${i}`)?.value || ""
+            }));
+
+            try {
+                const res = await fetch("/api/apply", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        position: document.getElementById("job-position").value,
+                        name: document.getElementById("app-name").value,
+                        email: document.getElementById("app-email").value,
+                        discord: document.getElementById("app-discord").value,
+                        portfolio: document.getElementById("app-portfolio").value,
+                        experience: document.getElementById("app-experience").value,
+                        answers
+                    })
+                });
+
+                if (res.ok) {
+                    status.textContent = "Application submitted! We'll be in touch.";
+                    status.className = "form-status success";
+                    status.style.display = "block";
+                    this.reset();
+                    setTimeout(closeApplicationModal, 2500);
+                } else {
+                    throw new Error();
+                }
+            } catch {
+                status.textContent = "Something went wrong. Please try again.";
+                status.className = "form-status error";
+                status.style.display = "block";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Submit Application";
+            }
+        });
+
+        // Initialize
+        loadCareers();
+    </script>
+</body>
+</html>
