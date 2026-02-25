@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Careers — Switch</title>
-    
+    <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -43,9 +43,14 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(10, 10, 10, 0.8);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        .navbar.visible {
+            transform: translateY(0);
         }
 
         .nav-container {
@@ -58,13 +63,18 @@
         }
 
         .logo-img {
-            height: 48px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
             gap: 2.5rem;
+            align-items: center;
         }
 
         .nav-link {
@@ -93,6 +103,31 @@
 
         .nav-link:hover::after, .nav-link.active::after {
             width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
         }
 
         /* --- Hero Section --- */
@@ -347,25 +382,30 @@
 
         /* --- Responsive --- */
         @media (max-width: 768px) {
+            .nav-container { padding: 1rem 1.5rem; }
+            .nav-menu {
+                position: absolute; top: 60px; left: 0; right: 0;
+                flex-direction: column; gap: 0; background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+            }
+            .nav-menu.active { max-height: 400px; }
+            .nav-menu li { border-bottom: 1px solid var(--border); width: 100%; }
+            .nav-link { display: block; padding: 1rem 1.5rem; font-size: 1rem; }
+            .hamburger { display: flex; }
+            .logo-img { height: 35px; }
+            .hero { padding: 80px 1.5rem 60px; }
+            .section { padding: 4rem 1.5rem; }
             .careers-grid { grid-template-columns: 1fr; }
             .footer-content { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 50px 1rem; }
+            .section { padding: 3rem 1rem; }
         }
     </style>
 </head>
 <body>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/"><img src="heroextended.png" alt="Switch" class="logo-img"></a>
-            <ul class="nav-menu">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/games.html" class="nav-link">Games</a></li>
-                <li><a href="/blog.html" class="nav-link">Blog</a></li>
-                <li><a href="/careers.html" class="nav-link active">Careers</a></li>
-                <li><a href="/#contact" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
 
     <header class="hero">
         <h1>Join Switch</h1>
@@ -373,8 +413,7 @@
     </header>
 
     <section class="section">
-        <div class="careers-grid" id="careers-list">
-            </div>
+        <div class="careers-grid" id="careers-list"></div>
     </section>
 
     <div id="application-modal" class="modal">
@@ -429,9 +468,9 @@
             <div class="footer-section">
                 <h4>Product</h4>
                 <ul class="footer-links">
-                    <li><a href="/games.html" class="footer-link">Games</a></li>
-                    <li><a href="/blog.html" class="footer-link">Blog</a></li>
-                    <li><a href="/careers.html" class="footer-link">Careers</a></li>
+                    <li><a href="/games" class="footer-link">Games</a></li>
+                    <li><a href="/blog" class="footer-link">Blog</a></li>
+                    <li><a href="/careers" class="footer-link">Careers</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -453,10 +492,10 @@
         </div>
     </footer>
 
+    <script src="navbar.js"></script>
     <script>
         let currentCareerQuestions = [];
 
-        // UI Functions
         function openApplicationModal(career) {
             document.getElementById("modal-job-title").textContent = `Apply — ${career.title}`;
             document.getElementById("job-position").value = career.title;
@@ -478,7 +517,6 @@
             document.getElementById("application-modal").classList.remove("open");
         }
 
-        // Fetch Careers from API
         async function loadCareers() {
             try {
                 const res = await fetch("/api/careers");
@@ -519,7 +557,6 @@
             }
         }
 
-        // Form Handling
         document.getElementById("application-form").addEventListener("submit", async function(e) {
             e.preventDefault();
             const status = document.getElementById("application-status");
@@ -567,7 +604,6 @@
             }
         });
 
-        // Initialize
         loadCareers();
     </script>
 </body>

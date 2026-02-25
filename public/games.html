@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games — Switch</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,20 +23,57 @@
         
         .navbar {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(10, 10, 10, .8); backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, .95); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        .navbar.visible {
+            transform: translateY(0);
         }
         .nav-container {
             max-width: 1400px; margin: 0 auto; padding: 1rem 2rem;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .logo-img { height: 48px; }
-        .nav-menu { display: flex; list-style: none; gap: 2.5rem; }
+        .logo-img { height: 40px; transition: transform 0.3s ease; }
+        .logo-img:hover { transform: scale(1.05); }
+        .nav-menu { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
         .nav-link {
             color: var(--muted); font-weight: 500; font-size: .9rem;
-            text-decoration: none; transition: color .3s;
+            text-decoration: none; transition: color .3s; position: relative;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px; background: var(--grad);
+            transition: width 0.3s ease;
         }
         .nav-link:hover, .nav-link.active { color: var(--text); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
         
         .hero { padding: 140px 2rem 80px; text-align: center; border-bottom: 1px solid var(--border); }
         .hero h1 {
@@ -43,6 +81,7 @@
             background-clip: text; -webkit-background-clip: text;
             -webkit-text-fill-color: transparent; margin-bottom: 1rem;
         }
+        .hero p { color: var(--muted); font-size: 1.125rem; }
         
         .section { padding: 5rem 2rem; max-width: 1400px; margin: 0 auto; min-height: 600px; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
@@ -54,7 +93,6 @@
         }
         .game-card:hover { border-color: var(--primary); transform: translateY(-4px); }
         
-        /* Fixed Aspect Ratio Container to stop layout flashing */
         .thumb-container {
             width: 100%;
             aspect-ratio: 16/9;
@@ -75,22 +113,32 @@
         .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
         .footer-logo { height: 40px; }
         .footer-bottom { border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 2rem; text-align: center; color: var(--muted); }
+
+        @media (max-width: 768px) {
+            .nav-container { padding: 1rem 1.5rem; }
+            .nav-menu {
+                position: absolute; top: 60px; left: 0; right: 0;
+                flex-direction: column; gap: 0; background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+            }
+            .nav-menu.active { max-height: 400px; }
+            .nav-menu li { border-bottom: 1px solid var(--border); width: 100%; }
+            .nav-link { display: block; padding: 1rem 1.5rem; font-size: 1rem; }
+            .hamburger { display: flex; }
+            .logo-img { height: 35px; }
+            .hero { padding: 80px 1.5rem 60px; }
+            .section { padding: 4rem 1.5rem; }
+            .games-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 50px 1rem; }
+            .section { padding: 3rem 1rem; }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/"><img src="logo.png" alt="Switch" class="logo-img"></a>
-            <ul class="nav-menu">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/games.html" class="nav-link active">Games</a></li>
-                <li><a href="/blog.html" class="nav-link">Blog</a></li>
-                <li><a href="/careers.html" class="nav-link">Careers</a></li>
-                <li><a href="/#contact" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <header class="hero">
         <h1>Our Games</h1>
         <p>Explore the worlds we've created.</p>
@@ -104,6 +152,7 @@
         <div class="footer-bottom"><p>&copy; 2026 Switch. All rights reserved.</p></div>
     </footer>
 
+    <script src="navbar.js"></script>
     <script>
         function formatNumber(n) {
             if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
@@ -112,45 +161,42 @@
             return n.toString();
         }
 
-      async function loadGames() {
-    const grid = document.getElementById("games-grid");
-    try {
-        const res = await fetch("/api/games");
-        const { games } = await res.json();
+        async function loadGames() {
+            const grid = document.getElementById("games-grid");
+            try {
+                const res = await fetch("/api/games");
+                const { games } = await res.json();
 
-        // Removed RoProxy thumbnail fetch entirely. 
-        // Using game.thumbnail directly from your manual updates.
-        grid.innerHTML = games.map(game => {
-            // Fallback to a placeholder only if game.thumbnail is missing
-            const imageUrl = game.thumbnail || 'https://tr.rbxcdn.com/30DAY-f0e26162383842c6769065609424755a/420/420/Image/Png';
-            
-            return `
-                <a href="https://www.roblox.com/games/${game.placeId}" target="_blank" class="game-card">
-                    <div class="thumb-container">
-                        <img src="${imageUrl}" class="game-thumbnail" alt="${game.name}">
-                    </div>
-                    <div class="game-info">
-                        <h3 style="margin-bottom:1rem">${game.name}</h3>
-                        <div class="game-stats">
-                            <div class="game-stat">
-                                <div class="game-stat-label">Visits</div>
-                                <div class="game-stat-value">${formatNumber(game.visits)}</div>
+                grid.innerHTML = games.map(game => {
+                    const imageUrl = game.thumbnail || 'https://tr.rbxcdn.com/30DAY-f0e26162383842c6769065609424755a/420/420/Image/Png';
+                    
+                    return `
+                        <a href="https://www.roblox.com/games/${game.placeId}" target="_blank" class="game-card">
+                            <div class="thumb-container">
+                                <img src="${imageUrl}" class="game-thumbnail" alt="${game.name}">
                             </div>
-                            <div class="game-stat">
-                                <div class="game-stat-label">Playing</div>
-                                <div class="game-stat-value">${formatNumber(game.playing)}</div>
+                            <div class="game-info">
+                                <h3 style="margin-bottom:1rem">${game.name}</h3>
+                                <div class="game-stats">
+                                    <div class="game-stat">
+                                        <div class="game-stat-label">Visits</div>
+                                        <div class="game-stat-value">${formatNumber(game.visits)}</div>
+                                    </div>
+                                    <div class="game-stat">
+                                        <div class="game-stat-label">Playing</div>
+                                        <div class="game-stat-value">${formatNumber(game.playing)}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </a>
-            `;
-        }).join("");
-    } catch (err) {
-        console.error("Games Load Error:", err);
-        grid.innerHTML = '<div style="text-align:center; width:100%; color:red;">Failed to connect to games API.</div>';
-    }
-}
-loadGames();
+                        </a>
+                    `;
+                }).join("");
+            } catch (err) {
+                console.error("Games Load Error:", err);
+                grid.innerHTML = '<div style="text-align:center; width:100%; color:red;">Failed to connect to games API.</div>';
+            }
+        }
+        loadGames();
     </script>
 </body>
 </html>
