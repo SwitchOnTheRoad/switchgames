@@ -10,7 +10,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+    if (req.path.endsWith('.html')) {
+        res.redirect(req.path.slice(0, -5));
+    } else if (!req.path.includes('.')) {
+        const htmlPath = path.join(__dirname, 'public', req.path + '.html');
+        fs.access(htmlPath).then(() => {
+            res.sendFile(htmlPath);
+        }).catch(() => next());
+    } else {
+        next();
+    }
+});
 
 async function getUniverseIdFromPlaceId(placeId) {
     const response = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
