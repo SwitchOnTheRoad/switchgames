@@ -1,50 +1,69 @@
-// Format numbers with abbreviations (1000+ -> 1K+, 1000000+ -> 1M+)
-function formatNumber(num) {
-    if (num >= 1000000) {
-        return (num / 1000000).toFixed(1).replace('.0', '') + 'M+';
-    } else if (num >= 1000) {
-        return (num / 1000).toFixed(1).replace('.0', '') + 'K+';
-    }
-    return num.toString();
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { getGameStats } from './getdata.js';
+import fs from 'fs/promises';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+async function getUniverseIdFromPlaceId(placeId) {
+    const response = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
+    const data = await response.json();
+    return data.universeId;
 }
 
-async function updateStat(API_URL, elementId, formatter) {
+async function loadGames() {
+    const data = await fs.readFile(path.join(__dirname, 'games-data.json'), 'utf8');
+    return JSON.parse(data).games;
+}
+
+async function loadBlogPosts() {
     try {
-        const response = await fetch(API_URL, {
-            method: 'GET'
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const serverData = await response.json(); 
-        let formattedValue = serverData.value;
-
-        if (formatter) {
-            formattedValue = formatter(serverData.value);
-        }
-
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.textContent = formattedValue;
-        }
-    } catch (error) {
-        console.error('There was an error communicating with the server:', error);
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.textContent = '-';
-        }
+        const data = await fs.readFile(path.join(__dirname, 'blog-posts.json'), 'utf8');
+        return JSON.parse(data).posts || [];
+    } catch {
+        return [];
     }
 }
 
-function fetchAllStats() {
-    updateStat('http://localhost:5500/api/get-total-visits', 'visit-display', formatNumber);
-    updateStat('http://localhost:5500/api/get-total-ccu', 'ccu-display', formatNumber);
-}
+// Endpoint for games data (what your HTML expects)
+app.get('/api/games', async (req, res) => {
+    try {
+        let games = await loadGames();
+        
+        // Add stats to each game
+        for (const game of games) {
+            const universeId = await getUniverseIdFromPlaceId(game.placeId);
+            if (universeId) {
+                const stats = await getGameStats(universeId);
+                game.universeId = universeId;
+                game.visits = stats.visits;
+                game.playing = stats.playing;
+            }
+        }
+        
+        res.json({ games });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch games' });
+    }
+});
 
-// Fetch stats on initial page load
-fetchAllStats();
+// Endpoint for blog posts (what your HTML expects)
+app.get('/api/blog/posts', async (req, res) => {
+    try {
+        const posts = await loadBlogPosts();
+        res.json({ posts });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch posts' });
+    }
+});
 
-// Fetch stats every 30 seconds
-setInterval(fetchAllStats, 30000);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
