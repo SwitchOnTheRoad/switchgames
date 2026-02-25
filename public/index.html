@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Switch - Game Studio</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -101,6 +102,30 @@
         .nav-link.active::after {
             width: 100%;
         }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
         .hero {
             min-height: 100vh;
             display: flex;
@@ -157,6 +182,7 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .btn {
             padding: 1rem 2rem;
@@ -272,31 +298,6 @@
             font-size: 2.25rem;
             font-weight: 800;
             color: var(--primary);
-        }
-        @media (max-width: 968px) {
-            .featured-container {
-                grid-template-columns: 1fr;
-                min-height: auto;
-                border-radius: 40px;
-            }
-            .featured-thumbnail {
-                min-height: 360px;
-            }
-            .featured-info {
-                padding: 2.5rem 2rem;
-                gap: 1.25rem;
-            }
-            .featured-title {
-                font-size: 1.9rem;
-            }
-            .featured-stat-value {
-                font-size: 2rem;
-            }
-        }
-        @media (min-width: 1400px) {
-            .featured-container {
-                min-height: 520px;
-            }
         }
         .stats {
             padding: 4rem 2rem;
@@ -427,7 +428,7 @@
         .blog-card:hover .blog-title { color: var(--primary); }
         .blog-preview { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
         .contact-section {
-            padding: 8rem 0;
+            padding: 8rem 2rem;
             background: linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
             max-width: none;
             width: 100%;
@@ -435,8 +436,6 @@
         .contact-wrapper {
             max-width: 900px;
             margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
         }
         .contact-features {
             display: grid;
@@ -570,17 +569,148 @@
             max-width: 1400px;
             margin: 0 auto;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+            .nav-menu {
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                gap: 0;
+                background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            .nav-menu.active {
+                max-height: 400px;
+            }
+            .nav-menu li {
+                border-bottom: 1px solid var(--border);
+                width: 100%;
+            }
+            .nav-link {
+                display: block;
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .logo-img {
+                height: 35px;
+            }
+            .hero {
+                padding: 60px 1.5rem;
+                min-height: auto;
+            }
+            .hero-buttons {
+                gap: 0.75rem;
+            }
+            .btn {
+                padding: 0.85rem 1.5rem;
+                font-size: 0.85rem;
+            }
+            .featured-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                border-radius: 30px;
+            }
+            .featured-thumbnail {
+                min-height: 280px;
+            }
+            .featured-info {
+                padding: 2rem 1.5rem;
+            }
+            .featured-title {
+                font-size: 1.5rem;
+            }
+            .stats {
+                padding: 3rem 1.5rem;
+            }
+            .stats-grid {
+                gap: 2rem;
+            }
+            .section {
+                padding: 4rem 1.5rem;
+            }
+            .section-title {
+                font-size: clamp(1.5rem, 3vw, 2.5rem);
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .contact-section {
+                padding: 5rem 1.5rem;
+            }
+            .contact-form-container {
+                padding: 2rem;
+                border-radius: 2rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .section-header .section-title::before,
+            .section-header .section-title::after,
+            .section-header h2:not(.featured-title)::before,
+            .section-header h2:not(.featured-title)::after {
+                left: 5%;
+                right: 5%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 50px 1rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .hero-buttons {
+                gap: 0.5rem;
+            }
+            .btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.8rem;
+            }
+            .section {
+                padding: 3rem 1rem;
+            }
+            .nav-menu {
+                top: 55px;
+            }
+            .featured-info {
+                padding: 1.5rem 1rem;
+            }
+            .contact-form-container {
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/"><img src="heroextended.png" alt="Switch" class="logo-img"></a>
-            <ul class="nav-menu">
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="/" class="nav-link active">Home</a></li>
-                <li><a href="/games.html" class="nav-link">Games</a></li>
-                <li><a href="/blog.html" class="nav-link">Blog</a></li>
-                <li><a href="/careers.html" class="nav-link">Careers</a></li>
+                <li><a href="/games" class="nav-link">Games</a></li>
+                <li><a href="/blog" class="nav-link">Blog</a></li>
+                <li><a href="/careers" class="nav-link">Careers</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
         </div>
@@ -592,7 +722,7 @@
             <img src="heroextended.png" alt="Switch" class="hero-logo">
             <p class="hero-subtitle">Switch is an independent Roblox studio crafting immersive experiences that bring players together.</p>
             <div class="hero-buttons">
-                <a href="/games.html" class="btn btn-primary">
+                <a href="/games" class="btn btn-primary">
                     Explore Games
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -689,7 +819,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand"><img src="heroextended.png" alt="Switch" class="footer-logo"><p class="footer-desc">An independent Roblox studio crafting immersive experiences.</p></div>
-            <div class="footer-section"><h4>Product</h4><ul class="footer-links"><li><a href="/games.html" class="footer-link">Games</a></li><li><a href="/blog.html" class="footer-link">Blog</a></li></ul></div>
+            <div class="footer-section"><h4>Product</h4><ul class="footer-links"><li><a href="/games" class="footer-link">Games</a></li><li><a href="/blog" class="footer-link">Blog</a></li></ul></div>
             <div class="footer-section"><h4>Company</h4><ul class="footer-links"><li><a href="/#contact" class="footer-link">Contact</a></li><li><a href="https://discord.gg/switch" class="footer-link">Community</a></li></ul></div>
             <div class="footer-section"><h4>Legal</h4><ul class="footer-links"><li><a href="#" class="footer-link">Privacy Policy</a></li></ul></div>
         </div>
@@ -697,6 +827,22 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when link is clicked
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => { window.pageYOffset > 100 ? navbar.classList.add('visible') : navbar.classList.remove('visible'); });
         function formatNumber(num) {
