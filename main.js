@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getGameStats } from './getData.js';
+import { getGameStats } from './getdata.js';
 import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -10,6 +10,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve static files from public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve index.html for root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// HTML routing middleware (remove .html from URLs)
 app.use((req, res, next) => {
     if (req.path.endsWith('.html')) {
         res.redirect(req.path.slice(0, -5));
