@@ -13,8 +13,7 @@ if (!existsSync("./uploads")) mkdirSync("./uploads");
 
 const PORT = process.env.PORT || 5500;
 const app = express();
-const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1472632759813013567/OCDLBYPXlW9UCWb-1GEXNLp-RZQYdzDvg8xC00ySWtZzRz6zbdc392UCjFYKrZuZ14wn";
-
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
