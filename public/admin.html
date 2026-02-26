@@ -1,166 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Admin—Switch</title>
-    <meta name="robots" content="noindex, nofollow"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Switch</title>
+    <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
     <style>
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--primary:#FBBF24;--primary-bright:#FCD34D;--primary-dark:#D97706;--background:#0A0A0A;--surface:#141414;--surface-light:#1C1C1C;--border:#2A2A2A;--text:#F9FAFB;--text-muted:#9CA3AF;--gradient-primary:linear-gradient(135deg,#FBBF24 0%,#F59E0B 100%)}body{font-family:Inter,sans-serif;background:var(--background);color:var(--text);min-height:100vh;overflow-x:hidden}h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700}#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}.login-box{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:48px;width:100%;max-width:420px;text-align:center}.login-logo{height:52px;margin-bottom:12px}.login-subtitle{color:var(--text-muted);font-size:.8rem;margin-bottom:36px;text-transform:uppercase;letter-spacing:.12em}.login-error{background:rgba(239,68,68,.1);border:1px solid #EF4444;color:#EF4444;border-radius:.5rem;padding:10px;font-size:.85rem;margin-bottom:14px;display:none}#dashboard{display:none}.navbar{position:sticky;top:0;z-index:100;padding:1rem 2rem;background:rgba(10,10,10,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}.navbar-brand{display:flex;align-items:center;gap:1rem}.navbar-brand img{height:32px}.admin-badge{background:rgba(251,191,36,.15);color:var(--primary);border:1px solid rgba(251,191,36,.3);border-radius:999px;font-size:.65rem;font-weight:600;padding:3px 10px;text-transform:uppercase;letter-spacing:.1em}.navbar-tabs{display:flex;gap:4px}.tab-btn{padding:7px 16px;border-radius:.5rem;border:1px solid transparent;font-family:Inter,sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--text-muted);background:transparent;transition:all .2s}.tab-btn:hover{color:var(--text);background:var(--surface-light)}.tab-btn.active{color:var(--primary);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.08)}.navbar-actions{display:flex;gap:10px;align-items:center}.tab-panel{display:none}.tab-panel.active{display:flex;height:calc(100vh - 65px)}.sidebar{width:280px;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--surface);flex-shrink:0}.sidebar-header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center}.sidebar-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);flex:1;font-weight:600}.items-list{flex:1;overflow-y:auto;padding:8px}.items-list::-webkit-scrollbar{width:3px}.items-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}.list-item{padding:13px 15px;border-radius:.5rem;cursor:pointer;border:1px solid transparent;margin-bottom:4px;transition:all .2s}.list-item:hover{background:var(--surface-light);border-color:var(--border)}.list-item.active{background:var(--surface-light);border-color:rgba(251,191,36,.35)}.list-item-title{font-weight:600;font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;transition:color .2s}.list-item.active .list-item-title{color:var(--primary)}.list-item-meta{font-size:.72rem;color:var(--text-muted);display:flex;gap:8px;align-items:center}.status-badge{padding:2px 8px;border-radius:999px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}.status-live{background:rgba(251,191,36,.1);color:var(--primary);border:1px solid rgba(251,191,36,.2)}.status-draft{background:var(--surface-light);color:var(--text-muted);border:1px solid var(--border)}.editor-area{flex:1;display:flex;flex-direction:column;overflow:hidden}.editor-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-muted)}.editor-empty-icon{width:52px;height:52px;border:1px solid var(--border);border-radius:.5rem;display:flex;align-items:center;justify-content:center;color:var(--primary);background:var(--surface-light)}.editor-form{display:none;flex:1;flex-direction:column;overflow:hidden}.editor-toolbar{padding:12px 24px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--surface)}.editor-body{flex:1;overflow-y:auto;padding:28px 32px;display:flex;flex-direction:column;gap:18px}.ql-toolbar{background:var(--surface-light)!important;border:1px solid var(--border)!important;border-radius:.5rem .5rem 0 0!important}.ql-container{background:var(--surface-light)!important;border:1px solid var(--border)!important;border-top:none!important;border-radius:0 0 .5rem .5rem!important;color:var(--text)!important;min-height:320px}.ql-editor{color:var(--text)!important;min-height:300px;line-height:1.8}.ql-editor.ql-blank::before{color:var(--text-muted)!important}input[type=text],input[type=password],input[type=number],select,textarea{width:100%;background:var(--surface-light);border:1px solid var(--border);border-radius:.5rem;color:var(--text);font-family:Inter,sans-serif;padding:11px 14px;font-size:.95rem;outline:none;transition:all .3s}input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(251,191,36,.1)}#post-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;background:transparent;border:none;border-bottom:1px solid var(--border);border-radius:0;padding:6px 0}#post-title:focus{border-color:var(--primary);box-shadow:none}textarea{resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}.form-group{display:flex;flex-direction:column;gap:6px}.form-label{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted)}.dynamic-list{display:flex;flex-direction:column;gap:8px}.dynamic-item{display:flex;gap:8px;align-items:center}.dynamic-item input{flex:1}.btn-remove{width:32px;height:32px;border-radius:8px;border:1px solid rgba(239,68,68,.2);background:rgba(239,68,68,.08);color:#EF4444;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-size:1rem}.btn-remove:hover{background:rgba(239,68,68,.15)}.btn-add-item{padding:8px 14px;border-radius:.5rem;border:1px dashed var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-family:Inter,sans-serif;font-size:.8rem;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px}.btn-add-item:hover{border-color:var(--primary);color:var(--primary)}.img-upload-btn{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:.5rem;border:1px solid var(--border);background:var(--surface-light);color:var(--text-muted);cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s}.img-upload-btn:hover{border-color:var(--primary);color:var(--primary)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:.5rem;border:none;font-family:Inter,sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.btn-primary{background:var(--gradient-primary);color:#000}.btn-primary:hover{transform:translateY(-1px)}.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}.btn-outline:hover{border-color:var(--primary);color:var(--primary)}.btn-danger{background:rgba(239,68,68,.08);color:#EF4444;border:1px solid rgba(239,68,68,.2)}.btn-danger:hover{background:rgba(239,68,68,.15)}.publish-toggle{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text-muted);cursor:pointer;user-select:none;padding:8px 14px;border-radius:.5rem;border:1px solid var(--border);transition:all .2s;font-weight:600}.publish-toggle:hover{border-color:var(--primary);color:var(--text)}.publish-toggle input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary);cursor:pointer}.toast{position:fixed;bottom:28px;right:28px;background:var(--surface);border:1px solid var(--border);border-radius:.5rem;padding:14px 20px;font-size:.875rem;z-index:9999;transform:translateY(80px);opacity:0;transition:transform .3s,opacity .3s}.toast.show{transform:translateY(0);opacity:1}.toast.success{border-color:rgba(251,191,36,.3);color:var(--primary)}.toast.error{border-color:rgba(239,68,68,.3);color:#EF4444}.no-items{text-align:center;padding:48px 20px;color:var(--text-muted);font-size:.85rem;line-height:1.8}.divider{border:none;border-top:1px solid var(--border);margin:4px 0}
-        #game-thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; height: 100vh; overflow: hidden; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+        /* Login Screen */
+        #login-screen { position: fixed; inset: 0; z-index: 10000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .login-box { background: var(--surface); border: 1px solid var(--border); padding: 3rem; width: 100%; max-width: 400px; text-align: center; }
+        .login-logo { height: 40px; margin-bottom: 1.5rem; }
+        .login-box h2 { font-size: 1.5rem; margin-bottom: 2rem; letter-spacing: -0.02em; }
+        
+        /* Layout */
+        #dashboard { display: none; height: 100vh; display: flex; flex-direction: column; }
+        
+        .navbar { 
+            height: 70px; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 2rem;
+            background: var(--surface);
+            z-index: 100;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 2.5rem; }
+        .nav-logo { height: 24px; }
+        .nav-tabs { display: flex; gap: 1.5rem; }
+        .tab-btn { 
+            background: none; border: none; color: var(--muted); 
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700; 
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;
+            cursor: pointer; transition: 0.2s;
+        }
+        .tab-btn.active { color: var(--primary); }
+
+        /* Main Admin Container */
+        .admin-main { flex: 1; display: flex; overflow: hidden; }
+        
+        /* Sidebar */
+        .sidebar { 
+            width: 320px; 
+            border-right: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            background: var(--surface);
+        }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .sidebar-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--primary); }
+        
+        .items-list { flex: 1; overflow-y: auto; }
+        .list-item { 
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); 
+            cursor: pointer; transition: background 0.2s;
+        }
+        .list-item:hover { background: var(--surface-mid); }
+        .list-item.active { background: var(--surface-mid); border-left: 3px solid var(--primary); }
+        .list-item-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .list-item-meta { font-size: 0.75rem; color: var(--muted); display: flex; justify-content: space-between; }
+        .status-pill { font-size: 0.65rem; padding: 2px 6px; border: 1px solid var(--border); border-radius: 3px; }
+        .status-pill.live { border-color: var(--primary); color: var(--primary); }
+
+        /* Editor Area */
+        .editor-area { flex: 1; overflow-y: auto; background: var(--bg); display: flex; flex-direction: column; }
+        .editor-toolbar { 
+            position: sticky; top: 0; z-index: 10;
+            background: rgba(10,10,10,0.8); backdrop-filter: blur(10px);
+            padding: 1rem 2rem; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 1rem;
+        }
+
+        .editor-body { padding: 3rem; max-width: 900px; width: 100%; margin: 0 auto; }
+        
+        /* Inputs */
+        .field-group { margin-bottom: 2rem; }
+        .field-label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; }
+        
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; background: var(--surface); border: 1px solid var(--border);
+            padding: 0.8rem 1rem; color: var(--text); font-family: 'Inter', sans-serif;
+            font-size: 1rem; transition: border-color 0.2s;
+        }
+        input:focus { border-color: var(--primary); outline: none; }
+        
+        #post-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 800; border: none; background: transparent; padding: 0; margin-bottom: 1rem; border-bottom: 2px solid transparent; }
+        #post-title:focus { border-bottom-color: var(--border); }
+
+        /* Buttons */
+        .btn { 
+            padding: 0.6rem 1.2rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
+            border: 1px solid var(--border); transition: 0.2s;
+        }
+        .btn-primary { background: var(--primary); color: #000; border-color: var(--primary); }
+        .btn-primary:hover { background: #fff; border-color: #fff; }
+        .btn-outline { background: transparent; color: var(--text); }
+        .btn-outline:hover { background: var(--surface-mid); }
+        .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.2); background: transparent; }
+        .btn-danger:hover { background: var(--danger); color: #fff; }
+
+        /* Quill Styles */
+        .ql-toolbar.ql-snow { border: 1px solid var(--border) !important; background: var(--surface-mid); }
+        .ql-container.ql-snow { border: 1px solid var(--border) !important; border-top: none !important; font-family: 'Inter', sans-serif; font-size: 1rem; }
+        .ql-editor { min-height: 400px; color: var(--text); }
+
+        /* Dynamic Lists */
+        .dynamic-item { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .btn-add { margin-top: 0.5rem; width: 100%; border: 1px dashed var(--border); color: var(--muted); }
+
+        /* Media Queries */
+        @media (max-width: 900px) {
+            .sidebar { width: 240px; }
+            .editor-body { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
     <div id="login-screen">
         <div class="login-box">
-            <img src="logo.png" alt="Switch Logo" class="login-logo">
-            <p class="login-subtitle">Admin — Restricted Access</p>
-            <input type="password" id="login-input" placeholder="Password" style="margin-bottom:12px"/>
-            <div class="login-error" id="login-error">Incorrect password</div>
-            <button class="btn btn-primary" id="login-btn" style="width:100%;padding:13px">Sign in</button>
+            <img src="logo.png" class="login-logo">
+            <h2>Admin Login</h2>
+            <input type="password" id="login-input" placeholder="Secure Token" style="margin-bottom: 1rem;">
+            <div id="login-error" style="color: var(--danger); font-size: 0.8rem; margin-bottom: 1rem; display: none;">Invalid credentials</div>
+            <button class="btn btn-primary" id="login-btn" style="width: 100%;">Access Dashboard</button>
         </div>
     </div>
 
     <div id="dashboard">
         <nav class="navbar">
-            <div style="display:flex;align-items:center;gap:16px;">
-                <div class="navbar-brand">
-                    <img src="logo.png" alt="Switch">
-                    <span class="admin-badge">Admin</span>
-                </div>
-                <div class="navbar-tabs">
+            <div class="nav-left">
+                <img src="logo.png" class="nav-logo">
+                <div class="nav-tabs">
                     <button class="tab-btn active" data-tab="games">Games</button>
                     <button class="tab-btn" data-tab="blog">Blog</button>
                     <button class="tab-btn" data-tab="careers">Careers</button>
                 </div>
             </div>
-            <div class="navbar-actions">
-                <a href="/" target="_blank" class="btn btn-outline" style="font-size:.8rem">View Site ↗</a>
+            <div>
                 <button class="btn btn-outline" id="logout-btn">Logout</button>
             </div>
         </nav>
 
-        <div class="tab-panel active" id="tab-games">
+        <div class="admin-main">
             <div class="sidebar">
                 <div class="sidebar-header">
-                    <span class="sidebar-label">Games</span>
-                    <button class="btn btn-primary" id="new-game-btn" style="padding:7px 14px;font-size:.78rem">+ New</button>
+                    <span class="sidebar-title" id="list-label">Items</span>
+                    <button class="btn btn-primary" id="new-item-btn" style="padding: 4px 10px; font-size: 0.65rem;">+ Create</button>
                 </div>
-                <div class="items-list" id="games-list"><div class="no-items">Loading...</div></div>
+                <div class="items-list" id="main-list"></div>
             </div>
+
             <div class="editor-area">
-                <div class="editor-empty" id="game-editor-empty">
-                    <div class="editor-empty-icon">🎮</div>
-                    <p>Select a game or add a new one</p>
+                <div id="editor-empty" style="flex: 1; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem;">
+                    Select an item to begin editing
                 </div>
-                <div class="editor-form" id="game-editor-form">
+                
+                <div id="editor-content" style="display: none; flex: 1; flex-direction: column;">
                     <div class="editor-toolbar">
-                        <button class="btn btn-primary" id="save-game-btn">Save</button>
-                        <label class="publish-toggle"><input type="checkbox" id="game-active-toggle"/> Active</label>
-                        <label class="publish-toggle"><input type="checkbox" id="game-featured-toggle"/> Featured</label>
-                        <div style="flex:1"></div>
-                        <button class="btn btn-danger" id="delete-game-btn">Delete</button>
-                    </div>
-                    <div class="editor-body">
-                        <div class="form-group">
-                            <span class="form-label">Place ID *</span>
-                            <input type="number" id="game-place-id" placeholder="e.g. 2753915549"/>
-                        </div>
-                        <div class="form-group">
-                            <span class="form-label">Thumbnail</span>
-                            <div id="game-thumb-preview" style="width:100%; aspect-ratio:16/9; background:var(--surface-light); border:1px solid var(--border); border-radius:.5rem; margin-bottom:8px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
-                                <span style="color:var(--text-muted); font-size:.8rem;">No thumbnail uploaded</span>
+                        <button class="btn btn-primary" id="save-btn">Save Changes</button>
+                        <div style="width: 1px; height: 20px; background: var(--border);"></div>
+                        <div id="status-toggle-container">
                             </div>
-                            <label class="img-upload-btn" style="justify-content:center;">
-                                🖼️ Upload Thumbnail
-                                <input type="file" id="game-img-upload-input" accept="image/*" style="display:none">
-                            </label>
-                            <input type="hidden" id="game-thumbnail-url">
-                        </div>
+                        <div style="flex: 1;"></div>
+                        <button class="btn btn-danger" id="delete-btn">Delete</button>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="tab-panel" id="tab-blog">
-            <div class="sidebar">
-                <div class="sidebar-header">
-                    <span class="sidebar-label">Posts</span>
-                    <button class="btn btn-primary" id="new-post-btn" style="padding:7px 14px;font-size:.78rem">+ New</button>
-                </div>
-                <div class="items-list" id="posts-list"><div class="no-items">Loading...</div></div>
-            </div>
-            <div class="editor-area">
-                <div class="editor-empty" id="blog-editor-empty">
-                    <div class="editor-empty-icon">📝</div>
-                    <p>Select a post or create a new one</p>
-                </div>
-                <div class="editor-form" id="blog-editor-form">
-                    <div class="editor-toolbar">
-                        <button class="btn btn-primary" id="save-post-btn">Save</button>
-                        <label class="publish-toggle"><input type="checkbox" id="post-publish-toggle"/> Publish</label>
-                        <label class="img-upload-btn">
-                            🖼️ Insert Image
-                            <input type="file" id="img-upload-input" accept="image/*" style="display:none">
-                        </label>
-                        <div style="flex:1"></div>
-                        <button class="btn btn-danger" id="delete-post-btn">Delete</button>
-                    </div>
                     <div class="editor-body">
-                        <input type="text" id="post-title" placeholder="Post title…"/>
-                        <div id="quill-editor"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-panel" id="tab-careers">
-            <div class="sidebar">
-                <div class="sidebar-header">
-                    <span class="sidebar-label">Positions</span>
-                    <button class="btn btn-primary" id="new-career-btn" style="padding:7px 14px;font-size:.78rem">+ New</button>
-                </div>
-                <div class="items-list" id="careers-list"><div class="no-items">Loading...</div></div>
-            </div>
-            <div class="editor-area">
-                <div class="editor-empty" id="career-editor-empty">
-                    <div class="editor-empty-icon">💼</div>
-                    <p>Select a position or create a new one</p>
-                </div>
-                <div class="editor-form" id="career-editor-form">
-                    <div class="editor-toolbar">
-                        <button class="btn btn-primary" id="save-career-btn">Save</button>
-                        <label class="publish-toggle"><input type="checkbox" id="career-active-toggle"/> Active</label>
-                        <div style="flex:1"></div>
-                        <button class="btn btn-danger" id="delete-career-btn">Delete</button>
-                    </div>
-                    <div class="editor-body">
-                        <div class="form-group"><span class="form-label">Job Title *</span><input type="text" id="career-title" placeholder="e.g. Senior UI Developer"/></div>
-                        <div class="form-row-3">
-                            <div class="form-group"><span class="form-label">Department</span><input type="text" id="career-department" placeholder="e.g. Engineering"/></div>
-                            <div class="form-group"><span class="form-label">Type</span><select id="career-type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option></select></div>
-                            <div class="form-group"><span class="form-label">Location</span><input type="text" id="career-location" placeholder="e.g. Remote"/></div>
-                        </div>
-                        <div class="form-group"><span class="form-label">Description</span><textarea id="career-description" rows="4" placeholder="What will this person be doing?"></textarea></div>
-                        <hr class="divider">
-                        <div class="form-group"><span class="form-label">Requirements</span><div class="dynamic-list" id="requirements-list"></div><button class="btn-add-item" id="add-requirement-btn">+ Add requirement</button></div>
-                        <div class="form-group"><span class="form-label">Nice to Have</span><div class="dynamic-list" id="nice-list"></div><button class="btn-add-item" id="add-nice-btn">+ Add nice-to-have</button></div>
-                        <hr class="divider">
-                        <div class="form-group"><span class="form-label">Application Questions</span><div class="dynamic-list" id="questions-list"></div><button class="btn-add-item" id="add-question-btn">+ Add question</button></div>
+                        <div id="form-fields"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="toast" id="toast"></div>
+    <div id="toast" style="position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid var(--primary); color: var(--primary); padding: 1rem 2rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; transform: translateY(200%); transition: 0.3s; z-index: 1000;"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
     <script>
-        let token=sessionStorage.getItem("sg_admin_token");let posts=[],careers=[],games=[];let activePostId=null,activeCareerId=null,activeGameId=null;let quill=null;function showToast(msg,type="success"){const t=document.getElementById("toast");t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove("show"),3000)}function showDashboard(){document.getElementById("login-screen").style.display="none";document.getElementById("dashboard").style.display="block";initQuill();loadGames();loadPosts();loadCareers()}if(token)showDashboard();document.getElementById("login-btn").addEventListener("click",async()=>{const password=document.getElementById("login-input").value;const btn=document.getElementById("login-btn");const err=document.getElementById("login-error");btn.disabled=true;btn.textContent="Signing in…";err.style.display="none";try{const res=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password})});const data=await res.json();if(res.ok){token=data.token;sessionStorage.setItem("sg_admin_token",token);showDashboard()}else{err.style.display="block"}}catch{err.textContent="Connection error";err.style.display="block"}btn.disabled=false;btn.textContent="Sign in"});document.getElementById("login-input").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("login-btn").click()});document.getElementById("logout-btn").addEventListener("click",async()=>{await fetch("/api/admin/logout",{method:"POST",headers:{"x-admin-token":token}}).catch(()=>{});sessionStorage.removeItem("sg_admin_token");location.reload()});document.querySelectorAll(".tab-btn").forEach(btn=>{btn.addEventListener("click",()=>{document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));btn.classList.add("active");document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active")})});function initQuill(){quill=new Quill("#quill-editor",{theme:"snow",placeholder:"Write your post...",modules:{toolbar:[[{header:[1,2,3,false]}],["bold","italic","underline"],[{list:"ordered"},{list:"bullet"}],["blockquote","code-block"],["link"],["clean"]]}})}document.getElementById("img-upload-input").addEventListener("change",async(e)=>{const file=e.target.files[0];if(!file)return;const formData=new FormData();formData.append("image",file);try{const res=await fetch("/api/admin/upload",{method:"POST",headers:{"x-admin-token":token},body:formData});const data=await res.json();if(res.ok){quill.insertEmbed(quill.getSelection(true).index,"image",data.url);showToast("Image inserted ✓")}else{showToast(data.message||"Upload failed","error")}}catch{showToast("Upload failed","error")}e.target.value=""});document.getElementById("game-img-upload-input").addEventListener("change",async(e)=>{const file=e.target.files[0];if(!file)return;const formData=new FormData();formData.append("image",file);try{const res=await fetch("/api/admin/upload",{method:"POST",headers:{"x-admin-token":token},body:formData});const data=await res.json();if(res.ok){document.getElementById("game-thumbnail-url").value=data.url;document.getElementById("game-thumb-preview").innerHTML=`<img src="${data.url}">`;showToast("Thumbnail uploaded ✓")}else{showToast(data.message||"Upload failed","error")}}catch{showToast("Upload failed","error")}e.target.value=""});function formatDate(iso){return new Date(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}function renderGamesList(){const list=document.getElementById("games-list");if(games.length===0){list.innerHTML='<div class="no-items">No games yet.<br>Hit <strong>+ New</strong> to add one.</div>';return}list.innerHTML=games.map(g=>`<div class="list-item ${g.id===activeGameId?'active':''}" data-id="${g.id}"><div class="list-item-title">Place ${g.placeId||'New Game'}</div><div class="list-item-meta"><span>${g.featured?'Featured':''}</span><span class="status-badge ${g.active?'status-live':'status-draft'}">${g.active?"Active":"Inactive"}</span></div></div>`).join("");document.querySelectorAll("#games-list .list-item").forEach(el=>{el.addEventListener("click",()=>openGame(el.dataset.id))})}async function loadGames(){try{const res=await fetch("/api/admin/games",{headers:{"x-admin-token":token}});games=(await res.json()).games;renderGamesList()}catch{showToast("Failed to load games","error")}}function openGame(id){activeGameId=id;const game=games.find(g=>g.id===id);if(!game)return;document.getElementById("game-editor-empty").style.display="none";document.getElementById("game-editor-form").style.display="flex";document.getElementById("game-place-id").value=game.placeId||"";document.getElementById("game-active-toggle").checked=game.active!==false;document.getElementById("game-featured-toggle").checked=game.featured||false;const thumbUrl=game.thumbnail||"";document.getElementById("game-thumbnail-url").value=thumbUrl;if(thumbUrl){document.getElementById("game-thumb-preview").innerHTML=`<img src="${thumbUrl}">`}else{document.getElementById("game-thumb-preview").innerHTML=`<span style="color:var(--text-muted); font-size:.8rem;">No thumbnail uploaded</span>`}renderGamesList()}function clearGameEditor(){activeGameId=null;document.getElementById("game-editor-empty").style.display="flex";document.getElementById("game-editor-form").style.display="none";renderGamesList()}document.getElementById("new-game-btn").addEventListener("click",async()=>{try{const res=await fetch("/api/admin/games",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":token},body:JSON.stringify({placeId:"",active:false,featured:false,thumbnail:""})});const data=await res.json();games.unshift(data.game);openGame(data.game.id);showToast("New game created")}catch{showToast("Failed to create game","error")}});document.getElementById("save-game-btn").addEventListener("click",async()=>{if(!activeGameId)return;const btn=document.getElementById("save-game-btn");btn.disabled=true;btn.textContent="Saving…";try{const res=await fetch(`/api/admin/games/${activeGameId}`,{method:"PUT",headers:{"Content-Type":"application/json","x-admin-token":token},body:JSON.stringify({placeId:document.getElementById("game-place-id").value,active:document.getElementById("game-active-toggle").checked,featured:document.getElementById("game-featured-toggle").checked,thumbnail:document.getElementById("game-thumbnail-url").value})});const data=await res.json();const idx=games.findIndex(g=>g.id===activeGameId);if(idx!==-1)games[idx]=data.game;renderGamesList();showToast("Game saved ✓")}catch{showToast("Failed to save","error")}btn.disabled=false;btn.textContent="Save"});document.getElementById("delete-game-btn").addEventListener("click",async()=>{if(!activeGameId||!confirm("Delete this game?"))return;try{await fetch(`/api/admin/games/${activeGameId}`,{method:"DELETE",headers:{"x-admin-token":token}});games=games.filter(g=>g.id!==activeGameId);clearGameEditor();showToast("Game deleted")}catch{showToast("Failed to delete","error")}});function renderPostsList(){const list=document.getElementById("posts-list");if(posts.length===0){list.innerHTML='<div class="no-items">No posts yet.</div>';return}list.innerHTML=posts.map(p=>`<div class="list-item ${p.id===activePostId?'active':''}" data-id="${p.id}"><div class="list-item-title">${p.title||"Untitled"}</div><div class="list-item-meta"><span>${formatDate(p.updatedAt)}</span><span class="status-badge ${p.published?'status-live':'status-draft'}">${p.published?"Live":"Draft"}</span></div></div>`).join("");document.querySelectorAll("#posts-list .list-item").forEach(el=>{el.addEventListener("click",()=>openPost(el.dataset.id))})}async function loadPosts(){try{const res=await fetch("/api/admin/posts",{headers:{"x-admin-token":token}});posts=(await res.json()).posts;renderPostsList()}catch{showToast("Failed to load posts","error")}}function openPost(id){activePostId=id;const post=posts.find(p=>p.id===id);if(!post)return;document.getElementById("blog-editor-empty").style.display="none";document.getElementById("blog-editor-form").style.display="flex";document.getElementById("post-title").value=post.title;quill.root.innerHTML=post.content||"";document.getElementById("post-publish-toggle").checked=post.published;renderPostsList()}function clearPostEditor(){activePostId=null;document.getElementById("blog-editor-empty").style.display="flex";document.getElementById("blog-editor-form").style.display="none";renderPostsList()}document.getElementById("new-post-btn").addEventListener("click",async()=>{try{const res=await fetch("/api/admin/posts",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":token},body:JSON.stringify({title:"Untitled Post",content:"",published:false})});const data=await res.json();posts.unshift(data.post);openPost(data.post.id);showToast("New post created")}catch{showToast("Failed to create post","error")}});document.getElementById("save-post-btn").addEventListener("click",async()=>{if(!activePostId)return;const btn=document.getElementById("save-post-btn");btn.disabled=true;btn.textContent="Saving…";try{const res=await fetch(`/api/admin/posts/${activePostId}`,{method:"PUT",headers:{"Content-Type":"application/json","x-admin-token":token},body:JSON.stringify({title:document.getElementById("post-title").value,content:quill.root.innerHTML,published:document.getElementById("post-publish-toggle").checked})});const data=await res.json();const idx=posts.findIndex(p=>p.id===activePostId);if(idx!==-1)posts[idx]=data.post;renderPostsList();showToast("Post saved ✓")}catch{showToast("Failed to save","error")}btn.disabled=false;btn.textContent="Save"});document.getElementById("delete-post-btn").addEventListener("click",async()=>{if(!activePostId||!confirm("Delete this post?"))return;try{await fetch(`/api/admin/posts/${activePostId}`,{method:"DELETE",headers:{"x-admin-token":token}});posts=posts.filter(p=>p.id!==activePostId);clearPostEditor();showToast("Post deleted")}catch{showToast("Failed to delete","error")}});function makeDynamicItem(listId,value=""){const list=document.getElementById(listId);const div=document.createElement("div");div.className="dynamic-item";div.innerHTML=`<input type="text" value="${value}" placeholder="Enter text…"><button class="btn-remove">×</button>`;div.querySelector(".btn-remove").addEventListener("click",()=>div.remove());list.appendChild(div)}function getDynamicValues(listId){return Array.from(document.querySelectorAll(`#${listId} .dynamic-item input`)).map(i=>i.value.trim()).filter(Boolean)}document.getElementById("add-requirement-btn").addEventListener("click",()=>makeDynamicItem("requirements-list"));document.getElementById("add-nice-btn").addEventListener("click",()=>makeDynamicItem("nice-list"));document.getElementById("add-question-btn").addEventListener("click",()=>makeDynamicItem("questions-list"));function renderCareersList(){const list=document.getElementById("careers-list");if(careers.length===0){list.innerHTML='<div class="no-items">No positions yet.</div>';return}list.innerHTML=careers.map(c=>`<div class="list-item ${c.id===activeCareerId?'active':''}" data-id="${c.id}"><div class="list-item-title">${c.title||"Untitled"}</div><div class="list-item-meta"><span>${c.type} · ${c.location}</span><span class="status-badge ${c.active?'status-live':'status-draft'}">${c.active?"Active":"Inactive"}</span></div></div>`).join("");document.querySelectorAll("#careers-list .list-item").forEach(el=>{el.addEventListener("click",()=>openCareer(el.dataset.id))})}async function loadCareers(){try{const res=await fetch("/api/admin/careers",{headers:{"x-admin-token":token}});careers=(await res.json()).careers;renderCareersList()}catch{showToast("Failed to load careers","error")}}function openCareer(id){activeCareerId=id;const career=careers.find(c=>c.id===id);if(!career)return;document.getElementById("career-editor-empty").style.display="none";document.getElementById("career-editor-form").style.display="flex";document.getElementById("career-title").value=career.title||"";document.getElementById("career-department").value=career.department||"";document.getElementById("career-type").value=career.type||"Full-time";document.getElementById("career-location").value=career.location||"";document.getElementById("career-description").value=career.description||"";document.getElementById("career-active-toggle").checked=career.active!==false;document.getElementById("requirements-list").innerHTML="";(career.requirements||[]).forEach(r=>makeDynamicItem("requirements-list",r));document.getElementById("nice-list").innerHTML="";(career.niceToHave||[]).forEach(r=>makeDynamicItem("nice-list",r));document.getElementById("questions-list").innerHTML="";(career.questions||[]).forEach(q=>makeDynamicItem("questions-list",typeof q==="string"?q:q.label));renderCareersList()}function clearCareerEditor(){activeCareerId=null;document.getElementById("career-editor-empty").style.display="flex";document.getElementById("career-editor-form").style.display="none";renderCareersList()}document.getElementById("new-career-btn").addEventListener("click",async()=>{try{const res=await fetch("/api/admin/careers",{method:"POST",headers:{"Content-Type":"application/json","x-admin-token":token},body:JSON.stringify({title:"New Position",type:"Full-time",location:"Remote",active:false})});const data=await res.json();careers.unshift(data.career);openCareer(data.career.id);showToast("New position created")}catch{showToast("Failed to create position","error")}});document.getElementById("save-career-btn").addEventListener("click",async()=>{if(!activeCareerId)return;const btn=document.getElementById("save-career-btn");btn.disabled=true;btn.textContent="Saving…";const questionsRaw=getDynamicValues("questions-list");const questions=questionsRaw.map(q=>({label:q,required:true}));try{const res=await fetch(`/api/admin/careers/${activeCareerId}`,{method:"PUT",headers:{"Content-Type":"application/json","x-admin-token":token},body:JSON.stringify({title:document.getElementById("career-title").value,department:document.getElementById("career-department").value,type:document.getElementById("career-type").value,location:document.getElementById("career-location").value,description:document.getElementById("career-description").value,requirements:getDynamicValues("requirements-list"),niceToHave:getDynamicValues("nice-list"),questions,active:document.getElementById("career-active-toggle").checked})});const data=await res.json();const idx=careers.findIndex(c=>c.id===activeCareerId);if(idx!==-1)careers[idx]=data.career;renderCareersList();showToast("Position saved ✓")}catch{showToast("Failed to save","error")}btn.disabled=false;btn.textContent="Save"});document.getElementById("delete-career-btn").addEventListener("click",async()=>{if(!activeCareerId||!confirm("Delete this position?"))return;try{await fetch(`/api/admin/careers/${activeCareerId}`,{method:"DELETE",headers:{"x-admin-token":token}});careers=careers.filter(c=>c.id!==activeCareerId);clearCareerEditor();showToast("Position deleted")}catch{showToast("Failed to delete","error")}});document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="s"){e.preventDefault();const activeTab=document.querySelector(".tab-btn.active")?.dataset.tab;if(activeTab==="games")document.getElementById("save-game-btn").click();if(activeTab==="blog")document.getElementById("save-post-btn").click();if(activeTab==="careers")document.getElementById("save-career-btn").click()}});
+        // Use your existing logic for loadPosts, loadGames, etc. 
+        // Just make sure to update the render functions to use the new CSS classes!
+        
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.transform = 'translateY(0)';
+            setTimeout(() => { t.style.transform = 'translateY(200%)'; }, 3000);
+        }
+
+        // QOL: Update the sidebar list item rendering to match the blog feel
+        function renderSidebarItem(title, date, isLive, id) {
+            return `
+                <div class="list-item" data-id="${id}">
+                    <div class="list-item-title">${title}</div>
+                    <div class="list-item-meta">
+                        <span>${date}</span>
+                        <span class="status-pill ${isLive ? 'live' : ''}">${isLive ? 'LIVE' : 'DRAFT'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Tab Switching Logic
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // Load specific data here...
+            });
+        });
+        
+        // Ensure you initialize Quill in the #form-fields area when the "Blog" tab is active.
     </script>
 </body>
 </html>
