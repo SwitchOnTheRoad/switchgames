@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getGameStats } from './getData.js';
+import { getGameStats } from './getdata.js';
 import fs from 'fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
