@@ -1,30 +1,43 @@
-const BASE_URL = 'https://games.roblox.com/v1/games?universeIds=';
-
-async function getGameStats(universeId) {
-    const url = `${BASE_URL}${universeId}`;
-
+export async function getGameStats(universeId) {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await fetch(`https://games.roblox.com/v1/games?universeIds=${universeId}`);
+        const data = await response.json();
+        
+        if (data.data && data.data[0]) {
+            const game = data.data[0];
+            return {
+                visits: game.visits || 0,
+                playing: game.playing || 0,
+                likes: game.favoritedCount || 0,
+                name: game.name || 'Unknown',
+                description: game.description || '',
+                maxPlayers: game.maxPlayers || 0,
+                created: game.created || null,
+                updated: game.updated || null
+            };
         }
         
-        const data = await response.json();
-
-        if (!data || !data.data || data.data.length === 0) {
-            return { visits: 0, playing: 0 };
-        }
-
-        const gameData = data.data[0];
         return {
-            visits: gameData.visits || 0,
-            playing: gameData.playing || 0
+            visits: 0,
+            playing: 0,
+            likes: 0,
+            name: 'Unknown',
+            description: '',
+            maxPlayers: 0,
+            created: null,
+            updated: null
         };
-
-    } catch (e) {
-        console.error(`Problem with request for universe ${universeId}: ${e.message}`);
-        return { visits: 0, playing: 0 };
+    } catch (error) {
+        console.error('Error fetching game stats:', error);
+        return {
+            visits: 0,
+            playing: 0,
+            likes: 0,
+            name: 'Unknown',
+            description: '',
+            maxPlayers: 0,
+            created: null,
+            updated: null
+        };
     }
 }
-
-export { getGameStats };
