@@ -6,577 +6,335 @@
     <title>Blog — Switch</title>
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
     <style>
         :root {
             --primary: #FBBF24;
             --bg: #0A0A0A;
-            --surface: #141414;
-            --surface-light: #1C1C1C;
-            --border: #2A2A2A;
-            --text: #F9FAFB;
-            --muted: #9CA3AF;
-            --grad: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* --- Navigation --- */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
+        .page-header {
+            padding: 120px 2rem 4rem;
             border-bottom: 1px solid var(--border);
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
-        }
-        .navbar.visible {
-            transform: translateY(0);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-img {
-            height: 40px;
-            transition: transform 0.3s ease;
-        }
-        .logo-img:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--muted);
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--grad);
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--text);
-        }
-
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 0.4rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(10px, 10px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            padding: 140px 2rem 80px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            background: var(--grad);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            color: var(--muted);
-            font-size: 1.125rem;
-            max-width: 600px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* --- Blog Grid --- */
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            margin-top: 0.75rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
         .section {
-            padding: 5rem 2rem;
-            max-width: 1400px;
+            max-width: 1300px;
             margin: 0 auto;
+            padding: 4rem 2rem 6rem;
         }
 
+        /* Mosaic layout - first card is large */
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
         }
 
         .blog-card {
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background 0.15s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .blog-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
+        .blog-card:hover { background: var(--surface-mid); }
+
+        .blog-card.featured {
+            grid-column: 1 / 3;
+            grid-row: 1 / 2;
         }
 
-        .blog-meta {
+        .blog-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            display: block;
+        }
+
+        .blog-img-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--surface-mid);
+            display: block;
+        }
+
+        .blog-card-body {
+            padding: 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card.featured .blog-card-body {
+            padding: 2rem 2.25rem;
+        }
+
+        .blog-top {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.8rem;
-            color: var(--muted);
+            align-items: center;
+            margin-bottom: 0.875rem;
         }
 
         .blog-date {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
             color: var(--primary);
-            font-weight: 600;
+        }
+
+        .blog-readtime {
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.05em;
         }
 
         .blog-title {
-            font-size: 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.35;
             margin-bottom: 0.75rem;
-            transition: color 0.3s;
         }
 
-        .blog-card:hover .blog-title {
-            color: var(--primary);
+        .blog-card.featured .blog-title {
+            font-size: 1.4rem;
         }
 
         .blog-preview {
             color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.7;
+            font-size: 0.875rem;
+            line-height: 1.65;
+            flex: 1;
         }
 
         .blog-empty {
             grid-column: 1 / -1;
-            text-align: center;
+            background: var(--surface);
             padding: 5rem 2rem;
+            text-align: center;
             color: var(--muted);
+            font-size: 0.875rem;
         }
 
-        /* --- Modal --- */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            z-index: 9998;
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(5px);
+            z-index: 9999;
+            background: rgba(0,0,0,0.85);
             align-items: center;
             justify-content: center;
-            padding: 0;
-            overflow: hidden;
+            padding: 2rem;
         }
-
-        .modal.open {
-            display: flex;
-        }
+        .modal.open { display: flex; }
 
         .modal-content {
             background: var(--surface);
-            width: 100vw;
-            height: 100vh;
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 0;
+            border: 1px solid var(--border);
+            max-width: 760px;
+            width: 100%;
+            max-height: 90vh;
             overflow-y: auto;
             position: relative;
         }
 
         .modal-header {
-            padding: 2rem 2.5rem 0;
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
         }
+
+        .modal-meta {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-meta span:first-child { color: var(--primary); }
+        .modal-meta span:last-child { color: var(--muted); }
+
+        .modal-title { font-size: 1.75rem; line-height: 1.2; }
 
         .modal-close {
             position: absolute;
             top: 1.25rem;
             right: 1.25rem;
-            background: var(--surface-light);
-            border: none;
+            background: var(--surface-mid);
+            border: 1px solid var(--border);
             color: var(--muted);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 2px;
+            transition: background 0.15s, color 0.15s;
         }
 
-        .modal-close:hover {
-            color: var(--text);
-            transform: scale(1.1);
-        }
+        .modal-close:hover { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        .modal-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .modal-date {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        /* --- Modal Content Styling --- */
         .modal-body {
-            padding: 2rem 2.5rem;
-            color: var(--muted);
+            padding: 2rem;
             line-height: 1.8;
-        }
-
-        .modal-body h1, .modal-body h2, .modal-body h3 {
-            color: var(--text);
-            margin: 1.5rem 0 0.75rem;
-        }
-
-        .modal-body p { margin-bottom: 1rem; }
-        .modal-body strong { color: var(--text); }
-        
-        .modal-body code {
-            background: var(--surface-light);
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: var(--primary);
-            font-family: monospace;
-        }
-
-        .modal-body pre {
-            background: var(--surface-light);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            margin-bottom: 1rem;
-        }
-
-        .modal-body img {
-            max-width: 100%;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        /* --- Footer --- */
-        .footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 4rem 2rem 2rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            height: 40px;
-            margin-bottom: 1rem;
-        }
-
-        .footer-desc {
             color: var(--muted);
-            font-size: 0.9rem;
-            line-height: 1.7;
+            font-size: 1rem;
         }
 
-        .footer-section h4 {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            color: var(--primary);
+        .modal-body img { max-width: 100%; margin: 1rem 0; }
+        .modal-body h2, .modal-body h3 { color: var(--text); margin: 1.5rem 0 0.75rem; }
+
+        @media (max-width: 900px) {
+            .blog-grid { grid-template-columns: 1fr 1fr; }
+            .blog-card.featured { grid-column: 1 / -1; }
         }
-
-        .footer-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .footer-link {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        .footer-link:hover { color: var(--primary); }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.875rem;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .nav-container { padding: 1rem 1.5rem; }
-            .nav-menu {
-                position: absolute; top: 60px; left: 0; right: 0;
-                flex-direction: column; gap: 0; background: var(--surface);
-                border-bottom: 1px solid var(--border);
-                max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-            }
-            .nav-menu.active { max-height: 400px; }
-            .nav-menu li { border-bottom: 1px solid var(--border); width: 100%; }
-            .nav-link { display: block; padding: 1rem 1.5rem; font-size: 1rem; }
-            .hamburger { display: flex; }
-            .logo-img { height: 35px; }
-            .hero { padding: 80px 1.5rem 60px; }
-            .section { padding: 4rem 1.5rem; }
+        @media (max-width: 600px) {
+            .page-header { padding: 100px 1.25rem 3rem; }
+            .section { padding: 3rem 1.25rem 4rem; }
             .blog-grid { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; }
-            .modal-content { max-height: 100vh; border-radius: 0; }
-        }
-        @media (max-width: 480px) {
-            .hero { padding: 50px 1rem; }
-            .section { padding: 3rem 1rem; }
+            .blog-card.featured { grid-column: 1; }
         }
     </style>
 </head>
 <body>
-
-    <header class="hero">
+    <div class="page-header">
+        <span class="section-label">Switch Studio</span>
         <h1>Blog</h1>
-        <p>Updates, announcements, and insights from the Switch team.</p>
-    </header>
+        <p>Updates, announcements, and dev insights from the team.</p>
+    </div>
 
     <main class="section">
         <div class="blog-grid" id="blog-grid">
-            <div class="blog-empty">Loading posts...</div>
+            <div class="blog-empty">Loading posts…</div>
         </div>
     </main>
 
     <div class="modal" id="blog-modal">
-        <article class="modal-content">
-            <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
-            
-            <header class="modal-header">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">✕</button>
+            <div class="modal-header">
                 <div class="modal-meta">
-                    <span class="modal-date" id="modal-date"></span>
-                    <span class="modal-readtime" id="modal-readtime"></span>
+                    <span id="modal-date"></span>
+                    <span id="modal-readtime"></span>
                 </div>
                 <h2 class="modal-title" id="modal-title"></h2>
-            </header>
-            
+            </div>
             <div class="modal-body" id="modal-body"></div>
-        </article>
+        </div>
     </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div>
-                <img src="logo.png" alt="Switch" class="footer-logo">
-                <p class="footer-desc">An independent Roblox studio crafting immersive experiences.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Product</h4>
-                <ul class="footer-links">
-                    <li><a href="/games" class="footer-link">Games</a></li>
-                    <li><a href="/blog" class="footer-link">Blog</a></li>
-                    <li><a href="/careers" class="footer-link">Careers</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul class="footer-links">
-                    <li><a href="/#contact" class="footer-link">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul class="footer-links">
-                    <li><a href="#" class="footer-link">Privacy</a></li>
-                    <li><a href="#" class="footer-link">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Switch. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script src="navbar.js"></script>
     <script src="footer.js"></script>
     <script>
-        /**
-         * Helpers
-         */
         function formatDate(iso) {
-            return new Date(iso).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            });
+            return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
         }
-
         function stripHtml(html) {
-            const div = document.createElement("div");
-            div.innerHTML = html;
-            return div.textContent || div.innerText || "";
+            const d = document.createElement('div'); d.innerHTML = html;
+            return d.textContent || d.innerText || '';
+        }
+        function readTime(html) {
+            const w = stripHtml(html).split(/\s+/).filter(Boolean).length;
+            return Math.max(1, Math.round(w/200))+' min read';
+        }
+        function preview(html, len=150) {
+            const t = stripHtml(html);
+            return t.length > len ? t.slice(0,len).trimEnd()+'…' : t;
         }
 
-        function getReadTime(html) {
-            const words = stripHtml(html).split(/\s+/).filter(Boolean).length;
-            const minutes = Math.max(1, Math.round(words / 200));
-            return `${minutes} min read`;
-        }
-
-        function getPreviewText(html, len = 140) {
-            const text = stripHtml(html);
-            return text.length > len ? text.slice(0, len).trimEnd() + "…" : text;
-        }
-
-        /**
-         * Core Logic
-         */
         async function loadPosts() {
-            const grid = document.getElementById("blog-grid");
+            const grid = document.getElementById('blog-grid');
             try {
-                const res = await fetch("/api/blog/posts");
-                const data = await res.json();
-                const posts = data.posts;
-
-                if (!posts || posts.length === 0) {
-                    grid.innerHTML = '<div class="blog-empty">No posts yet — check back soon!</div>';
+                const { posts } = await fetch('/api/blog/posts').then(r => r.json());
+                if (!posts?.length) {
+                    grid.innerHTML = '<div class="blog-empty">No posts yet — check back soon.</div>';
                     return;
                 }
-
-                grid.innerHTML = posts.map(post => `
-                    <div class="blog-card" data-id="${post.id}">
-                        <div class="blog-meta">
-                            <span class="blog-date">${formatDate(post.createdAt)}</span>
-                            <span class="blog-readtime">${getReadTime(post.content)}</span>
+                grid.innerHTML = posts.map((p, i) => `
+                    <div class="blog-card ${i === 0 ? 'featured' : ''}" data-id="${p.id}">
+                        ${p.image
+                            ? `<img src="${p.image}" class="blog-img" alt="${p.title}" loading="lazy">`
+                            : `<div class="blog-img-placeholder"></div>`
+                        }
+                        <div class="blog-card-body">
+                            <div class="blog-top">
+                                <span class="blog-date">${formatDate(p.createdAt)}</span>
+                                <span class="blog-readtime">${readTime(p.content)}</span>
+                            </div>
+                            <h3 class="blog-title">${p.title}</h3>
+                            <p class="blog-preview">${preview(p.content)}</p>
                         </div>
-                        <h3 class="blog-title">${post.title}</h3>
-                        <p class="blog-preview">${getPreviewText(post.content)}</p>
                     </div>
-                `).join("");
+                `).join('');
 
-                // Add click events to cards
-                document.querySelectorAll(".blog-card").forEach(card => {
-                    card.addEventListener("click", () => {
+                document.querySelectorAll('.blog-card').forEach(card => {
+                    card.addEventListener('click', () => {
                         const post = posts.find(p => p.id === card.dataset.id);
                         if (post) openModal(post);
                     });
                 });
-
-            } catch (err) {
-                console.error("Failed to load posts:", err);
-                grid.innerHTML = '<div class="blog-empty">Couldn\'t load posts. Please try again later.</div>';
+            } catch(e) {
+                grid.innerHTML = '<div class="blog-empty">Failed to load posts.</div>';
             }
         }
 
         function openModal(post) {
-            document.getElementById("modal-date").textContent = formatDate(post.createdAt);
-            document.getElementById("modal-readtime").textContent = getReadTime(post.content);
-            document.getElementById("modal-title").textContent = post.title;
-            document.getElementById("modal-body").innerHTML = post.content;
-            
-            document.getElementById("blog-modal").classList.add("open");
-            document.body.style.overflow = "hidden";
+            document.getElementById('modal-date').textContent = formatDate(post.createdAt);
+            document.getElementById('modal-readtime').textContent = readTime(post.content);
+            document.getElementById('modal-title').textContent = post.title;
+            document.getElementById('modal-body').innerHTML = post.content;
+            document.getElementById('blog-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            document.getElementById("blog-modal").classList.remove("open");
-            document.body.style.overflow = "";
+            document.getElementById('blog-modal').classList.remove('open');
+            document.body.style.overflow = '';
         }
 
-        /**
-         * Event Listeners
-         */
-        document.getElementById("modal-close").addEventListener("click", closeModal);
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('blog-modal').addEventListener('click', e => { if (e.target.id === 'blog-modal') closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-        document.getElementById("blog-modal").addEventListener("click", e => {
-            if (e.target.id === "blog-modal") closeModal();
-        });
-
-        document.addEventListener("keydown", e => {
-            if (e.key === "Escape") closeModal();
-        });
-
-        // Initialize
         loadPosts();
     </script>
 </body>

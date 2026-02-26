@@ -7,225 +7,192 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
             --primary: #FBBF24;
             --bg: #0A0A0A;
-            --surface: #141414;
-            --surface-light: #1C1C1C;
-            --border: #2A2A2A;
-            --text: #F9FAFB;
-            --muted: #9CA3AF;
-            --grad: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
         }
-        body { font-family: Inter, sans-serif; background: var(--bg); color: var(--text); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
         h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
-        
-        .navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(10, 10, 10, .95); backdrop-filter: blur(20px);
+
+        .page-header {
+            padding: 120px 2rem 4rem;
             border-bottom: 1px solid var(--border);
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
+            max-width: 1300px;
+            margin: 0 auto;
         }
-        .navbar.visible {
-            transform: translateY(0);
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.75rem;
         }
-        .nav-container {
-            max-width: 1400px; margin: 0 auto; padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
-        .logo-img { height: 40px; transition: transform 0.3s ease; }
-        .logo-img:hover { transform: scale(1.05); }
-        .nav-menu { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
-        .nav-link {
-            color: var(--muted); font-weight: 500; font-size: .9rem;
-            text-decoration: none; transition: color .3s; position: relative;
+
+        .page-header p {
+            margin-top: 0.75rem;
+            color: var(--muted);
+            font-size: 1rem;
+            max-width: 480px;
         }
-        .nav-link::after {
-            content: ''; position: absolute; bottom: -4px; left: 0;
-            width: 0; height: 2px; background: var(--grad);
-            transition: width 0.3s ease;
+
+        .section {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
         }
-        .nav-link:hover, .nav-link.active { color: var(--text); }
-        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-        
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 0.4rem;
-            cursor: pointer;
-            background: none;
-            border: none;
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
         }
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(10px, 10px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-        
-        .hero { padding: 140px 2rem 80px; text-align: center; border-bottom: 1px solid var(--border); }
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem); background: var(--grad);
-            background-clip: text; -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; margin-bottom: 1rem;
-        }
-        .hero p { color: var(--muted); font-size: 1.125rem; }
-        
-        .section { padding: 5rem 2rem; max-width: 1400px; margin: 0 auto; min-height: 600px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
-        
+
         .game-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 1rem; overflow: hidden; transition: all .3s;
-            text-decoration: none; color: var(--text); display: block;
+            background: var(--surface);
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+            transition: background 0.15s;
         }
-        .game-card:hover { border-color: var(--primary); transform: translateY(-4px); }
-        
-        .thumb-container {
+
+        .game-card:hover { background: var(--surface-mid); }
+
+        .game-thumb {
             width: 100%;
             aspect-ratio: 16/9;
-            background: var(--surface-light);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            object-fit: cover;
+            display: block;
         }
-        .game-thumbnail { width: 100%; height: 100%; object-fit: cover; }
-        
-        .game-info { padding: 1.5rem; }
-        .game-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        .game-stat-label { font-size: .75rem; text-transform: uppercase; color: var(--muted); }
-        .game-stat-value { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
-        
-        .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
-        .footer-logo { height: 40px; }
-        .footer-bottom { border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 2rem; text-align: center; color: var(--muted); }
+
+        .game-thumb-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--surface-mid);
+        }
+
+        .game-info {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .game-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .game-stat-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .game-stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            background: var(--surface);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
 
         @media (max-width: 768px) {
-            .nav-container { padding: 1rem 1.5rem; }
-            .nav-menu {
-                position: absolute; top: 60px; left: 0; right: 0;
-                flex-direction: column; gap: 0; background: var(--surface);
-                border-bottom: 1px solid var(--border);
-                max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-            }
-            .nav-menu.active { max-height: 400px; }
-            .nav-menu li { border-bottom: 1px solid var(--border); width: 100%; }
-            .nav-link { display: block; padding: 1rem 1.5rem; font-size: 1rem; }
-            .hamburger { display: flex; }
-            .logo-img { height: 35px; }
-            .hero { padding: 80px 1.5rem 60px; }
-            .section { padding: 4rem 1.5rem; }
-            .games-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
-        }
-        @media (max-width: 480px) {
-            .hero { padding: 50px 1rem; }
-            .section { padding: 3rem 1rem; }
+            .page-header { padding: 100px 1.25rem 3rem; }
+            .section { padding: 3rem 1.25rem 4rem; }
+            .games-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <header class="hero">
+    <div class="page-header">
+        <span class="section-label">Switch Studio</span>
         <h1>Our Games</h1>
-        <p>Explore the worlds we've created.</p>
-    </header>
+        <p>Explore the worlds we've built on Roblox.</p>
+    </div>
 
     <main class="section">
-        <div class="games-grid" id="games-grid"></div>
+        <div class="games-grid" id="games-grid">
+            <div class="empty-state">Loading games…</div>
+        </div>
     </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div>
-                <img src="logo.png" alt="Switch" class="footer-logo">
-                <p class="footer-desc">An independent Roblox studio crafting immersive experiences.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Product</h4>
-                <ul class="footer-links">
-                    <li><a href="/games" class="footer-link">Games</a></li>
-                    <li><a href="/blog" class="footer-link">Blog</a></li>
-                    <li><a href="/careers" class="footer-link">Careers</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul class="footer-links">
-                    <li><a href="/#contact" class="footer-link">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <ul class="footer-links">
-                    <li><a href="#" class="footer-link">Privacy</a></li>
-                    <li><a href="#" class="footer-link">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Switch. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script src="navbar.js"></script>
     <script src="footer.js"></script>
     <script>
-        function formatNumber(n) {
-            if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
-            if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
-            if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
-            return n.toString();
+        function fmt(n) {
+            if (!n) return '0';
+            if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
+            if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+            if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+            return n.toLocaleString();
         }
 
         async function loadGames() {
-            const grid = document.getElementById("games-grid");
+            const grid = document.getElementById('games-grid');
             try {
-                const res = await fetch("/api/games");
-                const { games } = await res.json();
-
-                grid.innerHTML = games.map(game => {
-                    const imageUrl = game.thumbnail || 'https://tr.rbxcdn.com/30DAY-f0e26162383842c6769065609424755a/420/420/Image/Png';
-                    
-                    return `
-                        <a href="https://www.roblox.com/games/${game.placeId}" target="_blank" class="game-card">
-                            <div class="thumb-container">
-                                <img src="${imageUrl}" class="game-thumbnail" alt="${game.name}">
-                            </div>
-                            <div class="game-info">
-                                <h3 style="margin-bottom:1rem">${game.name}</h3>
-                                <div class="game-stats">
-                                    <div class="game-stat">
-                                        <div class="game-stat-label">Visits</div>
-                                        <div class="game-stat-value">${formatNumber(game.visits)}</div>
-                                    </div>
-                                    <div class="game-stat">
-                                        <div class="game-stat-label">Playing</div>
-                                        <div class="game-stat-value">${formatNumber(game.playing)}</div>
-                                    </div>
+                const { games } = await fetch('/api/games').then(r => r.json());
+                if (!games.length) {
+                    grid.innerHTML = '<div class="empty-state">No games published yet.</div>';
+                    return;
+                }
+                grid.innerHTML = games.map(g => `
+                    <a href="https://www.roblox.com/games/${g.placeId}" target="_blank" class="game-card">
+                        ${g.thumbnail
+                            ? `<img src="${g.thumbnail}" class="game-thumb" alt="${g.name || 'Game'}" loading="lazy">`
+                            : `<div class="game-thumb-placeholder"></div>`
+                        }
+                        <div class="game-info">
+                            <div class="game-name">${g.name || 'Untitled Game'}</div>
+                            <div class="game-stats">
+                                <div>
+                                    <div class="game-stat-label">Visits</div>
+                                    <div class="game-stat-value">${fmt(g.visits)}</div>
+                                </div>
+                                <div>
+                                    <div class="game-stat-label">Playing</div>
+                                    <div class="game-stat-value">${fmt(g.playing)}</div>
                                 </div>
                             </div>
-                        </a>
-                    `;
-                }).join("");
-            } catch (err) {
-                console.error("Games Load Error:", err);
-                grid.innerHTML = '<div style="text-align:center; width:100%; color:red;">Failed to connect to games API.</div>';
+                        </div>
+                    </a>
+                `).join('');
+            } catch(e) {
+                grid.innerHTML = '<div class="empty-state">Failed to load games.</div>';
             }
         }
+
         loadGames();
     </script>
 </body>
