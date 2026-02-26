@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </style>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-logo"><img src="/logo.png" alt="Switch"></a>
+            <a href="/" class="nav-logo"><img src="/heroextended.png" alt="Switch"></a>
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span><span></span><span></span>
             </button>
