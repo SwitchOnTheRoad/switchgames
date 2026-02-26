@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found | Switch</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #141414;
+            --border: #2A2A2A;
+            --text: #F9FAFB;
+            --muted: #9CA3AF;
+            --grad: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(251, 191, 36, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 191, 36, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridShift 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes gridShift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(60px); }
+        }
+        .error-container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+        .error-code {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(6rem, 20vw, 12rem);
+            font-weight: 800;
+            line-height: 1;
+            background: var(--grad);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.2)); }
+            to   { filter: drop-shadow(0 0 50px rgba(251, 191, 36, 0.5)); }
+        }
+        .error-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.25rem, 4vw, 2rem);
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        .error-desc {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 0.625rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--grad);
+            color: #000;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .quick-links {
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .quick-links p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .quick-links-grid {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .quick-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .quick-link:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(251, 191, 36, 0.05);
+        }
+        .logo-link { display: block; margin-bottom: 2.5rem; }
+        .logo-img { height: 36px; opacity: 0.8; transition: opacity 0.2s; }
+        .logo-img:hover { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Switch" class="logo-img">
+        </a>
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-desc">
+            Looks like this page got lost in the Roblox universe.<br>
+            It may have been moved, deleted, or never existed.
+        </p>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+                Go Home
+            </a>
+            <button class="btn btn-outline" onclick="history.back()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                Go Back
+            </button>
+        </div>
+        <div class="quick-links">
+            <p>Or explore</p>
+            <div class="quick-links-grid">
+                <a href="/games" class="quick-link">Games</a>
+                <a href="/blog" class="quick-link">Blog</a>
+                <a href="/careers" class="quick-link">Careers</a>
+                <a href="/#contact" class="quick-link">Contact</a>
+            </div>
+        </div>
+    </div>
+    <script src="/navbar.js"></script>
+    <script src="/footer.js"></script>
+</body>
+</html>

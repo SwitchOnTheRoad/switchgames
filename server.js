@@ -111,7 +111,7 @@ app.post('/api/apply', async (req, res) => {
 // ADMIN AUTH
 // ============================================================
 
-const ADMIN_PASSWORD_HASH = "92566b61eb9f0568cc88f598ba75d8836e657de4e40d069ccc22ac62b5075fa0";
+const ADMIN_PASSWORD_HASH = "25041dace945e0a85a78c93c681456626b017391ba108bf29bebde1704c85672"; // SwitchAdmin2025
 const adminSessions = new Map();
 
 function hashPassword(p) { return createHash("sha256").update(p).digest("hex"); }
@@ -378,6 +378,14 @@ app.delete("/api/admin/games/:id", (req, res) => {
     if (filtered.length === games.length) return res.status(404).json({ message: "Game not found" });
     writeGames(filtered);
     res.status(200).json({ message: "Game deleted" });
+});
+
+// ============================================================
+// 404 CATCH-ALL
+// ============================================================
+
+app.use((req, res) => {
+    res.status(404).sendFile('404.html', { root: '.' });
 });
 
 // ============================================================

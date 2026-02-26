@@ -174,8 +174,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navbar scroll visibility
     const navbar = document.getElementById('navbar');
     if (navbar) {
-        window.addEventListener('scroll', () => { 
-            window.pageYOffset > 100 ? navbar.classList.add('visible') : navbar.classList.remove('visible'); 
-        });
+        const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+        if (!isHomePage) {
+            // On subpages, always show the navbar immediately
+            navbar.classList.add('visible');
+        } else {
+            // On homepage, show after scrolling
+            window.addEventListener('scroll', () => { 
+                window.pageYOffset > 100 ? navbar.classList.add('visible') : navbar.classList.remove('visible'); 
+            });
+        }
     }
+
+    // Set active nav link based on current page
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href !== '/' && currentPath.startsWith(href)) {
+            link.classList.add('active');
+        } else if (href === '/' && currentPath === '/') {
+            link.classList.add('active');
+        }
+    });
 });
