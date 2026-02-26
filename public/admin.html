@@ -233,3 +233,43 @@
     </script>
 </body>
 </html>
+
+// 1. Restore the Login Logic
+const loginBtn = document.getElementById("login-btn");
+const loginInput = document.getElementById("login-input");
+const loginErr = document.getElementById("login-error");
+
+loginBtn.addEventListener("click", async () => {
+    const password = loginInput.value;
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Verifying...";
+    
+    try {
+        const res = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+            sessionStorage.setItem("sg_admin_token", data.token);
+            location.reload(); // Refresh to show dashboard
+        } else {
+            loginErr.style.display = "block";
+        }
+    } catch (e) {
+        loginErr.textContent = "Connection Error";
+        loginErr.style.display = "block";
+    }
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Access Dashboard";
+});
+
+// 2. Check for existing session
+const token = sessionStorage.getItem("sg_admin_token");
+if (token) {
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("dashboard").style.display = "flex";
+    // Call your load functions here (loadPosts, loadGames, etc.)
+}
