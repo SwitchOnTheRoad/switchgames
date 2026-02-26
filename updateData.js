@@ -1,5 +1,5 @@
 import { serverData } from "./data.js";
-import { getGameStats } from "./getdata.js";
+import { getGameStats } from "./getData.js";
 import { Universes } from "./info.js";
 
 const SECONDS = 30;
