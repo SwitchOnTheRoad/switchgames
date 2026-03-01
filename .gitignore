@@ -15,3 +15,6 @@ games-data.json
 
 # Uploads folder (user-uploaded images)
 uploads/
+site-settings.json
+audit-log.json
+page-views.json
