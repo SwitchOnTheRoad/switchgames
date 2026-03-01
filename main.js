@@ -56,7 +56,7 @@ const upload = multer({
 // ADMIN AUTH
 // ============================================================
 
-const MASTER_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || 'a9fc8dc21063c33712ae47cd4d8d31bba4bb7c99949a198116e03efa045bc0dd';
+const MASTER_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '6bc9e25792740c3071fc3f1d621c8e8226b98ca18f93ba60e2b22f5823be9085';
 const adminSessions = new Map();
 const loginAttempts = new Map();
 const MAX_ATTEMPTS = 10;
