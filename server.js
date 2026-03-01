@@ -63,32 +63,23 @@ app.post('/api/contact', async (req, res) => {
 
         // Save to file
         const contacts = readContacts();
-        const newContact = {
+        contacts.unshift({
             id: randomBytes(8).toString("hex"),
             name, email, subject, message,
             read: false,
             createdAt: new Date().toISOString()
-        };
-        contacts.unshift(newContact);
+        });
         writeContacts(contacts);
 
-        // Send to Discord (optional — won't fail the request if it errors)
+        // Discord webhook — optional, never crashes the request
         if (DISCORD_WEBHOOK_URL) {
             try {
-                const discordPayload = {
-                    embeds: [{
-                        title: "📧 New Contact Form Submission", color: 65535,
-                        fields: [
-                            { name: "Name", value: name, inline: true },
-                            { name: "Email", value: email, inline: true },
-                            { name: "Subject", value: subject, inline: false },
-                            { name: "Message", value: message.length > 1024 ? message.substring(0, 1021) + "..." : message, inline: false }
-                        ],
-                        timestamp: new Date().toISOString(), footer: { text: "Switch Games Contact Form" }
-                    }]
-                };
-                await fetch(DISCORD_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(discordPayload) });
-            } catch (webhookErr) { console.error('Discord webhook error:', webhookErr); }
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [{ title: "📧 New Contact Form Submission", color: 65535, fields: [{ name: "Name", value: name, inline: true }, { name: "Email", value: email, inline: true }, { name: "Subject", value: subject }, { name: "Message", value: message.substring(0, 1024) }], timestamp: new Date().toISOString() }] })
+                });
+            } catch (e) { console.error('Discord webhook error:', e.message); }
         }
 
         res.status(200).json({ message: "Message sent successfully" });
@@ -96,36 +87,6 @@ app.post('/api/contact', async (req, res) => {
         console.error('Contact form error:', error);
         res.status(500).json({ message: "Failed to send message" });
     }
-});
-
-// Admin — read all contacts
-app.get("/api/admin/contacts", (req, res) => {
-    const token = req.headers["x-admin-token"];
-    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    res.status(200).json({ contacts: readContacts() });
-});
-
-// Admin — mark as read
-app.patch("/api/admin/contacts/:id/read", (req, res) => {
-    const token = req.headers["x-admin-token"];
-    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    const contacts = readContacts();
-    const idx = contacts.findIndex(c => c.id === req.params.id);
-    if (idx === -1) return res.status(404).json({ message: "Not found" });
-    contacts[idx].read = true;
-    writeContacts(contacts);
-    res.status(200).json({ message: "Marked as read", contact: contacts[idx] });
-});
-
-// Admin — delete contact
-app.delete("/api/admin/contacts/:id", (req, res) => {
-    const token = req.headers["x-admin-token"];
-    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    const contacts = readContacts();
-    const filtered = contacts.filter(c => c.id !== req.params.id);
-    if (filtered.length === contacts.length) return res.status(404).json({ message: "Not found" });
-    writeContacts(filtered);
-    res.status(200).json({ message: "Deleted" });
 });
 
 // ============================================================
@@ -147,7 +108,7 @@ app.post('/api/apply', async (req, res) => {
 
         // Save to file
         const applications = readApplications();
-        const newApp = {
+        applications.unshift({
             id: randomBytes(8).toString("hex"),
             position, name, email,
             discord: discord || "",
@@ -157,29 +118,27 @@ app.post('/api/apply', async (req, res) => {
             status: "new",
             read: false,
             createdAt: new Date().toISOString()
-        };
-        applications.unshift(newApp);
+        });
         writeApplications(applications);
 
-        // Send to Discord (optional — won't fail the request if it errors)
+        // Discord webhook — optional, never crashes the request
         if (DISCORD_WEBHOOK_URL) {
             try {
                 const fields = [
-                    { name: "Position", value: position, inline: false },
+                    { name: "Position", value: position },
                     { name: "Name", value: name, inline: true },
                     { name: "Email", value: email, inline: true },
                     { name: "Discord", value: discord || "Not provided", inline: true },
-                    { name: "Portfolio", value: portfolio || "Not provided", inline: false },
-                    { name: "Experience & Why They're a Good Fit", value: experience.length > 1024 ? experience.substring(0, 1021) + "..." : experience, inline: false }
+                    { name: "Portfolio", value: portfolio || "Not provided" },
+                    { name: "Why they're a good fit", value: experience.substring(0, 1024) }
                 ];
-                if (answers && Array.isArray(answers)) {
-                    answers.forEach(a => {
-                        if (a.question && a.answer) fields.push({ name: a.question, value: a.answer.length > 1024 ? a.answer.substring(0, 1021) + "..." : a.answer, inline: false });
-                    });
-                }
-                const discordPayload = { embeds: [{ title: "💼 New Job Application", color: 3447003, fields, timestamp: new Date().toISOString(), footer: { text: "Switch Games Job Application" } }] };
-                await fetch(DISCORD_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(discordPayload) });
-            } catch (webhookErr) { console.error('Discord webhook error:', webhookErr); }
+                if (answers?.length) answers.forEach(a => { if (a.question && a.answer) fields.push({ name: a.question, value: a.answer.substring(0, 1024) }); });
+                await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [{ title: "💼 New Job Application", color: 3447003, fields, timestamp: new Date().toISOString() }] })
+                });
+            } catch (e) { console.error('Discord webhook error:', e.message); }
         }
 
         res.status(200).json({ message: "Application submitted successfully" });
@@ -189,14 +148,36 @@ app.post('/api/apply', async (req, res) => {
     }
 });
 
-// Admin — read all applications
+// Admin — contacts
+app.get("/api/admin/contacts", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
+    res.status(200).json({ contacts: readContacts() });
+});
+app.patch("/api/admin/contacts/:id/read", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
+    const contacts = readContacts();
+    const idx = contacts.findIndex(c => c.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: "Not found" });
+    contacts[idx].read = true;
+    writeContacts(contacts);
+    res.status(200).json({ contact: contacts[idx] });
+});
+app.delete("/api/admin/contacts/:id", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
+    const filtered = readContacts().filter(c => c.id !== req.params.id);
+    writeContacts(filtered);
+    res.status(200).json({ message: "Deleted" });
+});
+
+// Admin — applications
 app.get("/api/admin/applications", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
     res.status(200).json({ applications: readApplications() });
 });
-
-// Admin — update application status
 app.patch("/api/admin/applications/:id/status", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
@@ -206,23 +187,15 @@ app.patch("/api/admin/applications/:id/status", (req, res) => {
     if (req.body.status) applications[idx].status = req.body.status;
     applications[idx].read = true;
     writeApplications(applications);
-    res.status(200).json({ message: "Updated", application: applications[idx] });
+    res.status(200).json({ application: applications[idx] });
 });
-
-// Admin — delete application
 app.delete("/api/admin/applications/:id", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    const applications = readApplications();
-    const filtered = applications.filter(a => a.id !== req.params.id);
-    if (filtered.length === applications.length) return res.status(404).json({ message: "Not found" });
+    const filtered = readApplications().filter(a => a.id !== req.params.id);
     writeApplications(filtered);
     res.status(200).json({ message: "Deleted" });
 });
-
-// ============================================================
-// ADMIN AUTH
-// ============================================================
 
 const ADMIN_PASSWORD_HASH = "25041dace945e0a85a78c93c681456626b017391ba108bf29bebde1704c85672"; // SwitchAdmin2025
 const adminSessions = new Map();
