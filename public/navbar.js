@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const navHTML = `
     <style>
+        :root { --sw-banner-height: 0px; }
+
         .navbar {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: var(--sw-banner-height); left: 0; right: 0;
             z-index: 1000;
             background: rgba(10,10,10,0.92);
             backdrop-filter: blur(16px);
@@ -139,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .hamburger { display: flex; }
         }
     </style>
+    <div id="site-announcement" style="display:none;position:fixed;top:0;left:0;right:0;z-index:1100;padding:0.55rem 1rem;text-align:center;font-size:0.82rem;font-weight:600;"></div>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="nav-logo"><img src="/heroextended.png" alt="Switch"></a>
@@ -173,6 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.remove('active');
         });
     });
+
+    async function loadAnnouncementBanner() {
+        try {
+            const res = await fetch('/api/site-settings');
+            if (!res.ok) return;
+            const data = await res.json();
+            const a = data.settings?.announcement;
+            const el = document.getElementById('site-announcement');
+            if (!el || !a?.enabled || !a?.text) return;
+            const text = String(a.text);
+            const safeLink = a.link && /^https?:\/\//.test(a.link) ? a.link : '';
+            el.style.display = 'block';
+            el.style.background = a.background || '#FBBF24';
+            el.style.color = a.textColor || '#0A0A0A';
+            el.innerHTML = safeLink ? `<a href="${safeLink}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">${text}</a>` : text;
+            const h = Math.round(el.getBoundingClientRect().height || 36);
+            document.documentElement.style.setProperty('--sw-banner-height', `${h}px`);
+        } catch {
+            // silent fallback
+        }
+    }
+
+    loadAnnouncementBanner();
 
     // Set active link
     const path = window.location.pathname;
