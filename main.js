@@ -11,16 +11,18 @@ import multer from 'multer';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// ROOT = wherever you run `node main.js` from (your project folder)
+const ROOT = path.join(process.cwd(), 'public');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: '2mb' }));
 
-// Security headers
+// Security headers (no CSP — Quill editor needs unsafe-eval)
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     // Block direct access to sensitive JSON files
     const blocked = ['contacts.json','applications.json','staff.json','staff-accounts.json'];
@@ -30,10 +32,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static(__dirname, { index: 'index.html' }));
+// Serve static files from the project root
+app.use(express.static(ROOT, { index: 'index.html' }));
 
-if (!existsSync('./uploads')) mkdirSync('./uploads');
-app.use('/uploads', express.static('./uploads'));
+if (!existsSync(path.join(ROOT, 'uploads'))) mkdirSync(path.join(ROOT, 'uploads'));
+app.use('/uploads', express.static(path.join(ROOT, 'uploads')));
 
 // Multer
 const storage = multer.diskStorage({
@@ -105,19 +108,19 @@ function writeApplications(a) { writeFileSync(APPLICATIONS_FILE, JSON.stringify(
 
 // Blog
 async function loadBlogPosts() {
-    try { return JSON.parse(await fs.readFile(path.join(__dirname, 'blog-posts.json'), 'utf8')).posts || []; }
+    try { return JSON.parse(await fs.readFile(path.join(ROOT, 'blog-posts.json'), 'utf8')).posts || []; }
     catch { return []; }
 }
 
 // Games
 async function loadGames() {
-    try { return JSON.parse(await fs.readFile(path.join(__dirname, 'games-data.json'), 'utf8')).games || []; }
+    try { return JSON.parse(await fs.readFile(path.join(ROOT, 'games-data.json'), 'utf8')).games || []; }
     catch { return []; }
 }
 
 // Careers
 async function loadCareers() {
-    try { return JSON.parse(await fs.readFile(path.join(__dirname, 'careers-data.json'), 'utf8')).careers || []; }
+    try { return JSON.parse(await fs.readFile(path.join(ROOT, 'careers-data.json'), 'utf8')).careers || []; }
     catch { return []; }
 }
 
@@ -395,7 +398,7 @@ app.post('/api/admin/games', async (req, res) => {
         const games = await loadGames();
         const g = { id: randomBytes(8).toString('hex'), placeId: String(placeId||''), universeId: '', thumbnail: thumbnail||'', featured: featured||false, active: active!==false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         games.unshift(g);
-        await fs.writeFile(path.join(__dirname, 'games-data.json'), JSON.stringify({ games }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
         res.status(201).json({ message: 'Game created', game: g });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -407,7 +410,7 @@ app.put('/api/admin/games/:id', async (req, res) => {
         const i = games.findIndex(g => g.id === req.params.id);
         if (i === -1) return res.status(404).json({ message: 'Not found' });
         games[i] = { ...games[i], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
-        await fs.writeFile(path.join(__dirname, 'games-data.json'), JSON.stringify({ games }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
         res.json({ message: 'Updated', game: games[i] });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -418,7 +421,7 @@ app.delete('/api/admin/games/:id', async (req, res) => {
         const games = await loadGames();
         const filtered = games.filter(g => g.id !== req.params.id);
         if (filtered.length === games.length) return res.status(404).json({ message: 'Not found' });
-        await fs.writeFile(path.join(__dirname, 'games-data.json'), JSON.stringify({ games: filtered }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'games-data.json'), JSON.stringify({ games: filtered }, null, 2));
         res.json({ message: 'Deleted' });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -453,7 +456,7 @@ app.post('/api/admin/posts', async (req, res) => {
         const posts = await loadBlogPosts();
         const p = { id: randomBytes(8).toString('hex'), title, content: content||'', published: published||false, author: author||'', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         posts.unshift(p);
-        await fs.writeFile(path.join(__dirname, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
         res.status(201).json({ message: 'Created', post: p });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -465,7 +468,7 @@ app.put('/api/admin/posts/:id', async (req, res) => {
         const i = posts.findIndex(p => p.id === req.params.id);
         if (i === -1) return res.status(404).json({ message: 'Not found' });
         posts[i] = { ...posts[i], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
-        await fs.writeFile(path.join(__dirname, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
         res.json({ message: 'Updated', post: posts[i] });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -476,7 +479,7 @@ app.delete('/api/admin/posts/:id', async (req, res) => {
         const posts = await loadBlogPosts();
         const filtered = posts.filter(p => p.id !== req.params.id);
         if (filtered.length === posts.length) return res.status(404).json({ message: 'Not found' });
-        await fs.writeFile(path.join(__dirname, 'blog-posts.json'), JSON.stringify({ posts: filtered }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'blog-posts.json'), JSON.stringify({ posts: filtered }, null, 2));
         res.json({ message: 'Deleted' });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -511,7 +514,7 @@ app.post('/api/admin/careers', async (req, res) => {
         const careers = await loadCareers();
         const c = { id: randomBytes(8).toString('hex'), title, department: department||'', type: type||'Full-time', location: location||'Remote', description: description||'', requirements: requirements||[], niceToHave: niceToHave||[], questions: questions||[], active: active!==false, salary: salary||'', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         careers.unshift(c);
-        await fs.writeFile(path.join(__dirname, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
         res.status(201).json({ message: 'Created', career: c });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -523,7 +526,7 @@ app.put('/api/admin/careers/:id', async (req, res) => {
         const i = careers.findIndex(c => c.id === req.params.id);
         if (i === -1) return res.status(404).json({ message: 'Not found' });
         careers[i] = { ...careers[i], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
-        await fs.writeFile(path.join(__dirname, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
         res.json({ message: 'Updated', career: careers[i] });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -534,23 +537,32 @@ app.delete('/api/admin/careers/:id', async (req, res) => {
         const careers = await loadCareers();
         const filtered = careers.filter(c => c.id !== req.params.id);
         if (filtered.length === careers.length) return res.status(404).json({ message: 'Not found' });
-        await fs.writeFile(path.join(__dirname, 'careers-data.json'), JSON.stringify({ careers: filtered }, null, 2));
+        await fs.writeFile(path.join(ROOT, 'careers-data.json'), JSON.stringify({ careers: filtered }, null, 2));
         res.json({ message: 'Deleted' });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
 
 // ============================================================
-// HTML ROUTING
+// HTML ROUTING (clean URLs — /blog serves blog.html etc.)
 // ============================================================
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/', (req, res) => res.sendFile(path.join(ROOT, 'index.html')));
 
 app.use((req, res, next) => {
     if (req.method !== 'GET' || req.path.includes('.')) return next();
-    const htmlPath = path.join(__dirname, req.path + '.html');
+    const htmlPath = path.join(ROOT, req.path + '.html');
     fs.access(htmlPath).then(() => res.sendFile(htmlPath)).catch(() => next());
 });
 
-app.use((req, res) => res.status(404).sendFile(path.join(__dirname, '404.html')));
+// 404 fallback
+app.use((req, res) => {
+    const p404 = path.join(ROOT, '404.html');
+    fs.access(p404)
+        .then(() => res.status(404).sendFile(p404))
+        .catch(() => res.status(404).send('404 — Not Found'));
+});
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`✅ Server running at http://localhost:${PORT}`);
+    console.log(`📁 Serving files from: ${ROOT}`);
+});

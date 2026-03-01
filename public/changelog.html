@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog — Switch</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+        .page-header { padding: 120px 2rem 4rem; border-bottom: 1px solid var(--border); }
+        .page-header-inner { max-width: 860px; margin: 0 auto; }
+        .section-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--primary); display: block; margin-bottom: 0.75rem; }
+        .page-header h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.02em; }
+        .page-header p { margin-top: 0.75rem; color: var(--muted); font-size: 1rem; }
+
+        .changelog-feed { max-width: 860px; margin: 0 auto; padding: 4rem 2rem 8rem; }
+
+        .cl-entry {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 0 3rem;
+            position: relative;
+            padding-bottom: 3.5rem;
+        }
+
+        .cl-entry:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 160px;
+            top: 8px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+            transform: translateX(calc(-3rem + 0.5px));
+        }
+
+        .cl-date-col {
+            text-align: right;
+            padding-top: 0.1rem;
+        }
+        .cl-date { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+        .cl-version { font-size: 0.7rem; font-family: monospace; color: var(--primary); margin-top: 0.25rem; }
+
+        .cl-content {
+            border-left: 1px solid var(--border);
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .cl-content::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 7px;
+            width: 9px;
+            height: 9px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .cl-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.625rem; }
+
+        .cl-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .cl-tag {
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 2px 8px;
+        }
+        .tag-new { background: rgba(34,197,94,0.08); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+        .tag-fix { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+        .tag-improve { background: rgba(251,191,36,0.08); color: var(--primary); border: 1px solid rgba(251,191,36,0.2); }
+        .tag-balance { background: rgba(139,92,246,0.08); color: #a78bfa; border: 1px solid rgba(139,92,246,0.2); }
+        .tag-event { background: rgba(236,72,153,0.08); color: #f472b6; border: 1px solid rgba(236,72,153,0.2); }
+
+        .cl-items { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        .cl-items li { color: var(--muted); font-size: 0.9rem; padding-left: 1.125rem; position: relative; }
+        .cl-items li::before { content: '—'; position: absolute; left: 0; color: var(--border); font-weight: 700; }
+        .cl-items li strong { color: var(--text); font-weight: 600; }
+
+        .cl-loading { padding: 5rem 2rem; text-align: center; color: var(--muted); }
+
+        @media (max-width: 640px) {
+            .page-header { padding: 100px 1.25rem 3rem; }
+            .changelog-feed { padding: 3rem 1.25rem 6rem; }
+            .cl-entry { grid-template-columns: 1fr; gap: 0.5rem 0; }
+            .cl-entry:not(:last-child)::before { display: none; }
+            .cl-date-col { text-align: left; }
+            .cl-content { border-left: 2px solid var(--primary); padding-left: 1.25rem; }
+            .cl-content::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <div class="page-header-inner">
+            <span class="section-label">What's New</span>
+            <h1>Changelog</h1>
+            <p>Updates, patches, and new features across all our games.</p>
+        </div>
+    </div>
+
+    <main class="changelog-feed" id="changelog-feed">
+        <div class="cl-loading">Loading changelog…</div>
+    </main>
+
+    <script src="navbar.js"></script>
+    <script src="footer.js"></script>
+    <script>
+        // Changelog entries — edit this array to add new entries
+        const entries = [
+            {
+                date: '2025-01-15',
+                version: 'v2.4.0',
+                title: 'New Season & Weapons Update',
+                tags: ['new', 'balance'],
+                items: [
+                    '<strong>New Season:</strong> Season 4 has begun — explore the new winter map.',
+                    'Added 3 new legendary weapons including the Frost Blade.',
+                    '<strong>Balance:</strong> Adjusted XP gain rates for mid-tier activities.',
+                    'Reduced spawn timers for common enemies by 15%.',
+                    'New seasonal cosmetics available in the store.'
+                ]
+            },
+            {
+                date: '2025-01-02',
+                version: 'v2.3.2',
+                title: 'Hotfix & Performance Improvements',
+                tags: ['fix', 'improve'],
+                items: [
+                    'Fixed a crash that could occur when opening the inventory during combat.',
+                    '<strong>Fix:</strong> Resolved an issue where some players couldn\'t complete the tutorial quest.',
+                    'Improved server performance during peak hours.',
+                    'Reduced memory usage by approximately 12%.',
+                    'Fixed floating objects in Zone 3.'
+                ]
+            },
+            {
+                date: '2024-12-20',
+                version: 'v2.3.0',
+                title: 'Holiday Event + New Features',
+                tags: ['new', 'event'],
+                items: [
+                    '<strong>Event:</strong> The Holiday Festival is live until January 5th!',
+                    'Collect snowflakes to unlock exclusive seasonal rewards.',
+                    'New party system — team up with up to 4 friends.',
+                    'Added spectator mode for finished players.',
+                    'New daily challenge system with unique rewards.'
+                ]
+            }
+        ];
+
+        const tagMap = {
+            'new': ['New', 'tag-new'],
+            'fix': ['Fix', 'tag-fix'],
+            'improve': ['Improvement', 'tag-improve'],
+            'balance': ['Balance', 'tag-balance'],
+            'event': ['Event', 'tag-event']
+        };
+
+        function fmtDate(d) {
+            return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function render() {
+            const feed = document.getElementById('changelog-feed');
+            if (!entries.length) { feed.innerHTML = '<div class="cl-loading">No changelog entries yet.</div>'; return; }
+            feed.innerHTML = entries.map(e => `
+                <div class="cl-entry">
+                    <div class="cl-date-col">
+                        <div class="cl-date">${fmtDate(e.date)}</div>
+                        ${e.version ? `<div class="cl-version">${e.version}</div>` : ''}
+                    </div>
+                    <div class="cl-content">
+                        <div class="cl-title">${e.title}</div>
+                        <div class="cl-tags">
+                            ${(e.tags || []).map(t => {
+                                const [label, cls] = tagMap[t] || [t, 'tag-new'];
+                                return `<span class="cl-tag ${cls}">${label}</span>`;
+                            }).join('')}
+                        </div>
+                        <ul class="cl-items">
+                            ${(e.items || []).map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>`).join('');
+        }
+
+        render();
+    </script>
+</body>
+</html>
