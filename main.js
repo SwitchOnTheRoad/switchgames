@@ -24,6 +24,14 @@ app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    // Admin relies on Quill (which uses dynamic code paths) and inline scripts.
+    // Explicitly set a compatible CSP so browser/proxy defaults do not block login/app boot.
+    if (req.path === '/admin.html' || req.path.startsWith('/api/admin')) {
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self';"
+        );
+    }
     // Block direct access to sensitive JSON files
     const blocked = ['contacts.json','applications.json','staff.json','staff-accounts.json'];
     if (blocked.some(f => req.path === '/' + f)) {
@@ -105,6 +113,16 @@ function writeContacts(c) { writeFileSync(CONTACTS_FILE, JSON.stringify({ contac
 const APPLICATIONS_FILE = './applications.json';
 function readApplications() { try { return JSON.parse(readFileSync(APPLICATIONS_FILE, 'utf-8')).applications; } catch { return []; } }
 function writeApplications(a) { writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications: a }, null, 2), 'utf-8'); }
+
+function toCsv(rows) {
+    if (!rows.length) return '';
+    const headers = Object.keys(rows[0]);
+    const escape = (v) => {
+        const value = v == null ? '' : String(v);
+        return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+    };
+    return [headers.join(','), ...rows.map(row => headers.map(h => escape(row[h])).join(','))].join('\n');
+}
 
 // Blog
 async function loadBlogPosts() {
@@ -306,6 +324,50 @@ app.patch('/api/admin/contacts/:id/read', (req, res) => {
     res.json({ contact: contacts[idx] });
 });
 
+app.patch('/api/admin/contacts/bulk/read', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const contacts = readContacts();
+    const idSet = new Set(ids);
+    let updated = 0;
+    for (const c of contacts) {
+        if (idSet.has(c.id) && !c.read) {
+            c.read = true;
+            updated++;
+        }
+    }
+    writeContacts(contacts);
+    res.json({ message: 'Updated', updated });
+});
+
+app.post('/api/admin/contacts/bulk/delete', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const idSet = new Set(ids);
+    const contacts = readContacts();
+    const filtered = contacts.filter(c => !idSet.has(c.id));
+    writeContacts(filtered);
+    res.json({ message: 'Deleted', deleted: contacts.length - filtered.length });
+});
+
+app.get('/api/admin/contacts/export.csv', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const contacts = readContacts().map(c => ({
+        id: c.id,
+        name: c.name,
+        email: c.email,
+        subject: c.subject,
+        message: c.message,
+        read: c.read,
+        createdAt: c.createdAt
+    }));
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="contacts.csv"');
+    res.send(toCsv(contacts));
+});
+
 app.delete('/api/admin/contacts/:id', (req, res) => {
     if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
     writeContacts(readContacts().filter(c => c.id !== req.params.id));
@@ -318,11 +380,11 @@ app.delete('/api/admin/contacts/:id', (req, res) => {
 
 app.post('/api/apply', (req, res) => {
     try {
-        const { position, name, email, discord, portfolio, experience, answers } = req.body;
+        const { position, name, email, discord, portfolio, experience, answers, referral } = req.body;
         if (!position || !name || !email || !experience) return res.status(400).json({ message: 'Required fields missing' });
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ message: 'Invalid email' });
         const applications = readApplications();
-        applications.unshift({ id: randomBytes(8).toString('hex'), position: position.slice(0,200), name: name.slice(0,200), email: email.slice(0,200), discord: (discord||'').slice(0,200), portfolio: (portfolio||'').slice(0,500), experience: experience.slice(0,5000), answers: Array.isArray(answers) ? answers.slice(0,20) : [], status: 'new', read: false, createdAt: new Date().toISOString() });
+        applications.unshift({ id: randomBytes(8).toString('hex'), position: position.slice(0,200), name: name.slice(0,200), email: email.slice(0,200), discord: (discord||'').slice(0,200), portfolio: (portfolio||'').slice(0,500), experience: experience.slice(0,5000), answers: Array.isArray(answers) ? answers.slice(0,20) : [], referral: (referral || '').slice(0,120), notes: '', status: 'new', read: false, createdAt: new Date().toISOString() });
         writeApplications(applications);
         res.json({ message: 'Application submitted successfully' });
     } catch (err) {
@@ -344,6 +406,66 @@ app.patch('/api/admin/applications/:id/status', (req, res) => {
     if (req.body.status) apps[idx].status = req.body.status;
     apps[idx].read = true; writeApplications(apps);
     res.json({ application: apps[idx] });
+});
+
+app.patch('/api/admin/applications/:id/notes', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const apps = readApplications();
+    const idx = apps.findIndex(a => a.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'Not found' });
+    apps[idx].notes = (req.body.notes || '').slice(0, 5000);
+    writeApplications(apps);
+    res.json({ application: apps[idx] });
+});
+
+app.post('/api/admin/applications/bulk/delete', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const idSet = new Set(ids);
+    const apps = readApplications();
+    const filtered = apps.filter(a => !idSet.has(a.id));
+    writeApplications(filtered);
+    res.json({ message: 'Deleted', deleted: apps.length - filtered.length });
+});
+
+app.patch('/api/admin/applications/bulk/read', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const apps = readApplications();
+    const idSet = new Set(ids);
+    let updated = 0;
+    for (const a of apps) {
+        if (idSet.has(a.id) && !a.read) {
+            a.read = true;
+            updated++;
+        }
+    }
+    writeApplications(apps);
+    res.json({ message: 'Updated', updated });
+});
+
+app.get('/api/admin/applications/export.csv', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const apps = readApplications().map(a => ({
+        id: a.id,
+        position: a.position,
+        name: a.name,
+        email: a.email,
+        discord: a.discord || '',
+        portfolio: a.portfolio || '',
+        referral: a.referral || '',
+        status: a.status || 'new',
+        read: a.read,
+        notes: a.notes || '',
+        createdAt: a.createdAt,
+        experience: a.experience,
+        answers: (a.answers || []).map(x => `${x.question}: ${x.answer || ''}`).join(' | ')
+    }));
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="applications.csv"');
+    res.send(toCsv(apps));
 });
 
 app.delete('/api/admin/applications/:id', (req, res) => {

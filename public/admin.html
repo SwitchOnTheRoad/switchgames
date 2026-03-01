@@ -938,7 +938,12 @@
         <div class="list-panel">
             <div class="list-panel-head">
                 <span class="list-panel-title">Messages</span>
-                <span class="list-panel-count" id="messages-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button class="btn" id="messages-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
+                    <button class="btn" id="messages-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
+                    <button class="btn btn-danger" id="messages-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+                    <span class="list-panel-count" id="messages-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
             </div>
             <div class="list-search">
                 <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -968,7 +973,12 @@
         <div class="list-panel">
             <div class="list-panel-head">
                 <span class="list-panel-title">Applications</span>
-                <span class="list-panel-count" id="applications-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button class="btn" id="applications-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
+                    <button class="btn" id="applications-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
+                    <button class="btn btn-danger" id="applications-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+                    <span class="list-panel-count" id="applications-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
             </div>
             <div class="list-search">
                 <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1299,6 +1309,7 @@ function updateUnreadBadge(id, items) {
 // ═══════════════════════════════════════
 let messages = [];
 let activeMessageId = null;
+let selectedMessageIds = new Set();
 
 async function loadMessages() {
     try {
@@ -1315,8 +1326,11 @@ function renderMessages() {
     if (!messages.length) { list.innerHTML = '<div class="list-empty">No messages yet.</div>'; return; }
     list.innerHTML = messages.map(m => `
         <div class="list-item ${m.id === activeMessageId ? 'active' : ''}" data-id="${m.id}" data-search="${(m.name + ' ' + m.subject + ' ' + m.email).toLowerCase()}">
-            <div class="list-item-name" style="${!m.read ? 'color:var(--text)' : ''}">
-                ${!m.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${m.name}
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+                <input type="checkbox" class="bulk-message-checkbox" data-id="${m.id}" ${selectedMessageIds.has(m.id) ? 'checked' : ''} onclick="event.stopPropagation();">
+                <div class="list-item-name" style="${!m.read ? 'color:var(--text)' : ''}">
+                    ${!m.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${m.name}
+                </div>
             </div>
             <div class="list-item-tags">
                 <span class="item-tag" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${m.subject}</span>
@@ -1327,6 +1341,11 @@ function renderMessages() {
     document.querySelectorAll('#messages-list .list-item').forEach(el =>
         el.addEventListener('click', () => openMessage(el.dataset.id))
     );
+    document.querySelectorAll('.bulk-message-checkbox').forEach(cb => cb.addEventListener('change', e => {
+        const id = e.target.dataset.id;
+        if (e.target.checked) selectedMessageIds.add(id);
+        else selectedMessageIds.delete(id);
+    }));
 }
 
 async function openMessage(id) {
@@ -1409,6 +1428,7 @@ document.getElementById('messages-search').addEventListener('input', function ()
 // ═══════════════════════════════════════
 let applications = [];
 let activeApplicationId = null;
+let selectedApplicationIds = new Set();
 
 const STATUS_STYLES = {
     new:         { pill: 'pill-live',     label: 'New' },
@@ -1434,8 +1454,11 @@ function renderApplications() {
         const s = STATUS_STYLES[a.status] || STATUS_STYLES.new;
         return `
         <div class="list-item ${a.id === activeApplicationId ? 'active' : ''}" data-id="${a.id}" data-search="${(a.name + ' ' + a.position + ' ' + a.email).toLowerCase()}">
-            <div class="list-item-name" style="${!a.read ? 'color:var(--text)' : ''}">
-                ${!a.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${a.name}
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+                <input type="checkbox" class="bulk-application-checkbox" data-id="${a.id}" ${selectedApplicationIds.has(a.id) ? 'checked' : ''} onclick="event.stopPropagation();">
+                <div class="list-item-name" style="${!a.read ? 'color:var(--text)' : ''}">
+                    ${!a.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${a.name}
+                </div>
             </div>
             <div class="list-item-tags">
                 <span class="item-tag primary">${a.position}</span>
@@ -1446,6 +1469,11 @@ function renderApplications() {
     document.querySelectorAll('#applications-list .list-item').forEach(el =>
         el.addEventListener('click', () => openApplication(el.dataset.id))
     );
+    document.querySelectorAll('.bulk-application-checkbox').forEach(cb => cb.addEventListener('change', e => {
+        const id = e.target.dataset.id;
+        if (e.target.checked) selectedApplicationIds.add(id);
+        else selectedApplicationIds.delete(id);
+    }));
 }
 
 async function openApplication(id) {
@@ -1484,6 +1512,7 @@ async function openApplication(id) {
                 </div>
                 ${a.discord ? `<div><div class="field-label">Discord</div><div style="font-size:0.875rem;color:var(--muted);">${a.discord}</div></div>` : ''}
                 ${a.portfolio ? `<div><div class="field-label">Portfolio / GitHub</div><a href="${a.portfolio}" target="_blank" style="font-size:0.875rem;color:var(--primary);text-decoration:none;word-break:break-all;">${a.portfolio}</a></div>` : ''}
+                ${a.referral ? `<div><div class="field-label">Referral Source</div><div style="font-size:0.875rem;color:var(--muted);">${a.referral}</div></div>` : ''}
             </div>
             <div>
                 <div class="field-label">Submitted</div>
@@ -1494,6 +1523,10 @@ async function openApplication(id) {
                 <div style="background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;color:var(--muted);font-size:0.875rem;line-height:1.8;white-space:pre-wrap;">${a.experience}</div>
             </div>
             ${answersHTML}
+            <div>
+                <div class="field-label">Internal Notes (admin only)</div>
+                <textarea id="app-notes" class="field-textarea" rows="4" placeholder="Add interview notes, follow-up context, etc.">${a.notes || ""}</textarea>
+            </div>
             <a href="mailto:${a.email}?subject=Your application for ${encodeURIComponent(a.position)} at Switch" class="btn btn-primary" style="align-self:flex-start;">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 3 1.664 9.136L12 12l7.336-.864L21 3 3 3z"/><path d="m12 12 0 9"/></svg>
                 Reply via Email
@@ -1548,6 +1581,107 @@ document.getElementById('delete-application-btn').addEventListener('click', () =
             document.getElementById('applications-count').textContent = `${applications.length} total`;
             toast('Application deleted');
         } catch { toast('Failed to delete', 'error'); }
+    });
+});
+
+
+
+document.getElementById('save-app-status-btn').insertAdjacentHTML('afterend', '<button class="btn" id="save-app-notes-btn" style="margin-left:0.4rem;">Save Notes</button>');
+
+document.getElementById('save-app-notes-btn').addEventListener('click', async () => {
+    if (!activeApplicationId) return;
+    const notes = document.getElementById('app-notes')?.value || '';
+    try {
+        const res = await fetch(`/api/admin/applications/${activeApplicationId}/notes`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ notes })
+        });
+        if (!res.ok) throw new Error('save fail');
+        const d = await res.json();
+        const app = applications.find(a => a.id === activeApplicationId);
+        if (app) app.notes = d.application.notes || '';
+        toast('Notes saved');
+    } catch { toast('Failed to save notes', 'error'); }
+});
+
+async function downloadAdminCsv(path, filename) {
+    const res = await fetch(path, { headers: { 'x-admin-token': token } });
+    if (!res.ok) throw new Error('Export failed');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('messages-export-btn').addEventListener('click', async () => {
+    try { await downloadAdminCsv('/api/admin/contacts/export.csv', 'contacts.csv'); toast('Contacts exported'); }
+    catch { toast('Export failed', 'error'); }
+});
+
+document.getElementById('applications-export-btn').addEventListener('click', async () => {
+    try { await downloadAdminCsv('/api/admin/applications/export.csv', 'applications.csv'); toast('Applications exported'); }
+    catch { toast('Export failed', 'error'); }
+});
+
+document.getElementById('messages-mark-read-btn').addEventListener('click', async () => {
+    const ids = [...selectedMessageIds];
+    if (!ids.length) return toast('Select messages first', 'error');
+    try {
+        await fetch('/api/admin/contacts/bulk/read', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+        messages = messages.map(m => ids.includes(m.id) ? { ...m, read: true } : m);
+        renderMessages();
+        updateUnreadBadge('messages', messages);
+        toast('Marked as read');
+    } catch { toast('Bulk update failed', 'error'); }
+});
+
+document.getElementById('applications-mark-read-btn').addEventListener('click', async () => {
+    const ids = [...selectedApplicationIds];
+    if (!ids.length) return toast('Select applications first', 'error');
+    try {
+        await fetch('/api/admin/applications/bulk/read', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+        applications = applications.map(a => ids.includes(a.id) ? { ...a, read: true } : a);
+        renderApplications();
+        updateUnreadBadge('applications', applications);
+        toast('Marked as read');
+    } catch { toast('Bulk update failed', 'error'); }
+});
+
+document.getElementById('messages-bulk-delete-btn').addEventListener('click', () => {
+    const ids = [...selectedMessageIds];
+    if (!ids.length) return toast('Select messages first', 'error');
+    confirm('Delete selected messages?', `This will delete ${ids.length} messages.`, async () => {
+        try {
+            await fetch('/api/admin/contacts/bulk/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+            messages = messages.filter(m => !selectedMessageIds.has(m.id));
+            selectedMessageIds.clear();
+            renderMessages();
+            updateUnreadBadge('messages', messages);
+            document.getElementById('messages-count').textContent = `${messages.length} total`;
+            toast('Messages deleted');
+        } catch { toast('Bulk delete failed', 'error'); }
+    });
+});
+
+document.getElementById('applications-bulk-delete-btn').addEventListener('click', () => {
+    const ids = [...selectedApplicationIds];
+    if (!ids.length) return toast('Select applications first', 'error');
+    confirm('Delete selected applications?', `This will delete ${ids.length} applications.`, async () => {
+        try {
+            await fetch('/api/admin/applications/bulk/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+            applications = applications.filter(a => !selectedApplicationIds.has(a.id));
+            selectedApplicationIds.clear();
+            renderApplications();
+            updateUnreadBadge('applications', applications);
+            document.getElementById('applications-count').textContent = `${applications.length} total`;
+            toast('Applications deleted');
+        } catch { toast('Bulk delete failed', 'error'); }
     });
 });
 

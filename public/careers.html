@@ -289,6 +289,9 @@
     let allCareers = [];
     let selectedCareer = null;
 
+    const refParam = new URLSearchParams(location.search).get('ref');
+    if (refParam) localStorage.setItem('sw_referral', refParam.slice(0, 120));
+
     let toastTimer;
     function showToast(msg) {
         const t = document.getElementById('sw-toast');
@@ -441,7 +444,10 @@
 
     function openApply() {
         if (!selectedCareer) return;
-        window.location.href = `/apply?role=${selectedCareer.id}`;
+        const ref = localStorage.getItem('sw_referral');
+        const params = new URLSearchParams({ role: selectedCareer.id });
+        if (ref) params.set('ref', ref);
+        window.location.href = `/apply?${params.toString()}`;
     }
 
     function closeModal() {}
