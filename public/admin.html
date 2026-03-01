@@ -5,30 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Admin — Switch</title>
     <meta name="robots" content="noindex, nofollow"/>
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
     <style>
         :root {
             --primary: #FBBF24;
             --bg: #0A0A0A;
-            --surface: #0f0f0f;
-            --surface-2: #161616;
-            --surface-3: #1e1e1e;
-            --border: #222222;
-            --border-2: #2d2d2d;
-            --text: #F0F0F0;
-            --muted: #707070;
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
             --danger: #ef4444;
-            --success: #22c55e;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; overflow: hidden; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
-        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.2; }
 
-        /* ── LOGIN ── */
+        /* ═══════════════════════════════════════
+           LOGIN
+        ═══════════════════════════════════════ */
         #login-screen {
             display: flex;
             align-items: center;
@@ -39,146 +38,71 @@
 
         .login-card {
             width: 100%;
-            max-width: 380px;
+            max-width: 360px;
             padding: 0 1.5rem;
         }
 
         .login-logo {
-            height: 36px;
+            height: 32px;
             display: block;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 3rem;
+        }
+
+        .login-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
         }
 
         .login-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 0.375rem;
-        }
-
-        .login-sub {
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.8rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
             margin-bottom: 2rem;
         }
 
         .login-field {
-            position: relative;
-            margin-bottom: 0.875rem;
+            margin-bottom: 0.75rem;
         }
 
         .login-field input {
             width: 100%;
             padding: 0.75rem 1rem;
-            background: var(--surface-2);
-            border: 1px solid var(--border-2);
-            border-radius: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             color: var(--text);
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             outline: none;
             transition: border-color 0.15s;
+            border-radius: 0;
         }
 
         .login-field input:focus { border-color: var(--primary); }
+        .login-field input::placeholder { color: #3a3a3a; }
 
         .login-error {
             display: none;
-            background: rgba(239,68,68,0.08);
-            border: 1px solid rgba(239,68,68,0.25);
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.2);
             color: #f87171;
-            border-radius: 6px;
             padding: 0.625rem 1rem;
             font-size: 0.8rem;
-            margin-bottom: 0.875rem;
-            text-align: center;
+            margin-bottom: 0.75rem;
         }
 
-        /* ── APP SHELL ── */
-        #app { display: none; height: 100vh; flex-direction: column; }
+        /* ═══════════════════════════════════════
+           APP SHELL — 3 COLUMN
+        ═══════════════════════════════════════ */
+        #app { display: none; height: 100vh; flex-direction: row; }
 
-        /* ── TOP BAR ── */
-        .topbar {
-            height: 52px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 1.25rem;
-            gap: 1rem;
-            flex-shrink: 0;
-            z-index: 10;
-        }
-
-        .topbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-right: 1.5rem;
-        }
-
-        .topbar-logo { height: 26px; }
-
-        .topbar-badge {
-            font-size: 0.62rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--primary);
-            background: rgba(251,191,36,0.1);
-            border: 1px solid rgba(251,191,36,0.2);
-            padding: 2px 8px;
-            border-radius: 3px;
-        }
-
-        .topbar-nav {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            flex: 1;
-        }
-
-        .nav-tab {
-            padding: 0.4rem 1rem;
-            border-radius: 5px;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.825rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.15s, background 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-tab:hover { color: var(--text); background: var(--surface-2); }
-        .nav-tab.active { color: var(--primary); background: rgba(251,191,36,0.08); }
-
-        .nav-tab-icon { font-size: 0.85rem; }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
-        }
-
-        /* ── WORKSPACE ── */
-        .workspace {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .panel { display: none; width: 100%; }
-        .panel.active { display: flex; }
-
-        /* ── SIDEBAR ── */
-        .sidebar {
-            width: 300px;
+        /* ── LEFT RAIL (section switcher) ── */
+        .rail {
+            width: 220px;
             flex-shrink: 0;
             background: var(--surface);
             border-right: 1px solid var(--border);
@@ -187,313 +111,412 @@
             overflow: hidden;
         }
 
-        .sidebar-head {
-            padding: 0.875rem 1rem;
+        .rail-header {
+            padding: 1.5rem 1.5rem 1.25rem;
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
         }
 
-        .sidebar-head-title {
-            font-size: 0.72rem;
+        .rail-logo {
+            height: 28px;
+            display: block;
+            margin-bottom: 0.875rem;
+        }
+
+        .rail-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.6rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.14em;
-            color: var(--muted);
+            color: var(--primary);
+            background: rgba(251,191,36,0.08);
+            border: 1px solid rgba(251,191,36,0.2);
+            padding: 2px 8px;
+        }
+
+        .rail-nav {
+            padding: 0.75rem 0;
             flex: 1;
         }
 
-        .sidebar-search {
-            padding: 0.625rem 1rem;
-            border-bottom: 1px solid var(--border);
-            position: relative;
-        }
-
-        .sidebar-search input {
-            width: 100%;
-            padding: 0.5rem 0.75rem 0.5rem 2rem;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-            outline: none;
-            transition: border-color 0.15s;
-        }
-
-        .sidebar-search input:focus { border-color: var(--primary); }
-        .sidebar-search input::placeholder { color: #404040; }
-
-        .sidebar-search-icon {
-            position: absolute;
-            left: 1.625rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #404040;
-            pointer-events: none;
-        }
-
-        .items-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0.5rem;
-        }
-
-        .items-list::-webkit-scrollbar { width: 3px; }
-        .items-list::-webkit-scrollbar-thumb { background: var(--border-2); }
-
-        .list-item {
-            padding: 0.875rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            margin-bottom: 2px;
-            transition: all 0.12s;
-        }
-
-        .list-item:hover { background: var(--surface-2); }
-        .list-item.active { background: var(--surface-2); border-color: rgba(251,191,36,0.2); }
-
-        .list-item-title {
-            font-weight: 600;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 0.375rem;
-            color: var(--muted);
-            transition: color 0.12s;
-        }
-
-        .list-item.active .list-item-title { color: var(--text); }
-
-        .list-item-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.72rem;
-            color: var(--muted);
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 1px 7px;
-            border-radius: 3px;
-            font-size: 0.65rem;
+        .rail-label {
+            font-size: 0.6rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .badge-live { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
-        .badge-draft { background: var(--surface-3); color: var(--muted); border: 1px solid var(--border); }
-        .badge-featured { background: rgba(251,191,36,0.1); color: var(--primary); border: 1px solid rgba(251,191,36,0.2); }
-
-        .no-items {
-            padding: 3rem 1.5rem;
-            text-align: center;
+            letter-spacing: 0.18em;
             color: var(--muted);
-            font-size: 0.8rem;
-            line-height: 1.8;
+            padding: 0 1.25rem;
+            margin: 0.75rem 0 0.375rem;
+            display: block;
         }
 
-        /* ── EDITOR ── */
-        .editor-area {
-            flex: 1;
+        .rail-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 1.25rem;
+            color: var(--muted);
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            transition: color 0.12s, background 0.12s;
+            border-left: 2px solid transparent;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .rail-link:hover { color: var(--text); background: var(--surface-mid); }
+        .rail-link.active { color: var(--primary); border-left-color: var(--primary); background: rgba(251,191,36,0.05); }
+
+        .rail-link svg { flex-shrink: 0; opacity: 0.6; }
+        .rail-link.active svg { opacity: 1; color: var(--primary); }
+
+        .rail-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* ── LIST PANEL ── */
+        .list-panel {
+            width: 320px;
+            flex-shrink: 0;
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             background: var(--bg);
         }
 
-        .editor-empty {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            color: var(--muted);
-        }
-
-        .editor-empty-icon {
-            width: 56px;
-            height: 56px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            background: var(--surface);
-        }
-
-        .editor-empty p { font-size: 0.875rem; }
-
-        .editor-form { display: none; flex: 1; flex-direction: column; overflow: hidden; }
-
-        /* ── EDITOR TOOLBAR ── */
-        .editor-bar {
-            padding: 0.75rem 1.5rem;
+        .list-panel-head {
+            padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 0.625rem;
-            background: var(--surface);
+            justify-content: space-between;
+            gap: 1rem;
             flex-shrink: 0;
         }
 
-        .editor-bar-sep { width: 1px; height: 20px; background: var(--border); margin: 0 0.25rem; }
-        .editor-bar-spacer { flex: 1; }
-
-        /* ── EDITOR BODY ── */
-        .editor-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 2rem 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .editor-body::-webkit-scrollbar { width: 4px; }
-        .editor-body::-webkit-scrollbar-thumb { background: var(--border-2); }
-
-        /* ── FORM ELEMENTS ── */
-        .field-group { display: flex; flex-direction: column; gap: 0.5rem; }
-        .field-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
-
-        .field-input,
-        .field-textarea,
-        .field-select {
-            padding: 0.625rem 0.875rem;
-            background: var(--surface-2);
-            border: 1px solid var(--border-2);
-            border-radius: 5px;
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            outline: none;
-            transition: border-color 0.15s;
-            width: 100%;
-        }
-
-        .field-input:focus, .field-textarea:focus, .field-select:focus { border-color: var(--primary); }
-        .field-input::placeholder, .field-textarea::placeholder { color: #383838; }
-        .field-textarea { resize: vertical; }
-
-        /* Post title - big */
-        .post-title-input {
-            padding: 0.5rem 0;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            border-radius: 0;
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            outline: none;
-            width: 100%;
-            transition: border-color 0.15s;
-        }
-        .post-title-input:focus { border-color: var(--primary); }
-        .post-title-input::placeholder { color: #383838; }
-
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-
-        /* ── QUILL ── */
-        .ql-toolbar.ql-snow {
-            background: var(--surface-2) !important;
-            border: 1px solid var(--border-2) !important;
-            border-radius: 5px 5px 0 0 !important;
-        }
-        .ql-container.ql-snow {
-            background: var(--surface-2) !important;
-            border: 1px solid var(--border-2) !important;
-            border-top: none !important;
-            border-radius: 0 0 5px 5px !important;
-            color: var(--text) !important;
-            min-height: 280px;
-        }
-        .ql-editor { color: var(--text) !important; min-height: 260px; line-height: 1.8; font-size: 0.9rem; }
-        .ql-editor.ql-blank::before { color: #383838 !important; }
-        .ql-snow .ql-stroke { stroke: var(--muted) !important; }
-        .ql-snow .ql-fill { fill: var(--muted) !important; }
-        .ql-snow .ql-picker { color: var(--muted) !important; }
-        .ql-snow .ql-picker-options { background: var(--surface-3) !important; border: 1px solid var(--border-2) !important; }
-        .ql-snow.ql-toolbar button:hover .ql-stroke { stroke: var(--text) !important; }
-
-        /* ── DYNAMIC LIST ── */
-        .dyn-list { display: flex; flex-direction: column; gap: 0.5rem; }
-        .dyn-item { display: flex; gap: 0.5rem; align-items: center; }
-        .dyn-item input { flex: 1; }
-        .dyn-remove {
-            width: 30px; height: 30px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: all 0.12s;
-        }
-        .dyn-remove:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: var(--danger); }
-
-        .add-item-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.375rem;
-            padding: 0.5rem 0.875rem;
-            background: transparent;
-            border: 1px dashed var(--border-2);
-            border-radius: 5px;
-            color: var(--muted);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.12s;
-            margin-top: 0.25rem;
-        }
-        .add-item-btn:hover { border-color: var(--primary); color: var(--primary); }
-
-        /* ── SECTION DIVIDER ── */
-        .form-divider {
-            border: none;
-            border-top: 1px solid var(--border);
-        }
-
-        .form-section-label {
-            font-size: 0.68rem;
+        .list-panel-title {
+            font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.18em;
             color: var(--muted);
         }
 
-        /* ── THUMBNAIL ── */
-        .thumb-preview {
+        .list-search {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .list-search input {
             width: 100%;
-            aspect-ratio: 16/9;
-            background: var(--surface-2);
-            border: 1px solid var(--border-2);
-            border-radius: 5px;
+            padding: 0.55rem 0.875rem 0.55rem 2.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .list-search input::placeholder { color: #3a3a3a; }
+        .list-search input:focus { border-color: var(--primary); }
+
+        .list-search-icon {
+            position: absolute;
+            left: 2.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3a3a3a;
+            pointer-events: none;
+        }
+
+        .list-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .list-items::-webkit-scrollbar { width: 3px; }
+        .list-items::-webkit-scrollbar-thumb { background: var(--border); }
+
+        /* Career-page-style list items */
+        .list-item {
+            padding: 1.125rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.12s;
+            border-left: 3px solid transparent;
+        }
+
+        .list-item:hover { background: var(--surface); }
+        .list-item.active { background: var(--surface); border-left-color: var(--primary); }
+
+        .list-item-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.12s;
+        }
+
+        .list-item.active .list-item-name { color: var(--primary); }
+
+        .list-item-tags {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .item-tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        .item-tag::before { content: '·'; margin-right: 0.3rem; color: var(--border); }
+        .item-tag:first-child::before { display: none; }
+        .item-tag.primary { color: var(--primary); }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 1px 6px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .pill-live { background: rgba(34,197,94,0.08); color: #4ade80; border: 1px solid rgba(34,197,94,0.18); }
+        .pill-draft { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+        .pill-featured { background: rgba(251,191,36,0.08); color: var(--primary); border: 1px solid rgba(251,191,36,0.18); }
+
+        .list-empty {
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        /* ── SECTION VISIBILITY ── */
+        .section { display: none; width: 100%; }
+        .section.active { display: flex; }
+
+        /* ── DETAIL / EDITOR PANEL ── */
+        .detail-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .detail-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            text-align: center;
+            padding: 4rem 2rem;
+            gap: 1rem;
+        }
+
+        .detail-empty svg { opacity: 0.12; }
+        .detail-empty p { font-size: 0.875rem; }
+
+        .detail-form {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Toolbar at top of editor */
+        .detail-toolbar {
+            padding: 0.875rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--surface);
+            flex-shrink: 0;
+        }
+
+        .toolbar-spacer { flex: 1; }
+        .toolbar-sep { width: 1px; height: 18px; background: var(--border); margin: 0 0.125rem; }
+
+        /* Scrollable form body */
+        .detail-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .detail-body::-webkit-scrollbar { width: 4px; }
+        .detail-body::-webkit-scrollbar-thumb { background: var(--border); }
+
+        /* ── FORM FIELDS ── */
+        .field-label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .field-input,
+        .field-textarea,
+        .field-select {
+            width: 100%;
+            padding: 0.7rem 0.875rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .field-input:focus, .field-textarea:focus, .field-select:focus { border-color: var(--primary); }
+        .field-input::placeholder, .field-textarea::placeholder { color: #383838; }
+        .field-textarea { resize: vertical; }
+        .field-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23808080' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; cursor: pointer; }
+
+        /* Big title input (blog) */
+        .title-input {
+            width: 100%;
+            padding: 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .title-input:focus { border-color: var(--primary); }
+        .title-input::placeholder { color: #2a2a2a; }
+
+        /* Grid row */
+        .field-row {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .field-row-2 { grid-template-columns: 1fr 1fr; }
+
+        /* Section divider inside form */
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.875rem;
+        }
+
+        .form-section-label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--primary);
+            display: block;
+            padding-bottom: 0.625rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Dynamic list (requirements, etc.) */
+        .dyn-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+        .dyn-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .dyn-item .field-input { flex: 1; }
+
+        .dyn-remove {
+            width: 32px;
+            height: 36px;
+            flex-shrink: 0;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.625rem;
+            font-size: 1rem;
+            transition: border-color 0.12s, color 0.12s;
         }
-        .thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
-        .thumb-preview-ph { color: var(--muted); font-size: 0.78rem; }
 
-        /* ── TOGGLE ── */
+        .dyn-remove:hover { border-color: var(--danger); color: var(--danger); }
+
+        .add-item-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            background: transparent;
+            border: 1px dashed var(--border);
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.5rem 0.875rem;
+            cursor: pointer;
+            transition: border-color 0.12s, color 0.12s;
+            align-self: flex-start;
+        }
+
+        .add-item-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Thumbnail preview */
+        .thumb-wrap { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .thumb-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            max-width: 360px;
+        }
+
+        .thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-preview-ph { font-size: 0.78rem; color: #3a3a3a; }
+
+        /* Toggle checkbox row */
         .toggle-row {
             display: flex;
             align-items: center;
@@ -503,13 +526,13 @@
             color: var(--muted);
             cursor: pointer;
             padding: 0.4rem 0.75rem;
-            border-radius: 5px;
             border: 1px solid var(--border);
             transition: all 0.12s;
             user-select: none;
         }
-        .toggle-row:hover { border-color: var(--border-2); color: var(--text); }
-        .toggle-row input[type=checkbox] { accent-color: var(--primary); width: 14px; height: 14px; cursor: pointer; }
+
+        .toggle-row:hover { border-color: #3a3a3a; color: var(--text); }
+        .toggle-row input[type=checkbox] { accent-color: var(--primary); width: 13px; height: 13px; cursor: pointer; }
 
         /* ── BUTTONS ── */
         .btn {
@@ -517,8 +540,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.4rem;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            padding: 0.5rem 1.125rem;
             border: none;
             font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
@@ -529,159 +551,198 @@
             text-decoration: none;
             letter-spacing: 0.01em;
         }
+
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         .btn-primary { background: var(--primary); color: #000; }
         .btn-primary:hover:not(:disabled) { background: #E5A800; }
 
         .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-        .btn-ghost:hover { color: var(--text); border-color: var(--border-2); background: var(--surface-2); }
+        .btn-ghost:hover { color: var(--text); border-color: #3a3a3a; }
 
-        .btn-danger-ghost { background: transparent; color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
-        .btn-danger-ghost:hover { background: rgba(239,68,68,0.08); }
+        .btn-danger { background: transparent; color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+        .btn-danger:hover { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.4); }
 
-        .btn-upload { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border-2); }
+        .btn-upload { background: var(--surface); color: var(--muted); border: 1px solid var(--border); cursor: pointer; }
         .btn-upload:hover { border-color: var(--primary); color: var(--primary); }
-        .btn-upload svg { flex-shrink: 0; }
 
         /* ── TOAST ── */
         .toast {
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background: var(--surface-2);
-            border: 1px solid var(--border-2);
-            border-radius: 6px;
-            padding: 0.75rem 1.25rem;
-            font-size: 0.825rem;
+            bottom: 1.75rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
             z-index: 9999;
-            transform: translateY(12px);
             opacity: 0;
-            transition: transform 0.2s, opacity 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            white-space: nowrap;
         }
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast.success { border-color: rgba(251,191,36,0.25); color: var(--primary); }
-        .toast.error { border-color: rgba(239,68,68,0.25); color: #f87171; }
+
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: rgba(251,191,36,0.3); color: var(--primary); }
+        .toast.error { border-color: rgba(239,68,68,0.3); color: #f87171; }
 
         /* ── CONFIRM DIALOG ── */
         .confirm-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.75);
             z-index: 2000;
             align-items: center;
             justify-content: center;
         }
+
         .confirm-overlay.open { display: flex; }
+
         .confirm-box {
-            background: var(--surface-2);
-            border: 1px solid var(--border-2);
-            border-radius: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             padding: 2rem;
-            max-width: 380px;
+            max-width: 360px;
             width: 100%;
             margin: 1rem;
         }
-        .confirm-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .confirm-body { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.75rem; line-height: 1.6; }
+
+        .confirm-title { font-size: 1.1rem; margin-bottom: 0.625rem; }
+        .confirm-body { color: var(--muted); font-size: 0.875rem; margin-bottom: 2rem; line-height: 1.7; }
         .confirm-actions { display: flex; gap: 0.625rem; justify-content: flex-end; }
+
+        /* ── QUILL OVERRIDES ── */
+        .ql-toolbar.ql-snow {
+            border: 1px solid var(--border);
+            border-bottom: none;
+            background: var(--surface);
+        }
+
+        .ql-container.ql-snow {
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            min-height: 240px;
+        }
+
+        .ql-editor { color: var(--text); min-height: 220px; }
+        .ql-editor.ql-blank::before { color: #383838; font-style: normal; }
+        .ql-snow .ql-stroke { stroke: var(--muted); }
+        .ql-snow .ql-fill { fill: var(--muted); }
+        .ql-snow .ql-picker { color: var(--muted); }
+        .ql-snow .ql-picker-options { background: var(--surface); border-color: var(--border); }
+        .ql-snow .ql-picker-item { color: var(--muted); }
+        .ql-snow .ql-picker-item:hover, .ql-snow .ql-picker-label:hover { color: var(--primary); }
+        .ql-snow button:hover .ql-stroke, .ql-snow .ql-active .ql-stroke { stroke: var(--primary); }
+        .ql-snow button:hover .ql-fill, .ql-snow .ql-active .ql-fill { fill: var(--primary); }
+        .ql-snow .ql-tooltip { background: var(--surface); border-color: var(--border); color: var(--text); box-shadow: none; }
+        .ql-snow .ql-tooltip input[type=text] { background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; }
+        .ql-snow .ql-tooltip a.ql-action::after { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ═══════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════ -->
 <div id="login-screen">
     <div class="login-card">
-        <img src="logo.png" alt="Switch" class="login-logo">
-        <h2 class="login-title">Admin Panel</h2>
-        <p class="login-sub">Switch Studio — Restricted Access</p>
+        <img src="/logo.png" alt="Switch" class="login-logo">
+        <span class="login-eyebrow">Restricted Access</span>
+        <h1 class="login-title">Admin Panel</h1>
         <div class="login-field">
-            <input type="password" id="login-input" placeholder="Password" autocomplete="current-password">
+            <input type="password" id="login-input" placeholder="Enter password" autocomplete="current-password">
         </div>
         <div class="login-error" id="login-error">Incorrect password. Try again.</div>
-        <button class="btn btn-primary" id="login-btn" style="width:100%;padding:0.7rem;font-size:0.875rem;">Sign in</button>
+        <button class="btn btn-primary" id="login-btn" style="width:100%;padding:0.75rem;font-size:0.875rem;">Sign In</button>
     </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-    <!-- TOP BAR -->
-    <div class="topbar">
-        <div class="topbar-brand">
-            <img src="logo.png" alt="Switch" class="topbar-logo">
-            <span class="topbar-badge">Admin</span>
+<!-- ═══════════════════════════════════════
+     APP
+═══════════════════════════════════════ -->
+<div id="app" style="display:none;flex-direction:row;height:100vh;">
+
+    <!-- RAIL -->
+    <aside class="rail">
+        <div class="rail-header">
+            <img src="/logo.png" alt="Switch" class="rail-logo">
+            <span class="rail-badge">Admin</span>
         </div>
-        <nav class="topbar-nav">
-            <button class="nav-tab active" data-tab="games">
-                <span class="nav-tab-icon">🎮</span> Games
+        <nav class="rail-nav">
+            <span class="rail-label">Content</span>
+            <button class="rail-link active" data-tab="games">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                Games
             </button>
-            <button class="nav-tab" data-tab="blog">
-                <span class="nav-tab-icon">📝</span> Blog
+            <button class="rail-link" data-tab="blog">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Blog
             </button>
-            <button class="nav-tab" data-tab="careers">
-                <span class="nav-tab-icon">💼</span> Careers
+            <button class="rail-link" data-tab="careers">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                Careers
             </button>
         </nav>
-        <div class="topbar-right">
-            <a href="/" target="_blank" class="btn btn-ghost" style="font-size:0.78rem;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <div class="rail-footer">
+            <a href="/" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;font-size:0.78rem;gap:0.5rem;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 View Site
             </a>
-            <button class="btn btn-ghost" id="logout-btn" style="font-size:0.78rem;">Sign Out</button>
+            <button class="btn btn-ghost" id="logout-btn" style="justify-content:flex-start;font-size:0.78rem;">Sign Out</button>
         </div>
-    </div>
+    </aside>
 
-    <!-- WORKSPACE -->
-    <div class="workspace">
-
-        <!-- GAMES PANEL -->
-        <div class="panel active" id="panel-games">
-            <div class="sidebar">
-                <div class="sidebar-head">
-                    <span class="sidebar-head-title">Games</span>
-                    <button class="btn btn-primary" id="new-game-btn" style="font-size:0.75rem;padding:0.375rem 0.75rem;">+ New</button>
-                </div>
-                <div class="items-list" id="games-list">
-                    <div class="no-items">Loading…</div>
-                </div>
+    <!-- ═══ GAMES SECTION ═══ -->
+    <div class="section active" id="section-games">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Games</span>
+                <button class="btn btn-primary" id="new-game-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
             </div>
-            <div class="editor-area">
-                <div class="editor-empty" id="game-empty">
-                    <div class="editor-empty-icon">🎮</div>
-                    <p>Select a game or create a new one</p>
+            <div class="list-items" id="games-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="game-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <p>Select a game or create a new one</p>
+            </div>
+            <div class="detail-form" id="game-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-game-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="game-active"> Active
+                    </label>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="game-featured"> Featured
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-game-btn">Delete</button>
                 </div>
-                <div class="editor-form" id="game-form">
-                    <div class="editor-bar">
-                        <button class="btn btn-primary" id="save-game-btn">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                            Save
-                        </button>
-                        <label class="toggle-row">
-                            <input type="checkbox" id="game-active"> Active
-                        </label>
-                        <label class="toggle-row">
-                            <input type="checkbox" id="game-featured"> Featured
-                        </label>
-                        <div class="editor-bar-spacer"></div>
-                        <button class="btn btn-danger-ghost" id="delete-game-btn">Delete</button>
+                <div class="detail-body">
+                    <div>
+                        <label class="field-label">Place ID *</label>
+                        <input class="field-input" type="number" id="game-place-id" placeholder="e.g. 88967358637066">
                     </div>
-                    <div class="editor-body">
-                        <div class="field-group">
-                            <span class="field-label">Place ID *</span>
-                            <input class="field-input" type="number" id="game-place-id" placeholder="e.g. 2753915549">
-                        </div>
-                        <div class="field-group">
-                            <span class="field-label">Thumbnail</span>
+                    <div>
+                        <label class="field-label">Thumbnail</label>
+                        <div class="thumb-wrap">
                             <div class="thumb-preview" id="game-thumb-preview">
-                                <span class="thumb-preview-ph">No thumbnail uploaded</span>
+                                <span class="thumb-preview-ph">No image uploaded</span>
                             </div>
-                            <label class="btn btn-upload" style="cursor:pointer;">
+                            <label class="btn btn-upload" style="align-self:flex-start;cursor:pointer;">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                                Upload Thumbnail
+                                Upload Image
                                 <input type="file" id="game-img-input" accept="image/*" style="display:none">
                             </label>
                             <input type="hidden" id="game-thumb-url">
@@ -690,126 +751,133 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- BLOG PANEL -->
-        <div class="panel" id="panel-blog">
-            <div class="sidebar">
-                <div class="sidebar-head">
-                    <span class="sidebar-head-title">Posts</span>
-                    <button class="btn btn-primary" id="new-post-btn" style="font-size:0.75rem;padding:0.375rem 0.75rem;">+ New</button>
-                </div>
-                <div class="sidebar-search">
-                    <svg class="sidebar-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input type="text" id="blog-search" placeholder="Search posts…">
-                </div>
-                <div class="items-list" id="posts-list">
-                    <div class="no-items">Loading…</div>
-                </div>
+    <!-- ═══ BLOG SECTION ═══ -->
+    <div class="section" id="section-blog">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Posts</span>
+                <button class="btn btn-primary" id="new-post-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
             </div>
-            <div class="editor-area">
-                <div class="editor-empty" id="blog-empty">
-                    <div class="editor-empty-icon">📝</div>
-                    <p>Select a post or create a new one</p>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="blog-search" placeholder="Search posts…">
+            </div>
+            <div class="list-items" id="posts-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="blog-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <p>Select a post or create a new one</p>
+            </div>
+            <div class="detail-form" id="blog-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-post-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="post-publish"> Published
+                    </label>
+                    <div class="toolbar-sep"></div>
+                    <label class="btn btn-upload" style="cursor:pointer;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        Insert Image
+                        <input type="file" id="blog-img-input" accept="image/*" style="display:none">
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-post-btn">Delete</button>
                 </div>
-                <div class="editor-form" id="blog-form">
-                    <div class="editor-bar">
-                        <button class="btn btn-primary" id="save-post-btn">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                            Save
-                        </button>
-                        <label class="toggle-row">
-                            <input type="checkbox" id="post-publish"> Published
-                        </label>
-                        <div class="editor-bar-sep"></div>
-                        <label class="btn btn-upload" style="cursor:pointer;">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            Insert Image
-                            <input type="file" id="blog-img-input" accept="image/*" style="display:none">
-                        </label>
-                        <div class="editor-bar-spacer"></div>
-                        <button class="btn btn-danger-ghost" id="delete-post-btn">Delete</button>
-                    </div>
-                    <div class="editor-body">
-                        <input class="post-title-input" type="text" id="post-title" placeholder="Post title…">
-                        <div id="quill-editor"></div>
-                    </div>
+                <div class="detail-body">
+                    <input class="title-input" type="text" id="post-title" placeholder="Post title…">
+                    <div id="quill-editor"></div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- CAREERS PANEL -->
-        <div class="panel" id="panel-careers">
-            <div class="sidebar">
-                <div class="sidebar-head">
-                    <span class="sidebar-head-title">Positions</span>
-                    <button class="btn btn-primary" id="new-career-btn" style="font-size:0.75rem;padding:0.375rem 0.75rem;">+ New</button>
-                </div>
-                <div class="sidebar-search">
-                    <svg class="sidebar-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input type="text" id="career-search" placeholder="Search positions…">
-                </div>
-                <div class="items-list" id="careers-list">
-                    <div class="no-items">Loading…</div>
-                </div>
+    <!-- ═══ CAREERS SECTION ═══ -->
+    <div class="section" id="section-careers">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Positions</span>
+                <button class="btn btn-primary" id="new-career-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
             </div>
-            <div class="editor-area">
-                <div class="editor-empty" id="career-empty">
-                    <div class="editor-empty-icon">💼</div>
-                    <p>Select a position or create a new one</p>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="career-search" placeholder="Search positions…">
+            </div>
+            <div class="list-items" id="careers-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="career-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                <p>Select a position or create a new one</p>
+            </div>
+            <div class="detail-form" id="career-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-career-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="career-active"> Active
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-career-btn">Delete</button>
                 </div>
-                <div class="editor-form" id="career-form">
-                    <div class="editor-bar">
-                        <button class="btn btn-primary" id="save-career-btn">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                            Save
-                        </button>
-                        <label class="toggle-row">
-                            <input type="checkbox" id="career-active"> Active
-                        </label>
-                        <div class="editor-bar-spacer"></div>
-                        <button class="btn btn-danger-ghost" id="delete-career-btn">Delete</button>
+                <div class="detail-body">
+                    <!-- Basic info -->
+                    <div>
+                        <label class="field-label">Job Title *</label>
+                        <input class="field-input" type="text" id="career-title" placeholder="e.g. Senior UI Developer">
                     </div>
-                    <div class="editor-body">
-                        <div class="field-group">
-                            <span class="field-label">Job Title *</span>
-                            <input class="field-input" type="text" id="career-title" placeholder="e.g. Senior UI Developer">
+                    <div class="field-row field-row-3">
+                        <div>
+                            <label class="field-label">Department</label>
+                            <input class="field-input" type="text" id="career-dept" placeholder="e.g. Engineering">
                         </div>
-                        <div class="grid-3">
-                            <div class="field-group">
-                                <span class="field-label">Department</span>
-                                <input class="field-input" type="text" id="career-dept" placeholder="e.g. Engineering">
-                            </div>
-                            <div class="field-group">
-                                <span class="field-label">Type</span>
-                                <select class="field-select" id="career-type">
-                                    <option>Full-time</option>
-                                    <option>Part-time</option>
-                                    <option>Contract</option>
-                                    <option>Volunteer</option>
-                                    <option>Internship</option>
-                                </select>
-                            </div>
-                            <div class="field-group">
-                                <span class="field-label">Location</span>
-                                <input class="field-input" type="text" id="career-location" placeholder="e.g. Remote">
-                            </div>
+                        <div>
+                            <label class="field-label">Type</label>
+                            <select class="field-select" id="career-type">
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Contract</option>
+                                <option>Volunteer</option>
+                                <option>Internship</option>
+                            </select>
                         </div>
-                        <div class="field-group">
-                            <span class="field-label">Description</span>
-                            <textarea class="field-textarea" id="career-desc" rows="4" placeholder="What will this person be doing?"></textarea>
+                        <div>
+                            <label class="field-label">Location</label>
+                            <input class="field-input" type="text" id="career-location" placeholder="e.g. Remote">
                         </div>
+                    </div>
+                    <div>
+                        <label class="field-label">Description</label>
+                        <textarea class="field-textarea" id="career-desc" rows="4" placeholder="What will this person be doing?"></textarea>
+                    </div>
 
-                        <hr class="form-divider">
+                    <!-- Requirements -->
+                    <div class="form-section">
                         <span class="form-section-label">Requirements</span>
                         <div class="dyn-list" id="req-list"></div>
                         <button class="add-item-btn" id="add-req">+ Add requirement</button>
+                    </div>
 
-                        <hr class="form-divider">
+                    <!-- Nice to have -->
+                    <div class="form-section">
                         <span class="form-section-label">Nice to Have</span>
                         <div class="dyn-list" id="nice-list"></div>
                         <button class="add-item-btn" id="add-nice">+ Add nice-to-have</button>
+                    </div>
 
-                        <hr class="form-divider">
+                    <!-- Questions -->
+                    <div class="form-section">
                         <span class="form-section-label">Application Questions</span>
                         <div class="dyn-list" id="q-list"></div>
                         <button class="add-item-btn" id="add-q">+ Add question</button>
@@ -817,9 +885,9 @@
                 </div>
             </div>
         </div>
-
     </div>
-</div>
+
+</div><!-- /app -->
 
 <!-- CONFIRM DIALOG -->
 <div class="confirm-overlay" id="confirm-overlay">
@@ -828,7 +896,7 @@
         <p class="confirm-body" id="confirm-body">This action cannot be undone.</p>
         <div class="confirm-actions">
             <button class="btn btn-ghost" id="confirm-cancel">Cancel</button>
-            <button class="btn btn-danger-ghost" id="confirm-ok">Delete</button>
+            <button class="btn btn-danger" id="confirm-ok">Delete</button>
         </div>
     </div>
 </div>
@@ -838,22 +906,25 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
 <script>
-// ── STATE ──
+// ── STATE ──────────────────────────────────────────────────────────────────
 let token = sessionStorage.getItem('sw_token');
 let posts = [], careers = [], games = [];
 let activePostId = null, activeCareerId = null, activeGameId = null;
 let quill = null;
 
-// ── UTILS ──
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function fmtDate(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+let toastTimer;
 function toast(msg, type = 'success') {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.className = `toast ${type} show`;
-    setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function fmtDate(iso) {
-    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.className = 'toast', 2500);
 }
 
 function confirm(title, body, onOk) {
@@ -867,50 +938,52 @@ function confirm(title, body, onOk) {
     cancel.onclick = close;
 }
 
-// ── AUTH ──
-if (token) initApp();
-
-document.getElementById('login-btn').addEventListener('click', async () => {
-    const pw = document.getElementById('login-input').value;
-    const err = document.getElementById('login-error');
-    const btn = document.getElementById('login-btn');
-    btn.disabled = true; btn.textContent = 'Signing in…'; err.style.display = 'none';
-    try {
-        const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) });
-        const data = await res.json();
-        if (res.ok) { token = data.token; sessionStorage.setItem('sw_token', token); initApp(); }
-        else { err.style.display = 'block'; }
-    } catch { err.textContent = 'Connection error'; err.style.display = 'block'; }
-    btn.disabled = false; btn.textContent = 'Sign in';
-});
-
-document.getElementById('login-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-btn').click(); });
-
-document.getElementById('logout-btn').addEventListener('click', async () => {
-    await fetch('/api/admin/logout', { method: 'POST', headers: { 'x-admin-token': token } }).catch(() => {});
-    sessionStorage.removeItem('sw_token');
-    location.reload();
-});
-
-// ── INIT ──
-function initApp() {
+// ── LOGIN ──────────────────────────────────────────────────────────────────
+function showApp() {
     document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
+    const app = document.getElementById('app');
+    app.style.display = 'flex';
     initQuill();
     loadGames(); loadPosts(); loadCareers();
 }
 
-// ── TABS ──
-document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(`panel-${tab.dataset.tab}`).classList.add('active');
+if (token) showApp();
+
+async function doLogin() {
+    const pw = document.getElementById('login-input').value;
+    const err = document.getElementById('login-error');
+    if (!pw) return;
+    try {
+        const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) });
+        const d = await res.json();
+        if (!res.ok) { err.style.display = 'block'; return; }
+        token = d.token;
+        sessionStorage.setItem('sw_token', token);
+        err.style.display = 'none';
+        showApp();
+    } catch { err.style.display = 'block'; }
+}
+
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('login-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    await fetch('/api/admin/logout', { method: 'POST', headers: { 'x-admin-token': token } });
+    sessionStorage.removeItem('sw_token');
+    location.reload();
+});
+
+// ── RAIL NAV ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.rail-link[data-tab]').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelectorAll('.rail-link').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        link.classList.add('active');
+        document.getElementById(`section-${link.dataset.tab}`).classList.add('active');
     });
 });
 
-// ── QUILL ──
+// ── QUILL ──────────────────────────────────────────────────────────────────
 function initQuill() {
     quill = new Quill('#quill-editor', {
         theme: 'snow',
@@ -927,8 +1000,8 @@ function initQuill() {
     });
 }
 
-// ── IMAGE UPLOAD ──
-async function uploadImage(file, token) {
+// ── IMAGE UPLOAD ───────────────────────────────────────────────────────────
+async function uploadImage(file) {
     const fd = new FormData(); fd.append('image', file);
     const res = await fetch('/api/admin/upload', { method: 'POST', headers: { 'x-admin-token': token }, body: fd });
     const d = await res.json();
@@ -939,10 +1012,10 @@ async function uploadImage(file, token) {
 document.getElementById('blog-img-input').addEventListener('change', async e => {
     const file = e.target.files[0]; if (!file) return;
     try {
-        const url = await uploadImage(file, token);
+        const url = await uploadImage(file);
         const idx = quill.getSelection(true)?.index ?? quill.getLength();
         quill.insertEmbed(idx, 'image', url);
-        toast('Image inserted ✓');
+        toast('Image inserted');
     } catch (err) { toast(err.message, 'error'); }
     e.target.value = '';
 });
@@ -950,41 +1023,43 @@ document.getElementById('blog-img-input').addEventListener('change', async e => 
 document.getElementById('game-img-input').addEventListener('change', async e => {
     const file = e.target.files[0]; if (!file) return;
     try {
-        const url = await uploadImage(file, token);
+        const url = await uploadImage(file);
         document.getElementById('game-thumb-url').value = url;
         document.getElementById('game-thumb-preview').innerHTML = `<img src="${url}">`;
-        toast('Thumbnail uploaded ✓');
+        toast('Thumbnail uploaded');
     } catch (err) { toast(err.message, 'error'); }
     e.target.value = '';
 });
 
-// ── SIDEBAR SEARCH ──
-document.getElementById('blog-search').addEventListener('input', function() {
+// ── SEARCH ─────────────────────────────────────────────────────────────────
+document.getElementById('blog-search').addEventListener('input', function () {
     const q = this.value.toLowerCase();
     document.querySelectorAll('#posts-list .list-item').forEach(el => {
-        el.style.display = el.dataset.search?.includes(q) ? '' : 'none';
+        el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
     });
 });
 
-document.getElementById('career-search').addEventListener('input', function() {
+document.getElementById('career-search').addEventListener('input', function () {
     const q = this.value.toLowerCase();
     document.querySelectorAll('#careers-list .list-item').forEach(el => {
-        el.style.display = el.dataset.search?.includes(q) ? '' : 'none';
+        el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
     });
 });
 
-// ── KEYBOARD SHORTCUT ──
+// ── KEYBOARD SHORTCUT ──────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 's') {
         e.preventDefault();
-        const active = document.querySelector('.nav-tab.active')?.dataset.tab;
-        if (active === 'games') document.getElementById('save-game-btn').click();
-        if (active === 'blog') document.getElementById('save-post-btn').click();
-        if (active === 'careers') document.getElementById('save-career-btn').click();
+        const tab = document.querySelector('.rail-link.active')?.dataset.tab;
+        if (tab === 'games') document.getElementById('save-game-btn').click();
+        if (tab === 'blog') document.getElementById('save-post-btn').click();
+        if (tab === 'careers') document.getElementById('save-career-btn').click();
     }
 });
 
-// ─────────────── GAMES ───────────────
+// ═══════════════════════════════════════
+// GAMES
+// ═══════════════════════════════════════
 async function loadGames() {
     try {
         const res = await fetch('/api/admin/games', { headers: { 'x-admin-token': token } });
@@ -995,17 +1070,19 @@ async function loadGames() {
 
 function renderGames() {
     const list = document.getElementById('games-list');
-    if (!games.length) { list.innerHTML = '<div class="no-items">No games yet.<br>Hit <strong>+ New</strong> to add one.</div>'; return; }
+    if (!games.length) { list.innerHTML = '<div class="list-empty">No games yet.<br>Hit <strong>+ New</strong> to add one.</div>'; return; }
     list.innerHTML = games.map(g => `
         <div class="list-item ${g.id === activeGameId ? 'active' : ''}" data-id="${g.id}">
-            <div class="list-item-title">${g.placeId ? `Place ${g.placeId}` : 'New Game'}</div>
-            <div class="list-item-meta">
-                ${g.featured ? '<span class="badge badge-featured">Featured</span>' : ''}
-                <span class="badge ${g.active ? 'badge-live' : 'badge-draft'}">${g.active ? 'Active' : 'Inactive'}</span>
+            <div class="list-item-name">${g.placeId ? `Place ${g.placeId}` : 'New Game'}</div>
+            <div class="list-item-tags">
+                ${g.featured ? '<span class="item-tag primary">Featured</span>' : ''}
+                <span class="tag-pill ${g.active ? 'pill-live' : 'pill-draft'}">${g.active ? 'Active' : 'Inactive'}</span>
             </div>
         </div>
     `).join('');
-    document.querySelectorAll('#games-list .list-item').forEach(el => el.addEventListener('click', () => openGame(el.dataset.id)));
+    document.querySelectorAll('#games-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openGame(el.dataset.id))
+    );
 }
 
 function openGame(id) {
@@ -1019,15 +1096,21 @@ function openGame(id) {
     document.getElementById('game-thumb-url').value = g.thumbnail || '';
     document.getElementById('game-thumb-preview').innerHTML = g.thumbnail
         ? `<img src="${g.thumbnail}">`
-        : '<span class="thumb-preview-ph">No thumbnail uploaded</span>';
+        : '<span class="thumb-preview-ph">No image uploaded</span>';
     renderGames();
 }
 
 document.getElementById('new-game-btn').addEventListener('click', async () => {
     try {
-        const res = await fetch('/api/admin/games', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ placeId: '', active: false, featured: false, thumbnail: '' }) });
+        const res = await fetch('/api/admin/games', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ placeId: '', active: false, featured: false, thumbnail: '' })
+        });
         const d = await res.json();
-        games.unshift(d.game); openGame(d.game.id); toast('New game created');
+        games.unshift(d.game);
+        openGame(d.game.id);
+        toast('Game created');
     } catch { toast('Failed to create game', 'error'); }
 });
 
@@ -1039,21 +1122,29 @@ document.getElementById('save-game-btn').addEventListener('click', async () => {
         const res = await fetch(`/api/admin/games/${activeGameId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-            body: JSON.stringify({ placeId: document.getElementById('game-place-id').value, active: document.getElementById('game-active').checked, featured: document.getElementById('game-featured').checked, thumbnail: document.getElementById('game-thumb-url').value })
+            body: JSON.stringify({
+                placeId: document.getElementById('game-place-id').value,
+                active: document.getElementById('game-active').checked,
+                featured: document.getElementById('game-featured').checked,
+                thumbnail: document.getElementById('game-thumb-url').value
+            })
         });
         const d = await res.json();
-        const idx = games.findIndex(g => g.id === activeGameId); if (idx !== -1) games[idx] = d.game;
+        const idx = games.findIndex(g => g.id === activeGameId);
+        if (idx !== -1) games[idx] = d.game;
         renderGames(); toast('Game saved ✓');
     } catch { toast('Failed to save', 'error'); }
-    btn.disabled = false; btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
 });
 
 document.getElementById('delete-game-btn').addEventListener('click', () => {
     if (!activeGameId) return;
-    confirm('Delete Game?', 'This will permanently remove the game. This cannot be undone.', async () => {
+    confirm('Delete Game?', 'This will permanently remove this game. This cannot be undone.', async () => {
         try {
             await fetch(`/api/admin/games/${activeGameId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
-            games = games.filter(g => g.id !== activeGameId); activeGameId = null;
+            games = games.filter(g => g.id !== activeGameId);
+            activeGameId = null;
             document.getElementById('game-empty').style.display = 'flex';
             document.getElementById('game-form').style.display = 'none';
             renderGames(); toast('Game deleted');
@@ -1061,7 +1152,9 @@ document.getElementById('delete-game-btn').addEventListener('click', () => {
     });
 });
 
-// ─────────────── BLOG ───────────────
+// ═══════════════════════════════════════
+// BLOG
+// ═══════════════════════════════════════
 async function loadPosts() {
     try {
         const res = await fetch('/api/admin/posts', { headers: { 'x-admin-token': token } });
@@ -1072,17 +1165,19 @@ async function loadPosts() {
 
 function renderPosts() {
     const list = document.getElementById('posts-list');
-    if (!posts.length) { list.innerHTML = '<div class="no-items">No posts yet.</div>'; return; }
+    if (!posts.length) { list.innerHTML = '<div class="list-empty">No posts yet.</div>'; return; }
     list.innerHTML = posts.map(p => `
         <div class="list-item ${p.id === activePostId ? 'active' : ''}" data-id="${p.id}" data-search="${(p.title || '').toLowerCase()}">
-            <div class="list-item-title">${p.title || 'Untitled'}</div>
-            <div class="list-item-meta">
-                <span>${fmtDate(p.updatedAt)}</span>
-                <span class="badge ${p.published ? 'badge-live' : 'badge-draft'}">${p.published ? 'Live' : 'Draft'}</span>
+            <div class="list-item-name">${p.title || 'Untitled'}</div>
+            <div class="list-item-tags">
+                <span class="item-tag">${fmtDate(p.updatedAt)}</span>
+                <span class="tag-pill ${p.published ? 'pill-live' : 'pill-draft'}">${p.published ? 'Live' : 'Draft'}</span>
             </div>
         </div>
     `).join('');
-    document.querySelectorAll('#posts-list .list-item').forEach(el => el.addEventListener('click', () => openPost(el.dataset.id)));
+    document.querySelectorAll('#posts-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openPost(el.dataset.id))
+    );
 }
 
 function openPost(id) {
@@ -1098,8 +1193,15 @@ function openPost(id) {
 
 document.getElementById('new-post-btn').addEventListener('click', async () => {
     try {
-        const res = await fetch('/api/admin/posts', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ title: 'Untitled Post', content: '', published: false }) });
-        const d = await res.json(); posts.unshift(d.post); openPost(d.post.id); toast('Post created');
+        const res = await fetch('/api/admin/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ title: 'Untitled Post', content: '', published: false })
+        });
+        const d = await res.json();
+        posts.unshift(d.post);
+        openPost(d.post.id);
+        toast('Post created');
     } catch { toast('Failed to create post', 'error'); }
 });
 
@@ -1111,13 +1213,19 @@ document.getElementById('save-post-btn').addEventListener('click', async () => {
         const res = await fetch(`/api/admin/posts/${activePostId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-            body: JSON.stringify({ title: document.getElementById('post-title').value, content: quill.root.innerHTML, published: document.getElementById('post-publish').checked })
+            body: JSON.stringify({
+                title: document.getElementById('post-title').value,
+                content: quill.root.innerHTML,
+                published: document.getElementById('post-publish').checked
+            })
         });
         const d = await res.json();
-        const idx = posts.findIndex(p => p.id === activePostId); if (idx !== -1) posts[idx] = d.post;
+        const idx = posts.findIndex(p => p.id === activePostId);
+        if (idx !== -1) posts[idx] = d.post;
         renderPosts(); toast('Post saved ✓');
     } catch { toast('Failed to save', 'error'); }
-    btn.disabled = false; btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
 });
 
 document.getElementById('delete-post-btn').addEventListener('click', () => {
@@ -1125,7 +1233,8 @@ document.getElementById('delete-post-btn').addEventListener('click', () => {
     confirm('Delete Post?', 'This will permanently delete this blog post. This cannot be undone.', async () => {
         try {
             await fetch(`/api/admin/posts/${activePostId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
-            posts = posts.filter(p => p.id !== activePostId); activePostId = null;
+            posts = posts.filter(p => p.id !== activePostId);
+            activePostId = null;
             document.getElementById('blog-empty').style.display = 'flex';
             document.getElementById('blog-form').style.display = 'none';
             renderPosts(); toast('Post deleted');
@@ -1133,7 +1242,9 @@ document.getElementById('delete-post-btn').addEventListener('click', () => {
     });
 });
 
-// ─────────────── CAREERS ───────────────
+// ═══════════════════════════════════════
+// CAREERS
+// ═══════════════════════════════════════
 async function loadCareers() {
     try {
         const res = await fetch('/api/admin/careers', { headers: { 'x-admin-token': token } });
@@ -1144,29 +1255,34 @@ async function loadCareers() {
 
 function renderCareers() {
     const list = document.getElementById('careers-list');
-    if (!careers.length) { list.innerHTML = '<div class="no-items">No positions yet.</div>'; return; }
+    if (!careers.length) { list.innerHTML = '<div class="list-empty">No positions yet.</div>'; return; }
     list.innerHTML = careers.map(c => `
         <div class="list-item ${c.id === activeCareerId ? 'active' : ''}" data-id="${c.id}" data-search="${(c.title || '').toLowerCase()}">
-            <div class="list-item-title">${c.title || 'Untitled Position'}</div>
-            <div class="list-item-meta">
-                <span>${c.type} · ${c.location}</span>
-                <span class="badge ${c.active ? 'badge-live' : 'badge-draft'}">${c.active ? 'Active' : 'Inactive'}</span>
+            <div class="list-item-name">${c.title || 'Untitled Position'}</div>
+            <div class="list-item-tags">
+                ${c.department ? `<span class="item-tag primary">${c.department}</span>` : ''}
+                <span class="item-tag">${c.type}</span>
+                <span class="tag-pill ${c.active ? 'pill-live' : 'pill-draft'}">${c.active ? 'Active' : 'Inactive'}</span>
             </div>
         </div>
     `).join('');
-    document.querySelectorAll('#careers-list .list-item').forEach(el => el.addEventListener('click', () => openCareer(el.dataset.id)));
+    document.querySelectorAll('#careers-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openCareer(el.dataset.id))
+    );
 }
 
 function dynItem(listId, val = '') {
     const list = document.getElementById(listId);
-    const div = document.createElement('div'); div.className = 'dyn-item';
-    div.innerHTML = `<input class="field-input" type="text" value="${val.replace(/"/g,'&quot;')}" placeholder="Enter text…"><button class="dyn-remove" title="Remove">×</button>`;
+    const div = document.createElement('div');
+    div.className = 'dyn-item';
+    div.innerHTML = `<input class="field-input" type="text" value="${val.replace(/"/g, '&quot;')}" placeholder="Enter text…"><button class="dyn-remove" title="Remove">×</button>`;
     div.querySelector('.dyn-remove').addEventListener('click', () => div.remove());
     list.appendChild(div);
 }
 
 function dynValues(listId) {
-    return Array.from(document.querySelectorAll(`#${listId} .dyn-item input`)).map(i => i.value.trim()).filter(Boolean);
+    return Array.from(document.querySelectorAll(`#${listId} .dyn-item input`))
+        .map(i => i.value.trim()).filter(Boolean);
 }
 
 document.getElementById('add-req').addEventListener('click', () => dynItem('req-list'));
@@ -1195,8 +1311,15 @@ function openCareer(id) {
 
 document.getElementById('new-career-btn').addEventListener('click', async () => {
     try {
-        const res = await fetch('/api/admin/careers', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ title: 'New Position', type: 'Full-time', location: 'Remote', active: false }) });
-        const d = await res.json(); careers.unshift(d.career); openCareer(d.career.id); toast('Position created');
+        const res = await fetch('/api/admin/careers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ title: 'New Position', type: 'Full-time', location: 'Remote', active: false })
+        });
+        const d = await res.json();
+        careers.unshift(d.career);
+        openCareer(d.career.id);
+        toast('Position created');
     } catch { toast('Failed to create position', 'error'); }
 });
 
@@ -1222,10 +1345,12 @@ document.getElementById('save-career-btn').addEventListener('click', async () =>
             })
         });
         const d = await res.json();
-        const idx = careers.findIndex(c => c.id === activeCareerId); if (idx !== -1) careers[idx] = d.career;
+        const idx = careers.findIndex(c => c.id === activeCareerId);
+        if (idx !== -1) careers[idx] = d.career;
         renderCareers(); toast('Position saved ✓');
     } catch { toast('Failed to save', 'error'); }
-    btn.disabled = false; btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
 });
 
 document.getElementById('delete-career-btn').addEventListener('click', () => {
@@ -1233,7 +1358,8 @@ document.getElementById('delete-career-btn').addEventListener('click', () => {
     confirm('Delete Position?', 'This will permanently remove this job posting. This cannot be undone.', async () => {
         try {
             await fetch(`/api/admin/careers/${activeCareerId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
-            careers = careers.filter(c => c.id !== activeCareerId); activeCareerId = null;
+            careers = careers.filter(c => c.id !== activeCareerId);
+            activeCareerId = null;
             document.getElementById('career-empty').style.display = 'flex';
             document.getElementById('career-form').style.display = 'none';
             renderCareers(); toast('Position deleted');
