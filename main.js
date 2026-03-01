@@ -168,7 +168,9 @@ app.get('/api/games', async (req, res) => {
                         ...game,
                         universeId,
                         visits: stats.visits,
-                        playing: stats.playing
+                        playing: stats.playing,
+                        name: stats.name,
+                        description: stats.description
                     };
                 }
             } catch (err) {
@@ -460,7 +462,9 @@ app.delete('/api/admin/careers/:id', async (req, res) => {
     }
 });
 
-// ============================================================
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

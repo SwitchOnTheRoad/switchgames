@@ -89,6 +89,13 @@
         .modal-title { font-size: 1.75rem; line-height: 1.2; }
         .modal-close { position: absolute; top: 1.25rem; right: 1.25rem; background: var(--surface-mid); border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; border-radius: 2px; transition: background 0.15s, color 0.15s; }
         .modal-close:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+        .modal-actions { display: flex; gap: 0.5rem; position: absolute; top: 1.25rem; right: 3.75rem; }
+        .modal-copy-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.875rem; height: 32px; background: var(--surface-mid); border: 1px solid var(--border); color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: 2px; transition: background 0.15s, color 0.15s, border-color 0.15s; white-space: nowrap; }
+        .modal-copy-btn:hover { background: var(--surface); color: var(--text); border-color: #3a3a3a; }
+        .modal-copy-btn.copied { background: rgba(251,191,36,0.1); color: var(--primary); border-color: rgba(251,191,36,0.35); }
+        /* Toast */
+        #sw-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.6rem 1.25rem; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 99999; white-space: nowrap; }
+        #sw-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .modal-body img { max-width: 100%; margin: 1rem auto; display: block; }
         .modal-body img { max-width: 100%; margin: 1rem 0; }
         .modal-body h2, .modal-body h3 { color: var(--text); margin: 1.5rem 0 0.75rem; }
@@ -112,6 +119,12 @@
 
     <div class="modal" id="blog-modal">
         <div class="modal-content">
+            <div class="modal-actions">
+                <button class="modal-copy-btn" id="modal-copy-btn">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Copy Link
+                </button>
+            </div>
             <button class="modal-close" id="modal-close">✕</button>
             <div class="modal-header">
                 <div class="modal-meta"><span id="modal-date"></span><span id="modal-readtime"></span></div>
@@ -120,6 +133,7 @@
             <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
+    <div id="sw-toast"></div>
 
     <script src="navbar.js"></script>
     <script src="footer.js"></script>
@@ -128,9 +142,37 @@
         function stripHtml(h) { const d=document.createElement('div');d.innerHTML=h;return d.textContent||d.innerText||''; }
         function readTime(h) { return Math.max(1,Math.round(stripHtml(h).split(/\s+/).filter(Boolean).length/200))+' min read'; }
         function preview(h,l=150) { const t=stripHtml(h);return t.length>l?t.slice(0,l).trimEnd()+'…':t; }
-        // Extract first image from content HTML
         function extractFirstImg(html) { const m=html.match(/<img[^>]+src=["']([^"']+)["']/i);return m?m[1]:null; }
 
+        // ── TOAST ────────────────────────────────────────────────────────────
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('sw-toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+        }
+
+        // ── COPY LINK ────────────────────────────────────────────────────────
+        let currentPostId = null;
+
+        document.getElementById('modal-copy-btn').addEventListener('click', () => {
+            if (!currentPostId) return;
+            const url = `${location.origin}/blog?post=${currentPostId}`;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = document.getElementById('modal-copy-btn');
+                btn.classList.add('copied');
+                btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+                showToast('Link copied to clipboard');
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link`;
+                }, 2200);
+            }).catch(() => showToast('Could not copy link'));
+        });
+
+        // ── LOAD POSTS ───────────────────────────────────────────────────────
         async function loadPosts() {
             const grid = document.getElementById('blog-grid');
             try {
@@ -159,18 +201,37 @@
                         if (post) openModal(post);
                     });
                 });
+
+                // ── DEEP LINK: auto-open if ?post=ID in URL ─────────────────
+                const postId = new URLSearchParams(location.search).get('post');
+                if (postId) {
+                    const post = posts.find(p => p.id === postId);
+                    if (post) openModal(post);
+                }
+
             } catch(e) { grid.innerHTML='<div class="blog-empty" style="border:none;">Failed to load posts.</div>'; }
         }
 
+        // ── MODAL ────────────────────────────────────────────────────────────
         function openModal(post) {
+            currentPostId = post.id;
             document.getElementById('modal-date').textContent = fmtDate(post.createdAt);
             document.getElementById('modal-readtime').textContent = readTime(post.content);
             document.getElementById('modal-title').textContent = post.title;
             document.getElementById('modal-body').innerHTML = post.content;
             document.getElementById('blog-modal').classList.add('open');
             document.body.style.overflow = 'hidden';
+            // Update URL without reload so the link is shareable
+            history.replaceState(null, '', `?post=${post.id}`);
         }
-        function closeModal() { document.getElementById('blog-modal').classList.remove('open'); document.body.style.overflow=''; }
+
+        function closeModal() {
+            document.getElementById('blog-modal').classList.remove('open');
+            document.body.style.overflow = '';
+            currentPostId = null;
+            history.replaceState(null, '', '/blog');
+        }
+
         document.getElementById('modal-close').addEventListener('click', closeModal);
         document.getElementById('blog-modal').addEventListener('click', e=>{if(e.target.id==='blog-modal')closeModal();});
         document.addEventListener('keydown', e=>{if(e.key==='Escape')closeModal();});

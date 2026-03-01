@@ -103,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="site-footer-col">
                 <h5>Legal</h5>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
                 </ul>
             </div>
         </div>

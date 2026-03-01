@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service — Switch</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.2; }
+
+        .page-header {
+            padding: 120px 2rem 4rem;
+            border-bottom: 1px solid var(--border);
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header-meta {
+            margin-top: 0.75rem;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        /* ── LAYOUT ── */
+        .doc-layout {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* ── SIDEBAR TOC ── */
+        .doc-toc {
+            position: sticky;
+            top: 88px;
+        }
+
+        .doc-toc-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .doc-toc ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border-left: 1px solid var(--border);
+        }
+
+        .doc-toc a {
+            display: block;
+            padding: 0.5rem 0 0.5rem 1rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.15s, border-color 0.15s;
+            border-left: 2px solid transparent;
+            margin-left: -1px;
+        }
+
+        .doc-toc a:hover {
+            color: var(--text);
+            border-left-color: var(--primary);
+        }
+
+        /* ── CONTENT ── */
+        .doc-content {
+            min-width: 0;
+        }
+
+        .doc-section {
+            margin-bottom: 3.5rem;
+            padding-bottom: 3.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .doc-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+            color: var(--text);
+        }
+
+        .doc-section p {
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .doc-section p:last-child { margin-bottom: 0; }
+
+        .doc-section ul, .doc-section ol {
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .doc-section li {
+            color: var(--muted);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+            margin-bottom: 0.4rem;
+        }
+
+        .doc-section strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .doc-section a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .doc-section a:hover { text-decoration: underline; }
+
+        .info-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        @media (max-width: 900px) {
+            .doc-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+            .doc-toc { position: static; }
+        }
+
+        @media (max-width: 768px) {
+            .page-header { padding: 100px 1.25rem 3rem; }
+            .doc-layout { padding: 3rem 1.25rem 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <span class="section-label">Legal</span>
+        <h1>Terms of Service</h1>
+        <p class="page-header-meta">Last updated: <strong style="color:var(--text);">February 2026</strong></p>
+    </div>
+
+    <div class="doc-layout">
+        <!-- SIDEBAR TOC -->
+        <aside class="doc-toc">
+            <span class="doc-toc-label">On this page</span>
+            <ul>
+                <li><a href="#acceptance">Acceptance of Terms</a></li>
+                <li><a href="#use-of-site">Use of this Site</a></li>
+                <li><a href="#intellectual-property">Intellectual Property</a></li>
+                <li><a href="#roblox-platform">Roblox Platform</a></li>
+                <li><a href="#user-content">User Content</a></li>
+                <li><a href="#disclaimers">Disclaimers</a></li>
+                <li><a href="#limitation">Limitation of Liability</a></li>
+                <li><a href="#links">Third-Party Links</a></li>
+                <li><a href="#termination">Termination</a></li>
+                <li><a href="#governing-law">Governing Law</a></li>
+                <li><a href="#changes">Changes to Terms</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="doc-content">
+
+            <div class="doc-section" id="acceptance">
+                <h2>Acceptance of Terms</h2>
+                <div class="info-box">
+                    <p>By accessing or using this website, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use this site.</p>
+                </div>
+                <p>These Terms of Service ("Terms") govern your access to and use of the Switch website located at this domain (the "Site"). These Terms apply to all visitors, users, and others who access the Site.</p>
+                <p>"Switch", "we", "us", and "our" refer to the Switch Roblox game studio. "You" refers to the individual accessing the Site.</p>
+            </div>
+
+            <div class="doc-section" id="use-of-site">
+                <h2>Use of this Site</h2>
+                <p>You agree to use this Site only for lawful purposes and in a way that does not infringe the rights of others or restrict their use and enjoyment of the Site. Prohibited conduct includes:</p>
+                <ul>
+                    <li>Attempting to gain unauthorised access to any part of the Site or its related systems</li>
+                    <li>Transmitting any harmful, offensive, or disruptive content</li>
+                    <li>Scraping, crawling, or harvesting data from the Site without prior written permission</li>
+                    <li>Impersonating Switch, its team members, or other users</li>
+                    <li>Using the Site in any manner that could disable, damage, or impair it</li>
+                </ul>
+                <p>We reserve the right to restrict or terminate access to the Site for any user who violates these Terms.</p>
+            </div>
+
+            <div class="doc-section" id="intellectual-property">
+                <h2>Intellectual Property</h2>
+                <p>All content on this Site — including but not limited to text, graphics, logos, icons, images, game names, and software — is the property of Switch or its content suppliers and is protected by applicable intellectual property laws.</p>
+                <p>You may not reproduce, distribute, modify, create derivative works from, publicly display, or exploit any content from this Site without our express written permission.</p>
+                <p>The Switch name and logo are trademarks of Switch. You may not use these marks without prior written consent.</p>
+            </div>
+
+            <div class="doc-section" id="roblox-platform">
+                <h2>Roblox Platform</h2>
+                <p>Switch develops games published on the Roblox platform. All gameplay, in-game purchases, and player interactions occur on Roblox and are subject to <a href="https://www.roblox.com/info/terms" target="_blank" rel="noopener">Roblox's own Terms of Service</a> and community standards.</p>
+                <p>Switch is an independent developer and is not affiliated with, endorsed by, or a partner of Roblox Corporation except as a developer on the platform.</p>
+                <p>We are not responsible for any actions taken by Roblox Corporation, including changes to the platform, account actions, or in-game economy decisions.</p>
+            </div>
+
+            <div class="doc-section" id="user-content">
+                <h2>User Content</h2>
+                <p>When you submit content to this Site — such as contact form messages or job applications — you grant Switch a non-exclusive, royalty-free licence to use that content solely for the purpose it was submitted (e.g. responding to your enquiry or reviewing your application).</p>
+                <p>You represent that any content you submit is your own, is accurate, and does not violate any third-party rights or applicable laws.</p>
+                <p>We do not accept unsolicited game pitches, creative concepts, or business proposals through contact or application forms. Any such submissions will not be treated as confidential.</p>
+            </div>
+
+            <div class="doc-section" id="disclaimers">
+                <h2>Disclaimers</h2>
+                <p>This Site is provided on an "as is" and "as available" basis. To the fullest extent permitted by law, Switch makes no warranties, express or implied, including but not limited to:</p>
+                <ul>
+                    <li>That the Site will be uninterrupted, error-free, or secure</li>
+                    <li>That information on the Site is accurate, complete, or up to date</li>
+                    <li>That the Site is free of viruses or other harmful components</li>
+                </ul>
+                <p>Game statistics displayed on this Site (such as player counts and visit numbers) are retrieved from the Roblox API and may not always reflect real-time data.</p>
+            </div>
+
+            <div class="doc-section" id="limitation">
+                <h2>Limitation of Liability</h2>
+                <p>To the fullest extent permitted by applicable law, Switch and its team members shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from:</p>
+                <ul>
+                    <li>Your use of or inability to use the Site</li>
+                    <li>Any errors or omissions in content</li>
+                    <li>Unauthorised access to or alteration of your data</li>
+                    <li>Any third-party conduct or content on the Site</li>
+                </ul>
+                <p>Our total liability to you for any claim arising out of or relating to these Terms shall not exceed £100 (or the equivalent in your local currency).</p>
+            </div>
+
+            <div class="doc-section" id="links">
+                <h2>Third-Party Links</h2>
+                <p>This Site may contain links to third-party websites such as Roblox, Discord, and social media platforms. These links are provided for convenience only. Switch has no control over and assumes no responsibility for the content, privacy policies, or practices of any third-party sites.</p>
+                <p>Visiting any linked site is at your own risk. We encourage you to review the terms and privacy policies of any external site you visit.</p>
+            </div>
+
+            <div class="doc-section" id="termination">
+                <h2>Termination</h2>
+                <p>We reserve the right to suspend or terminate your access to the Site at any time, without notice or liability, for any reason — including if you breach these Terms.</p>
+                <p>All provisions of these Terms which by their nature should survive termination shall do so, including ownership provisions, warranty disclaimers, and limitations of liability.</p>
+            </div>
+
+            <div class="doc-section" id="governing-law">
+                <h2>Governing Law</h2>
+                <p>These Terms shall be governed by and construed in accordance with the laws of England and Wales. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of England and Wales.</p>
+                <p>If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will continue in full force and effect.</p>
+            </div>
+
+            <div class="doc-section" id="changes">
+                <h2>Changes to Terms</h2>
+                <p>We reserve the right to update these Terms at any time. When we do, we will update the "Last updated" date at the top of this page. Your continued use of the Site after changes are posted constitutes your acceptance of the revised Terms.</p>
+                <p>We encourage you to review these Terms periodically to stay informed of any updates.</p>
+            </div>
+
+            <div class="doc-section" id="contact">
+                <h2>Contact Us</h2>
+                <p>If you have any questions about these Terms of Service, please reach out through our <a href="/#contact">contact form</a>.</p>
+                <p>We aim to respond to all legal enquiries within 5 business days.</p>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="/navbar.js"></script>
+    <script src="/footer.js"></script>
+</body>
+</html>
