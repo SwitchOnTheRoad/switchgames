@@ -357,6 +357,8 @@
         }
 
         .detail-empty svg { opacity: 0.12; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); padding: 0.7rem; }
+
         .detail-empty p { font-size: 0.875rem; }
 
         .detail-form {
@@ -711,6 +713,10 @@
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 Staff Directory
             </button>
+            <button class="rail-link" data-tab="operations" id="rail-ops-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>
+                Operations
+            </button>
             <button class="rail-link" data-tab="accounts" id="rail-accounts-btn">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 Admin Accounts
@@ -933,12 +939,64 @@
         </div>
     </div>
 
+
+    <!-- ═══ OPERATIONS SECTION ═══ -->
+    <div class="section" id="section-operations">
+        <div class="list-panel" style="width:440px;">
+            <div class="list-panel-head"><span class="list-panel-title">Analytics</span></div>
+            <div class="detail-body" style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div class="stat-card"><div class="field-label">Page Views</div><div id="analytics-views" style="font-size:1.2rem;font-weight:700;">0</div></div>
+                    <div class="stat-card"><div class="field-label">Contacts</div><div id="analytics-contacts" style="font-size:1.2rem;font-weight:700;">0</div></div>
+                    <div class="stat-card"><div class="field-label">Applications</div><div id="analytics-apps" style="font-size:1.2rem;font-weight:700;">0</div></div>
+                    <div class="stat-card"><div class="field-label">Busiest Day</div><div id="analytics-busiest" style="font-size:0.9rem;font-weight:700;">—</div></div>
+                </div>
+                <div>
+                    <div class="field-label">Last 14 Days</div>
+                    <div id="analytics-trend" style="font-size:0.82rem;color:var(--muted);line-height:1.6;max-height:180px;overflow:auto;"></div>
+                </div>
+                <button class="btn" id="refresh-analytics-btn">Refresh Analytics</button>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-form" style="display:flex;flex:1;flex-direction:column;overflow:hidden;">
+                <div class="detail-toolbar"><div style="font-weight:700;">Site Controls + Security</div></div>
+                <div class="detail-body" style="display:flex;flex-direction:column;gap:1.25rem;">
+                    <div class="form-section">
+                        <span class="form-section-label">Announcement Banner</span>
+                        <label class="toggle-row" style="margin-bottom:0.8rem;"><input type="checkbox" id="banner-enabled"> Enabled</label>
+                        <input class="field-input" id="banner-text" placeholder="Banner message e.g. New update dropping Friday!" style="margin-bottom:0.6rem;">
+                        <div class="field-row field-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.6rem;">
+                            <input class="field-input" id="banner-bg" placeholder="#FBBF24">
+                            <input class="field-input" id="banner-color" placeholder="#0A0A0A">
+                        </div>
+                        <input class="field-input" id="banner-link" placeholder="https://... (optional)">
+                        <button class="btn btn-primary" id="save-banner-btn" style="margin-top:0.8rem;">Save Banner</button>
+                    </div>
+                    <div class="form-section">
+                        <span class="form-section-label">Active Sessions (superadmin)</span>
+                        <div id="session-list" style="display:flex;flex-direction:column;gap:0.5rem;"><div class="list-empty">Loading…</div></div>
+                    </div>
+                    <div class="form-section">
+                        <span class="form-section-label">Audit Log</span>
+                        <div id="audit-log-list" style="max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:0.5rem;"><div class="list-empty">Loading…</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══ MESSAGES SECTION ═══ -->
     <div class="section" id="section-messages">
         <div class="list-panel">
             <div class="list-panel-head">
                 <span class="list-panel-title">Messages</span>
-                <span class="list-panel-count" id="messages-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button class="btn" id="messages-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
+                    <button class="btn" id="messages-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
+                    <button class="btn btn-danger" id="messages-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+                    <span class="list-panel-count" id="messages-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
             </div>
             <div class="list-search">
                 <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -968,7 +1026,12 @@
         <div class="list-panel">
             <div class="list-panel-head">
                 <span class="list-panel-title">Applications</span>
-                <span class="list-panel-count" id="applications-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button class="btn" id="applications-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
+                    <button class="btn" id="applications-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
+                    <button class="btn btn-danger" id="applications-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+                    <span class="list-panel-count" id="applications-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
             </div>
             <div class="list-search">
                 <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1192,7 +1255,7 @@ function showApp() {
     }
     initQuill();
     loadGames(); loadPosts(); loadCareers(); loadMessages(); loadApplications();
-    loadStaff(); loadAccounts();
+    loadStaff(); loadAccounts(); loadOperations();
 }
 
 if (token) showApp();
@@ -1299,6 +1362,7 @@ function updateUnreadBadge(id, items) {
 // ═══════════════════════════════════════
 let messages = [];
 let activeMessageId = null;
+let selectedMessageIds = new Set();
 
 async function loadMessages() {
     try {
@@ -1315,8 +1379,11 @@ function renderMessages() {
     if (!messages.length) { list.innerHTML = '<div class="list-empty">No messages yet.</div>'; return; }
     list.innerHTML = messages.map(m => `
         <div class="list-item ${m.id === activeMessageId ? 'active' : ''}" data-id="${m.id}" data-search="${(m.name + ' ' + m.subject + ' ' + m.email).toLowerCase()}">
-            <div class="list-item-name" style="${!m.read ? 'color:var(--text)' : ''}">
-                ${!m.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${m.name}
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+                <input type="checkbox" class="bulk-message-checkbox" data-id="${m.id}" ${selectedMessageIds.has(m.id) ? 'checked' : ''} onclick="event.stopPropagation();">
+                <div class="list-item-name" style="${!m.read ? 'color:var(--text)' : ''}">
+                    ${!m.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${m.name}
+                </div>
             </div>
             <div class="list-item-tags">
                 <span class="item-tag" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${m.subject}</span>
@@ -1327,6 +1394,11 @@ function renderMessages() {
     document.querySelectorAll('#messages-list .list-item').forEach(el =>
         el.addEventListener('click', () => openMessage(el.dataset.id))
     );
+    document.querySelectorAll('.bulk-message-checkbox').forEach(cb => cb.addEventListener('change', e => {
+        const id = e.target.dataset.id;
+        if (e.target.checked) selectedMessageIds.add(id);
+        else selectedMessageIds.delete(id);
+    }));
 }
 
 async function openMessage(id) {
@@ -1409,6 +1481,7 @@ document.getElementById('messages-search').addEventListener('input', function ()
 // ═══════════════════════════════════════
 let applications = [];
 let activeApplicationId = null;
+let selectedApplicationIds = new Set();
 
 const STATUS_STYLES = {
     new:         { pill: 'pill-live',     label: 'New' },
@@ -1434,8 +1507,11 @@ function renderApplications() {
         const s = STATUS_STYLES[a.status] || STATUS_STYLES.new;
         return `
         <div class="list-item ${a.id === activeApplicationId ? 'active' : ''}" data-id="${a.id}" data-search="${(a.name + ' ' + a.position + ' ' + a.email).toLowerCase()}">
-            <div class="list-item-name" style="${!a.read ? 'color:var(--text)' : ''}">
-                ${!a.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${a.name}
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+                <input type="checkbox" class="bulk-application-checkbox" data-id="${a.id}" ${selectedApplicationIds.has(a.id) ? 'checked' : ''} onclick="event.stopPropagation();">
+                <div class="list-item-name" style="${!a.read ? 'color:var(--text)' : ''}">
+                    ${!a.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${a.name}
+                </div>
             </div>
             <div class="list-item-tags">
                 <span class="item-tag primary">${a.position}</span>
@@ -1446,6 +1522,11 @@ function renderApplications() {
     document.querySelectorAll('#applications-list .list-item').forEach(el =>
         el.addEventListener('click', () => openApplication(el.dataset.id))
     );
+    document.querySelectorAll('.bulk-application-checkbox').forEach(cb => cb.addEventListener('change', e => {
+        const id = e.target.dataset.id;
+        if (e.target.checked) selectedApplicationIds.add(id);
+        else selectedApplicationIds.delete(id);
+    }));
 }
 
 async function openApplication(id) {
@@ -1484,6 +1565,7 @@ async function openApplication(id) {
                 </div>
                 ${a.discord ? `<div><div class="field-label">Discord</div><div style="font-size:0.875rem;color:var(--muted);">${a.discord}</div></div>` : ''}
                 ${a.portfolio ? `<div><div class="field-label">Portfolio / GitHub</div><a href="${a.portfolio}" target="_blank" style="font-size:0.875rem;color:var(--primary);text-decoration:none;word-break:break-all;">${a.portfolio}</a></div>` : ''}
+                ${a.referral ? `<div><div class="field-label">Referral Source</div><div style="font-size:0.875rem;color:var(--muted);">${a.referral}</div></div>` : ''}
             </div>
             <div>
                 <div class="field-label">Submitted</div>
@@ -1494,6 +1576,10 @@ async function openApplication(id) {
                 <div style="background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;color:var(--muted);font-size:0.875rem;line-height:1.8;white-space:pre-wrap;">${a.experience}</div>
             </div>
             ${answersHTML}
+            <div>
+                <div class="field-label">Internal Notes (admin only)</div>
+                <textarea id="app-notes" class="field-textarea" rows="4" placeholder="Add interview notes, follow-up context, etc.">${a.notes || ""}</textarea>
+            </div>
             <a href="mailto:${a.email}?subject=Your application for ${encodeURIComponent(a.position)} at Switch" class="btn btn-primary" style="align-self:flex-start;">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 3 1.664 9.136L12 12l7.336-.864L21 3 3 3z"/><path d="m12 12 0 9"/></svg>
                 Reply via Email
@@ -1551,11 +1637,214 @@ document.getElementById('delete-application-btn').addEventListener('click', () =
     });
 });
 
+
+
+document.getElementById('save-app-status-btn').insertAdjacentHTML('afterend', '<button class="btn" id="save-app-notes-btn" style="margin-left:0.4rem;">Save Notes</button>');
+
+document.getElementById('save-app-notes-btn').addEventListener('click', async () => {
+    if (!activeApplicationId) return;
+    const notes = document.getElementById('app-notes')?.value || '';
+    try {
+        const res = await fetch(`/api/admin/applications/${activeApplicationId}/notes`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ notes })
+        });
+        if (!res.ok) throw new Error('save fail');
+        const d = await res.json();
+        const app = applications.find(a => a.id === activeApplicationId);
+        if (app) app.notes = d.application.notes || '';
+        toast('Notes saved');
+    } catch { toast('Failed to save notes', 'error'); }
+});
+
+async function downloadAdminCsv(path, filename) {
+    const res = await fetch(path, { headers: { 'x-admin-token': token } });
+    if (!res.ok) throw new Error('Export failed');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('messages-export-btn').addEventListener('click', async () => {
+    try { await downloadAdminCsv('/api/admin/contacts/export.csv', 'contacts.csv'); toast('Contacts exported'); }
+    catch { toast('Export failed', 'error'); }
+});
+
+document.getElementById('applications-export-btn').addEventListener('click', async () => {
+    try { await downloadAdminCsv('/api/admin/applications/export.csv', 'applications.csv'); toast('Applications exported'); }
+    catch { toast('Export failed', 'error'); }
+});
+
+document.getElementById('messages-mark-read-btn').addEventListener('click', async () => {
+    const ids = [...selectedMessageIds];
+    if (!ids.length) return toast('Select messages first', 'error');
+    try {
+        await fetch('/api/admin/contacts/bulk/read', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+        messages = messages.map(m => ids.includes(m.id) ? { ...m, read: true } : m);
+        renderMessages();
+        updateUnreadBadge('messages', messages);
+        toast('Marked as read');
+    } catch { toast('Bulk update failed', 'error'); }
+});
+
+document.getElementById('applications-mark-read-btn').addEventListener('click', async () => {
+    const ids = [...selectedApplicationIds];
+    if (!ids.length) return toast('Select applications first', 'error');
+    try {
+        await fetch('/api/admin/applications/bulk/read', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+        applications = applications.map(a => ids.includes(a.id) ? { ...a, read: true } : a);
+        renderApplications();
+        updateUnreadBadge('applications', applications);
+        toast('Marked as read');
+    } catch { toast('Bulk update failed', 'error'); }
+});
+
+document.getElementById('messages-bulk-delete-btn').addEventListener('click', () => {
+    const ids = [...selectedMessageIds];
+    if (!ids.length) return toast('Select messages first', 'error');
+    confirm('Delete selected messages?', `This will delete ${ids.length} messages.`, async () => {
+        try {
+            await fetch('/api/admin/contacts/bulk/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+            messages = messages.filter(m => !selectedMessageIds.has(m.id));
+            selectedMessageIds.clear();
+            renderMessages();
+            updateUnreadBadge('messages', messages);
+            document.getElementById('messages-count').textContent = `${messages.length} total`;
+            toast('Messages deleted');
+        } catch { toast('Bulk delete failed', 'error'); }
+    });
+});
+
+document.getElementById('applications-bulk-delete-btn').addEventListener('click', () => {
+    const ids = [...selectedApplicationIds];
+    if (!ids.length) return toast('Select applications first', 'error');
+    confirm('Delete selected applications?', `This will delete ${ids.length} applications.`, async () => {
+        try {
+            await fetch('/api/admin/applications/bulk/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+            applications = applications.filter(a => !selectedApplicationIds.has(a.id));
+            selectedApplicationIds.clear();
+            renderApplications();
+            updateUnreadBadge('applications', applications);
+            document.getElementById('applications-count').textContent = `${applications.length} total`;
+            toast('Applications deleted');
+        } catch { toast('Bulk delete failed', 'error'); }
+    });
+});
+
 document.getElementById('applications-search').addEventListener('input', function () {
     const q = this.value.toLowerCase();
     document.querySelectorAll('#applications-list .list-item').forEach(el => {
         el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
     });
+});
+
+
+
+// ═══════════════════════════════════════
+// OPERATIONS
+// ═══════════════════════════════════════
+async function loadOperations() {
+    await Promise.all([loadAnalytics(), loadSiteSettings(), loadAuditLog(), loadSessions()]);
+}
+
+async function loadAnalytics() {
+    try {
+        const res = await fetch('/api/admin/analytics', { headers: { 'x-admin-token': token } });
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        document.getElementById('analytics-views').textContent = (d.totals?.pageViews ?? 0).toLocaleString();
+        document.getElementById('analytics-contacts').textContent = (d.totals?.contacts ?? 0).toLocaleString();
+        document.getElementById('analytics-apps').textContent = (d.totals?.applications ?? 0).toLocaleString();
+        document.getElementById('analytics-busiest').textContent = d.busiestDay ? `${d.busiestDay.date} (${d.busiestDay.views} views)` : '—';
+        document.getElementById('analytics-trend').innerHTML = (d.trend || []).map(r =>
+            `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:0.25rem 0;">` +
+            `<span>${r.date}</span><span>${r.views} views • ${r.contacts} msgs • ${r.applications} apps</span></div>`
+        ).join('') || '<span style="color:var(--muted);">No data yet.</span>';
+    } catch { toast('Failed to load analytics', 'error'); }
+}
+
+async function loadSiteSettings() {
+    try {
+        const res = await fetch('/api/admin/site-settings', { headers: { 'x-admin-token': token } });
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        const a = d.settings?.announcement || {};
+        document.getElementById('banner-enabled').checked = !!a.enabled;
+        document.getElementById('banner-text').value = a.text || '';
+        document.getElementById('banner-bg').value = a.background || '#FBBF24';
+        document.getElementById('banner-color').value = a.textColor || '#0A0A0A';
+        document.getElementById('banner-link').value = a.link || '';
+    } catch { toast('Failed to load banner settings', 'error'); }
+}
+
+async function loadAuditLog() {
+    try {
+        const res = await fetch('/api/admin/audit-log', { headers: { 'x-admin-token': token } });
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        const list = document.getElementById('audit-log-list');
+        const entries = d.entries || [];
+        list.innerHTML = entries.length ? entries.slice(0, 80).map(e =>
+            `<div style="border:1px solid var(--border);padding:0.55rem 0.7rem;font-size:0.78rem;">` +
+            `<div style="display:flex;justify-content:space-between;gap:0.5rem;"><strong>${e.action}</strong><span style="color:var(--muted);">${fmtDate(e.at)}</span></div>` +
+            `<div style="color:var(--muted);margin-top:0.3rem;">${e.actorRole} • ${e.actorAccountId}</div></div>`
+        ).join('') : '<div class="list-empty">No audit entries yet.</div>';
+    } catch { toast('Failed to load audit log', 'error'); }
+}
+
+async function loadSessions() {
+    const list = document.getElementById('session-list');
+    try {
+        const res = await fetch('/api/admin/sessions', { headers: { 'x-admin-token': token } });
+        if (res.status === 403) { list.innerHTML = '<div class="list-empty">Superadmin access only.</div>'; return; }
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        const sessions = d.sessions || [];
+        list.innerHTML = sessions.length ? sessions.map(s =>
+            `<div style="border:1px solid var(--border);padding:0.55rem 0.7rem;font-size:0.78rem;display:flex;justify-content:space-between;gap:0.7rem;align-items:center;">` +
+            `<div><div><strong>${s.role}</strong> • ${s.accountId}</div><div style="color:var(--muted);">Expires: ${fmtDate(s.expiresAt)}</div></div>` +
+            `<button class="btn btn-danger kill-session-btn" data-token="${s.token}" style="padding:0.3rem 0.55rem;font-size:0.72rem;">Kill</button></div>`
+        ).join('') : '<div class="list-empty">No active sessions.</div>';
+        document.querySelectorAll('.kill-session-btn').forEach(btn => btn.addEventListener('click', async () => {
+            const target = btn.dataset.token;
+            if (!target) return;
+            try {
+                const r = await fetch(`/api/admin/sessions/${target}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+                if (!r.ok) throw new Error('failed');
+                toast('Session terminated');
+                loadSessions();
+                loadAuditLog();
+            } catch { toast('Failed to kill session', 'error'); }
+        }));
+    } catch { list.innerHTML = '<div class="list-empty">Failed to load sessions.</div>'; }
+}
+
+document.getElementById('refresh-analytics-btn').addEventListener('click', loadAnalytics);
+document.getElementById('save-banner-btn').addEventListener('click', async () => {
+    const announcement = {
+        enabled: document.getElementById('banner-enabled').checked,
+        text: document.getElementById('banner-text').value,
+        background: document.getElementById('banner-bg').value,
+        textColor: document.getElementById('banner-color').value,
+        link: document.getElementById('banner-link').value
+    };
+    try {
+        const res = await fetch('/api/admin/site-settings', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ announcement })
+        });
+        if (!res.ok) throw new Error('failed');
+        toast('Banner settings saved');
+        loadAuditLog();
+    } catch { toast('Failed to save banner', 'error'); }
 });
 
 // ── SEARCH ─────────────────────────────────────────────────────────────────

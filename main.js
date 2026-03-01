@@ -19,11 +19,29 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json({ limit: '2mb' }));
 
+
+app.use((req, res, next) => {
+    if (req.method === 'GET' && isPublicPagePath(req.path)) {
+        const views = readPageViews();
+        views.unshift({ path: req.path, at: new Date().toISOString() });
+        writePageViews(views);
+    }
+    next();
+});
+
 // Security headers (no CSP — Quill editor needs unsafe-eval)
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    // Admin relies on Quill (which uses dynamic code paths) and inline scripts.
+    // Explicitly set a compatible CSP so browser/proxy defaults do not block login/app boot.
+    if (req.path === '/admin.html' || req.path.startsWith('/api/admin')) {
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self';"
+        );
+    }
     // Block direct access to sensitive JSON files
     const blocked = ['contacts.json','applications.json','staff.json','staff-accounts.json'];
     if (blocked.some(f => req.path === '/' + f)) {
@@ -106,6 +124,76 @@ const APPLICATIONS_FILE = './applications.json';
 function readApplications() { try { return JSON.parse(readFileSync(APPLICATIONS_FILE, 'utf-8')).applications; } catch { return []; } }
 function writeApplications(a) { writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications: a }, null, 2), 'utf-8'); }
 
+
+const SITE_SETTINGS_FILE = './site-settings.json';
+const AUDIT_LOG_FILE = './audit-log.json';
+const PAGE_VIEWS_FILE = './page-views.json';
+
+const DEFAULT_SETTINGS = {
+    announcement: {
+        enabled: false,
+        text: '',
+        background: '#FBBF24',
+        textColor: '#0A0A0A',
+        link: ''
+    }
+};
+
+function readSiteSettings() {
+    try {
+        const parsed = JSON.parse(readFileSync(SITE_SETTINGS_FILE, 'utf-8'));
+        return {
+            ...DEFAULT_SETTINGS,
+            ...(parsed || {}),
+            announcement: {
+                ...DEFAULT_SETTINGS.announcement,
+                ...((parsed || {}).announcement || {})
+            }
+        };
+    } catch {
+        return { ...DEFAULT_SETTINGS };
+    }
+}
+function writeSiteSettings(settings) { writeFileSync(SITE_SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8'); }
+
+function readAuditLog() { try { return JSON.parse(readFileSync(AUDIT_LOG_FILE, 'utf-8')).entries || []; } catch { return []; } }
+function writeAuditLog(entries) { writeFileSync(AUDIT_LOG_FILE, JSON.stringify({ entries: entries.slice(0, 1000) }, null, 2), 'utf-8'); }
+
+function readPageViews() { try { return JSON.parse(readFileSync(PAGE_VIEWS_FILE, 'utf-8')).views || []; } catch { return []; } }
+function writePageViews(views) { writeFileSync(PAGE_VIEWS_FILE, JSON.stringify({ views: views.slice(0, 5000) }, null, 2), 'utf-8'); }
+
+function logAudit(action, req, details = {}) {
+    const token = req.headers['x-admin-token'];
+    const session = token ? getSession(token) : null;
+    const entries = readAuditLog();
+    entries.unshift({
+        id: randomBytes(8).toString('hex'),
+        at: new Date().toISOString(),
+        action,
+        actorRole: session?.role || 'unknown',
+        actorAccountId: session?.accountId || 'unknown',
+        ip: req.ip || req.connection?.remoteAddress || '',
+        details
+    });
+    writeAuditLog(entries);
+}
+
+function isPublicPagePath(pathname) {
+    if (!pathname) return false;
+    if (pathname.startsWith('/api/') || pathname.startsWith('/uploads/') || pathname === '/admin.html') return false;
+    if (pathname.includes('.')) return ['.html', '.htm'].some(ext => pathname.endsWith(ext));
+    return true;
+}
+function toCsv(rows) {
+    if (!rows.length) return '';
+    const headers = Object.keys(rows[0]);
+    const escape = (v) => {
+        const value = v == null ? '' : String(v);
+        return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+    };
+    return [headers.join(','), ...rows.map(row => headers.map(h => escape(row[h])).join(','))].join('\n');
+}
+
 // Blog
 async function loadBlogPosts() {
     try { return JSON.parse(await fs.readFile(path.join(ROOT, 'blog-posts.json'), 'utf8')).posts || []; }
@@ -140,6 +228,7 @@ app.post('/api/admin/login', (req, res) => {
             clearAttempts(ip);
             const token = generateToken();
             adminSessions.set(token, { expiresAt: Date.now() + 8 * 60 * 60 * 1000, role: 'superadmin', accountId: 'master' });
+            logAudit('admin.login', req, { accountId: 'master', role: 'superadmin' });
             return res.json({ message: 'Login successful', token, role: 'superadmin', displayName: 'Admin' });
         }
     }
@@ -153,6 +242,7 @@ app.post('/api/admin/login', (req, res) => {
         writeStaffAccounts(accounts);
         const token = generateToken();
         adminSessions.set(token, { expiresAt: Date.now() + 8 * 60 * 60 * 1000, role: account.role, accountId: account.id });
+        logAudit('admin.login', req, { accountId: account.id, role: account.role });
         return res.json({ message: 'Login successful', token, role: account.role, displayName: account.displayName });
     }
 
@@ -162,7 +252,10 @@ app.post('/api/admin/login', (req, res) => {
 
 app.post('/api/admin/logout', (req, res) => {
     const token = req.headers['x-admin-token'];
-    if (token) adminSessions.delete(token);
+    if (token) {
+        logAudit('admin.logout', req);
+        adminSessions.delete(token);
+    }
     res.json({ message: 'Logged out' });
 });
 
@@ -306,9 +399,54 @@ app.patch('/api/admin/contacts/:id/read', (req, res) => {
     res.json({ contact: contacts[idx] });
 });
 
+app.patch('/api/admin/contacts/bulk/read', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const contacts = readContacts();
+    const idSet = new Set(ids);
+    let updated = 0;
+    for (const c of contacts) {
+        if (idSet.has(c.id) && !c.read) {
+            c.read = true;
+            updated++;
+        }
+    }
+    writeContacts(contacts);
+    res.json({ message: 'Updated', updated });
+});
+
+app.post('/api/admin/contacts/bulk/delete', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const idSet = new Set(ids);
+    const contacts = readContacts();
+    const filtered = contacts.filter(c => !idSet.has(c.id));
+    writeContacts(filtered);
+    res.json({ message: 'Deleted', deleted: contacts.length - filtered.length });
+});
+
+app.get('/api/admin/contacts/export.csv', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const contacts = readContacts().map(c => ({
+        id: c.id,
+        name: c.name,
+        email: c.email,
+        subject: c.subject,
+        message: c.message,
+        read: c.read,
+        createdAt: c.createdAt
+    }));
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="contacts.csv"');
+    res.send(toCsv(contacts));
+});
+
 app.delete('/api/admin/contacts/:id', (req, res) => {
     if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
     writeContacts(readContacts().filter(c => c.id !== req.params.id));
+    logAudit('contacts.delete', req, { id: req.params.id });
     res.json({ message: 'Deleted' });
 });
 
@@ -318,11 +456,11 @@ app.delete('/api/admin/contacts/:id', (req, res) => {
 
 app.post('/api/apply', (req, res) => {
     try {
-        const { position, name, email, discord, portfolio, experience, answers } = req.body;
+        const { position, name, email, discord, portfolio, experience, answers, referral } = req.body;
         if (!position || !name || !email || !experience) return res.status(400).json({ message: 'Required fields missing' });
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ message: 'Invalid email' });
         const applications = readApplications();
-        applications.unshift({ id: randomBytes(8).toString('hex'), position: position.slice(0,200), name: name.slice(0,200), email: email.slice(0,200), discord: (discord||'').slice(0,200), portfolio: (portfolio||'').slice(0,500), experience: experience.slice(0,5000), answers: Array.isArray(answers) ? answers.slice(0,20) : [], status: 'new', read: false, createdAt: new Date().toISOString() });
+        applications.unshift({ id: randomBytes(8).toString('hex'), position: position.slice(0,200), name: name.slice(0,200), email: email.slice(0,200), discord: (discord||'').slice(0,200), portfolio: (portfolio||'').slice(0,500), experience: experience.slice(0,5000), answers: Array.isArray(answers) ? answers.slice(0,20) : [], referral: (referral || '').slice(0,120), notes: '', status: 'new', read: false, createdAt: new Date().toISOString() });
         writeApplications(applications);
         res.json({ message: 'Application submitted successfully' });
     } catch (err) {
@@ -343,13 +481,170 @@ app.patch('/api/admin/applications/:id/status', (req, res) => {
     if (idx === -1) return res.status(404).json({ message: 'Not found' });
     if (req.body.status) apps[idx].status = req.body.status;
     apps[idx].read = true; writeApplications(apps);
+    logAudit('applications.status', req, { id: req.params.id, status: apps[idx].status });
     res.json({ application: apps[idx] });
+});
+
+app.patch('/api/admin/applications/:id/notes', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const apps = readApplications();
+    const idx = apps.findIndex(a => a.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: 'Not found' });
+    apps[idx].notes = (req.body.notes || '').slice(0, 5000);
+    writeApplications(apps);
+    logAudit('applications.notes', req, { id: req.params.id });
+    res.json({ application: apps[idx] });
+});
+
+app.post('/api/admin/applications/bulk/delete', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const idSet = new Set(ids);
+    const apps = readApplications();
+    const filtered = apps.filter(a => !idSet.has(a.id));
+    writeApplications(filtered);
+    res.json({ message: 'Deleted', deleted: apps.length - filtered.length });
+});
+
+app.patch('/api/admin/applications/bulk/read', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
+    if (!ids.length) return res.status(400).json({ message: 'No ids provided' });
+    const apps = readApplications();
+    const idSet = new Set(ids);
+    let updated = 0;
+    for (const a of apps) {
+        if (idSet.has(a.id) && !a.read) {
+            a.read = true;
+            updated++;
+        }
+    }
+    writeApplications(apps);
+    res.json({ message: 'Updated', updated });
+});
+
+app.get('/api/admin/applications/export.csv', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const apps = readApplications().map(a => ({
+        id: a.id,
+        position: a.position,
+        name: a.name,
+        email: a.email,
+        discord: a.discord || '',
+        portfolio: a.portfolio || '',
+        referral: a.referral || '',
+        status: a.status || 'new',
+        read: a.read,
+        notes: a.notes || '',
+        createdAt: a.createdAt,
+        experience: a.experience,
+        answers: (a.answers || []).map(x => `${x.question}: ${x.answer || ''}`).join(' | ')
+    }));
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="applications.csv"');
+    res.send(toCsv(apps));
 });
 
 app.delete('/api/admin/applications/:id', (req, res) => {
     if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
     writeApplications(readApplications().filter(a => a.id !== req.params.id));
+    logAudit('applications.delete', req, { id: req.params.id });
     res.json({ message: 'Deleted' });
+});
+
+
+app.get('/api/site-settings', (req, res) => {
+    res.json({ settings: readSiteSettings() });
+});
+
+app.get('/api/admin/site-settings', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    res.json({ settings: readSiteSettings() });
+});
+
+app.put('/api/admin/site-settings', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const current = readSiteSettings();
+    const incoming = req.body || {};
+    const next = {
+        ...current,
+        ...incoming,
+        announcement: {
+            ...current.announcement,
+            ...((incoming.announcement || {}))
+        }
+    };
+    if (typeof next.announcement.text === 'string') next.announcement.text = next.announcement.text.slice(0, 240);
+    if (typeof next.announcement.link === 'string') next.announcement.link = next.announcement.link.slice(0, 500);
+    writeSiteSettings(next);
+    logAudit('site-settings.update', req, { announcementEnabled: !!next.announcement.enabled });
+    res.json({ settings: next });
+});
+
+app.get('/api/admin/analytics', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    const contacts = readContacts();
+    const apps = readApplications();
+    const views = readPageViews();
+
+    const byDay = new Map();
+    const bump = (iso, key) => {
+        const d = (iso || '').slice(0, 10);
+        if (!d) return;
+        if (!byDay.has(d)) byDay.set(d, { date: d, views: 0, contacts: 0, applications: 0 });
+        byDay.get(d)[key]++;
+    };
+
+    views.forEach(v => bump(v.at, 'views'));
+    contacts.forEach(c => bump(c.createdAt, 'contacts'));
+    apps.forEach(a => bump(a.createdAt, 'applications'));
+
+    const trend = [...byDay.values()].sort((a, b) => a.date.localeCompare(b.date)).slice(-14);
+    const busiest = trend.reduce((m, x) => (x.views > (m?.views || -1) ? x : m), null);
+
+    res.json({
+        totals: {
+            pageViews: views.length,
+            contacts: contacts.length,
+            applications: apps.length,
+            unreadMessages: contacts.filter(c => !c.read).length,
+            unreadApplications: apps.filter(a => !a.read).length
+        },
+        trend,
+        busiestDay: busiest
+    });
+});
+
+app.get('/api/admin/audit-log', (req, res) => {
+    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
+    res.json({ entries: readAuditLog() });
+});
+
+app.get('/api/admin/sessions', (req, res) => {
+    const session = getSession(req.headers['x-admin-token']);
+    if (!session) return res.status(401).json({ message: 'Unauthorised' });
+    if (session.role !== 'superadmin') return res.status(403).json({ message: 'Forbidden' });
+    const now = Date.now();
+    const sessions = [...adminSessions.entries()].map(([token, s]) => ({
+        token,
+        role: s.role,
+        accountId: s.accountId,
+        expiresAt: s.expiresAt,
+        remainingMs: Math.max(0, s.expiresAt - now)
+    }));
+    res.json({ sessions });
+});
+
+app.delete('/api/admin/sessions/:token', (req, res) => {
+    const session = getSession(req.headers['x-admin-token']);
+    if (!session) return res.status(401).json({ message: 'Unauthorised' });
+    if (session.role !== 'superadmin') return res.status(403).json({ message: 'Forbidden' });
+    const token = req.params.token;
+    const existed = adminSessions.delete(token);
+    if (!existed) return res.status(404).json({ message: 'Session not found' });
+    logAudit('admin.session.kill', req, { token });
+    res.json({ message: 'Session terminated' });
 });
 
 // ============================================================

@@ -220,6 +220,10 @@
                     <span class="sidebar-label">Salary</span>
                     <div class="sidebar-value" id="sidebar-salary">—</div>
                 </div>
+                <div id="sidebar-ref-wrap" style="display:none;">
+                    <span class="sidebar-label">Referral</span>
+                    <div class="sidebar-value" id="sidebar-ref">—</div>
+                </div>
                 <hr class="sidebar-divider">
                 <p class="sidebar-desc">We'll review your application and get back to you within a few days.</p>
             </div>
@@ -245,6 +249,7 @@
 <script>
     let career = null;
     let customQuestions = [];
+    const referralSource = new URLSearchParams(location.search).get('ref') || localStorage.getItem('sw_referral') || '';
 
     async function loadCareer() {
         const roleId = new URLSearchParams(location.search).get('role');
@@ -281,6 +286,13 @@
         document.getElementById('sidebar-dept').textContent = c.department || '—';
         document.getElementById('sidebar-type').textContent = c.type || '—';
         document.getElementById('sidebar-location').textContent = c.location || '—';
+        if (referralSource) {
+            const wrap = document.getElementById('sidebar-ref-wrap');
+            if (wrap) {
+                wrap.style.display = 'block';
+                document.getElementById('sidebar-ref').textContent = referralSource;
+            }
+        }
 
         if (c.salary && c.salary.trim()) {
             document.getElementById('sidebar-salary').textContent = c.salary;
@@ -329,7 +341,8 @@
                     discord: document.getElementById('app-discord').value,
                     portfolio: document.getElementById('app-portfolio').value,
                     experience: document.getElementById('app-experience').value,
-                    answers
+                    answers,
+                    referral: referralSource
                 })
             });
 
