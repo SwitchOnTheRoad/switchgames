@@ -21,7 +21,7 @@ document.getElementById('contact-form')?.addEventListener('submit', async (e) =>
             message: form.message.value
         };
         
-        const response = await fetch('http://localhost:5500/api/contact', {
+        const response = await fetch('/api/contact', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ document.getElementById('application-form')?.addEventListener('submit', async (e
             experience: form.experience.value
         };
         
-        const response = await fetch('http://localhost:5500/api/apply', {
+        const response = await fetch('/api/apply', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

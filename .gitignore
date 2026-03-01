@@ -1,5 +1,17 @@
-# Dependency folders
+# Dependencies
 node_modules/
 
 # Environment variables
 .env
+
+# !! Data files — these are written to at runtime by the server.
+# Excluding them from git means they won't get wiped on every deploy.
+# Your host needs to persist these files between deploys (most do by default).
+contacts.json
+applications.json
+blog-posts.json
+careers-data.json
+games-data.json
+
+# Uploads folder (user-uploaded images)
+uploads/
