@@ -13,7 +13,6 @@ if (!existsSync("./uploads")) mkdirSync("./uploads");
 
 const PORT = process.env.PORT || 5500;
 const app = express();
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
@@ -45,7 +44,7 @@ app.get('/api/get-total-ccu', (req, res) => {
 });
 
 // ============================================================
-// CONTACT
+// CONTACT — saves to contacts.json, no Discord needed
 // ============================================================
 
 const CONTACTS_FILE = "./contacts.json";
@@ -56,12 +55,12 @@ function writeContacts(contacts) {
     writeFileSync(CONTACTS_FILE, JSON.stringify({ contacts }, null, 2), "utf-8");
 }
 
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', (req, res) => {
     try {
         const { name, email, subject, message } = req.body;
-        if (!name || !email || !subject || !message) return res.status(400).json({ message: "All fields are required" });
-
-        // Save to file
+        if (!name || !email || !subject || !message) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
         const contacts = readContacts();
         contacts.unshift({
             id: randomBytes(8).toString("hex"),
@@ -70,18 +69,6 @@ app.post('/api/contact', async (req, res) => {
             createdAt: new Date().toISOString()
         });
         writeContacts(contacts);
-
-        // Discord webhook — optional, never crashes the request
-        if (DISCORD_WEBHOOK_URL) {
-            try {
-                await fetch(DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ embeds: [{ title: "📧 New Contact Form Submission", color: 65535, fields: [{ name: "Name", value: name, inline: true }, { name: "Email", value: email, inline: true }, { name: "Subject", value: subject }, { name: "Message", value: message.substring(0, 1024) }], timestamp: new Date().toISOString() }] })
-                });
-            } catch (e) { console.error('Discord webhook error:', e.message); }
-        }
-
         res.status(200).json({ message: "Message sent successfully" });
     } catch (error) {
         console.error('Contact form error:', error);
@@ -89,8 +76,32 @@ app.post('/api/contact', async (req, res) => {
     }
 });
 
+app.get("/api/admin/contacts", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
+    res.status(200).json({ contacts: readContacts() });
+});
+
+app.patch("/api/admin/contacts/:id/read", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
+    const contacts = readContacts();
+    const idx = contacts.findIndex(c => c.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ message: "Not found" });
+    contacts[idx].read = true;
+    writeContacts(contacts);
+    res.status(200).json({ contact: contacts[idx] });
+});
+
+app.delete("/api/admin/contacts/:id", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
+    writeContacts(readContacts().filter(c => c.id !== req.params.id));
+    res.status(200).json({ message: "Deleted" });
+});
+
 // ============================================================
-// JOB APPLICATIONS
+// APPLICATIONS — saves to applications.json, no Discord needed
 // ============================================================
 
 const APPLICATIONS_FILE = "./applications.json";
@@ -101,12 +112,12 @@ function writeApplications(applications) {
     writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications }, null, 2), "utf-8");
 }
 
-app.post('/api/apply', async (req, res) => {
+app.post('/api/apply', (req, res) => {
     try {
         const { position, name, email, discord, portfolio, experience, answers } = req.body;
-        if (!position || !name || !email || !experience) return res.status(400).json({ message: "Required fields are missing" });
-
-        // Save to file
+        if (!position || !name || !email || !experience) {
+            return res.status(400).json({ message: "Required fields are missing" });
+        }
         const applications = readApplications();
         applications.unshift({
             id: randomBytes(8).toString("hex"),
@@ -120,27 +131,6 @@ app.post('/api/apply', async (req, res) => {
             createdAt: new Date().toISOString()
         });
         writeApplications(applications);
-
-        // Discord webhook — optional, never crashes the request
-        if (DISCORD_WEBHOOK_URL) {
-            try {
-                const fields = [
-                    { name: "Position", value: position },
-                    { name: "Name", value: name, inline: true },
-                    { name: "Email", value: email, inline: true },
-                    { name: "Discord", value: discord || "Not provided", inline: true },
-                    { name: "Portfolio", value: portfolio || "Not provided" },
-                    { name: "Why they're a good fit", value: experience.substring(0, 1024) }
-                ];
-                if (answers?.length) answers.forEach(a => { if (a.question && a.answer) fields.push({ name: a.question, value: a.answer.substring(0, 1024) }); });
-                await fetch(DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ embeds: [{ title: "💼 New Job Application", color: 3447003, fields, timestamp: new Date().toISOString() }] })
-                });
-            } catch (e) { console.error('Discord webhook error:', e.message); }
-        }
-
         res.status(200).json({ message: "Application submitted successfully" });
     } catch (error) {
         console.error('Application form error:', error);
@@ -148,36 +138,12 @@ app.post('/api/apply', async (req, res) => {
     }
 });
 
-// Admin — contacts
-app.get("/api/admin/contacts", (req, res) => {
-    const token = req.headers["x-admin-token"];
-    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    res.status(200).json({ contacts: readContacts() });
-});
-app.patch("/api/admin/contacts/:id/read", (req, res) => {
-    const token = req.headers["x-admin-token"];
-    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    const contacts = readContacts();
-    const idx = contacts.findIndex(c => c.id === req.params.id);
-    if (idx === -1) return res.status(404).json({ message: "Not found" });
-    contacts[idx].read = true;
-    writeContacts(contacts);
-    res.status(200).json({ contact: contacts[idx] });
-});
-app.delete("/api/admin/contacts/:id", (req, res) => {
-    const token = req.headers["x-admin-token"];
-    if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    const filtered = readContacts().filter(c => c.id !== req.params.id);
-    writeContacts(filtered);
-    res.status(200).json({ message: "Deleted" });
-});
-
-// Admin — applications
 app.get("/api/admin/applications", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
     res.status(200).json({ applications: readApplications() });
 });
+
 app.patch("/api/admin/applications/:id/status", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
@@ -189,13 +155,17 @@ app.patch("/api/admin/applications/:id/status", (req, res) => {
     writeApplications(applications);
     res.status(200).json({ application: applications[idx] });
 });
+
 app.delete("/api/admin/applications/:id", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
-    const filtered = readApplications().filter(a => a.id !== req.params.id);
-    writeApplications(filtered);
+    writeApplications(readApplications().filter(a => a.id !== req.params.id));
     res.status(200).json({ message: "Deleted" });
 });
+
+// ============================================================
+// ADMIN AUTH
+// ============================================================
 
 const ADMIN_PASSWORD_HASH = "25041dace945e0a85a78c93c681456626b017391ba108bf29bebde1704c85672"; // SwitchAdmin2025
 const adminSessions = new Map();
@@ -243,7 +213,6 @@ app.post("/api/admin/upload", (req, res) => {
 // ============================================================
 
 const BLOG_FILE = "./blog-posts.json";
-
 function readPosts() {
     try { return JSON.parse(readFileSync(BLOG_FILE, "utf-8")).posts; } catch { return []; }
 }
@@ -300,7 +269,6 @@ app.delete("/api/admin/posts/:id", (req, res) => {
 // ============================================================
 
 const CAREERS_FILE = "./careers-data.json";
-
 function readCareers() {
     try { return JSON.parse(readFileSync(CAREERS_FILE, "utf-8")).careers; } catch { return []; }
 }
@@ -363,7 +331,6 @@ app.delete("/api/admin/careers/:id", (req, res) => {
 // ============================================================
 
 const GAMES_FILE = "./games-data.json";
-
 function readGames() {
     try { return JSON.parse(readFileSync(GAMES_FILE, "utf-8")).games; } catch { return []; }
 }
@@ -371,41 +338,27 @@ function writeGames(games) {
     writeFileSync(GAMES_FILE, JSON.stringify({ games }, null, 2), "utf-8");
 }
 
-// Public - active games with live stats
 app.get("/api/games", async (req, res) => {
     try {
         const games = readGames().filter(g => g.active);
         const enriched = await Promise.all(games.map(async (game) => {
             try {
-                // If we don't have universeId, fetch it from placeId
                 let universeId = game.universeId;
                 if (!universeId && game.placeId) {
                     const placeRes = await fetch(`https://apis.roblox.com/universes/v1/places/${game.placeId}/universe`);
                     const placeData = await placeRes.json();
                     universeId = placeData.universeId?.toString();
                 }
-                
                 if (universeId) {
                     const robloxRes = await fetch(`https://games.roblox.com/v1/games?universeIds=${universeId}`);
                     const robloxData = await robloxRes.json();
-                    if (robloxData.data && robloxData.data[0]) {
-                        const gameData = robloxData.data[0];
-                        return {
-                            ...game,
-                            universeId,
-                            placeId: game.placeId || gameData.rootPlaceId?.toString(),
-                            name: gameData.name,
-                            visits: gameData.visits,
-                            playing: gameData.playing,
-                            likes: gameData.favoritedCount,
-                            maxPlayers: gameData.maxPlayers,
-                            created: gameData.created,
-                            updated: gameData.updated
-                        };
+                    if (robloxData.data?.[0]) {
+                        const g = robloxData.data[0];
+                        return { ...game, universeId, placeId: game.placeId || g.rootPlaceId?.toString(), name: g.name, visits: g.visits, playing: g.playing, likes: g.favoritedCount, maxPlayers: g.maxPlayers };
                     }
                 }
             } catch (err) {
-                console.error(`Failed to fetch data for ${game.placeId || game.universeId}:`, err);
+                console.error(`Failed to fetch Roblox data for ${game.placeId}:`, err.message);
             }
             return game;
         }));
@@ -415,35 +368,23 @@ app.get("/api/games", async (req, res) => {
     }
 });
 
-// Admin - all games
 app.get("/api/admin/games", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
     res.status(200).json({ games: readGames() });
 });
 
-// Create
 app.post("/api/admin/games", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
     const { placeId, featured, active = true, thumbnail } = req.body;
     const games = readGames();
-    const newGame = {
-        id: randomBytes(8).toString("hex"),
-        placeId: String(placeId || ""),
-        universeId: "",
-        thumbnail: thumbnail || "",
-        featured: featured || false,
-        active,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    };
+    const newGame = { id: randomBytes(8).toString("hex"), placeId: String(placeId || ""), universeId: "", thumbnail: thumbnail || "", featured: featured || false, active, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
     games.unshift(newGame);
     writeGames(games);
     res.status(201).json({ message: "Game created", game: newGame });
 });
 
-// Update
 app.put("/api/admin/games/:id", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
@@ -455,7 +396,6 @@ app.put("/api/admin/games/:id", (req, res) => {
     res.status(200).json({ message: "Game updated", game: games[index] });
 });
 
-// Delete
 app.delete("/api/admin/games/:id", (req, res) => {
     const token = req.headers["x-admin-token"];
     if (!isValidToken(token)) return res.status(401).json({ message: "Unauthorised" });
@@ -473,8 +413,6 @@ app.delete("/api/admin/games/:id", (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile('404.html', { root: '.' });
 });
-
-// ============================================================
 
 app.listen(PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`);
