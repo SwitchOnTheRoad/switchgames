@@ -20,14 +20,14 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
 
+        /* ── GRID VIEW ── */
+        #grid-view { display: block; }
         .page-header { padding: 120px 2rem 4rem; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
         .section-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--primary); display: block; margin-bottom: 0.75rem; }
         .page-header h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -0.02em; }
         .page-header p { margin-top: 0.75rem; color: var(--muted); font-size: 1rem; }
 
         .section { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 6rem; }
-
-        /* Clean grid, no gap trick since cards can vary */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -35,208 +35,330 @@
             background: var(--border);
             border: 1px solid var(--border);
         }
-
-        .blog-card {
-            background: var(--surface);
-            cursor: pointer;
-            transition: background 0.15s;
-            display: flex;
-            flex-direction: column;
-        }
-
+        .blog-card { background: var(--surface); cursor: pointer; transition: background 0.15s; display: flex; flex-direction: column; }
         .blog-card:hover { background: var(--surface-mid); }
-
-        .blog-img {
-            width: 100%;
-            aspect-ratio: 16/9;
-            object-fit: cover;
-            display: block;
-        }
-
-        .blog-img-ph {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: var(--surface-mid);
-            display: block;
-        }
-
-        .blog-body {
-            padding: 1.75rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
+        .blog-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+        .blog-img-ph { width: 100%; aspect-ratio: 16/9; background: var(--surface-mid); display: block; }
+        .blog-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
         .blog-card.lead .blog-body { padding: 2rem 2.25rem; }
-
         .blog-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.875rem; }
         .blog-date { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); }
         .blog-rt { font-size: 0.68rem; color: var(--muted); }
         .blog-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.75rem; }
         .blog-card.lead .blog-title { font-size: 1.4rem; }
         .blog-preview { color: var(--muted); font-size: 0.875rem; line-height: 1.65; }
-
         .blog-empty { padding: 5rem 2rem; text-align: center; color: var(--muted); font-size: 0.875rem; background: var(--surface); border: 1px solid var(--border); }
 
-        /* Modal */
-        .modal { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 2rem; }
-        .modal.open { display: flex; }
-        .modal-content { background: var(--surface); border: 1px solid var(--border); max-width: 760px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
-        .modal-header { padding: 2rem 2rem 1.5rem; border-bottom: 1px solid var(--border); }
-        .modal-meta { display: flex; gap: 1.25rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
-        .modal-meta span:first-child { color: var(--primary); }
-        .modal-meta span:last-child { color: var(--muted); }
-        .modal-title { font-size: 1.75rem; line-height: 1.2; }
-        .modal-close { position: absolute; top: 1.25rem; right: 1.25rem; background: var(--surface-mid); border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; border-radius: 2px; transition: background 0.15s, color 0.15s; }
-        .modal-close:hover { background: var(--primary); color: #000; border-color: var(--primary); }
-        .modal-actions { display: flex; gap: 0.5rem; position: absolute; top: 1.25rem; right: 3.75rem; }
-        .modal-copy-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.875rem; height: 32px; background: var(--surface-mid); border: 1px solid var(--border); color: var(--muted); font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: 2px; transition: background 0.15s, color 0.15s, border-color 0.15s; white-space: nowrap; }
-        .modal-copy-btn:hover { background: var(--surface); color: var(--text); border-color: #3a3a3a; }
-        .modal-copy-btn.copied { background: rgba(251,191,36,0.1); color: var(--primary); border-color: rgba(251,191,36,0.35); }
+        /* ── FULL-SCREEN READER ── */
+        #reader-view {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            overflow-y: auto;
+        }
+
+        #reader-view.open { display: block; }
+
+        .reader-topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.875rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .reader-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .reader-back-btn:hover { color: var(--text); border-color: #3a3a3a; }
+
+        .reader-topbar-title {
+            flex: 1;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .reader-copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .reader-copy-btn:hover { color: var(--text); border-color: #3a3a3a; }
+        .reader-copy-btn.copied { background: rgba(251,191,36,0.08); color: var(--primary); border-color: rgba(251,191,36,0.3); }
+
+        .reader-content {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 4rem 2rem 8rem;
+        }
+
+        .reader-meta {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .reader-date { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--primary); font-weight: 700; }
+        .reader-rt { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+        .reader-sep { width: 1px; height: 12px; background: var(--border); }
+
+        .reader-title { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.75rem; }
+
+        .reader-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .reader-author-label { font-size: 0.75rem; color: var(--muted); }
+        .reader-author-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+
+        .reader-body { color: #d1d1d1; font-size: 1.05rem; line-height: 1.85; }
+        .reader-body h1, .reader-body h2, .reader-body h3 { color: var(--text); margin: 2rem 0 0.875rem; font-family: 'Space Grotesk', sans-serif; }
+        .reader-body h2 { font-size: 1.5rem; }
+        .reader-body h3 { font-size: 1.2rem; }
+        .reader-body p { margin-bottom: 1.25rem; }
+        .reader-body ul, .reader-body ol { margin: 0 0 1.25rem 1.5rem; }
+        .reader-body li { margin-bottom: 0.5rem; }
+        .reader-body blockquote { border-left: 3px solid var(--primary); margin: 2rem 0; padding: 1rem 1.5rem; color: var(--muted); font-style: italic; }
+        .reader-body img { max-width: 100%; margin: 2rem auto; display: block; border-radius: 4px; }
+        .reader-body a { color: var(--primary); text-decoration: none; }
+        .reader-body a:hover { text-decoration: underline; }
+        .reader-body strong { color: var(--text); font-weight: 600; }
+
         /* Toast */
-        #sw-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.6rem 1.25rem; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 99999; white-space: nowrap; }
+        #sw-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 0.6rem 1.25rem; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 99999; white-space: nowrap; }
         #sw-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .modal-body img { max-width: 100%; margin: 1rem auto; display: block; }
-        .modal-body img { max-width: 100%; margin: 1rem 0; }
-        .modal-body h2, .modal-body h3 { color: var(--text); margin: 1.5rem 0 0.75rem; }
 
         @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr 1fr; } .blog-card.lead { grid-column: 1 / -1; } }
-        @media (max-width: 600px) { .page-header { padding: 100px 1.25rem 3rem; } .section { padding: 3rem 1.25rem 4rem; } .blog-grid { grid-template-columns: 1fr; } .blog-card.lead { grid-column: 1; } }
+        @media (max-width: 600px) {
+            .page-header { padding: 100px 1.25rem 3rem; }
+            .section { padding: 3rem 1.25rem 4rem; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .blog-card.lead { grid-column: 1; }
+            .reader-topbar { padding: 0.75rem 1.25rem; gap: 0.75rem; }
+            .reader-topbar-title { display: none; }
+            .reader-content { padding: 2.5rem 1.25rem 6rem; }
+            .reader-copy-btn span { display: none; }
+        }
     </style>
 </head>
 <body>
+
+<!-- GRID VIEW -->
+<div id="grid-view">
     <div class="page-header">
         <span class="section-label">Read the</span>
         <h1>Blog</h1>
         <p>Updates, announcements, and dev insights from the team.</p>
     </div>
-
     <main class="section">
         <div class="blog-grid" id="blog-grid">
             <div class="blog-empty" style="border:none;">Loading…</div>
         </div>
     </main>
+</div>
 
-    <div class="modal" id="blog-modal">
-        <div class="modal-content">
-            <div class="modal-actions">
-                <button class="modal-copy-btn" id="modal-copy-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                    Copy Link
-                </button>
-            </div>
-            <button class="modal-close" id="modal-close">✕</button>
-            <div class="modal-header">
-                <div class="modal-meta"><span id="modal-date"></span><span id="modal-readtime"></span></div>
-                <h2 class="modal-title" id="modal-title"></h2>
-            </div>
-            <div class="modal-body" id="modal-body"></div>
-        </div>
+<!-- FULL-SCREEN READER -->
+<div id="reader-view">
+    <div class="reader-topbar">
+        <button class="reader-back-btn" id="reader-back-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Back
+        </button>
+        <span class="reader-topbar-title" id="reader-topbar-title"></span>
+        <button class="reader-copy-btn" id="reader-copy-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copy Link</span>
+        </button>
     </div>
-    <div id="sw-toast"></div>
+    <div class="reader-content">
+        <div class="reader-meta">
+            <span class="reader-date" id="reader-date"></span>
+            <div class="reader-sep"></div>
+            <span class="reader-rt" id="reader-rt"></span>
+        </div>
+        <h1 class="reader-title" id="reader-title"></h1>
+        <div class="reader-author" id="reader-author" style="display:none;">
+            <span class="reader-author-label">By</span>
+            <span class="reader-author-name" id="reader-author-name"></span>
+        </div>
+        <div class="reader-body" id="reader-body"></div>
+    </div>
+</div>
 
-    <script src="navbar.js"></script>
-    <script src="footer.js"></script>
-    <script>
-        function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }
-        function stripHtml(h) { const d=document.createElement('div');d.innerHTML=h;return d.textContent||d.innerText||''; }
-        function readTime(h) { return Math.max(1,Math.round(stripHtml(h).split(/\s+/).filter(Boolean).length/200))+' min read'; }
-        function preview(h,l=150) { const t=stripHtml(h);return t.length>l?t.slice(0,l).trimEnd()+'…':t; }
-        function extractFirstImg(html) { const m=html.match(/<img[^>]+src=["']([^"']+)["']/i);return m?m[1]:null; }
+<div id="sw-toast"></div>
 
-        // ── TOAST ────────────────────────────────────────────────────────────
-        let toastTimer;
-        function showToast(msg) {
-            const t = document.getElementById('sw-toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+<script src="navbar.js"></script>
+<script src="footer.js"></script>
+<script>
+    let allPosts = [];
+    let currentPostId = null;
+
+    function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+    function stripHtml(h) { const d = document.createElement('div'); d.innerHTML = h; return d.textContent || d.innerText || ''; }
+    function readTime(h) { return Math.max(1, Math.round(stripHtml(h).split(/\s+/).filter(Boolean).length / 200)) + ' min read'; }
+    function preview(h, l = 150) { const t = stripHtml(h); return t.length > l ? t.slice(0, l).trimEnd() + '…' : t; }
+    function extractFirstImg(html) { const m = html.match(/<img[^>]+src=["']([^"']+)["']/i); return m ? m[1] : null; }
+
+    let toastTimer;
+    function showToast(msg) {
+        const t = document.getElementById('sw-toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function copyLink() {
+        if (!currentPostId) return;
+        const url = `${location.origin}/blog?post=${currentPostId}`;
+        const btn = document.getElementById('reader-copy-btn');
+        const fallback = () => {
+            const ta = document.createElement('textarea');
+            ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); showToast('Link copied!'); } catch { showToast('Copy: ' + url); }
+            document.body.removeChild(ta);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => showToast('Link copied!')).catch(fallback);
+        } else { fallback(); }
+        btn.classList.add('copied');
+        btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>`;
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Link</span>`;
+        }, 2200);
+    }
+
+    function openReader(post) {
+        currentPostId = post.id;
+        document.getElementById('reader-topbar-title').textContent = post.title;
+        document.getElementById('reader-date').textContent = fmtDate(post.createdAt);
+        document.getElementById('reader-rt').textContent = readTime(post.content);
+        document.getElementById('reader-title').textContent = post.title;
+        document.getElementById('reader-body').innerHTML = post.content;
+        document.getElementById('reader-view').scrollTop = 0;
+
+        const authorEl = document.getElementById('reader-author');
+        const authorName = document.getElementById('reader-author-name');
+        if (post.author && post.author.trim()) {
+            authorName.textContent = post.author;
+            authorEl.style.display = 'flex';
+        } else {
+            authorEl.style.display = 'none';
         }
 
-        // ── COPY LINK ────────────────────────────────────────────────────────
-        let currentPostId = null;
+        document.getElementById('grid-view').style.display = 'none';
+        document.getElementById('reader-view').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        history.pushState({ postId: post.id }, '', `?post=${post.id}`);
+    }
 
-        document.getElementById('modal-copy-btn').addEventListener('click', () => {
-            if (!currentPostId) return;
-            const url = `${location.origin}/blog?post=${currentPostId}`;
-            navigator.clipboard.writeText(url).then(() => {
-                const btn = document.getElementById('modal-copy-btn');
-                btn.classList.add('copied');
-                btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
-                showToast('Link copied to clipboard');
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link`;
-                }, 2200);
-            }).catch(() => showToast('Could not copy link'));
-        });
+    function closeReader() {
+        currentPostId = null;
+        document.getElementById('grid-view').style.display = 'block';
+        document.getElementById('reader-view').classList.remove('open');
+        document.body.style.overflow = '';
+        history.pushState(null, '', '/blog');
+    }
 
-        // ── LOAD POSTS ───────────────────────────────────────────────────────
-        async function loadPosts() {
-            const grid = document.getElementById('blog-grid');
-            try {
-                const {posts} = await fetch('/api/blog/posts').then(r=>r.json());
-                if (!posts?.length) { grid.innerHTML='<div class="blog-empty" style="border:none;">No posts yet — check back soon.</div>'; return; }
+    document.getElementById('reader-back-btn').addEventListener('click', closeReader);
+    document.getElementById('reader-copy-btn').addEventListener('click', copyLink);
 
-                grid.innerHTML = posts.map((p, i) => {
-                    const thumb = p.image || extractFirstImg(p.content);
-                    const isLead = i === 0 && posts.length > 1;
-                    return `<div class="blog-card ${isLead?'lead':''}" data-id="${p.id}">
-                        ${thumb ? `<img src="${thumb}" class="blog-img" alt="${p.title}" loading="lazy">` : '<div class="blog-img-ph"></div>'}
-                        <div class="blog-body">
-                            <div class="blog-top">
-                                <span class="blog-date">${fmtDate(p.createdAt)}</span>
-                                <span class="blog-rt">${readTime(p.content)}</span>
-                            </div>
-                            <h3 class="blog-title">${p.title}</h3>
-                            <p class="blog-preview">${preview(p.content)}</p>
+    window.addEventListener('popstate', (e) => {
+        if (e.state && e.state.postId) {
+            const post = allPosts.find(p => p.id === e.state.postId);
+            if (post) { openReader(post); return; }
+        }
+        closeReader();
+    });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReader(); });
+
+    async function loadPosts() {
+        const grid = document.getElementById('blog-grid');
+        try {
+            const { posts } = await fetch('/api/blog/posts').then(r => r.json());
+            allPosts = posts || [];
+            if (!allPosts.length) {
+                grid.innerHTML = '<div class="blog-empty" style="border:none;">No posts yet — check back soon.</div>';
+                return;
+            }
+
+            grid.innerHTML = allPosts.map((p, i) => {
+                const thumb = p.image || extractFirstImg(p.content);
+                const isLead = i === 0 && allPosts.length > 1;
+                return `<div class="blog-card ${isLead ? 'lead' : ''}" data-id="${p.id}">
+                    ${thumb ? `<img src="${thumb}" class="blog-img" alt="${p.title}" loading="lazy">` : '<div class="blog-img-ph"></div>'}
+                    <div class="blog-body">
+                        <div class="blog-top">
+                            <span class="blog-date">${fmtDate(p.createdAt)}</span>
+                            <span class="blog-rt">${readTime(p.content)}</span>
                         </div>
-                    </div>`;
-                }).join('');
+                        <h3 class="blog-title">${p.title}</h3>
+                        <p class="blog-preview">${preview(p.content)}</p>
+                    </div>
+                </div>`;
+            }).join('');
 
-                document.querySelectorAll('.blog-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const post = posts.find(p=>p.id===card.dataset.id);
-                        if (post) openModal(post);
-                    });
+            document.querySelectorAll('.blog-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const post = allPosts.find(p => p.id === card.dataset.id);
+                    if (post) openReader(post);
                 });
+            });
 
-                // ── DEEP LINK: auto-open if ?post=ID in URL ─────────────────
-                const postId = new URLSearchParams(location.search).get('post');
-                if (postId) {
-                    const post = posts.find(p => p.id === postId);
-                    if (post) openModal(post);
-                }
-
-            } catch(e) { grid.innerHTML='<div class="blog-empty" style="border:none;">Failed to load posts.</div>'; }
+            const postId = new URLSearchParams(location.search).get('post');
+            if (postId) {
+                const post = allPosts.find(p => p.id === postId);
+                if (post) openReader(post);
+            }
+        } catch (e) {
+            grid.innerHTML = '<div class="blog-empty" style="border:none;">Failed to load posts.</div>';
         }
+    }
 
-        // ── MODAL ────────────────────────────────────────────────────────────
-        function openModal(post) {
-            currentPostId = post.id;
-            document.getElementById('modal-date').textContent = fmtDate(post.createdAt);
-            document.getElementById('modal-readtime').textContent = readTime(post.content);
-            document.getElementById('modal-title').textContent = post.title;
-            document.getElementById('modal-body').innerHTML = post.content;
-            document.getElementById('blog-modal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-            // Update URL without reload so the link is shareable
-            history.replaceState(null, '', `?post=${post.id}`);
-        }
-
-        function closeModal() {
-            document.getElementById('blog-modal').classList.remove('open');
-            document.body.style.overflow = '';
-            currentPostId = null;
-            history.replaceState(null, '', '/blog');
-        }
-
-        document.getElementById('modal-close').addEventListener('click', closeModal);
-        document.getElementById('blog-modal').addEventListener('click', e=>{if(e.target.id==='blog-modal')closeModal();});
-        document.addEventListener('keydown', e=>{if(e.key==='Escape')closeModal();});
-
-        loadPosts();
-    </script>
+    loadPosts();
+</script>
 </body>
 </html>
