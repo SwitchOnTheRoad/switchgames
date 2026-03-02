@@ -691,7 +691,7 @@
     <!-- RAIL -->
     <aside class="rail">
         <div class="rail-header">
-            <img src="/logo.png" alt="Switch" class="rail-logo">
+            <img src="/heroextended.png" alt="Switch" class="rail-logo">
             <span class="rail-badge">Admin</span>
         </div>
         <nav class="rail-nav">
@@ -964,14 +964,71 @@
                 <div class="detail-body" style="display:flex;flex-direction:column;gap:1.25rem;">
                     <div class="form-section">
                         <span class="form-section-label">Announcement Banner</span>
-                        <label class="toggle-row" style="margin-bottom:0.8rem;"><input type="checkbox" id="banner-enabled"> Enabled</label>
-                        <input class="field-input" id="banner-text" placeholder="Banner message e.g. New update dropping Friday!" style="margin-bottom:0.6rem;">
-                        <div class="field-row field-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.6rem;">
-                            <input class="field-input" id="banner-bg" placeholder="#FBBF24">
-                            <input class="field-input" id="banner-color" placeholder="#0A0A0A">
+
+                        <!-- Live Preview -->
+                        <div style="margin-bottom:1rem;">
+                            <span class="field-label">Live Preview</span>
+                            <div id="banner-preview-wrap" style="border:1px solid var(--border);overflow:hidden;">
+                                <div id="banner-preview" style="display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.6rem 1.25rem;font-size:0.82rem;font-weight:600;min-height:38px;transition:background 0.15s,color 0.15s;background:#FBBF24;color:#0A0A0A;">
+                                    <span id="banner-preview-text">Your banner message will appear here</span>
+                                    <span id="banner-preview-link" style="display:none;opacity:0.7;font-size:0.75rem;text-decoration:underline;cursor:pointer;">→ Learn more</span>
+                                </div>
+                                <div id="banner-preview-off" style="display:none;padding:0.6rem 1.25rem;font-size:0.78rem;color:var(--muted);font-style:italic;text-align:center;">Banner is disabled — visitors won't see this</div>
+                            </div>
                         </div>
-                        <input class="field-input" id="banner-link" placeholder="https://... (optional)">
-                        <button class="btn btn-primary" id="save-banner-btn" style="margin-top:0.8rem;">Save Banner</button>
+
+                        <!-- Enable toggle -->
+                        <label class="toggle-row" style="margin-bottom:1rem;" id="banner-enabled-label">
+                            <input type="checkbox" id="banner-enabled"> Show banner on site
+                        </label>
+
+                        <!-- Message -->
+                        <div style="margin-bottom:0.875rem;">
+                            <span class="field-label">Message</span>
+                            <input class="field-input" id="banner-text" placeholder="e.g. New update dropping Friday! 🎉">
+                        </div>
+
+                        <!-- Colors -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.875rem;">
+                            <div>
+                                <span class="field-label">Background Color</span>
+                                <div style="display:flex;gap:0.5rem;align-items:center;">
+                                    <input type="color" id="banner-bg-picker" value="#FBBF24" style="width:36px;height:36px;border:1px solid var(--border);background:none;cursor:pointer;padding:2px;flex-shrink:0;">
+                                    <input class="field-input" id="banner-bg" placeholder="#FBBF24" style="flex:1;font-family:monospace;font-size:0.8rem;">
+                                </div>
+                            </div>
+                            <div>
+                                <span class="field-label">Text Color</span>
+                                <div style="display:flex;gap:0.5rem;align-items:center;">
+                                    <input type="color" id="banner-color-picker" value="#0A0A0A" style="width:36px;height:36px;border:1px solid var(--border);background:none;cursor:pointer;padding:2px;flex-shrink:0;">
+                                    <input class="field-input" id="banner-color" placeholder="#0A0A0A" style="flex:1;font-family:monospace;font-size:0.8rem;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick color presets -->
+                        <div style="margin-bottom:0.875rem;">
+                            <span class="field-label">Quick Presets</span>
+                            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                                <button class="banner-preset" data-bg="#FBBF24" data-fg="#0A0A0A" style="background:#FBBF24;color:#0A0A0A;border:2px solid transparent;padding:4px 10px;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Yellow</button>
+                                <button class="banner-preset" data-bg="#0EA5E9" data-fg="#fff" style="background:#0EA5E9;color:#fff;border:2px solid transparent;padding:4px 10px;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Sky Blue</button>
+                                <button class="banner-preset" data-bg="#22c55e" data-fg="#fff" style="background:#22c55e;color:#fff;border:2px solid transparent;padding:4px 10px;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Green</button>
+                                <button class="banner-preset" data-bg="#ef4444" data-fg="#fff" style="background:#ef4444;color:#fff;border:2px solid transparent;padding:4px 10px;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Red</button>
+                                <button class="banner-preset" data-bg="#8b5cf6" data-fg="#fff" style="background:#8b5cf6;color:#fff;border:2px solid transparent;padding:4px 10px;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Purple</button>
+                                <button class="banner-preset" data-bg="#1a1a1a" data-fg="#FBBF24" style="background:#1a1a1a;color:#FBBF24;border:2px solid #333;padding:4px 10px;font-size:0.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Dark</button>
+                            </div>
+                        </div>
+
+                        <!-- Link -->
+                        <div style="margin-bottom:1rem;">
+                            <span class="field-label">Link URL <span style="text-transform:none;font-weight:400;color:#555;">(optional)</span></span>
+                            <input class="field-input" id="banner-link" placeholder="https://... — makes the banner clickable">
+                        </div>
+
+                        <button class="btn btn-primary" id="save-banner-btn" style="align-self:flex-start;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                            Save Banner
+                        </button>
                     </div>
                     <div class="form-section">
                         <span class="form-section-label">Active Sessions (superadmin)</span>
@@ -1776,11 +1833,16 @@ async function loadSiteSettings() {
         const d = await res.json();
         if (!res.ok) throw new Error('failed');
         const a = d.settings?.announcement || {};
+        const bg = a.background || '#FBBF24';
+        const fg = a.textColor || '#0A0A0A';
         document.getElementById('banner-enabled').checked = !!a.enabled;
         document.getElementById('banner-text').value = a.text || '';
-        document.getElementById('banner-bg').value = a.background || '#FBBF24';
-        document.getElementById('banner-color').value = a.textColor || '#0A0A0A';
+        document.getElementById('banner-bg').value = bg;
+        document.getElementById('banner-color').value = fg;
         document.getElementById('banner-link').value = a.link || '';
+        document.getElementById('banner-bg-picker').value = bg;
+        document.getElementById('banner-color-picker').value = fg;
+        updateBannerPreview();
     } catch { toast('Failed to load banner settings', 'error'); }
 }
 
@@ -1827,6 +1889,71 @@ async function loadSessions() {
 }
 
 document.getElementById('refresh-analytics-btn').addEventListener('click', loadAnalytics);
+
+// ── BANNER PREVIEW ──────────────────────────────────────────────────────────
+function updateBannerPreview() {
+    const enabled = document.getElementById('banner-enabled').checked;
+    const text = document.getElementById('banner-text').value || 'Your banner message will appear here';
+    const bg = document.getElementById('banner-bg').value || '#FBBF24';
+    const fg = document.getElementById('banner-color').value || '#0A0A0A';
+    const link = document.getElementById('banner-link').value;
+    const preview = document.getElementById('banner-preview');
+    const previewOff = document.getElementById('banner-preview-off');
+    const previewText = document.getElementById('banner-preview-text');
+    const previewLink = document.getElementById('banner-preview-link');
+
+    if (enabled) {
+        preview.style.display = 'flex';
+        previewOff.style.display = 'none';
+    } else {
+        preview.style.display = 'none';
+        previewOff.style.display = 'block';
+    }
+    preview.style.background = bg;
+    preview.style.color = fg;
+    previewText.textContent = text;
+    previewLink.style.display = link ? 'inline' : 'none';
+    previewLink.style.color = fg;
+}
+
+// Wire banner inputs to live preview
+['banner-enabled', 'banner-text', 'banner-bg', 'banner-color', 'banner-link'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateBannerPreview);
+    if (el && el.type === 'checkbox') el.addEventListener('change', updateBannerPreview);
+});
+
+// Color picker ↔ text input sync
+document.getElementById('banner-bg-picker').addEventListener('input', function () {
+    document.getElementById('banner-bg').value = this.value;
+    updateBannerPreview();
+});
+document.getElementById('banner-color-picker').addEventListener('input', function () {
+    document.getElementById('banner-color').value = this.value;
+    updateBannerPreview();
+});
+document.getElementById('banner-bg').addEventListener('input', function () {
+    if (/^#[0-9a-fA-F]{6}$/.test(this.value)) document.getElementById('banner-bg-picker').value = this.value;
+    updateBannerPreview();
+});
+document.getElementById('banner-color').addEventListener('input', function () {
+    if (/^#[0-9a-fA-F]{6}$/.test(this.value)) document.getElementById('banner-color-picker').value = this.value;
+    updateBannerPreview();
+});
+
+// Color presets
+document.querySelectorAll('.banner-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const bg = btn.dataset.bg;
+        const fg = btn.dataset.fg;
+        document.getElementById('banner-bg').value = bg;
+        document.getElementById('banner-color').value = fg;
+        try { document.getElementById('banner-bg-picker').value = bg; } catch {}
+        try { document.getElementById('banner-color-picker').value = fg; } catch {}
+        updateBannerPreview();
+    });
+});
+
 document.getElementById('save-banner-btn').addEventListener('click', async () => {
     const announcement = {
         enabled: document.getElementById('banner-enabled').checked,
