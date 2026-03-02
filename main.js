@@ -11,7 +11,7 @@ import multer from 'multer';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ROOT = wherever you run `node main.js` from (your project folder)
+// ROOT = ./public/ (where all HTML, assets and JSON data files live)
 const ROOT = path.join(process.cwd(), 'public');
 
 const app = express();
@@ -74,7 +74,8 @@ const upload = multer({
 // ADMIN AUTH
 // ============================================================
 
-const MASTER_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '185970453b8d876c05f7a5ba2038606f54a23bba3ec85a12fb842016f6258502';
+// Default master password: SwitchGamesAdmin  (override via ADMIN_PASSWORD_HASH env var)
+const MASTER_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '92566b61eb9f0568cc88f598ba75d8836e657de4e40d069ccc22ac62b5075fa0';
 const adminSessions = new Map();
 const loginAttempts = new Map();
 const MAX_ATTEMPTS = 10;
@@ -104,30 +105,33 @@ function getSession(token) {
 }
 function isValidToken(token) { return !!getSession(token); }
 
+// DATA_ROOT = project root (where all JSON data files live, next to main.js)
+const DATA_ROOT = __dirname;
+
 // Staff accounts
-const STAFF_ACCOUNTS_FILE = './staff-accounts.json';
+const STAFF_ACCOUNTS_FILE = path.join(DATA_ROOT, 'staff-accounts.json');
 function readStaffAccounts() { try { return JSON.parse(readFileSync(STAFF_ACCOUNTS_FILE, 'utf-8')).accounts; } catch { return []; } }
 function writeStaffAccounts(a) { writeFileSync(STAFF_ACCOUNTS_FILE, JSON.stringify({ accounts: a }, null, 2), 'utf-8'); }
 
 // Staff directory
-const STAFF_FILE = './staff.json';
+const STAFF_FILE = path.join(DATA_ROOT, 'staff.json');
 function readStaff() { try { return JSON.parse(readFileSync(STAFF_FILE, 'utf-8')).staff; } catch { return []; } }
 function writeStaff(s) { writeFileSync(STAFF_FILE, JSON.stringify({ staff: s }, null, 2), 'utf-8'); }
 
 // Contacts
-const CONTACTS_FILE = './contacts.json';
+const CONTACTS_FILE = path.join(DATA_ROOT, 'contacts.json');
 function readContacts() { try { return JSON.parse(readFileSync(CONTACTS_FILE, 'utf-8')).contacts; } catch { return []; } }
 function writeContacts(c) { writeFileSync(CONTACTS_FILE, JSON.stringify({ contacts: c }, null, 2), 'utf-8'); }
 
 // Applications
-const APPLICATIONS_FILE = './applications.json';
+const APPLICATIONS_FILE = path.join(DATA_ROOT, 'applications.json');
 function readApplications() { try { return JSON.parse(readFileSync(APPLICATIONS_FILE, 'utf-8')).applications; } catch { return []; } }
 function writeApplications(a) { writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications: a }, null, 2), 'utf-8'); }
 
 
-const SITE_SETTINGS_FILE = './site-settings.json';
-const AUDIT_LOG_FILE = './audit-log.json';
-const PAGE_VIEWS_FILE = './page-views.json';
+const SITE_SETTINGS_FILE = path.join(DATA_ROOT, 'site-settings.json');
+const AUDIT_LOG_FILE = path.join(DATA_ROOT, 'audit-log.json');
+const PAGE_VIEWS_FILE = path.join(DATA_ROOT, 'page-views.json');
 
 const DEFAULT_SETTINGS = {
     announcement: {
@@ -196,19 +200,19 @@ function toCsv(rows) {
 
 // Blog
 async function loadBlogPosts() {
-    try { return JSON.parse(await fs.readFile(path.join(ROOT, 'blog-posts.json'), 'utf8')).posts || []; }
+    try { return JSON.parse(await fs.readFile(path.join(DATA_ROOT, 'blog-posts.json'), 'utf8')).posts || []; }
     catch { return []; }
 }
 
 // Games
 async function loadGames() {
-    try { return JSON.parse(await fs.readFile(path.join(ROOT, 'games-data.json'), 'utf8')).games || []; }
+    try { return JSON.parse(await fs.readFile(path.join(DATA_ROOT, 'games-data.json'), 'utf8')).games || []; }
     catch { return []; }
 }
 
 // Careers
 async function loadCareers() {
-    try { return JSON.parse(await fs.readFile(path.join(ROOT, 'careers-data.json'), 'utf8')).careers || []; }
+    try { return JSON.parse(await fs.readFile(path.join(DATA_ROOT, 'careers-data.json'), 'utf8')).careers || []; }
     catch { return []; }
 }
 
@@ -693,7 +697,7 @@ app.post('/api/admin/games', async (req, res) => {
         const games = await loadGames();
         const g = { id: randomBytes(8).toString('hex'), placeId: String(placeId||''), universeId: '', thumbnail: thumbnail||'', featured: featured||false, active: active!==false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         games.unshift(g);
-        await fs.writeFile(path.join(ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
         res.status(201).json({ message: 'Game created', game: g });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -705,7 +709,7 @@ app.put('/api/admin/games/:id', async (req, res) => {
         const i = games.findIndex(g => g.id === req.params.id);
         if (i === -1) return res.status(404).json({ message: 'Not found' });
         games[i] = { ...games[i], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
-        await fs.writeFile(path.join(ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
         res.json({ message: 'Updated', game: games[i] });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -716,7 +720,7 @@ app.delete('/api/admin/games/:id', async (req, res) => {
         const games = await loadGames();
         const filtered = games.filter(g => g.id !== req.params.id);
         if (filtered.length === games.length) return res.status(404).json({ message: 'Not found' });
-        await fs.writeFile(path.join(ROOT, 'games-data.json'), JSON.stringify({ games: filtered }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'games-data.json'), JSON.stringify({ games: filtered }, null, 2));
         res.json({ message: 'Deleted' });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -751,7 +755,7 @@ app.post('/api/admin/posts', async (req, res) => {
         const posts = await loadBlogPosts();
         const p = { id: randomBytes(8).toString('hex'), title, content: content||'', published: published||false, author: author||'', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         posts.unshift(p);
-        await fs.writeFile(path.join(ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
         res.status(201).json({ message: 'Created', post: p });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -763,7 +767,7 @@ app.put('/api/admin/posts/:id', async (req, res) => {
         const i = posts.findIndex(p => p.id === req.params.id);
         if (i === -1) return res.status(404).json({ message: 'Not found' });
         posts[i] = { ...posts[i], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
-        await fs.writeFile(path.join(ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
         res.json({ message: 'Updated', post: posts[i] });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -774,7 +778,7 @@ app.delete('/api/admin/posts/:id', async (req, res) => {
         const posts = await loadBlogPosts();
         const filtered = posts.filter(p => p.id !== req.params.id);
         if (filtered.length === posts.length) return res.status(404).json({ message: 'Not found' });
-        await fs.writeFile(path.join(ROOT, 'blog-posts.json'), JSON.stringify({ posts: filtered }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'blog-posts.json'), JSON.stringify({ posts: filtered }, null, 2));
         res.json({ message: 'Deleted' });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -809,7 +813,7 @@ app.post('/api/admin/careers', async (req, res) => {
         const careers = await loadCareers();
         const c = { id: randomBytes(8).toString('hex'), title, department: department||'', type: type||'Full-time', location: location||'Remote', description: description||'', requirements: requirements||[], niceToHave: niceToHave||[], questions: questions||[], active: active!==false, salary: salary||'', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         careers.unshift(c);
-        await fs.writeFile(path.join(ROOT, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
         res.status(201).json({ message: 'Created', career: c });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -821,7 +825,7 @@ app.put('/api/admin/careers/:id', async (req, res) => {
         const i = careers.findIndex(c => c.id === req.params.id);
         if (i === -1) return res.status(404).json({ message: 'Not found' });
         careers[i] = { ...careers[i], ...req.body, id: req.params.id, updatedAt: new Date().toISOString() };
-        await fs.writeFile(path.join(ROOT, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'careers-data.json'), JSON.stringify({ careers }, null, 2));
         res.json({ message: 'Updated', career: careers[i] });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
@@ -832,7 +836,7 @@ app.delete('/api/admin/careers/:id', async (req, res) => {
         const careers = await loadCareers();
         const filtered = careers.filter(c => c.id !== req.params.id);
         if (filtered.length === careers.length) return res.status(404).json({ message: 'Not found' });
-        await fs.writeFile(path.join(ROOT, 'careers-data.json'), JSON.stringify({ careers: filtered }, null, 2));
+        await fs.writeFile(path.join(DATA_ROOT, 'careers-data.json'), JSON.stringify({ careers: filtered }, null, 2));
         res.json({ message: 'Deleted' });
     } catch { res.status(500).json({ message: 'Failed' }); }
 });

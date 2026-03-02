@@ -14,9 +14,10 @@
         "A Strong Portfolio"
       ],
       "questions": [],
-      "active": false,
+      "active": true,
       "createdAt": "2026-02-17T18:52:23.955Z",
-      "updatedAt": "2026-02-19T19:52:22.525Z"
+      "updatedAt": "2026-03-02T22:59:03.185Z",
+      "salary": "Competetive"
     },
     {
       "id": "23a8ad769c8e542a",
@@ -36,9 +37,10 @@
         "Experience with large scale Roblox games"
       ],
       "questions": [],
-      "active": false,
+      "active": true,
       "createdAt": "2026-02-17T18:40:51.576Z",
-      "updatedAt": "2026-02-19T19:52:24.711Z"
+      "updatedAt": "2026-03-02T22:59:07.679Z",
+      "salary": "Competetive"
     }
   ]
 }
