@@ -167,10 +167,10 @@ app.delete("/api/admin/applications/:id", (req, res) => {
 // ADMIN AUTH
 // ============================================================
 
-const ADMIN_PASSWORD_HASH = "8fe907f82f001a2abc66f724d9b7ad2ec51fa6075c6c731e3188a89d1b5bfcad"; // SwitchAdmin2025
+function hashPassword(p) { return createHash("sha256").update(p).digest("hex"); }
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || hashPassword("SwitchAdmin2026!");
 const adminSessions = new Map();
 
-function hashPassword(p) { return createHash("sha256").update(p).digest("hex"); }
 function generateToken() { return randomBytes(32).toString("hex"); }
 function isValidToken(token) {
     const session = adminSessions.get(token);
