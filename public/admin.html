@@ -1,1091 +1,2406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Switch Admin</title>
-<link rel="icon" type="image/png" href="/logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#080808;--surface:#0f0f0f;--surface2:#161616;--surface3:#1c1c1c;
-  --border:#242424;--border2:#2e2e2e;
-  --text:#f0f0f0;--muted:#666;--muted2:#444;
-  --primary:#FBBF24;--primary-dim:#7a5c10;
-  --green:#22c55e;--red:#ef4444;--blue:#3b82f6;--purple:#a855f7;
-  --sidebar:220px;
-}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;height:100vh;overflow:hidden;display:flex;flex-direction:column}
-h1,h2,h3{font-family:'Space Grotesk',sans-serif}
-code,kbd{font-family:'JetBrains Mono',monospace}
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin — Switch</title>
+    <meta name="robots" content="noindex, nofollow"/>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
+            --danger: #ef4444;
+        }
 
-/* LOGIN */
-#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:2rem}
-.login-card{background:var(--surface);border:1px solid var(--border);padding:2.5rem;width:100%;max-width:400px;border-radius:8px}
-.login-logo{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:var(--primary);text-align:center;margin-bottom:0.25rem}
-.login-sub{text-align:center;color:var(--muted);font-size:0.8rem;margin-bottom:2rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:600}
-.login-field{margin-bottom:1rem}
-.login-field label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.4rem}
-.login-field input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.75rem 1rem;border-radius:6px;font-family:'Inter',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s}
-.login-field input:focus{border-color:var(--primary)}
-.login-btn{width:100%;background:var(--primary);color:#000;border:none;padding:0.8rem;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;transition:opacity .2s;letter-spacing:0.02em;margin-top:0.5rem}
-.login-btn:hover{opacity:0.85}
-.login-btn:disabled{opacity:0.4;cursor:not-allowed}
-.login-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:0.75rem;border-radius:6px;font-size:0.82rem;text-align:center;margin-top:0.75rem;display:none}
-.login-attempts{color:var(--muted);font-size:0.75rem;text-align:center;margin-top:0.5rem;min-height:1rem}
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; overflow: hidden; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.2; }
 
-/* APP SHELL */
-#app{display:none;flex:1;overflow:hidden;flex-direction:row}
-#app.visible{display:flex}
+        /* ═══════════════════════════════════════
+           LOGIN
+        ═══════════════════════════════════════ */
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: var(--bg);
+        }
 
-/* SIDEBAR */
-.sidebar{width:var(--sidebar);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
-.sidebar-header{padding:1.25rem 1rem 1rem;border-bottom:1px solid var(--border)}
-.sidebar-logo{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:0.5rem}
-.sidebar-sub{font-size:0.65rem;color:var(--muted);margin-top:0.15rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
-.sidebar-nav{flex:1;padding:0.75rem 0}
-.nav-section{padding:0.5rem 1rem 0.2rem;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--muted2);margin-top:0.25rem}
-.nav-item{display:flex;align-items:center;gap:0.6rem;padding:0.55rem 1rem;font-size:0.82rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;position:relative;text-decoration:none;border:none;background:none;width:100%;text-align:left}
-.nav-item:hover{color:var(--text);background:var(--surface2)}
-.nav-item.active{color:var(--primary);background:rgba(251,191,36,.07)}
-.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--primary)}
-.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:0.6rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:999px;min-width:18px;text-align:center}
-.sidebar-footer{padding:1rem;border-top:1px solid var(--border)}
-.session-info{font-size:0.72rem;color:var(--muted);margin-bottom:0.75rem;line-height:1.4}
-.logout-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:0.5rem;border-radius:5px;font-family:'Inter',sans-serif;font-size:0.78rem;cursor:pointer;transition:all .15s}
-.logout-btn:hover{border-color:var(--red);color:var(--red)}
+        .login-card {
+            width: 100%;
+            max-width: 360px;
+            padding: 0 1.5rem;
+        }
 
-/* MAIN */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.topbar{height:52px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;flex-shrink:0;background:var(--surface)}
-.topbar-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;flex:1}
-.topbar-actions{display:flex;align-items:center;gap:0.5rem}
-.tb-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:0.35rem 0.75rem;border-radius:5px;font-size:0.78rem;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:0.35rem}
-.tb-btn:hover{border-color:var(--primary);color:var(--primary)}
-.tb-btn.primary{background:var(--primary);border-color:var(--primary);color:#000;font-weight:600}
-.tb-btn.primary:hover{opacity:0.85}
-.content{flex:1;overflow-y:auto;padding:1.5rem}
+        .login-logo {
+            height: 32px;
+            display: block;
+            margin: 0 auto 3rem;
+        }
 
-/* PANELS */
-.panel{display:none}
-.panel.active{display:block}
+        .login-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
 
-/* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;position:relative;overflow:hidden}
-.stat-card::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--accent,var(--primary))}
-.stat-label{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.5rem}
-.stat-value{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;line-height:1;color:var(--text)}
-.stat-sub{font-size:0.72rem;color:var(--muted);margin-top:0.3rem}
-.stat-card.green{--accent:var(--green)}.stat-card.blue{--accent:var(--blue)}.stat-card.purple{--accent:var(--purple)}.stat-card.red{--accent:var(--red)}
+        .login-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
 
-/* TABLES */
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.table-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.table-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem}
-.search-input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.4rem 0.75rem;border-radius:5px;font-family:'Inter',sans-serif;font-size:0.8rem;outline:none;width:200px;transition:border-color .15s}
-.search-input:focus{border-color:var(--primary)}
-table{width:100%;border-collapse:collapse}
-th{background:var(--surface2);padding:0.6rem 1.25rem;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);text-align:left;border-bottom:1px solid var(--border)}
-td{padding:0.8rem 1.25rem;font-size:0.83rem;border-bottom:1px solid var(--border);color:var(--text)}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--surface2)}
-.empty-row{text-align:center;color:var(--muted);padding:3rem !important}
+        .login-field {
+            margin-bottom: 0.75rem;
+        }
 
-/* BADGES */
-.badge{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:0.2rem 0.5rem;border-radius:4px}
-.badge.new,.badge.active{background:rgba(34,197,94,.15);color:var(--green)}
-.badge.reviewing{background:rgba(59,130,246,.15);color:var(--blue)}
-.badge.accepted{background:rgba(251,191,36,.15);color:var(--primary)}
-.badge.rejected,.badge.inactive{background:rgba(239,68,68,.15);color:var(--red)}
-.badge.published{background:rgba(168,85,247,.15);color:var(--purple)}
-.badge.draft{background:rgba(100,100,100,.15);color:var(--muted)}
+        .login-field input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.15s;
+            border-radius: 0;
+        }
 
-/* ACTION BUTTONS */
-.action-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.3rem 0.6rem;border-radius:4px;font-size:0.75rem;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
-.action-btn:hover{border-color:var(--primary);color:var(--primary)}
-.action-btn.danger:hover{border-color:var(--red);color:var(--red)}
-.action-btn.success:hover{border-color:var(--green);color:var(--green)}
+        .login-field input:focus { border-color: var(--primary); }
+        .login-field input::placeholder { color: #3a3a3a; }
 
-/* MODALS */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:10px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;padding:1.75rem}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.modal-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem}
-.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.5rem;line-height:1;padding:0}
-.modal-close:hover{color:var(--text)}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:0.4rem}
-.field input,.field textarea,.field select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:0.65rem 0.875rem;border-radius:6px;font-family:'Inter',sans-serif;font-size:0.85rem;outline:none;transition:border-color .15s;resize:vertical}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--primary)}
-.field textarea{min-height:100px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-.modal-footer{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
-.btn{padding:0.6rem 1.25rem;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.82rem;cursor:pointer;border:none;transition:opacity .15s;letter-spacing:0.02em}
-.btn.primary{background:var(--primary);color:#000}
-.btn.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
-.btn:hover{opacity:0.85}
+        .login-error {
+            display: none;
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.2);
+            color: #f87171;
+            padding: 0.625rem 1rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
 
-/* PIPELINE (Kanban) */
-.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;min-height:400px}
-.pipeline-col{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.pipeline-col-header{padding:0.875rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.pipeline-col-title{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em}
-.pipeline-count{font-size:0.68rem;background:var(--surface3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--muted);font-weight:600}
-.pipeline-cards{padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem;min-height:200px}
-.pipeline-card{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:0.875rem;cursor:pointer;transition:border-color .15s}
-.pipeline-card:hover{border-color:var(--primary)}
-.pipeline-card-name{font-weight:600;font-size:0.85rem;margin-bottom:0.2rem}
-.pipeline-card-pos{font-size:0.72rem;color:var(--muted)}
-.pipeline-card-date{font-size:0.68rem;color:var(--muted2);margin-top:0.4rem}
+        /* ═══════════════════════════════════════
+           APP SHELL — 3 COLUMN
+        ═══════════════════════════════════════ */
+        #app { display: none; height: 100vh; flex-direction: row; }
 
-/* CHART */
-.chart-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:80px;margin-top:0.5rem}
-.chart-bar{flex:1;background:var(--primary);border-radius:2px 2px 0 0;min-width:4px;opacity:0.65;transition:opacity .15s}
-.chart-bar:hover{opacity:1}
+        /* ── LEFT RAIL (section switcher) ── */
+        .rail {
+            width: 220px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-/* ACTIVITY FEED */
-.activity-feed{display:flex;flex-direction:column}
-.activity-item{display:flex;align-items:flex-start;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border);cursor:pointer}
-.activity-item:last-child{border-bottom:none}
-.activity-item:hover{opacity:0.8}
-.activity-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.activity-dot.green{background:var(--green)}.activity-dot.red{background:var(--red)}.activity-dot.blue{background:var(--blue)}.activity-dot.yellow{background:var(--primary)}
-.activity-text{font-size:0.82rem;line-height:1.4}
-.activity-time{font-size:0.7rem;color:var(--muted);margin-top:0.1rem}
+        .rail-header {
+            padding: 1.5rem 1.5rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
 
-/* ANNOUNCEMENT EDITOR */
-.announcement-preview{padding:0.75rem 1.25rem;border-radius:6px;font-size:0.85rem;font-weight:600;margin-bottom:1rem}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:0.875rem 0;border-bottom:1px solid var(--border)}
-.toggle-label{font-size:0.85rem;font-weight:500}
-.toggle-desc{font-size:0.72rem;color:var(--muted);margin-top:0.1rem}
-.toggle{position:relative;width:40px;height:22px;flex-shrink:0;display:inline-block}
-.toggle input{opacity:0;width:0;height:0;position:absolute}
-.toggle-slider{position:absolute;inset:0;background:var(--surface3);border-radius:999px;cursor:pointer;transition:.2s;border:1px solid var(--border2)}
-.toggle input:checked+.toggle-slider{background:var(--primary)}
-.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:2px;left:2px;transition:.2s}
-.toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
+        .rail-logo {
+            height: 28px;
+            display: block;
+            margin-bottom: 0.875rem;
+        }
 
-/* AUDIT LOG */
-.audit-entry{display:flex;align-items:baseline;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.78rem;flex-wrap:wrap}
-.audit-action{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--primary)}
-.audit-time{color:var(--muted);font-size:0.68rem;margin-left:auto}
-.audit-ip{color:var(--muted2);font-size:0.68rem;font-family:'JetBrains Mono',monospace}
+        .rail-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--primary);
+            background: rgba(251,191,36,0.08);
+            border: 1px solid rgba(251,191,36,0.2);
+            padding: 2px 8px;
+        }
 
-/* COMMAND PALETTE */
-#cmd-palette{position:fixed;inset:0;z-index:900;display:none;align-items:flex-start;justify-content:center;padding-top:15vh;background:rgba(0,0,0,.65);backdrop-filter:blur(6px)}
-#cmd-palette.open{display:flex}
-.cmd-box{background:var(--surface);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:500px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.6)}
-.cmd-input-wrap{display:flex;align-items:center;padding:1rem;gap:0.75rem;border-bottom:1px solid var(--border)}
-.cmd-input-wrap svg{color:var(--muted);flex-shrink:0}
-.cmd-input{flex:1;background:none;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:0.95rem;outline:none}
-.cmd-results{max-height:300px;overflow-y:auto}
-.cmd-item{padding:0.75rem 1rem;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;gap:0.75rem;color:var(--muted);transition:all .1s}
-.cmd-item:hover,.cmd-item.selected{background:var(--surface2);color:var(--text)}
-.cmd-item-icon{width:28px;height:28px;background:var(--surface3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}
-.cmd-item-title{font-weight:500}
-.cmd-item-sub{font-size:0.7rem;color:var(--muted);margin-left:auto}
-.cmd-empty{padding:2rem;text-align:center;color:var(--muted);font-size:0.85rem}
-.cmd-footer{padding:0.5rem 1rem;border-top:1px solid var(--border);display:flex;gap:1rem;font-size:0.68rem;color:var(--muted2)}
-.cmd-footer kbd{background:var(--surface2);border:1px solid var(--border);padding:.1rem .35rem;border-radius:3px;font-family:'JetBrains Mono',monospace}
+        .rail-nav {
+            padding: 0.75rem 0;
+            flex: 1;
+        }
 
-/* TOAST */
-#toasts{position:fixed;bottom:1.5rem;right:1.5rem;z-index:1000;display:flex;flex-direction:column;gap:0.5rem;pointer-events:none}
-.toast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;max-width:300px;pointer-events:all;animation:slideIn .25s ease;display:flex;align-items:center;gap:0.5rem;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-.toast.success{border-left:3px solid var(--green)}
-.toast.error{border-left:3px solid var(--red)}
-.toast.info{border-left:3px solid var(--blue)}
-@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+        .rail-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+            padding: 0 1.25rem;
+            margin: 0.75rem 0 0.375rem;
+            display: block;
+        }
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:999px}
-::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
+        .rail-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 1.25rem;
+            color: var(--muted);
+            font-size: 0.825rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            transition: color 0.12s, background 0.12s;
+            border-left: 2px solid transparent;
+            font-family: 'Inter', sans-serif;
+        }
 
-/* MISC */
-.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem}
-.card-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
-.loading{color:var(--muted);font-size:0.82rem;text-align:center;padding:2rem}
-.text-muted{color:var(--muted)}
-.text-green{color:var(--green)}.text-red{color:var(--red)}.text-blue{color:var(--blue)}.text-primary{color:var(--primary)}
-.mt-1{margin-top:0.5rem}.mt-2{margin-top:1rem}
-.flex{display:flex}.items-center{align-items:center}.gap-1{gap:0.5rem}.gap-2{gap:1rem}.justify-between{justify-content:space-between}
-.sessions-list{display:flex;flex-direction:column;gap:0.5rem}
-.session-row{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:0.75rem 1rem;display:flex;align-items:center;justify-content:space-between;font-size:0.8rem}
-.session-ip{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);margin-top:0.2rem}
-.current-badge{font-size:0.65rem;background:rgba(34,197,94,.15);color:var(--green);padding:0.1rem 0.4rem;border-radius:3px;font-weight:700;margin-left:0.4rem}
+        .rail-link:hover { color: var(--text); background: var(--surface-mid); }
+        .rail-link.active { color: var(--primary); border-left-color: var(--primary); background: rgba(251,191,36,0.05); }
 
-@media(max-width:900px){
-  .section-grid{grid-template-columns:1fr}
-  .pipeline{grid-template-columns:1fr 1fr}
-}
-@media(max-width:600px){
-  .sidebar{display:none}
-  .pipeline{grid-template-columns:1fr}
-}
-</style>
+        .rail-link svg { flex-shrink: 0; opacity: 0.6; }
+        .rail-link.active svg { opacity: 1; color: var(--primary); }
+
+        .rail-unread {
+            margin-left: auto;
+            background: var(--primary);
+            color: #000;
+            font-size: 0.6rem;
+            font-weight: 800;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+        }
+
+        .rail-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* ── LIST PANEL ── */
+        .list-panel {
+            width: 320px;
+            flex-shrink: 0;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .list-panel-head {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .list-panel-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+        }
+
+        .list-search {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .list-search input {
+            width: 100%;
+            padding: 0.55rem 0.875rem 0.55rem 2.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .list-search input::placeholder { color: #3a3a3a; }
+        .list-search input:focus { border-color: var(--primary); }
+
+        .list-search-icon {
+            position: absolute;
+            left: 2.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3a3a3a;
+            pointer-events: none;
+        }
+
+        .list-items {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .list-items::-webkit-scrollbar { width: 3px; }
+        .list-items::-webkit-scrollbar-thumb { background: var(--border); }
+
+        /* Career-page-style list items */
+        .list-item {
+            padding: 1.125rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.12s;
+            border-left: 3px solid transparent;
+        }
+
+        .list-item:hover { background: var(--surface); }
+        .list-item.active { background: var(--surface); border-left-color: var(--primary); }
+
+        .list-item-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.12s;
+        }
+
+        .list-item.active .list-item-name { color: var(--primary); }
+
+        .list-item-tags {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .item-tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        .item-tag::before { content: '·'; margin-right: 0.3rem; color: var(--border); }
+        .item-tag:first-child::before { display: none; }
+        .item-tag.primary { color: var(--primary); }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 1px 6px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .pill-live { background: rgba(34,197,94,0.08); color: #4ade80; border: 1px solid rgba(34,197,94,0.18); }
+        .pill-draft { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+        .pill-featured { background: rgba(251,191,36,0.08); color: var(--primary); border: 1px solid rgba(251,191,36,0.18); }
+
+        .list-empty {
+            padding: 3.5rem 1.5rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        /* ── SECTION VISIBILITY ── */
+        .section { display: none; width: 100%; }
+        .section.active { display: flex; }
+
+        /* ── DETAIL / EDITOR PANEL ── */
+        .detail-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .detail-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            text-align: center;
+            padding: 4rem 2rem;
+            gap: 1rem;
+        }
+
+        .detail-empty svg { opacity: 0.12; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); padding: 0.7rem; }
+
+        .detail-empty p { font-size: 0.875rem; }
+
+        .detail-form {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Toolbar at top of editor */
+        .detail-toolbar {
+            padding: 0.875rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--surface);
+            flex-shrink: 0;
+        }
+
+        .toolbar-spacer { flex: 1; }
+        .toolbar-sep { width: 1px; height: 18px; background: var(--border); margin: 0 0.125rem; }
+
+        /* Scrollable form body */
+        .detail-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .detail-body::-webkit-scrollbar { width: 4px; }
+        .detail-body::-webkit-scrollbar-thumb { background: var(--border); }
+
+        /* ── FORM FIELDS ── */
+        .field-label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .field-input,
+        .field-textarea,
+        .field-select {
+            width: 100%;
+            padding: 0.7rem 0.875rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .field-input:focus, .field-textarea:focus, .field-select:focus { border-color: var(--primary); }
+        .field-input::placeholder, .field-textarea::placeholder { color: #383838; }
+        .field-textarea { resize: vertical; }
+        .field-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23808080' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; cursor: pointer; }
+
+        /* Big title input (blog) */
+        .title-input {
+            width: 100%;
+            padding: 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .title-input:focus { border-color: var(--primary); }
+        .title-input::placeholder { color: #2a2a2a; }
+
+        /* Grid row */
+        .field-row {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .field-row-2 { grid-template-columns: 1fr 1fr; }
+
+        /* Section divider inside form */
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.875rem;
+        }
+
+        .form-section-label {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--primary);
+            display: block;
+            padding-bottom: 0.625rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Dynamic list (requirements, etc.) */
+        .dyn-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+        .dyn-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .dyn-item .field-input { flex: 1; }
+
+        .dyn-remove {
+            width: 32px;
+            height: 36px;
+            flex-shrink: 0;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: border-color 0.12s, color 0.12s;
+        }
+
+        .dyn-remove:hover { border-color: var(--danger); color: var(--danger); }
+
+        .add-item-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            background: transparent;
+            border: 1px dashed var(--border);
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.5rem 0.875rem;
+            cursor: pointer;
+            transition: border-color 0.12s, color 0.12s;
+            align-self: flex-start;
+        }
+
+        .add-item-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Thumbnail preview */
+        .thumb-wrap { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .thumb-preview {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            max-width: 360px;
+        }
+
+        .thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-preview-ph { font-size: 0.78rem; color: #3a3a3a; }
+
+        /* Toggle checkbox row */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 0.4rem 0.75rem;
+            border: 1px solid var(--border);
+            transition: all 0.12s;
+            user-select: none;
+        }
+
+        .toggle-row:hover { border-color: #3a3a3a; color: var(--text); }
+        .toggle-row input[type=checkbox] { accent-color: var(--primary); width: 13px; height: 13px; cursor: pointer; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.125rem;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.12s;
+            white-space: nowrap;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+        }
+
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary:hover:not(:disabled) { background: #E5A800; }
+
+        .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+        .btn-ghost:hover { color: var(--text); border-color: #3a3a3a; }
+
+        .btn-danger { background: transparent; color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+        .btn-danger:hover { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.4); }
+
+        .btn-upload { background: var(--surface); color: var(--muted); border: 1px solid var(--border); cursor: pointer; }
+        .btn-upload:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 1.75rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: rgba(251,191,36,0.3); color: var(--primary); }
+        .toast.error { border-color: rgba(239,68,68,0.3); color: #f87171; }
+
+        /* ── CONFIRM DIALOG ── */
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirm-overlay.open { display: flex; }
+
+        .confirm-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            max-width: 360px;
+            width: 100%;
+            margin: 1rem;
+        }
+
+        .confirm-title { font-size: 1.1rem; margin-bottom: 0.625rem; }
+        .confirm-body { color: var(--muted); font-size: 0.875rem; margin-bottom: 2rem; line-height: 1.7; }
+        .confirm-actions { display: flex; gap: 0.625rem; justify-content: flex-end; }
+
+        /* ── QUILL OVERRIDES ── */
+        .ql-toolbar.ql-snow {
+            border: 1px solid var(--border);
+            border-bottom: none;
+            background: var(--surface);
+        }
+
+        .ql-container.ql-snow {
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            min-height: 240px;
+        }
+
+        .ql-editor { color: var(--text); min-height: 220px; }
+        .ql-editor.ql-blank::before { color: #383838; font-style: normal; }
+        .ql-snow .ql-stroke { stroke: var(--muted); }
+        .ql-snow .ql-fill { fill: var(--muted); }
+        .ql-snow .ql-picker { color: var(--muted); }
+        .ql-snow .ql-picker-options { background: var(--surface); border-color: var(--border); }
+        .ql-snow .ql-picker-item { color: var(--muted); }
+        .ql-snow .ql-picker-item:hover, .ql-snow .ql-picker-label:hover { color: var(--primary); }
+        .ql-snow button:hover .ql-stroke, .ql-snow .ql-active .ql-stroke { stroke: var(--primary); }
+        .ql-snow button:hover .ql-fill, .ql-snow .ql-active .ql-fill { fill: var(--primary); }
+        .ql-snow .ql-tooltip { background: var(--surface); border-color: var(--border); color: var(--text); box-shadow: none; }
+        .ql-snow .ql-tooltip input[type=text] { background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; }
+        .ql-snow .ql-tooltip a.ql-action::after { color: var(--primary); }
+    </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN ═══ -->
+<!-- ═══════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════ -->
 <div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">⚡ Switch Admin</div>
-    <div class="login-sub">Command Center</div>
-    <div class="login-field">
-      <label>Password</label>
-      <input type="password" id="login-pw" placeholder="Enter admin password" autofocus>
+    <div class="login-card">
+        <img src="/heroextended.png" alt="Switch" class="login-logo">
+        <span class="login-eyebrow">Restricted Access</span>
+        <h1 class="login-title">Admin Panel</h1>
+        <div class="login-field">
+            <input type="text" id="login-username" placeholder="Username (leave blank for master admin)" autocomplete="username">
+        </div>
+        <div class="login-field">
+            <input type="password" id="login-input" placeholder="Password" autocomplete="current-password">
+        </div>
+        <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+        <button class="btn btn-primary" id="login-btn" style="width:100%;padding:0.75rem;font-size:0.875rem;">Sign In</button>
     </div>
-    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
-    <div class="login-error" id="login-error"></div>
-    <div class="login-attempts" id="login-attempts"></div>
-  </div>
 </div>
 
-<!-- ═══ COMMAND PALETTE ═══ -->
-<div id="cmd-palette">
-  <div class="cmd-box">
-    <div class="cmd-input-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input class="cmd-input" id="cmd-input" placeholder="Search pages, actions..." oninput="renderCmd()">
+<!-- ═══════════════════════════════════════
+     APP
+═══════════════════════════════════════ -->
+<div id="app" style="display:none;flex-direction:row;height:100vh;">
+
+    <!-- RAIL -->
+    <aside class="rail">
+        <div class="rail-header">
+            <img src="/logo.png" alt="Switch" class="rail-logo">
+            <span class="rail-badge">Admin</span>
+        </div>
+        <nav class="rail-nav">
+            <span class="rail-label">Content</span>
+            <button class="rail-link active" data-tab="games">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                Games
+            </button>
+            <button class="rail-link" data-tab="blog">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Blog
+            </button>
+            <button class="rail-link" data-tab="careers">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                Careers
+            </button>
+            <span class="rail-label" style="margin-top:1.5rem;">Team</span>
+            <button class="rail-link" data-tab="staff">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Staff Directory
+            </button>
+            <button class="rail-link" data-tab="operations" id="rail-ops-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>
+                Operations
+            </button>
+            <button class="rail-link" data-tab="accounts" id="rail-accounts-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Admin Accounts
+            </button>
+            <span class="rail-label" style="margin-top:1.5rem;">Inbox</span>
+            <button class="rail-link" data-tab="messages">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Messages
+                <span class="rail-unread" id="rail-unread-messages" style="display:none"></span>
+            </button>
+            <button class="rail-link" data-tab="applications">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Applications
+                <span class="rail-unread" id="rail-unread-applications" style="display:none"></span>
+            </button>
+        </nav>
+        <div class="rail-footer">
+            <a href="/" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;font-size:0.78rem;gap:0.5rem;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                View Site
+            </a>
+            <button class="btn btn-ghost" id="logout-btn" style="justify-content:flex-start;font-size:0.78rem;">Sign Out</button>
+        </div>
+    </aside>
+
+    <!-- ═══ GAMES SECTION ═══ -->
+    <div class="section active" id="section-games">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Games</span>
+                <button class="btn btn-primary" id="new-game-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
+            </div>
+            <div class="list-items" id="games-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="game-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <p>Select a game or create a new one</p>
+            </div>
+            <div class="detail-form" id="game-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-game-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="game-active"> Active
+                    </label>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="game-featured"> Featured
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-game-btn">Delete</button>
+                </div>
+                <div class="detail-body">
+                    <div>
+                        <label class="field-label">Place ID *</label>
+                        <input class="field-input" type="number" id="game-place-id" placeholder="e.g. 88967358637066">
+                    </div>
+                    <div>
+                        <label class="field-label">Thumbnail</label>
+                        <div class="thumb-wrap">
+                            <div class="thumb-preview" id="game-thumb-preview">
+                                <span class="thumb-preview-ph">No image uploaded</span>
+                            </div>
+                            <label class="btn btn-upload" style="align-self:flex-start;cursor:pointer;">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                Upload Image
+                                <input type="file" id="game-img-input" accept="image/*" style="display:none">
+                            </label>
+                            <input type="hidden" id="game-thumb-url">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="cmd-results" id="cmd-results"></div>
-    <div class="cmd-footer">
-      <span><kbd>↑↓</kbd> navigate</span>
-      <span><kbd>↵</kbd> select</span>
-      <span><kbd>Esc</kbd> close</span>
+
+    <!-- ═══ BLOG SECTION ═══ -->
+    <div class="section" id="section-blog">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Posts</span>
+                <button class="btn btn-primary" id="new-post-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
+            </div>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="blog-search" placeholder="Search posts…">
+            </div>
+            <div class="list-items" id="posts-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="blog-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <p>Select a post or create a new one</p>
+            </div>
+            <div class="detail-form" id="blog-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-post-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="post-publish"> Published
+                    </label>
+                    <div class="toolbar-sep"></div>
+                    <label class="btn btn-upload" style="cursor:pointer;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        Insert Image
+                        <input type="file" id="blog-img-input" accept="image/*" style="display:none">
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-post-btn">Delete</button>
+                </div>
+                <div class="detail-body">
+                    <input class="title-input" type="text" id="post-title" placeholder="Post title…">
+                    <div>
+                        <label class="field-label">Author</label>
+                        <input class="field-input" type="text" id="post-author" placeholder="e.g. Switch Team" style="margin-bottom:1rem;">
+                    </div>
+                    <div id="quill-editor"></div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <!-- ═══ CAREERS SECTION ═══ -->
+    <div class="section" id="section-careers">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Positions</span>
+                <button class="btn btn-primary" id="new-career-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
+            </div>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="career-search" placeholder="Search positions…">
+            </div>
+            <div class="list-items" id="careers-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="career-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                <p>Select a position or create a new one</p>
+            </div>
+            <div class="detail-form" id="career-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-career-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="career-active"> Active
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-career-btn">Delete</button>
+                </div>
+                <div class="detail-body">
+                    <!-- Basic info -->
+                    <div>
+                        <label class="field-label">Job Title *</label>
+                        <input class="field-input" type="text" id="career-title" placeholder="e.g. Senior UI Developer">
+                    </div>
+                    <div class="field-row field-row-3">
+                        <div>
+                            <label class="field-label">Department</label>
+                            <input class="field-input" type="text" id="career-dept" placeholder="e.g. Engineering">
+                        </div>
+                        <div>
+                            <label class="field-label">Type</label>
+                            <select class="field-select" id="career-type">
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Contract</option>
+                                <option>Volunteer</option>
+                                <option>Internship</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="field-label">Location</label>
+                            <input class="field-input" type="text" id="career-location" placeholder="e.g. Remote">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="field-label">Salary / Compensation <span style="font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;">(optional)</span></label>
+                        <input class="field-input" type="text" id="career-salary" placeholder="e.g. $50k–$70k / Volunteer / Unpaid">
+                    </div>
+                    <div>
+                        <label class="field-label">Description</label>
+                        <textarea class="field-textarea" id="career-desc" rows="4" placeholder="What will this person be doing?"></textarea>
+                    </div>
+
+                    <!-- Requirements -->
+                    <div class="form-section">
+                        <span class="form-section-label">Requirements</span>
+                        <div class="dyn-list" id="req-list"></div>
+                        <button class="add-item-btn" id="add-req">+ Add requirement</button>
+                    </div>
+
+                    <!-- Nice to have -->
+                    <div class="form-section">
+                        <span class="form-section-label">Nice to Have</span>
+                        <div class="dyn-list" id="nice-list"></div>
+                        <button class="add-item-btn" id="add-nice">+ Add nice-to-have</button>
+                    </div>
+
+                    <!-- Questions -->
+                    <div class="form-section">
+                        <span class="form-section-label">Application Questions</span>
+                        <div class="dyn-list" id="q-list"></div>
+                        <button class="add-item-btn" id="add-q">+ Add question</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══ OPERATIONS SECTION ═══ -->
+    <div class="section" id="section-operations">
+        <div class="list-panel" style="width:440px;">
+            <div class="list-panel-head"><span class="list-panel-title">Analytics</span></div>
+            <div class="detail-body" style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div class="stat-card"><div class="field-label">Page Views</div><div id="analytics-views" style="font-size:1.2rem;font-weight:700;">0</div></div>
+                    <div class="stat-card"><div class="field-label">Contacts</div><div id="analytics-contacts" style="font-size:1.2rem;font-weight:700;">0</div></div>
+                    <div class="stat-card"><div class="field-label">Applications</div><div id="analytics-apps" style="font-size:1.2rem;font-weight:700;">0</div></div>
+                    <div class="stat-card"><div class="field-label">Busiest Day</div><div id="analytics-busiest" style="font-size:0.9rem;font-weight:700;">—</div></div>
+                </div>
+                <div>
+                    <div class="field-label">Last 14 Days</div>
+                    <div id="analytics-trend" style="font-size:0.82rem;color:var(--muted);line-height:1.6;max-height:180px;overflow:auto;"></div>
+                </div>
+                <button class="btn" id="refresh-analytics-btn">Refresh Analytics</button>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-form" style="display:flex;flex:1;flex-direction:column;overflow:hidden;">
+                <div class="detail-toolbar"><div style="font-weight:700;">Site Controls + Security</div></div>
+                <div class="detail-body" style="display:flex;flex-direction:column;gap:1.25rem;">
+                    <div class="form-section">
+                        <span class="form-section-label">Announcement Banner</span>
+                        <label class="toggle-row" style="margin-bottom:0.8rem;"><input type="checkbox" id="banner-enabled"> Enabled</label>
+                        <input class="field-input" id="banner-text" placeholder="Banner message e.g. New update dropping Friday!" style="margin-bottom:0.6rem;">
+                        <div class="field-row field-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.6rem;">
+                            <input class="field-input" id="banner-bg" placeholder="#FBBF24">
+                            <input class="field-input" id="banner-color" placeholder="#0A0A0A">
+                        </div>
+                        <input class="field-input" id="banner-link" placeholder="https://... (optional)">
+                        <button class="btn btn-primary" id="save-banner-btn" style="margin-top:0.8rem;">Save Banner</button>
+                    </div>
+                    <div class="form-section">
+                        <span class="form-section-label">Active Sessions (superadmin)</span>
+                        <div id="session-list" style="display:flex;flex-direction:column;gap:0.5rem;"><div class="list-empty">Loading…</div></div>
+                    </div>
+                    <div class="form-section">
+                        <span class="form-section-label">Audit Log</span>
+                        <div id="audit-log-list" style="max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:0.5rem;"><div class="list-empty">Loading…</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ MESSAGES SECTION ═══ -->
+    <div class="section" id="section-messages">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Messages</span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button class="btn" id="messages-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
+                    <button class="btn" id="messages-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
+                    <button class="btn btn-danger" id="messages-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+                    <span class="list-panel-count" id="messages-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
+            </div>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="messages-search" placeholder="Search messages…">
+            </div>
+            <div class="list-items" id="messages-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="message-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <p>Select a message to read it</p>
+            </div>
+            <div class="detail-form" id="message-detail" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+                <div class="detail-toolbar">
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-message-btn">Delete</button>
+                </div>
+                <div class="detail-body" id="message-body-wrap"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ APPLICATIONS SECTION ═══ -->
+    <div class="section" id="section-applications">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Applications</span>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <button class="btn" id="applications-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
+                    <button class="btn" id="applications-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
+                    <button class="btn btn-danger" id="applications-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+                    <span class="list-panel-count" id="applications-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
+            </div>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="applications-search" placeholder="Search applicants…">
+            </div>
+            <div class="list-items" id="applications-list">
+                <div class="list-empty">Loading…</div>
+            </div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="application-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <p>Select an application to review it</p>
+            </div>
+            <div class="detail-form" id="application-detail" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+                <div class="detail-toolbar">
+                    <select class="field-select" id="app-status-select" style="width:auto;padding:0.4rem 2rem 0.4rem 0.75rem;font-size:0.8rem;">
+                        <option value="new">New</option>
+                        <option value="reviewing">Reviewing</option>
+                        <option value="shortlisted">Shortlisted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <button class="btn btn-primary" id="save-app-status-btn">Save Status</button>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-application-btn">Delete</button>
+                </div>
+                <div class="detail-body" id="application-body-wrap"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ STAFF DIRECTORY SECTION ═══ -->
+    <div class="section" id="section-staff">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Staff</span>
+                <button class="btn btn-primary" id="new-staff-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ Add</button>
+            </div>
+            <div class="list-search">
+                <svg class="list-search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="staff-search" placeholder="Search staff…">
+            </div>
+            <div class="list-items" id="staff-list"><div class="list-empty">Loading…</div></div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="staff-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                <p>Select a staff member or add a new one</p>
+            </div>
+            <div class="detail-form" id="staff-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-staff-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <label class="toggle-row">
+                        <input type="checkbox" id="staff-active"> Active
+                    </label>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-staff-btn">Remove</button>
+                </div>
+                <div class="detail-body">
+                    <div class="field-row field-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div>
+                            <label class="field-label">Full Name *</label>
+                            <input class="field-input" type="text" id="staff-name" placeholder="e.g. Alex Johnson">
+                        </div>
+                        <div>
+                            <label class="field-label">Role / Title</label>
+                            <input class="field-input" type="text" id="staff-role" placeholder="e.g. Lead Developer">
+                        </div>
+                    </div>
+                    <div class="field-row field-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div>
+                            <label class="field-label">Department</label>
+                            <input class="field-input" type="text" id="staff-dept" placeholder="e.g. Engineering">
+                        </div>
+                        <div>
+                            <label class="field-label">Discord</label>
+                            <input class="field-input" type="text" id="staff-discord" placeholder="username">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="field-label">Roblox Username</label>
+                        <input class="field-input" type="text" id="staff-roblox" placeholder="e.g. Builderman">
+                    </div>
+                    <div>
+                        <label class="field-label">Notes</label>
+                        <textarea class="field-textarea" id="staff-notes" rows="3" placeholder="Internal notes about this staff member…"></textarea>
+                    </div>
+                    <div>
+                        <label class="field-label">Joined</label>
+                        <input class="field-input" type="date" id="staff-joined">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ADMIN ACCOUNTS SECTION ═══ -->
+    <div class="section" id="section-accounts">
+        <div class="list-panel">
+            <div class="list-panel-head">
+                <span class="list-panel-title">Admin Accounts</span>
+                <button class="btn btn-primary" id="new-account-btn" style="font-size:0.75rem;padding:0.375rem 0.875rem;">+ New</button>
+            </div>
+            <div class="list-items" id="accounts-list"><div class="list-empty">Loading…</div></div>
+        </div>
+        <div class="detail-panel">
+            <div class="detail-empty" id="account-empty">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <p>Create accounts for staff to log into the admin panel</p>
+                <p style="font-size:0.75rem;margin-top:0.5rem;color:#666;">Only superadmins can manage accounts</p>
+            </div>
+            <div class="detail-form" id="account-form">
+                <div class="detail-toolbar">
+                    <button class="btn btn-primary" id="save-account-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Save
+                    </button>
+                    <div class="toolbar-spacer"></div>
+                    <button class="btn btn-danger" id="delete-account-btn">Delete Account</button>
+                </div>
+                <div class="detail-body">
+                    <div style="background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.15);padding:0.875rem 1rem;font-size:0.8rem;color:var(--muted);line-height:1.6;">
+                        <strong style="color:var(--primary);">About Staff Accounts</strong><br>
+                        Staff accounts allow your team members to log in to the admin panel using a username and password you set here. Passwords are stored securely as hashed values — not even you can read them back.
+                    </div>
+                    <div class="field-row field-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div>
+                            <label class="field-label">Display Name</label>
+                            <input class="field-input" type="text" id="acc-display" placeholder="e.g. Alex">
+                        </div>
+                        <div>
+                            <label class="field-label">Username *</label>
+                            <input class="field-input" type="text" id="acc-username" placeholder="e.g. alex" autocomplete="off">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="field-label">Role</label>
+                        <select class="field-select" id="acc-role">
+                            <option value="editor">Editor — can manage blog & games</option>
+                            <option value="moderator">Moderator — can manage messages & applications</option>
+                            <option value="admin">Admin — full access (except account management)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="field-label" id="pw-label">Password *</label>
+                        <input class="field-input" type="password" id="acc-password" placeholder="Min. 8 characters" autocomplete="new-password">
+                        <div style="font-size:0.72rem;color:var(--muted);margin-top:0.375rem;" id="pw-hint">Leave blank to keep current password when editing</div>
+                    </div>
+                    <div id="acc-last-login" style="font-size:0.8rem;color:var(--muted);"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /app -->
+
+<!-- CONFIRM DIALOG -->
+<div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+        <h3 class="confirm-title" id="confirm-title">Are you sure?</h3>
+        <p class="confirm-body" id="confirm-body">This action cannot be undone.</p>
+        <div class="confirm-actions">
+            <button class="btn btn-ghost" id="confirm-cancel">Cancel</button>
+            <button class="btn btn-danger" id="confirm-ok">Delete</button>
+        </div>
+    </div>
 </div>
 
-<!-- ═══ TOASTS ═══ -->
-<div id="toasts"></div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-<!-- ═══ APP ═══ -->
-<div id="app">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-logo">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        Switch
-      </div>
-      <div class="sidebar-sub">Admin Panel</div>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="nav-section">Main</div>
-      <button class="nav-item active" data-panel="dashboard" onclick="go('dashboard')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Dashboard
-      </button>
-      <button class="nav-item" data-panel="contacts" onclick="go('contacts')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contacts
-        <span class="nav-badge" id="badge-contacts" style="display:none">0</span>
-      </button>
-      <button class="nav-item" data-panel="applications" onclick="go('applications')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-        Applications
-        <span class="nav-badge" id="badge-applications" style="display:none">0</span>
-      </button>
-
-      <div class="nav-section">Content</div>
-      <button class="nav-item" data-panel="games" onclick="go('games')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-        Games
-      </button>
-      <button class="nav-item" data-panel="blog" onclick="go('blog')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Blog Posts
-      </button>
-      <button class="nav-item" data-panel="careers" onclick="go('careers')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        Careers
-      </button>
-
-      <div class="nav-section">System</div>
-      <button class="nav-item" data-panel="settings" onclick="go('settings')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        Settings
-      </button>
-      <button class="nav-item" data-panel="security" onclick="go('security')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Security
-      </button>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="session-info" id="session-info">Signed in</div>
-      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
-    </div>
-  </aside>
-
-  <!-- Main Content -->
-  <div class="main">
-    <div class="topbar">
-      <div class="topbar-title" id="topbar-title">Dashboard</div>
-      <div class="topbar-actions">
-        <button class="tb-btn" onclick="openCmd()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Search&nbsp;<kbd style="font-size:.65rem;background:var(--surface3);border:1px solid var(--border);padding:.1rem .3rem;border-radius:3px">⌘K</kbd>
-        </button>
-        <button class="tb-btn" onclick="refreshAll()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          Refresh
-        </button>
-      </div>
-    </div>
-
-    <div class="content">
-
-      <!-- DASHBOARD -->
-      <div class="panel active" id="panel-dashboard">
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-label">Total Visits</div>
-            <div class="stat-value" id="dash-visits">—</div>
-            <div class="stat-sub">All time</div>
-          </div>
-          <div class="stat-card green">
-            <div class="stat-label">Live Players</div>
-            <div class="stat-value" id="dash-ccu">—</div>
-            <div class="stat-sub">Right now</div>
-          </div>
-          <div class="stat-card blue">
-            <div class="stat-label">Page Views Today</div>
-            <div class="stat-value" id="dash-pv-today">—</div>
-            <div class="stat-sub" id="dash-pv-total">Total: —</div>
-          </div>
-          <div class="stat-card purple">
-            <div class="stat-label">Unread</div>
-            <div class="stat-value" id="dash-unread">—</div>
-            <div class="stat-sub">Contacts + apps</div>
-          </div>
-        </div>
-
-        <div class="section-grid">
-          <div class="card">
-            <div class="card-title">Page Views (30 days)</div>
-            <div id="chart-wrap" class="chart-bar-wrap"></div>
-          </div>
-          <div class="card">
-            <div class="card-title">Recent Activity</div>
-            <div class="activity-feed" id="activity-feed"><div class="loading">Loading...</div></div>
-          </div>
-        </div>
-
-        <div class="section-grid">
-          <div class="card">
-            <div class="card-title">Latest Contacts <button class="action-btn" onclick="go('contacts')">View all</button></div>
-            <div id="dash-contacts-list" class="loading">Loading...</div>
-          </div>
-          <div class="card">
-            <div class="card-title">New Applications <button class="action-btn" onclick="go('applications')">View all</button></div>
-            <div id="dash-apps-list" class="loading">Loading...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CONTACTS -->
-      <div class="panel" id="panel-contacts">
-        <div class="table-wrap">
-          <div class="table-header">
-            <span class="table-title">Contact Messages</span>
-            <input class="search-input" placeholder="Search..." oninput="filterTable('contacts-table',this.value)">
-          </div>
-          <table id="contacts-table">
-            <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="contacts-body"><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- APPLICATIONS Kanban -->
-      <div class="panel" id="panel-applications">
-        <div class="pipeline" id="pipeline">
-          <div class="pipeline-col">
-            <div class="pipeline-col-header">
-              <span class="pipeline-col-title text-blue">New</span>
-              <span class="pipeline-count" id="pc-new">0</span>
-            </div>
-            <div class="pipeline-cards" id="pcards-new"></div>
-          </div>
-          <div class="pipeline-col">
-            <div class="pipeline-col-header">
-              <span class="pipeline-col-title text-primary">Reviewing</span>
-              <span class="pipeline-count" id="pc-reviewing">0</span>
-            </div>
-            <div class="pipeline-cards" id="pcards-reviewing"></div>
-          </div>
-          <div class="pipeline-col">
-            <div class="pipeline-col-header">
-              <span class="pipeline-col-title text-green">Accepted</span>
-              <span class="pipeline-count" id="pc-accepted">0</span>
-            </div>
-            <div class="pipeline-cards" id="pcards-accepted"></div>
-          </div>
-          <div class="pipeline-col">
-            <div class="pipeline-col-header">
-              <span class="pipeline-col-title text-red">Rejected</span>
-              <span class="pipeline-count" id="pc-rejected">0</span>
-            </div>
-            <div class="pipeline-cards" id="pcards-rejected"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- GAMES -->
-      <div class="panel" id="panel-games">
-        <div class="table-wrap">
-          <div class="table-header">
-            <span class="table-title">Roblox Games</span>
-            <div class="flex gap-1">
-              <input class="search-input" placeholder="Search..." oninput="filterTable('games-table',this.value)">
-              <button class="tb-btn primary" onclick="openGameModal()">+ Add Game</button>
-            </div>
-          </div>
-          <table id="games-table">
-            <thead><tr><th>Place ID</th><th>Name</th><th>Status</th><th>Featured</th><th>Actions</th></tr></thead>
-            <tbody id="games-body"><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- BLOG -->
-      <div class="panel" id="panel-blog">
-        <div class="table-wrap">
-          <div class="table-header">
-            <span class="table-title">Blog Posts</span>
-            <div class="flex gap-1">
-              <input class="search-input" placeholder="Search..." oninput="filterTable('blog-table',this.value)">
-              <button class="tb-btn primary" onclick="openPostModal()">+ New Post</button>
-            </div>
-          </div>
-          <table id="blog-table">
-            <thead><tr><th>Title</th><th>Status</th><th>Created</th><th>Updated</th><th>Actions</th></tr></thead>
-            <tbody id="blog-body"><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- CAREERS -->
-      <div class="panel" id="panel-careers">
-        <div class="table-wrap">
-          <div class="table-header">
-            <span class="table-title">Job Listings</span>
-            <div class="flex gap-1">
-              <input class="search-input" placeholder="Search..." oninput="filterTable('careers-table',this.value)">
-              <button class="tb-btn primary" onclick="openCareerModal()">+ Add Listing</button>
-            </div>
-          </div>
-          <table id="careers-table">
-            <thead><tr><th>Title</th><th>Department</th><th>Type</th><th>Location</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="careers-body"><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
-      <div class="panel" id="panel-settings">
-        <div style="max-width:640px">
-          <div class="card" style="margin-bottom:1.25rem">
-            <div class="card-title">Announcement Banner</div>
-            <div id="announcement-preview" class="announcement-preview" style="background:#FBBF24;color:#0A0A0A">📣 Preview will appear here</div>
-            <div class="toggle-row">
-              <div><div class="toggle-label">Enable Banner</div><div class="toggle-desc">Shows sitewide at the top of every page</div></div>
-              <label class="toggle"><input type="checkbox" id="ann-enabled" onchange="previewAnnouncement()"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="field mt-2"><label>Announcement Text</label><input type="text" id="ann-text" oninput="previewAnnouncement()" placeholder="Something exciting is coming..."></div>
-            <div class="field-row">
-              <div class="field"><label>Background Color</label><input type="color" id="ann-bg" value="#FBBF24" oninput="previewAnnouncement()"></div>
-              <div class="field"><label>Text Color</label><input type="color" id="ann-color" value="#0A0A0A" oninput="previewAnnouncement()"></div>
-            </div>
-            <div class="field"><label>Link URL (optional)</label><input type="text" id="ann-link" placeholder="https://..."></div>
-            <button class="btn primary" onclick="saveSettings()">Save Banner</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECURITY -->
-      <div class="panel" id="panel-security">
-        <div style="max-width:640px">
-          <div class="card" style="margin-bottom:1.25rem">
-            <div class="card-title">Active Sessions</div>
-            <div id="sessions-list" class="sessions-list"><div class="loading">Loading...</div></div>
-            <button class="btn secondary mt-2" style="margin-top:0.75rem" onclick="revokeAllSessions()">Revoke All Other Sessions</button>
-          </div>
-          <div class="card">
-            <div class="card-title">Audit Log <span style="font-size:.72rem;font-weight:400;color:var(--muted)">Last 50 events</span></div>
-            <div id="audit-list"><div class="loading">Loading...</div></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- MODALS -->
-
-<div class="modal-overlay" id="modal-app">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-app-title">Application</span>
-      <button class="modal-close" onclick="closeModal('modal-app')">×</button>
-    </div>
-    <div id="modal-app-body"></div>
-    <div class="modal-footer">
-      <button class="btn secondary" onclick="setAppStatus(currentApp,'rejected')">✕ Reject</button>
-      <button class="btn secondary" onclick="setAppStatus(currentApp,'reviewing')">👁 Review</button>
-      <button class="btn primary" onclick="setAppStatus(currentApp,'accepted')">✓ Accept</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-contact">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">Message</span>
-      <button class="modal-close" onclick="closeModal('modal-contact')">×</button>
-    </div>
-    <div id="modal-contact-body"></div>
-    <div class="modal-footer">
-      <button class="btn secondary" onclick="closeModal('modal-contact')">Close</button>
-      <button class="btn primary" style="background:var(--red);color:#fff" onclick="deleteContact(currentContact)">Delete</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-game">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-game-title">Add Game</span>
-      <button class="modal-close" onclick="closeModal('modal-game')">×</button>
-    </div>
-    <div class="field"><label>Roblox Place ID</label><input type="text" id="gm-placeid" placeholder="e.g. 12345678"></div>
-    <div class="field"><label>Thumbnail URL (optional)</label><input type="text" id="gm-thumbnail" placeholder="https://..."></div>
-    <div class="toggle-row">
-      <div><div class="toggle-label">Active</div></div>
-      <label class="toggle"><input type="checkbox" id="gm-active" checked><span class="toggle-slider"></span></label>
-    </div>
-    <div class="toggle-row">
-      <div><div class="toggle-label">Featured</div></div>
-      <label class="toggle"><input type="checkbox" id="gm-featured"><span class="toggle-slider"></span></label>
-    </div>
-    <div class="modal-footer">
-      <button class="btn secondary" onclick="closeModal('modal-game')">Cancel</button>
-      <button class="btn primary" onclick="saveGame()">Save Game</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-post">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-post-title">New Post</span>
-      <button class="modal-close" onclick="closeModal('modal-post')">×</button>
-    </div>
-    <div class="field"><label>Title</label><input type="text" id="pm-title" placeholder="Post title"></div>
-    <div class="field"><label>Content</label><textarea id="pm-content" rows="8" placeholder="Write your content..."></textarea></div>
-    <div class="toggle-row">
-      <div><div class="toggle-label">Published</div><div class="toggle-desc">Visible on public blog</div></div>
-      <label class="toggle"><input type="checkbox" id="pm-published"><span class="toggle-slider"></span></label>
-    </div>
-    <div class="modal-footer">
-      <button class="btn secondary" onclick="closeModal('modal-post')">Cancel</button>
-      <button class="btn primary" onclick="savePost()">Save Post</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modal-career">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-career-title">Add Listing</span>
-      <button class="modal-close" onclick="closeModal('modal-career')">×</button>
-    </div>
-    <div class="field"><label>Title</label><input type="text" id="cm-title" placeholder="e.g. Lead Developer"></div>
-    <div class="field-row">
-      <div class="field"><label>Department</label><input type="text" id="cm-dept" placeholder="Engineering"></div>
-      <div class="field"><label>Type</label>
-        <select id="cm-type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Volunteer</option></select>
-      </div>
-    </div>
-    <div class="field"><label>Location</label><input type="text" id="cm-location" value="Remote" placeholder="Remote"></div>
-    <div class="field"><label>Description</label><textarea id="cm-description" placeholder="Role description..."></textarea></div>
-    <div class="field"><label>Requirements (one per line)</label><textarea id="cm-requirements" placeholder="2+ years experience&#10;Proficient in Lua"></textarea></div>
-    <div class="toggle-row">
-      <div><div class="toggle-label">Active (visible to public)</div></div>
-      <label class="toggle"><input type="checkbox" id="cm-active" checked><span class="toggle-slider"></span></label>
-    </div>
-    <div class="modal-footer">
-      <button class="btn secondary" onclick="closeModal('modal-career')">Cancel</button>
-      <button class="btn primary" onclick="saveCareer()">Save Listing</button>
-    </div>
-  </div>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
 <script>
-let TOKEN = localStorage.getItem('admin_token') || '';
-let currentPanel = 'dashboard';
-let currentApp = null;
-let currentContact = null;
-let editingGameId = null;
-let editingPostId = null;
-let editingCareerId = null;
-let cache = { contacts:[], applications:[], games:[], posts:[], careers:[] };
-const panelTitles = { dashboard:'Dashboard', contacts:'Contacts', applications:'Applications', games:'Games', blog:'Blog Posts', careers:'Careers', settings:'Site Settings', security:'Security' };
+// ── STATE ──────────────────────────────────────────────────────────────────
+let token = sessionStorage.getItem('sw_token');
+let sessionRole = sessionStorage.getItem('sw_role') || 'superadmin';
+let posts = [], careers = [], games = [];
+let staffList = [], accountsList = [];
+let activePostId = null, activeCareerId = null, activeGameId = null;
+let activeStaffId = null, activeAccountId = null;
+let quill = null;
 
-// ─── AUTH ───────────────────────────────────────────────────
-async function doLogin() {
-  const pw = document.getElementById('login-pw').value;
-  const btn = document.getElementById('login-btn');
-  const err = document.getElementById('login-error');
-  const att = document.getElementById('login-attempts');
-  err.style.display='none'; btn.disabled=true; btn.textContent='Signing in...';
-  try {
-    const r = await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})});
-    const d = await r.json();
-    if (r.ok) {
-      TOKEN=d.token; localStorage.setItem('admin_token',TOKEN);
-      document.getElementById('login-screen').style.display='none';
-      document.getElementById('app').classList.add('visible');
-      boot();
-    } else {
-      err.textContent=d.message; err.style.display='block';
-      if(d.attemptsLeft!==undefined) att.textContent=`${d.attemptsLeft} attempt(s) left before lockout`;
-      else att.textContent='';
+// ── UTILS ──────────────────────────────────────────────────────────────────
+function fmtDate(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+let toastTimer;
+function toast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.className = 'toast', 2500);
+}
+
+function confirm(title, body, onOk) {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-body').textContent = body;
+    document.getElementById('confirm-overlay').classList.add('open');
+    const ok = document.getElementById('confirm-ok');
+    const cancel = document.getElementById('confirm-cancel');
+    const close = () => document.getElementById('confirm-overlay').classList.remove('open');
+    ok.onclick = () => { close(); onOk(); };
+    cancel.onclick = close;
+}
+
+// ── LOGIN ──────────────────────────────────────────────────────────────────
+function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    const app = document.getElementById('app');
+    app.style.display = 'flex';
+    // Hide accounts tab for non-superadmin
+    if (sessionRole !== 'superadmin') {
+        const accountsBtn = document.getElementById('rail-accounts-btn');
+        if (accountsBtn) accountsBtn.style.display = 'none';
     }
-  } catch { err.textContent='Connection error'; err.style.display='block'; }
-  btn.disabled=false; btn.textContent='Sign In';
+    initQuill();
+    loadGames(); loadPosts(); loadCareers(); loadMessages(); loadApplications();
+    loadStaff(); loadAccounts(); loadOperations();
 }
 
-async function doLogout() {
-  await fetch('/api/admin/logout',{method:'POST',headers:{'x-admin-token':TOKEN}}).catch(()=>{});
-  localStorage.removeItem('admin_token'); location.reload();
+if (token) showApp();
+
+async function doLogin() {
+    const pw = document.getElementById('login-input').value;
+    const usernameEl = document.getElementById('login-username');
+    const err = document.getElementById('login-error');
+    if (!pw) return;
+    try {
+        const body = { password: pw };
+        if (usernameEl && usernameEl.value.trim()) body.username = usernameEl.value.trim();
+        const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        const d = await res.json();
+        if (!res.ok) { err.textContent = d.message || 'Invalid credentials.'; err.style.display = 'block'; return; }
+        token = d.token;
+        sessionRole = d.role || 'superadmin';
+        sessionStorage.setItem('sw_token', token);
+        sessionStorage.setItem('sw_role', sessionRole);
+        err.style.display = 'none';
+        showApp();
+    } catch { err.textContent = 'Login failed. Try again.'; err.style.display = 'block'; }
 }
 
-async function checkAuth() {
-  if(!TOKEN) return false;
-  try { const r=await fetch('/api/admin/contacts',{headers:{'x-admin-token':TOKEN}}); return r.ok; }
-  catch { return false; }
-}
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('login-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
-// ─── BOOT ────────────────────────────────────────────────────
-async function boot() {
-  document.getElementById('session-info').textContent='Signed in · 8h session';
-  await refreshAll();
-  await loadSettings();
-  setInterval(refreshStats,30000);
-}
-
-async function refreshAll() {
-  await Promise.all([loadContacts(),loadApplications(),loadGames(),loadPosts(),loadCareers()]);
-  loadDashboard(); loadAudit(); loadSessions();
-}
-
-// ─── NAVIGATION ──────────────────────────────────────────────
-function go(panel) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+panel).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.panel===panel));
-  document.getElementById('topbar-title').textContent = panelTitles[panel]||panel;
-  currentPanel = panel;
-  if(panel==='security'){loadAudit();loadSessions();}
-  closeCmd();
-}
-
-// ─── TOAST ───────────────────────────────────────────────────
-function toast(msg, type='info') {
-  const el=document.createElement('div');
-  el.className=`toast ${type}`; el.textContent=msg;
-  document.getElementById('toasts').appendChild(el);
-  setTimeout(()=>el.remove(),3500);
-}
-
-// ─── API ─────────────────────────────────────────────────────
-async function api(method, path, body) {
-  const opts={method,headers:{'x-admin-token':TOKEN}};
-  if(body){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(body);}
-  const r=await fetch(path,opts);
-  if(r.status===401){toast('Session expired — please sign in again','error');localStorage.removeItem('admin_token');setTimeout(()=>location.reload(),1500);}
-  return r.json();
-}
-
-// ─── DASHBOARD ───────────────────────────────────────────────
-async function loadDashboard() {
-  refreshStats();
-  try {
-    const pv=await api('GET','/api/admin/pageviews');
-    document.getElementById('dash-pv-today').textContent=fmtNum(pv.today||0);
-    document.getElementById('dash-pv-total').textContent=`${fmtNum(pv.total||0)} total`;
-    renderChart(pv.daily||[]);
-  } catch {}
-  const unread=cache.contacts.filter(c=>!c.read).length+cache.applications.filter(a=>!a.read).length;
-  document.getElementById('dash-unread').textContent=unread;
-  const cl=document.getElementById('dash-contacts-list');
-  cl.innerHTML=cache.contacts.slice(0,5).map(c=>`<div class="activity-item" onclick="openContact('${c.id}')"><div class="activity-dot ${c.read?'':'blue'}"></div><div><div class="activity-text">${esc(c.name)} — ${esc(c.subject)}</div><div class="activity-time">${relTime(c.createdAt)}</div></div></div>`).join('')||'<div class="text-muted" style="font-size:.82rem;padding:.5rem 0">No messages yet</div>';
-  const al=document.getElementById('dash-apps-list');
-  al.innerHTML=cache.applications.slice(0,5).map(a=>`<div class="activity-item" onclick="openApp('${a.id}')"><div class="activity-dot ${a.status==='new'?'blue':a.status==='accepted'?'green':'yellow'}"></div><div><div class="activity-text">${esc(a.name)} → ${esc(a.position)}</div><div class="activity-time">${relTime(a.createdAt)}</div></div></div>`).join('')||'<div class="text-muted" style="font-size:.82rem;padding:.5rem 0">No applications yet</div>';
-  renderActivityFeed();
-}
-
-async function refreshStats() {
-  try {
-    const [v,c]=await Promise.all([fetch('/api/get-total-visits').then(r=>r.json()),fetch('/api/get-total-ccu').then(r=>r.json())]);
-    document.getElementById('dash-visits').textContent=fmtNum(v.value||0);
-    document.getElementById('dash-ccu').textContent=fmtNum(c.value||0);
-  } catch {}
-}
-
-function renderChart(daily) {
-  const wrap=document.getElementById('chart-wrap');
-  if(!daily.length){wrap.innerHTML='<span style="color:var(--muted);font-size:.75rem">No data yet — visit tracking starts now</span>';return;}
-  const max=Math.max(...daily.map(d=>d.views),1);
-  wrap.innerHTML=daily.slice(0,30).reverse().map(d=>{
-    const h=Math.max(4,Math.round((d.views/max)*80));
-    return `<div class="chart-bar" style="height:${h}px" title="${d.date}: ${d.views} views"></div>`;
-  }).join('');
-}
-
-function renderActivityFeed() {
-  const feed=document.getElementById('activity-feed');
-  const items=[
-    ...cache.contacts.slice(0,4).map(c=>({t:'contact',d:c})),
-    ...cache.applications.slice(0,4).map(a=>({t:'app',d:a}))
-  ].sort((a,b)=>new Date(b.d.createdAt)-new Date(a.d.createdAt)).slice(0,8);
-  feed.innerHTML=items.map(i=>i.t==='contact'
-    ?`<div class="activity-item" onclick="openContact('${i.d.id}')"><div class="activity-dot blue"></div><div><div class="activity-text">New contact from <strong>${esc(i.d.name)}</strong></div><div class="activity-time">${relTime(i.d.createdAt)}</div></div></div>`
-    :`<div class="activity-item" onclick="openApp('${i.d.id}')"><div class="activity-dot yellow"></div><div><div class="activity-text"><strong>${esc(i.d.name)}</strong> applied for ${esc(i.d.position)}</div><div class="activity-time">${relTime(i.d.createdAt)}</div></div></div>`
-  ).join('')||'<div class="text-muted" style="font-size:.82rem">No recent activity</div>';
-}
-
-// ─── CONTACTS ────────────────────────────────────────────────
-async function loadContacts() {
-  const d=await api('GET','/api/admin/contacts');
-  cache.contacts=d.contacts||[];
-  const unread=cache.contacts.filter(c=>!c.read).length;
-  const badge=document.getElementById('badge-contacts');
-  badge.textContent=unread; badge.style.display=unread>0?'':'none';
-  renderContacts();
-}
-function renderContacts() {
-  const tbody=document.getElementById('contacts-body');
-  if(!cache.contacts.length){tbody.innerHTML='<tr><td colspan="6" class="empty-row">No messages yet</td></tr>';return;}
-  tbody.innerHTML=cache.contacts.map(c=>`<tr>
-    <td><strong>${esc(c.name)}</strong></td>
-    <td><a href="mailto:${esc(c.email)}" style="color:var(--primary)">${esc(c.email)}</a></td>
-    <td>${esc(c.subject)}</td><td>${relTime(c.createdAt)}</td>
-    <td><span class="badge ${c.read?'draft':'new'}">${c.read?'Read':'Unread'}</span></td>
-    <td><button class="action-btn" onclick="openContact('${c.id}')">View</button> <button class="action-btn danger" onclick="deleteContact('${c.id}')">Delete</button></td>
-  </tr>`).join('');
-}
-function openContact(id) {
-  const c=cache.contacts.find(x=>x.id===id); if(!c)return;
-  currentContact=id;
-  document.getElementById('modal-contact-body').innerHTML=`
-    <div class="field"><label>From</label><p><strong>${esc(c.name)}</strong> &lt;${esc(c.email)}&gt;</p></div>
-    <div class="field"><label>Subject</label><p>${esc(c.subject)}</p></div>
-    <div class="field"><label>Message</label><div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem;white-space:pre-wrap;font-size:.85rem;line-height:1.6">${esc(c.message)}</div></div>
-    <div class="field"><label>Received</label><p>${new Date(c.createdAt).toLocaleString()}</p></div>`;
-  openModal('modal-contact');
-  if(!c.read) api('PATCH',`/api/admin/contacts/${id}/read`).then(()=>{c.read=true;renderContacts();loadContacts();});
-}
-async function deleteContact(id) {
-  if(!confirm('Delete this message?'))return;
-  await api('DELETE',`/api/admin/contacts/${id}`);
-  cache.contacts=cache.contacts.filter(c=>c.id!==id);
-  renderContacts(); closeModal('modal-contact'); toast('Message deleted','info');
-}
-
-// ─── APPLICATIONS ────────────────────────────────────────────
-async function loadApplications() {
-  const d=await api('GET','/api/admin/applications');
-  cache.applications=d.applications||[];
-  const unread=cache.applications.filter(a=>!a.read).length;
-  const badge=document.getElementById('badge-applications');
-  badge.textContent=unread; badge.style.display=unread>0?'':'none';
-  renderPipeline();
-}
-function renderPipeline() {
-  ['new','reviewing','accepted','rejected'].forEach(s=>{
-    const items=cache.applications.filter(a=>a.status===s);
-    document.getElementById('pc-'+s).textContent=items.length;
-    document.getElementById('pcards-'+s).innerHTML=items.map(a=>`
-      <div class="pipeline-card" onclick="openApp('${a.id}')">
-        <div class="pipeline-card-name">${esc(a.name)}</div>
-        <div class="pipeline-card-pos">${esc(a.position)}</div>
-        <div class="pipeline-card-date">${relTime(a.createdAt)}</div>
-      </div>`).join('')||'<div style="font-size:.75rem;color:var(--muted);text-align:center;padding:.5rem">Empty</div>';
-  });
-}
-function openApp(id) {
-  const a=cache.applications.find(x=>x.id===id); if(!a)return;
-  currentApp=id;
-  document.getElementById('modal-app-title').textContent=`${a.name} — ${a.position}`;
-  document.getElementById('modal-app-body').innerHTML=`
-    <div class="field"><label>Name</label><p>${esc(a.name)}</p></div>
-    <div class="field-row">
-      <div class="field"><label>Email</label><a href="mailto:${esc(a.email)}" style="color:var(--primary)">${esc(a.email)}</a></div>
-      <div class="field"><label>Discord</label><p>${esc(a.discord||'—')}</p></div>
-    </div>
-    ${a.portfolio?`<div class="field"><label>Portfolio</label><a href="${esc(a.portfolio)}" target="_blank" style="color:var(--primary)">${esc(a.portfolio)}</a></div>`:''}
-    <div class="field"><label>Experience</label><div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem;white-space:pre-wrap;font-size:.85rem;line-height:1.6">${esc(a.experience)}</div></div>
-    <div class="field"><label>Current Status</label><span class="badge ${a.status}">${a.status}</span></div>
-    <div class="field"><label>Applied</label><p>${new Date(a.createdAt).toLocaleString()}</p></div>`;
-  openModal('modal-app');
-  if(!a.read) api('PATCH',`/api/admin/applications/${id}/status`,{status:a.status}).then(()=>{a.read=true;});
-}
-async function setAppStatus(id,status) {
-  await api('PATCH',`/api/admin/applications/${id}/status`,{status});
-  const a=cache.applications.find(x=>x.id===id); if(a)a.status=status;
-  renderPipeline(); closeModal('modal-app'); toast(`Marked as ${status}`,'success');
-}
-
-// ─── GAMES ───────────────────────────────────────────────────
-async function loadGames() {
-  const d=await api('GET','/api/admin/games');
-  cache.games=d.games||[]; renderGames();
-}
-function renderGames() {
-  const tbody=document.getElementById('games-body');
-  if(!cache.games.length){tbody.innerHTML='<tr><td colspan="5" class="empty-row">No games yet. Add one!</td></tr>';return;}
-  tbody.innerHTML=cache.games.map(g=>`<tr>
-    <td><code style="font-size:.78rem">${esc(g.placeId||'—')}</code></td>
-    <td>${esc(g.name||'—')}</td>
-    <td><span class="badge ${g.active?'active':'inactive'}">${g.active?'Active':'Inactive'}</span></td>
-    <td>${g.featured?'⭐ Yes':'—'}</td>
-    <td><button class="action-btn" onclick="openGameModal('${g.id}')">Edit</button> <button class="action-btn danger" onclick="deleteGame('${g.id}')">Delete</button></td>
-  </tr>`).join('');
-}
-function openGameModal(id) {
-  editingGameId=id||null;
-  document.getElementById('modal-game-title').textContent=id?'Edit Game':'Add Game';
-  const g=id?cache.games.find(x=>x.id===id):null;
-  document.getElementById('gm-placeid').value=g?.placeId||'';
-  document.getElementById('gm-thumbnail').value=g?.thumbnail||'';
-  document.getElementById('gm-active').checked=g?g.active:true;
-  document.getElementById('gm-featured').checked=g?.featured||false;
-  openModal('modal-game');
-}
-async function saveGame() {
-  const body={placeId:document.getElementById('gm-placeid').value,thumbnail:document.getElementById('gm-thumbnail').value,active:document.getElementById('gm-active').checked,featured:document.getElementById('gm-featured').checked};
-  if(editingGameId) await api('PUT',`/api/admin/games/${editingGameId}`,body);
-  else await api('POST','/api/admin/games',body);
-  await loadGames(); closeModal('modal-game'); toast(editingGameId?'Game updated':'Game added','success');
-}
-async function deleteGame(id) {
-  if(!confirm('Delete this game?'))return;
-  await api('DELETE',`/api/admin/games/${id}`); await loadGames(); toast('Game deleted','info');
-}
-
-// ─── BLOG ────────────────────────────────────────────────────
-async function loadPosts() {
-  const d=await api('GET','/api/admin/posts');
-  cache.posts=d.posts||[]; renderPosts();
-}
-function renderPosts() {
-  const tbody=document.getElementById('blog-body');
-  if(!cache.posts.length){tbody.innerHTML='<tr><td colspan="5" class="empty-row">No posts yet</td></tr>';return;}
-  tbody.innerHTML=cache.posts.map(p=>`<tr>
-    <td><strong>${esc(p.title)}</strong></td>
-    <td><span class="badge ${p.published?'published':'draft'}">${p.published?'Published':'Draft'}</span></td>
-    <td>${relTime(p.createdAt)}</td><td>${relTime(p.updatedAt)}</td>
-    <td><button class="action-btn" onclick="openPostModal('${p.id}')">Edit</button> <button class="action-btn success" onclick="togglePublish('${p.id}',${p.published})">${p.published?'Unpublish':'Publish'}</button> <button class="action-btn danger" onclick="deletePost('${p.id}')">Delete</button></td>
-  </tr>`).join('');
-}
-function openPostModal(id) {
-  editingPostId=id||null;
-  document.getElementById('modal-post-title').textContent=id?'Edit Post':'New Post';
-  const p=id?cache.posts.find(x=>x.id===id):null;
-  document.getElementById('pm-title').value=p?.title||'';
-  document.getElementById('pm-content').value=p?.content||'';
-  document.getElementById('pm-published').checked=p?.published||false;
-  openModal('modal-post');
-}
-async function savePost() {
-  const title=document.getElementById('pm-title').value;
-  if(!title){toast('Title required','error');return;}
-  const body={title,content:document.getElementById('pm-content').value,published:document.getElementById('pm-published').checked};
-  if(editingPostId) await api('PUT',`/api/admin/posts/${editingPostId}`,body);
-  else await api('POST','/api/admin/posts',body);
-  await loadPosts(); closeModal('modal-post'); toast(editingPostId?'Post updated':'Post created','success');
-}
-async function togglePublish(id,current) {
-  await api('PUT',`/api/admin/posts/${id}`,{published:!current});
-  await loadPosts(); toast('Post updated','success');
-}
-async function deletePost(id) {
-  if(!confirm('Delete this post?'))return;
-  await api('DELETE',`/api/admin/posts/${id}`); await loadPosts(); toast('Post deleted','info');
-}
-
-// ─── CAREERS ─────────────────────────────────────────────────
-async function loadCareers() {
-  const d=await api('GET','/api/admin/careers');
-  cache.careers=d.careers||[]; renderCareers();
-}
-function renderCareers() {
-  const tbody=document.getElementById('careers-body');
-  if(!cache.careers.length){tbody.innerHTML='<tr><td colspan="6" class="empty-row">No listings yet</td></tr>';return;}
-  tbody.innerHTML=cache.careers.map(c=>`<tr>
-    <td><strong>${esc(c.title)}</strong></td>
-    <td>${esc(c.department||'—')}</td><td>${esc(c.type)}</td><td>${esc(c.location)}</td>
-    <td><span class="badge ${c.active?'active':'inactive'}">${c.active?'Active':'Inactive'}</span></td>
-    <td><button class="action-btn" onclick="openCareerModal('${c.id}')">Edit</button> <button class="action-btn danger" onclick="deleteCareer('${c.id}')">Delete</button></td>
-  </tr>`).join('');
-}
-function openCareerModal(id) {
-  editingCareerId=id||null;
-  document.getElementById('modal-career-title').textContent=id?'Edit Listing':'Add Listing';
-  const c=id?cache.careers.find(x=>x.id===id):null;
-  document.getElementById('cm-title').value=c?.title||'';
-  document.getElementById('cm-dept').value=c?.department||'';
-  document.getElementById('cm-type').value=c?.type||'Full-time';
-  document.getElementById('cm-location').value=c?.location||'Remote';
-  document.getElementById('cm-description').value=c?.description||'';
-  document.getElementById('cm-requirements').value=(c?.requirements||[]).join('\n');
-  document.getElementById('cm-active').checked=c?c.active:true;
-  openModal('modal-career');
-}
-async function saveCareer() {
-  const title=document.getElementById('cm-title').value;
-  if(!title){toast('Title required','error');return;}
-  const body={title,department:document.getElementById('cm-dept').value,type:document.getElementById('cm-type').value,location:document.getElementById('cm-location').value,description:document.getElementById('cm-description').value,requirements:document.getElementById('cm-requirements').value.split('\n').map(s=>s.trim()).filter(Boolean),active:document.getElementById('cm-active').checked};
-  if(editingCareerId) await api('PUT',`/api/admin/careers/${editingCareerId}`,body);
-  else await api('POST','/api/admin/careers',body);
-  await loadCareers(); closeModal('modal-career'); toast(editingCareerId?'Listing updated':'Listing created','success');
-}
-async function deleteCareer(id) {
-  if(!confirm('Delete this listing?'))return;
-  await api('DELETE',`/api/admin/careers/${id}`); await loadCareers(); toast('Listing deleted','info');
-}
-
-// ─── SETTINGS ────────────────────────────────────────────────
-async function loadSettings() {
-  try {
-    const s=await fetch('/api/settings').then(r=>r.json());
-    const ann=s.announcement||{};
-    document.getElementById('ann-enabled').checked=ann.enabled||false;
-    document.getElementById('ann-text').value=ann.text||'';
-    document.getElementById('ann-bg').value=ann.background||'#FBBF24';
-    document.getElementById('ann-color').value=ann.textColor||'#0A0A0A';
-    document.getElementById('ann-link').value=ann.link||'';
-    previewAnnouncement();
-  } catch {}
-}
-function previewAnnouncement() {
-  const p=document.getElementById('announcement-preview');
-  p.style.background=document.getElementById('ann-bg').value;
-  p.style.color=document.getElementById('ann-color').value;
-  p.textContent='📣 '+(document.getElementById('ann-text').value||'Preview will appear here');
-}
-async function saveSettings() {
-  const body={announcement:{enabled:document.getElementById('ann-enabled').checked,text:document.getElementById('ann-text').value,background:document.getElementById('ann-bg').value,textColor:document.getElementById('ann-color').value,link:document.getElementById('ann-link').value}};
-  await api('PUT','/api/admin/settings',body);
-  toast('Settings saved!','success');
-}
-
-// ─── SECURITY ────────────────────────────────────────────────
-async function loadAudit() {
-  try {
-    const d=await api('GET','/api/admin/audit');
-    const el=document.getElementById('audit-list');
-    el.innerHTML=(d.entries||[]).slice(0,50).map(e=>`<div class="audit-entry"><span class="audit-action">${esc(e.action)}</span><span class="audit-ip">${esc(e.ip||'')}</span><span class="audit-time">${relTime(e.timestamp)}</span></div>`).join('')||'<div class="text-muted" style="font-size:.82rem">No entries yet</div>';
-  } catch {}
-}
-async function loadSessions() {
-  try {
-    const d=await api('GET','/api/admin/sessions');
-    const el=document.getElementById('sessions-list');
-    el.innerHTML=(d.sessions||[]).map(s=>`<div class="session-row"><div><div class="flex items-center"><span>Session ${esc(s.tokenPreview)}</span>${s.current?'<span class="current-badge">YOU</span>':''}</div><div class="session-ip">${esc(s.ip||'unknown')} · ${relTime(s.lastActive||s.createdAt)}</div></div></div>`).join('')||'<div class="text-muted" style="font-size:.82rem">No sessions</div>';
-  } catch {}
-}
-async function revokeAllSessions() {
-  if(!confirm('Revoke all other sessions?'))return;
-  await api('DELETE','/api/admin/sessions/all');
-  toast('All other sessions revoked','success'); loadSessions();
-}
-
-// ─── COMMAND PALETTE ─────────────────────────────────────────
-const cmdItems=[
-  {icon:'📊',title:'Dashboard',sub:'Overview',action:()=>go('dashboard')},
-  {icon:'📬',title:'Contacts',sub:'View messages',action:()=>go('contacts')},
-  {icon:'📋',title:'Applications',sub:'Kanban pipeline',action:()=>go('applications')},
-  {icon:'🎮',title:'Games',sub:'Roblox games',action:()=>go('games')},
-  {icon:'✏️',title:'Blog Posts',sub:'Create & edit',action:()=>go('blog')},
-  {icon:'💼',title:'Careers',sub:'Job listings',action:()=>go('careers')},
-  {icon:'⚙️',title:'Settings',sub:'Announcement banner',action:()=>go('settings')},
-  {icon:'🔒',title:'Security',sub:'Sessions & audit',action:()=>go('security')},
-  {icon:'➕',title:'New Blog Post',sub:'Create post',action:()=>{go('blog');setTimeout(openPostModal,100);}},
-  {icon:'➕',title:'Add Game',sub:'Add Roblox game',action:()=>{go('games');setTimeout(openGameModal,100);}},
-  {icon:'➕',title:'Add Career Listing',sub:'New job',action:()=>{go('careers');setTimeout(openCareerModal,100);}},
-  {icon:'🔄',title:'Refresh All',sub:'Reload data',action:refreshAll},
-  {icon:'🚪',title:'Sign Out',sub:'Logout',action:doLogout},
-];
-let cmdSelected=0, cmdFiltered=[...cmdItems];
-
-function openCmd(){
-  document.getElementById('cmd-palette').classList.add('open');
-  document.getElementById('cmd-input').value='';
-  cmdFiltered=[...cmdItems]; cmdSelected=0; renderCmd();
-  document.getElementById('cmd-input').focus();
-}
-function closeCmd(){document.getElementById('cmd-palette').classList.remove('open');}
-function renderCmd(){
-  const q=document.getElementById('cmd-input').value.toLowerCase();
-  cmdFiltered=cmdItems.filter(i=>i.title.toLowerCase().includes(q)||i.sub.toLowerCase().includes(q));
-  const el=document.getElementById('cmd-results');
-  if(!cmdFiltered.length){el.innerHTML='<div class="cmd-empty">No results</div>';return;}
-  el.innerHTML=cmdFiltered.map((i,idx)=>`<div class="cmd-item ${idx===cmdSelected?'selected':''}" onclick="execCmd(${idx})"><div class="cmd-item-icon">${i.icon}</div><span class="cmd-item-title">${i.title}</span><span class="cmd-item-sub">${i.sub}</span></div>`).join('');
-}
-function execCmd(idx){const item=cmdFiltered[idx];if(item){item.action();closeCmd();}}
-
-// ─── MODALS ──────────────────────────────────────────────────
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
-
-// ─── TABLE FILTER ────────────────────────────────────────────
-function filterTable(tableId,q){
-  document.getElementById(tableId).querySelectorAll('tbody tr').forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';});
-}
-
-// ─── KEYBOARD SHORTCUTS ──────────────────────────────────────
-document.addEventListener('keydown',e=>{
-  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmd();}
-  if(e.key==='Escape'){closeCmd();document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));}
-  if(document.getElementById('cmd-palette').classList.contains('open')){
-    if(e.key==='ArrowDown'){e.preventDefault();cmdSelected=Math.min(cmdSelected+1,cmdFiltered.length-1);renderCmd();}
-    if(e.key==='ArrowUp'){e.preventDefault();cmdSelected=Math.max(cmdSelected-1,0);renderCmd();}
-    if(e.key==='Enter'){e.preventDefault();execCmd(cmdSelected);}
-  }
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    await fetch('/api/admin/logout', { method: 'POST', headers: { 'x-admin-token': token } });
+    sessionStorage.removeItem('sw_token');
+    sessionStorage.removeItem('sw_role');
+    location.reload();
 });
-document.getElementById('login-pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-// ─── UTILS ───────────────────────────────────────────────────
-function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-function fmtNum(n){if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString();}
-function relTime(ts){
-  if(!ts)return'—';
-  const diff=(Date.now()-new Date(ts))/1000;
-  if(diff<60)return'Just now';
-  if(diff<3600)return Math.floor(diff/60)+'m ago';
-  if(diff<86400)return Math.floor(diff/3600)+'h ago';
-  return Math.floor(diff/86400)+'d ago';
+// ── RAIL NAV ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.rail-link[data-tab]').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelectorAll('.rail-link').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        link.classList.add('active');
+        document.getElementById(`section-${link.dataset.tab}`).classList.add('active');
+    });
+});
+
+// ── QUILL ──────────────────────────────────────────────────────────────────
+function initQuill() {
+    quill = new Quill('#quill-editor', {
+        theme: 'snow',
+        placeholder: 'Write your post…',
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['blockquote', 'link'],
+                ['clean']
+            ]
+        }
+    });
 }
 
-// ─── INIT ────────────────────────────────────────────────────
-(async()=>{
-  if(TOKEN && await checkAuth()){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').classList.add('visible');
-    boot();
-  }
-})();
+// ── IMAGE UPLOAD ───────────────────────────────────────────────────────────
+async function uploadImage(file) {
+    const fd = new FormData(); fd.append('image', file);
+    const res = await fetch('/api/admin/upload', { method: 'POST', headers: { 'x-admin-token': token }, body: fd });
+    const d = await res.json();
+    if (!res.ok) throw new Error(d.message || 'Upload failed');
+    return d.url;
+}
+
+document.getElementById('blog-img-input').addEventListener('change', async e => {
+    const file = e.target.files[0]; if (!file) return;
+    try {
+        const url = await uploadImage(file);
+        const idx = quill.getSelection(true)?.index ?? quill.getLength();
+        quill.insertEmbed(idx, 'image', url);
+        toast('Image inserted');
+    } catch (err) { toast(err.message, 'error'); }
+    e.target.value = '';
+});
+
+document.getElementById('game-img-input').addEventListener('change', async e => {
+    const file = e.target.files[0]; if (!file) return;
+    try {
+        const url = await uploadImage(file);
+        document.getElementById('game-thumb-url').value = url;
+        document.getElementById('game-thumb-preview').innerHTML = `<img src="${url}">`;
+        toast('Thumbnail uploaded');
+    } catch (err) { toast(err.message, 'error'); }
+    e.target.value = '';
+});
+
+// ── UNREAD BADGE HELPER ────────────────────────────────────────────────────
+function updateUnreadBadge(id, items) {
+    const badge = document.getElementById(`rail-unread-${id}`);
+    if (!badge) return;
+    const count = items.filter(i => !i.read).length;
+    if (count > 0) { badge.style.display = 'inline-flex'; badge.textContent = count; }
+    else { badge.style.display = 'none'; }
+}
+
+// ═══════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════
+let messages = [];
+let activeMessageId = null;
+let selectedMessageIds = new Set();
+
+async function loadMessages() {
+    try {
+        const res = await fetch('/api/admin/contacts', { headers: { 'x-admin-token': token } });
+        messages = (await res.json()).contacts || [];
+        renderMessages();
+        updateUnreadBadge('messages', messages);
+        document.getElementById('messages-count').textContent = `${messages.length} total`;
+    } catch { toast('Failed to load messages', 'error'); }
+}
+
+function renderMessages() {
+    const list = document.getElementById('messages-list');
+    if (!messages.length) { list.innerHTML = '<div class="list-empty">No messages yet.</div>'; return; }
+    list.innerHTML = messages.map(m => `
+        <div class="list-item ${m.id === activeMessageId ? 'active' : ''}" data-id="${m.id}" data-search="${(m.name + ' ' + m.subject + ' ' + m.email).toLowerCase()}">
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+                <input type="checkbox" class="bulk-message-checkbox" data-id="${m.id}" ${selectedMessageIds.has(m.id) ? 'checked' : ''} onclick="event.stopPropagation();">
+                <div class="list-item-name" style="${!m.read ? 'color:var(--text)' : ''}">
+                    ${!m.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${m.name}
+                </div>
+            </div>
+            <div class="list-item-tags">
+                <span class="item-tag" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${m.subject}</span>
+                <span class="tag-pill ${m.read ? 'pill-draft' : 'pill-live'}">${m.read ? 'Read' : 'New'}</span>
+            </div>
+        </div>
+    `).join('');
+    document.querySelectorAll('#messages-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openMessage(el.dataset.id))
+    );
+    document.querySelectorAll('.bulk-message-checkbox').forEach(cb => cb.addEventListener('change', e => {
+        const id = e.target.dataset.id;
+        if (e.target.checked) selectedMessageIds.add(id);
+        else selectedMessageIds.delete(id);
+    }));
+}
+
+async function openMessage(id) {
+    activeMessageId = id;
+    const m = messages.find(m => m.id === id); if (!m) return;
+
+    document.getElementById('message-empty').style.display = 'none';
+    document.getElementById('message-detail').style.display = 'flex';
+
+    document.getElementById('message-body-wrap').innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:1.75rem;">
+            <div>
+                <div class="field-label">Subject</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.01em;">${m.subject}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div>
+                    <div class="field-label">From</div>
+                    <div style="font-size:0.9rem;color:var(--text);font-weight:600;">${m.name}</div>
+                </div>
+                <div>
+                    <div class="field-label">Email</div>
+                    <a href="mailto:${m.email}" style="font-size:0.9rem;color:var(--primary);text-decoration:none;">${m.email}</a>
+                </div>
+            </div>
+            <div>
+                <div class="field-label">Received</div>
+                <div style="font-size:0.85rem;color:var(--muted);">${fmtDate(m.createdAt)}</div>
+            </div>
+            <div>
+                <div class="field-label">Message</div>
+                <div style="background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;color:var(--muted);font-size:0.9rem;line-height:1.8;white-space:pre-wrap;">${m.message}</div>
+            </div>
+            <a href="mailto:${m.email}?subject=Re: ${encodeURIComponent(m.subject)}" class="btn btn-primary" style="align-self:flex-start;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 3 1.664 9.136L12 12l7.336-.864L21 3 3 3z"/><path d="m12 12 0 9"/></svg>
+                Reply via Email
+            </a>
+        </div>
+    `;
+
+    renderMessages();
+
+    // Mark as read if not already
+    if (!m.read) {
+        try {
+            await fetch(`/api/admin/contacts/${id}/read`, { method: 'PATCH', headers: { 'x-admin-token': token } });
+            m.read = true;
+            renderMessages();
+            updateUnreadBadge('messages', messages);
+        } catch (e) { /* silent */ }
+    }
+}
+
+document.getElementById('delete-message-btn').addEventListener('click', () => {
+    if (!activeMessageId) return;
+    confirm('Delete Message?', 'This will permanently delete this message.', async () => {
+        try {
+            await fetch(`/api/admin/contacts/${activeMessageId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            messages = messages.filter(m => m.id !== activeMessageId);
+            activeMessageId = null;
+            document.getElementById('message-empty').style.display = 'flex';
+            document.getElementById('message-detail').style.display = 'none';
+            renderMessages();
+            updateUnreadBadge('messages', messages);
+            document.getElementById('messages-count').textContent = `${messages.length} total`;
+            toast('Message deleted');
+        } catch { toast('Failed to delete', 'error'); }
+    });
+});
+
+document.getElementById('messages-search').addEventListener('input', function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#messages-list .list-item').forEach(el => {
+        el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
+    });
+});
+
+// ═══════════════════════════════════════
+// APPLICATIONS
+// ═══════════════════════════════════════
+let applications = [];
+let activeApplicationId = null;
+let selectedApplicationIds = new Set();
+
+const STATUS_STYLES = {
+    new:         { pill: 'pill-live',     label: 'New' },
+    reviewing:   { pill: 'pill-featured', label: 'Reviewing' },
+    shortlisted: { pill: 'pill-featured', label: 'Shortlisted' },
+    rejected:    { pill: 'pill-draft',    label: 'Rejected' }
+};
+
+async function loadApplications() {
+    try {
+        const res = await fetch('/api/admin/applications', { headers: { 'x-admin-token': token } });
+        applications = (await res.json()).applications || [];
+        renderApplications();
+        updateUnreadBadge('applications', applications);
+        document.getElementById('applications-count').textContent = `${applications.length} total`;
+    } catch { toast('Failed to load applications', 'error'); }
+}
+
+function renderApplications() {
+    const list = document.getElementById('applications-list');
+    if (!applications.length) { list.innerHTML = '<div class="list-empty">No applications yet.</div>'; return; }
+    list.innerHTML = applications.map(a => {
+        const s = STATUS_STYLES[a.status] || STATUS_STYLES.new;
+        return `
+        <div class="list-item ${a.id === activeApplicationId ? 'active' : ''}" data-id="${a.id}" data-search="${(a.name + ' ' + a.position + ' ' + a.email).toLowerCase()}">
+            <div style="display:flex;align-items:center;gap:0.55rem;">
+                <input type="checkbox" class="bulk-application-checkbox" data-id="${a.id}" ${selectedApplicationIds.has(a.id) ? 'checked' : ''} onclick="event.stopPropagation();">
+                <div class="list-item-name" style="${!a.read ? 'color:var(--text)' : ''}">
+                    ${!a.read ? '<span style="display:inline-block;width:6px;height:6px;background:var(--primary);border-radius:50%;margin-right:6px;vertical-align:middle;flex-shrink:0;"></span>' : ''}${a.name}
+                </div>
+            </div>
+            <div class="list-item-tags">
+                <span class="item-tag primary">${a.position}</span>
+                <span class="tag-pill ${s.pill}">${s.label}</span>
+            </div>
+        </div>`;
+    }).join('');
+    document.querySelectorAll('#applications-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openApplication(el.dataset.id))
+    );
+    document.querySelectorAll('.bulk-application-checkbox').forEach(cb => cb.addEventListener('change', e => {
+        const id = e.target.dataset.id;
+        if (e.target.checked) selectedApplicationIds.add(id);
+        else selectedApplicationIds.delete(id);
+    }));
+}
+
+async function openApplication(id) {
+    activeApplicationId = id;
+    const a = applications.find(a => a.id === id); if (!a) return;
+
+    document.getElementById('application-empty').style.display = 'none';
+    document.getElementById('application-detail').style.display = 'flex';
+    document.getElementById('app-status-select').value = a.status || 'new';
+
+    const answersHTML = a.answers?.length ? `
+        <div class="form-section">
+            <span class="form-section-label">Custom Questions</span>
+            ${a.answers.map(ans => `
+                <div>
+                    <div class="field-label">${ans.question}</div>
+                    <div style="background:var(--surface);border:1px solid var(--border);padding:1rem 1.25rem;color:var(--muted);font-size:0.875rem;line-height:1.8;white-space:pre-wrap;">${ans.answer || '—'}</div>
+                </div>
+            `).join('')}
+        </div>` : '';
+
+    document.getElementById('application-body-wrap').innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:1.75rem;">
+            <div>
+                <div class="field-label">Applying for</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.01em;">${a.position}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div>
+                    <div class="field-label">Name</div>
+                    <div style="font-size:0.9rem;color:var(--text);font-weight:600;">${a.name}</div>
+                </div>
+                <div>
+                    <div class="field-label">Email</div>
+                    <a href="mailto:${a.email}" style="font-size:0.9rem;color:var(--primary);text-decoration:none;">${a.email}</a>
+                </div>
+                ${a.discord ? `<div><div class="field-label">Discord</div><div style="font-size:0.875rem;color:var(--muted);">${a.discord}</div></div>` : ''}
+                ${a.portfolio ? `<div><div class="field-label">Portfolio / GitHub</div><a href="${a.portfolio}" target="_blank" style="font-size:0.875rem;color:var(--primary);text-decoration:none;word-break:break-all;">${a.portfolio}</a></div>` : ''}
+                ${a.referral ? `<div><div class="field-label">Referral Source</div><div style="font-size:0.875rem;color:var(--muted);">${a.referral}</div></div>` : ''}
+            </div>
+            <div>
+                <div class="field-label">Submitted</div>
+                <div style="font-size:0.85rem;color:var(--muted);">${fmtDate(a.createdAt)}</div>
+            </div>
+            <div>
+                <div class="field-label">Why they're a good fit</div>
+                <div style="background:var(--surface);border:1px solid var(--border);padding:1.25rem 1.5rem;color:var(--muted);font-size:0.875rem;line-height:1.8;white-space:pre-wrap;">${a.experience}</div>
+            </div>
+            ${answersHTML}
+            <div>
+                <div class="field-label">Internal Notes (admin only)</div>
+                <textarea id="app-notes" class="field-textarea" rows="4" placeholder="Add interview notes, follow-up context, etc.">${a.notes || ""}</textarea>
+            </div>
+            <a href="mailto:${a.email}?subject=Your application for ${encodeURIComponent(a.position)} at Switch" class="btn btn-primary" style="align-self:flex-start;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 3 1.664 9.136L12 12l7.336-.864L21 3 3 3z"/><path d="m12 12 0 9"/></svg>
+                Reply via Email
+            </a>
+        </div>
+    `;
+
+    renderApplications();
+
+    // Mark as read
+    if (!a.read) {
+        try {
+            await fetch(`/api/admin/applications/${id}/status`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+                body: JSON.stringify({ status: a.status || 'new' })
+            });
+            a.read = true;
+            renderApplications();
+            updateUnreadBadge('applications', applications);
+        } catch (e) { /* silent */ }
+    }
+}
+
+document.getElementById('save-app-status-btn').addEventListener('click', async () => {
+    if (!activeApplicationId) return;
+    const status = document.getElementById('app-status-select').value;
+    try {
+        await fetch(`/api/admin/applications/${activeApplicationId}/status`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ status })
+        });
+        const a = applications.find(a => a.id === activeApplicationId);
+        if (a) a.status = status;
+        renderApplications();
+        toast('Status updated ✓');
+    } catch { toast('Failed to update status', 'error'); }
+});
+
+document.getElementById('delete-application-btn').addEventListener('click', () => {
+    if (!activeApplicationId) return;
+    confirm('Delete Application?', 'This will permanently delete this application.', async () => {
+        try {
+            await fetch(`/api/admin/applications/${activeApplicationId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            applications = applications.filter(a => a.id !== activeApplicationId);
+            activeApplicationId = null;
+            document.getElementById('application-empty').style.display = 'flex';
+            document.getElementById('application-detail').style.display = 'none';
+            renderApplications();
+            updateUnreadBadge('applications', applications);
+            document.getElementById('applications-count').textContent = `${applications.length} total`;
+            toast('Application deleted');
+        } catch { toast('Failed to delete', 'error'); }
+    });
+});
+
+
+
+document.getElementById('save-app-status-btn').insertAdjacentHTML('afterend', '<button class="btn" id="save-app-notes-btn" style="margin-left:0.4rem;">Save Notes</button>');
+
+document.getElementById('save-app-notes-btn').addEventListener('click', async () => {
+    if (!activeApplicationId) return;
+    const notes = document.getElementById('app-notes')?.value || '';
+    try {
+        const res = await fetch(`/api/admin/applications/${activeApplicationId}/notes`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ notes })
+        });
+        if (!res.ok) throw new Error('save fail');
+        const d = await res.json();
+        const app = applications.find(a => a.id === activeApplicationId);
+        if (app) app.notes = d.application.notes || '';
+        toast('Notes saved');
+    } catch { toast('Failed to save notes', 'error'); }
+});
+
+async function downloadAdminCsv(path, filename) {
+    const res = await fetch(path, { headers: { 'x-admin-token': token } });
+    if (!res.ok) throw new Error('Export failed');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+document.getElementById('messages-export-btn').addEventListener('click', async () => {
+    try { await downloadAdminCsv('/api/admin/contacts/export.csv', 'contacts.csv'); toast('Contacts exported'); }
+    catch { toast('Export failed', 'error'); }
+});
+
+document.getElementById('applications-export-btn').addEventListener('click', async () => {
+    try { await downloadAdminCsv('/api/admin/applications/export.csv', 'applications.csv'); toast('Applications exported'); }
+    catch { toast('Export failed', 'error'); }
+});
+
+document.getElementById('messages-mark-read-btn').addEventListener('click', async () => {
+    const ids = [...selectedMessageIds];
+    if (!ids.length) return toast('Select messages first', 'error');
+    try {
+        await fetch('/api/admin/contacts/bulk/read', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+        messages = messages.map(m => ids.includes(m.id) ? { ...m, read: true } : m);
+        renderMessages();
+        updateUnreadBadge('messages', messages);
+        toast('Marked as read');
+    } catch { toast('Bulk update failed', 'error'); }
+});
+
+document.getElementById('applications-mark-read-btn').addEventListener('click', async () => {
+    const ids = [...selectedApplicationIds];
+    if (!ids.length) return toast('Select applications first', 'error');
+    try {
+        await fetch('/api/admin/applications/bulk/read', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+        applications = applications.map(a => ids.includes(a.id) ? { ...a, read: true } : a);
+        renderApplications();
+        updateUnreadBadge('applications', applications);
+        toast('Marked as read');
+    } catch { toast('Bulk update failed', 'error'); }
+});
+
+document.getElementById('messages-bulk-delete-btn').addEventListener('click', () => {
+    const ids = [...selectedMessageIds];
+    if (!ids.length) return toast('Select messages first', 'error');
+    confirm('Delete selected messages?', `This will delete ${ids.length} messages.`, async () => {
+        try {
+            await fetch('/api/admin/contacts/bulk/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+            messages = messages.filter(m => !selectedMessageIds.has(m.id));
+            selectedMessageIds.clear();
+            renderMessages();
+            updateUnreadBadge('messages', messages);
+            document.getElementById('messages-count').textContent = `${messages.length} total`;
+            toast('Messages deleted');
+        } catch { toast('Bulk delete failed', 'error'); }
+    });
+});
+
+document.getElementById('applications-bulk-delete-btn').addEventListener('click', () => {
+    const ids = [...selectedApplicationIds];
+    if (!ids.length) return toast('Select applications first', 'error');
+    confirm('Delete selected applications?', `This will delete ${ids.length} applications.`, async () => {
+        try {
+            await fetch('/api/admin/applications/bulk/delete', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ ids }) });
+            applications = applications.filter(a => !selectedApplicationIds.has(a.id));
+            selectedApplicationIds.clear();
+            renderApplications();
+            updateUnreadBadge('applications', applications);
+            document.getElementById('applications-count').textContent = `${applications.length} total`;
+            toast('Applications deleted');
+        } catch { toast('Bulk delete failed', 'error'); }
+    });
+});
+
+document.getElementById('applications-search').addEventListener('input', function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#applications-list .list-item').forEach(el => {
+        el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
+    });
+});
+
+
+
+// ═══════════════════════════════════════
+// OPERATIONS
+// ═══════════════════════════════════════
+async function loadOperations() {
+    await Promise.all([loadAnalytics(), loadSiteSettings(), loadAuditLog(), loadSessions()]);
+}
+
+async function loadAnalytics() {
+    try {
+        const res = await fetch('/api/admin/analytics', { headers: { 'x-admin-token': token } });
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        document.getElementById('analytics-views').textContent = (d.totals?.pageViews ?? 0).toLocaleString();
+        document.getElementById('analytics-contacts').textContent = (d.totals?.contacts ?? 0).toLocaleString();
+        document.getElementById('analytics-apps').textContent = (d.totals?.applications ?? 0).toLocaleString();
+        document.getElementById('analytics-busiest').textContent = d.busiestDay ? `${d.busiestDay.date} (${d.busiestDay.views} views)` : '—';
+        document.getElementById('analytics-trend').innerHTML = (d.trend || []).map(r =>
+            `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:0.25rem 0;">` +
+            `<span>${r.date}</span><span>${r.views} views • ${r.contacts} msgs • ${r.applications} apps</span></div>`
+        ).join('') || '<span style="color:var(--muted);">No data yet.</span>';
+    } catch { toast('Failed to load analytics', 'error'); }
+}
+
+async function loadSiteSettings() {
+    try {
+        const res = await fetch('/api/admin/site-settings', { headers: { 'x-admin-token': token } });
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        const a = d.settings?.announcement || {};
+        document.getElementById('banner-enabled').checked = !!a.enabled;
+        document.getElementById('banner-text').value = a.text || '';
+        document.getElementById('banner-bg').value = a.background || '#FBBF24';
+        document.getElementById('banner-color').value = a.textColor || '#0A0A0A';
+        document.getElementById('banner-link').value = a.link || '';
+    } catch { toast('Failed to load banner settings', 'error'); }
+}
+
+async function loadAuditLog() {
+    try {
+        const res = await fetch('/api/admin/audit-log', { headers: { 'x-admin-token': token } });
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        const list = document.getElementById('audit-log-list');
+        const entries = d.entries || [];
+        list.innerHTML = entries.length ? entries.slice(0, 80).map(e =>
+            `<div style="border:1px solid var(--border);padding:0.55rem 0.7rem;font-size:0.78rem;">` +
+            `<div style="display:flex;justify-content:space-between;gap:0.5rem;"><strong>${e.action}</strong><span style="color:var(--muted);">${fmtDate(e.at)}</span></div>` +
+            `<div style="color:var(--muted);margin-top:0.3rem;">${e.actorRole} • ${e.actorAccountId}</div></div>`
+        ).join('') : '<div class="list-empty">No audit entries yet.</div>';
+    } catch { toast('Failed to load audit log', 'error'); }
+}
+
+async function loadSessions() {
+    const list = document.getElementById('session-list');
+    try {
+        const res = await fetch('/api/admin/sessions', { headers: { 'x-admin-token': token } });
+        if (res.status === 403) { list.innerHTML = '<div class="list-empty">Superadmin access only.</div>'; return; }
+        const d = await res.json();
+        if (!res.ok) throw new Error('failed');
+        const sessions = d.sessions || [];
+        list.innerHTML = sessions.length ? sessions.map(s =>
+            `<div style="border:1px solid var(--border);padding:0.55rem 0.7rem;font-size:0.78rem;display:flex;justify-content:space-between;gap:0.7rem;align-items:center;">` +
+            `<div><div><strong>${s.role}</strong> • ${s.accountId}</div><div style="color:var(--muted);">Expires: ${fmtDate(s.expiresAt)}</div></div>` +
+            `<button class="btn btn-danger kill-session-btn" data-token="${s.token}" style="padding:0.3rem 0.55rem;font-size:0.72rem;">Kill</button></div>`
+        ).join('') : '<div class="list-empty">No active sessions.</div>';
+        document.querySelectorAll('.kill-session-btn').forEach(btn => btn.addEventListener('click', async () => {
+            const target = btn.dataset.token;
+            if (!target) return;
+            try {
+                const r = await fetch(`/api/admin/sessions/${target}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+                if (!r.ok) throw new Error('failed');
+                toast('Session terminated');
+                loadSessions();
+                loadAuditLog();
+            } catch { toast('Failed to kill session', 'error'); }
+        }));
+    } catch { list.innerHTML = '<div class="list-empty">Failed to load sessions.</div>'; }
+}
+
+document.getElementById('refresh-analytics-btn').addEventListener('click', loadAnalytics);
+document.getElementById('save-banner-btn').addEventListener('click', async () => {
+    const announcement = {
+        enabled: document.getElementById('banner-enabled').checked,
+        text: document.getElementById('banner-text').value,
+        background: document.getElementById('banner-bg').value,
+        textColor: document.getElementById('banner-color').value,
+        link: document.getElementById('banner-link').value
+    };
+    try {
+        const res = await fetch('/api/admin/site-settings', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ announcement })
+        });
+        if (!res.ok) throw new Error('failed');
+        toast('Banner settings saved');
+        loadAuditLog();
+    } catch { toast('Failed to save banner', 'error'); }
+});
+
+// ── SEARCH ─────────────────────────────────────────────────────────────────
+document.getElementById('blog-search').addEventListener('input', function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#posts-list .list-item').forEach(el => {
+        el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
+    });
+});
+
+document.getElementById('career-search').addEventListener('input', function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#careers-list .list-item').forEach(el => {
+        el.style.display = (el.dataset.search || '').includes(q) ? '' : 'none';
+    });
+});
+
+// ── KEYBOARD SHORTCUT ──────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        const tab = document.querySelector('.rail-link.active')?.dataset.tab;
+        if (tab === 'games') document.getElementById('save-game-btn').click();
+        if (tab === 'blog') document.getElementById('save-post-btn').click();
+        if (tab === 'careers') document.getElementById('save-career-btn').click();
+    }
+});
+
+// ═══════════════════════════════════════
+// GAMES
+// ═══════════════════════════════════════
+async function loadGames() {
+    try {
+        const res = await fetch('/api/admin/games', { headers: { 'x-admin-token': token } });
+        games = (await res.json()).games || [];
+        renderGames();
+    } catch { toast('Failed to load games', 'error'); }
+}
+
+function renderGames() {
+    const list = document.getElementById('games-list');
+    if (!games.length) { list.innerHTML = '<div class="list-empty">No games yet.<br>Hit <strong>+ New</strong> to add one.</div>'; return; }
+    list.innerHTML = games.map(g => `
+        <div class="list-item ${g.id === activeGameId ? 'active' : ''}" data-id="${g.id}">
+            <div class="list-item-name">${g.placeId ? `Place ${g.placeId}` : 'New Game'}</div>
+            <div class="list-item-tags">
+                ${g.featured ? '<span class="item-tag primary">Featured</span>' : ''}
+                <span class="tag-pill ${g.active ? 'pill-live' : 'pill-draft'}">${g.active ? 'Active' : 'Inactive'}</span>
+            </div>
+        </div>
+    `).join('');
+    document.querySelectorAll('#games-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openGame(el.dataset.id))
+    );
+}
+
+function openGame(id) {
+    activeGameId = id;
+    const g = games.find(g => g.id === id); if (!g) return;
+    document.getElementById('game-empty').style.display = 'none';
+    document.getElementById('game-form').style.display = 'flex';
+    document.getElementById('game-place-id').value = g.placeId || '';
+    document.getElementById('game-active').checked = g.active !== false;
+    document.getElementById('game-featured').checked = g.featured || false;
+    document.getElementById('game-thumb-url').value = g.thumbnail || '';
+    document.getElementById('game-thumb-preview').innerHTML = g.thumbnail
+        ? `<img src="${g.thumbnail}">`
+        : '<span class="thumb-preview-ph">No image uploaded</span>';
+    renderGames();
+}
+
+document.getElementById('new-game-btn').addEventListener('click', async () => {
+    try {
+        const res = await fetch('/api/admin/games', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ placeId: '', active: false, featured: false, thumbnail: '' })
+        });
+        const d = await res.json();
+        games.unshift(d.game);
+        openGame(d.game.id);
+        toast('Game created');
+    } catch { toast('Failed to create game', 'error'); }
+});
+
+document.getElementById('save-game-btn').addEventListener('click', async () => {
+    if (!activeGameId) return;
+    const btn = document.getElementById('save-game-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+        const res = await fetch(`/api/admin/games/${activeGameId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({
+                placeId: document.getElementById('game-place-id').value,
+                active: document.getElementById('game-active').checked,
+                featured: document.getElementById('game-featured').checked,
+                thumbnail: document.getElementById('game-thumb-url').value
+            })
+        });
+        const d = await res.json();
+        const idx = games.findIndex(g => g.id === activeGameId);
+        if (idx !== -1) games[idx] = d.game;
+        renderGames(); toast('Game saved ✓');
+    } catch { toast('Failed to save', 'error'); }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+});
+
+document.getElementById('delete-game-btn').addEventListener('click', () => {
+    if (!activeGameId) return;
+    confirm('Delete Game?', 'This will permanently remove this game. This cannot be undone.', async () => {
+        try {
+            await fetch(`/api/admin/games/${activeGameId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            games = games.filter(g => g.id !== activeGameId);
+            activeGameId = null;
+            document.getElementById('game-empty').style.display = 'flex';
+            document.getElementById('game-form').style.display = 'none';
+            renderGames(); toast('Game deleted');
+        } catch { toast('Failed to delete', 'error'); }
+    });
+});
+
+// ═══════════════════════════════════════
+// BLOG
+// ═══════════════════════════════════════
+async function loadPosts() {
+    try {
+        const res = await fetch('/api/admin/posts', { headers: { 'x-admin-token': token } });
+        posts = (await res.json()).posts || [];
+        renderPosts();
+    } catch { toast('Failed to load posts', 'error'); }
+}
+
+function renderPosts() {
+    const list = document.getElementById('posts-list');
+    if (!posts.length) { list.innerHTML = '<div class="list-empty">No posts yet.</div>'; return; }
+    list.innerHTML = posts.map(p => `
+        <div class="list-item ${p.id === activePostId ? 'active' : ''}" data-id="${p.id}" data-search="${(p.title || '').toLowerCase()}">
+            <div class="list-item-name">${p.title || 'Untitled'}</div>
+            <div class="list-item-tags">
+                <span class="item-tag">${fmtDate(p.updatedAt)}</span>
+                <span class="tag-pill ${p.published ? 'pill-live' : 'pill-draft'}">${p.published ? 'Live' : 'Draft'}</span>
+            </div>
+        </div>
+    `).join('');
+    document.querySelectorAll('#posts-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openPost(el.dataset.id))
+    );
+}
+
+function openPost(id) {
+    activePostId = id;
+    const p = posts.find(p => p.id === id); if (!p) return;
+    document.getElementById('blog-empty').style.display = 'none';
+    document.getElementById('blog-form').style.display = 'flex';
+    document.getElementById('post-title').value = p.title || '';
+    document.getElementById('post-author').value = p.author || '';
+    quill.root.innerHTML = p.content || '';
+    document.getElementById('post-publish').checked = p.published || false;
+    renderPosts();
+}
+
+document.getElementById('new-post-btn').addEventListener('click', async () => {
+    try {
+        const res = await fetch('/api/admin/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ title: 'Untitled Post', content: '', published: false })
+        });
+        const d = await res.json();
+        posts.unshift(d.post);
+        openPost(d.post.id);
+        toast('Post created');
+    } catch { toast('Failed to create post', 'error'); }
+});
+
+document.getElementById('save-post-btn').addEventListener('click', async () => {
+    if (!activePostId) return;
+    const btn = document.getElementById('save-post-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+        const res = await fetch(`/api/admin/posts/${activePostId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({
+                title: document.getElementById('post-title').value,
+                content: quill.root.innerHTML,
+                author: document.getElementById('post-author').value,
+                published: document.getElementById('post-publish').checked
+            })
+        });
+        const d = await res.json();
+        const idx = posts.findIndex(p => p.id === activePostId);
+        if (idx !== -1) posts[idx] = d.post;
+        renderPosts(); toast('Post saved ✓');
+    } catch { toast('Failed to save', 'error'); }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+});
+
+document.getElementById('delete-post-btn').addEventListener('click', () => {
+    if (!activePostId) return;
+    confirm('Delete Post?', 'This will permanently delete this blog post. This cannot be undone.', async () => {
+        try {
+            await fetch(`/api/admin/posts/${activePostId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            posts = posts.filter(p => p.id !== activePostId);
+            activePostId = null;
+            document.getElementById('blog-empty').style.display = 'flex';
+            document.getElementById('blog-form').style.display = 'none';
+            renderPosts(); toast('Post deleted');
+        } catch { toast('Failed to delete', 'error'); }
+    });
+});
+
+// ═══════════════════════════════════════
+// CAREERS
+// ═══════════════════════════════════════
+async function loadCareers() {
+    try {
+        const res = await fetch('/api/admin/careers', { headers: { 'x-admin-token': token } });
+        careers = (await res.json()).careers || [];
+        renderCareers();
+    } catch { toast('Failed to load careers', 'error'); }
+}
+
+function renderCareers() {
+    const list = document.getElementById('careers-list');
+    if (!careers.length) { list.innerHTML = '<div class="list-empty">No positions yet.</div>'; return; }
+    list.innerHTML = careers.map(c => `
+        <div class="list-item ${c.id === activeCareerId ? 'active' : ''}" data-id="${c.id}" data-search="${(c.title || '').toLowerCase()}">
+            <div class="list-item-name">${c.title || 'Untitled Position'}</div>
+            <div class="list-item-tags">
+                ${c.department ? `<span class="item-tag primary">${c.department}</span>` : ''}
+                <span class="item-tag">${c.type}</span>
+                <span class="tag-pill ${c.active ? 'pill-live' : 'pill-draft'}">${c.active ? 'Active' : 'Inactive'}</span>
+            </div>
+        </div>
+    `).join('');
+    document.querySelectorAll('#careers-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openCareer(el.dataset.id))
+    );
+}
+
+function dynItem(listId, val = '') {
+    const list = document.getElementById(listId);
+    const div = document.createElement('div');
+    div.className = 'dyn-item';
+    div.innerHTML = `<input class="field-input" type="text" value="${val.replace(/"/g, '&quot;')}" placeholder="Enter text…"><button class="dyn-remove" title="Remove">×</button>`;
+    div.querySelector('.dyn-remove').addEventListener('click', () => div.remove());
+    list.appendChild(div);
+}
+
+function dynValues(listId) {
+    return Array.from(document.querySelectorAll(`#${listId} .dyn-item input`))
+        .map(i => i.value.trim()).filter(Boolean);
+}
+
+document.getElementById('add-req').addEventListener('click', () => dynItem('req-list'));
+document.getElementById('add-nice').addEventListener('click', () => dynItem('nice-list'));
+document.getElementById('add-q').addEventListener('click', () => dynItem('q-list'));
+
+function openCareer(id) {
+    activeCareerId = id;
+    const c = careers.find(c => c.id === id); if (!c) return;
+    document.getElementById('career-empty').style.display = 'none';
+    document.getElementById('career-form').style.display = 'flex';
+    document.getElementById('career-title').value = c.title || '';
+    document.getElementById('career-dept').value = c.department || '';
+    document.getElementById('career-type').value = c.type || 'Full-time';
+    document.getElementById('career-location').value = c.location || '';
+    document.getElementById('career-salary').value = c.salary || '';
+    document.getElementById('career-desc').value = c.description || '';
+    document.getElementById('career-active').checked = c.active !== false;
+    document.getElementById('req-list').innerHTML = '';
+    (c.requirements || []).forEach(r => dynItem('req-list', r));
+    document.getElementById('nice-list').innerHTML = '';
+    (c.niceToHave || []).forEach(r => dynItem('nice-list', r));
+    document.getElementById('q-list').innerHTML = '';
+    (c.questions || []).forEach(q => dynItem('q-list', typeof q === 'string' ? q : q.label));
+    renderCareers();
+}
+
+document.getElementById('new-career-btn').addEventListener('click', async () => {
+    try {
+        const res = await fetch('/api/admin/careers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ title: 'New Position', type: 'Full-time', location: 'Remote', active: false })
+        });
+        const d = await res.json();
+        careers.unshift(d.career);
+        openCareer(d.career.id);
+        toast('Position created');
+    } catch { toast('Failed to create position', 'error'); }
+});
+
+document.getElementById('save-career-btn').addEventListener('click', async () => {
+    if (!activeCareerId) return;
+    const btn = document.getElementById('save-career-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    const questions = dynValues('q-list').map(q => ({ label: q, required: true }));
+    try {
+        const res = await fetch(`/api/admin/careers/${activeCareerId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({
+                title: document.getElementById('career-title').value,
+                department: document.getElementById('career-dept').value,
+                type: document.getElementById('career-type').value,
+                location: document.getElementById('career-location').value,
+                salary: document.getElementById('career-salary').value,
+                description: document.getElementById('career-desc').value,
+                requirements: dynValues('req-list'),
+                niceToHave: dynValues('nice-list'),
+                questions,
+                active: document.getElementById('career-active').checked
+            })
+        });
+        const d = await res.json();
+        const idx = careers.findIndex(c => c.id === activeCareerId);
+        if (idx !== -1) careers[idx] = d.career;
+        renderCareers(); toast('Position saved ✓');
+    } catch { toast('Failed to save', 'error'); }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+});
+
+document.getElementById('delete-career-btn').addEventListener('click', () => {
+    if (!activeCareerId) return;
+    confirm('Delete Position?', 'This will permanently remove this job posting. This cannot be undone.', async () => {
+        try {
+            await fetch(`/api/admin/careers/${activeCareerId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            careers = careers.filter(c => c.id !== activeCareerId);
+            activeCareerId = null;
+            document.getElementById('career-empty').style.display = 'flex';
+            document.getElementById('career-form').style.display = 'none';
+            renderCareers(); toast('Position deleted');
+        } catch { toast('Failed to delete', 'error'); }
+    });
+});
+
+// ═══════════════════════════════════════
+// STAFF DIRECTORY
+// ═══════════════════════════════════════
+async function loadStaff() {
+    try {
+        const res = await fetch('/api/admin/staff', { headers: { 'x-admin-token': token } });
+        staffList = (await res.json()).staff || [];
+        renderStaff();
+    } catch { toast('Failed to load staff', 'error'); }
+}
+
+function renderStaff() {
+    const list = document.getElementById('staff-list');
+    const search = document.getElementById('staff-search')?.value.toLowerCase() || '';
+    const filtered = staffList.filter(s => !search || s.name.toLowerCase().includes(search) || (s.role||'').toLowerCase().includes(search) || (s.department||'').toLowerCase().includes(search));
+    if (!filtered.length) { list.innerHTML = `<div class="list-empty">${staffList.length ? 'No matches.' : 'No staff members yet.'}</div>`; return; }
+    list.innerHTML = filtered.map(s => `
+        <div class="list-item ${s.id === activeStaffId ? 'active' : ''}" data-id="${s.id}">
+            <div class="list-item-name">${s.name}</div>
+            <div class="list-item-tags">
+                ${s.role ? `<span class="item-tag primary">${s.role}</span>` : ''}
+                ${s.department ? `<span class="item-tag">${s.department}</span>` : ''}
+                <span class="tag-pill ${s.status === 'active' ? 'pill-live' : 'pill-draft'}">${s.status || 'active'}</span>
+            </div>
+        </div>`).join('');
+    document.querySelectorAll('#staff-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openStaff(el.dataset.id))
+    );
+}
+
+document.getElementById('staff-search').addEventListener('input', renderStaff);
+
+function openStaff(id) {
+    activeStaffId = id;
+    const s = staffList.find(m => m.id === id); if (!s) return;
+    document.getElementById('staff-empty').style.display = 'none';
+    document.getElementById('staff-form').style.display = 'flex';
+    document.getElementById('staff-name').value = s.name || '';
+    document.getElementById('staff-role').value = s.role || '';
+    document.getElementById('staff-dept').value = s.department || '';
+    document.getElementById('staff-discord').value = s.discord || '';
+    document.getElementById('staff-roblox').value = s.roblox || '';
+    document.getElementById('staff-notes').value = s.notes || '';
+    document.getElementById('staff-active').checked = s.status !== 'inactive';
+    if (s.joinedAt) {
+        try { document.getElementById('staff-joined').value = new Date(s.joinedAt).toISOString().split('T')[0]; } catch {}
+    }
+    renderStaff();
+}
+
+document.getElementById('new-staff-btn').addEventListener('click', async () => {
+    try {
+        const res = await fetch('/api/admin/staff', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({ name: 'New Staff Member', status: 'active' })
+        });
+        const d = await res.json();
+        staffList.unshift(d.member);
+        openStaff(d.member.id);
+        toast('Staff member added');
+    } catch { toast('Failed to add staff member', 'error'); }
+});
+
+document.getElementById('save-staff-btn').addEventListener('click', async () => {
+    if (!activeStaffId) return;
+    const btn = document.getElementById('save-staff-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+        const joinedVal = document.getElementById('staff-joined').value;
+        const res = await fetch(`/api/admin/staff/${activeStaffId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+            body: JSON.stringify({
+                name: document.getElementById('staff-name').value,
+                role: document.getElementById('staff-role').value,
+                department: document.getElementById('staff-dept').value,
+                discord: document.getElementById('staff-discord').value,
+                roblox: document.getElementById('staff-roblox').value,
+                notes: document.getElementById('staff-notes').value,
+                status: document.getElementById('staff-active').checked ? 'active' : 'inactive',
+                ...(joinedVal && { joinedAt: new Date(joinedVal).toISOString() })
+            })
+        });
+        const d = await res.json();
+        const idx = staffList.findIndex(s => s.id === activeStaffId);
+        if (idx !== -1) staffList[idx] = d.member;
+        renderStaff(); toast('Staff member saved ✓');
+    } catch { toast('Failed to save', 'error'); }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+});
+
+document.getElementById('delete-staff-btn').addEventListener('click', () => {
+    if (!activeStaffId) return;
+    confirm('Remove Staff Member?', 'This will permanently remove this person from the directory.', async () => {
+        try {
+            await fetch(`/api/admin/staff/${activeStaffId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            staffList = staffList.filter(s => s.id !== activeStaffId);
+            activeStaffId = null;
+            document.getElementById('staff-empty').style.display = 'flex';
+            document.getElementById('staff-form').style.display = 'none';
+            renderStaff(); toast('Staff member removed');
+        } catch { toast('Failed to remove', 'error'); }
+    });
+});
+
+// ═══════════════════════════════════════
+// ADMIN ACCOUNTS
+// ═══════════════════════════════════════
+async function loadAccounts() {
+    if (sessionRole !== 'superadmin') {
+        const el = document.getElementById('accounts-list');
+        if (el) el.innerHTML = '<div class="list-empty">Superadmin access only.</div>';
+        return;
+    }
+    try {
+        const res = await fetch('/api/admin/staff-accounts', { headers: { 'x-admin-token': token } });
+        accountsList = (await res.json()).accounts || [];
+        renderAccounts();
+    } catch { /* silently fail */ }
+}
+
+function renderAccounts() {
+    const list = document.getElementById('accounts-list');
+    if (!list) return;
+    if (!accountsList.length) { list.innerHTML = '<div class="list-empty">No staff accounts yet.</div>'; return; }
+    list.innerHTML = accountsList.map(a => `
+        <div class="list-item ${a.id === activeAccountId ? 'active' : ''}" data-id="${a.id}">
+            <div class="list-item-name">${a.displayName || a.username}</div>
+            <div class="list-item-tags">
+                <span class="item-tag" style="font-family:monospace;font-size:0.6rem;">@${a.username}</span>
+                <span class="item-tag primary">${a.role}</span>
+                ${a.lastLogin ? `<span class="item-tag">Last: ${fmtDate(a.lastLogin)}</span>` : '<span class="item-tag">Never logged in</span>'}
+            </div>
+        </div>`).join('');
+    document.querySelectorAll('#accounts-list .list-item').forEach(el =>
+        el.addEventListener('click', () => openAccount(el.dataset.id))
+    );
+}
+
+function openAccount(id) {
+    activeAccountId = id;
+    const a = accountsList.find(ac => ac.id === id); if (!a) return;
+    document.getElementById('account-empty').style.display = 'none';
+    document.getElementById('account-form').style.display = 'flex';
+    document.getElementById('acc-display').value = a.displayName || '';
+    document.getElementById('acc-username').value = a.username || '';
+    document.getElementById('acc-role').value = a.role || 'editor';
+    document.getElementById('acc-password').value = '';
+    document.getElementById('pw-label').textContent = 'New Password';
+    document.getElementById('pw-hint').style.display = 'block';
+    document.getElementById('acc-last-login').textContent = a.lastLogin ? `Last login: ${new Date(a.lastLogin).toLocaleString('en-GB')}` : 'Has not logged in yet.';
+    renderAccounts();
+}
+
+document.getElementById('new-account-btn').addEventListener('click', () => {
+    if (sessionRole !== 'superadmin') { toast('Superadmin only', 'error'); return; }
+    activeAccountId = null;
+    document.getElementById('account-empty').style.display = 'none';
+    document.getElementById('account-form').style.display = 'flex';
+    document.getElementById('acc-display').value = '';
+    document.getElementById('acc-username').value = '';
+    document.getElementById('acc-role').value = 'editor';
+    document.getElementById('acc-password').value = '';
+    document.getElementById('pw-label').textContent = 'Password *';
+    document.getElementById('pw-hint').style.display = 'none';
+    document.getElementById('acc-last-login').textContent = '';
+});
+
+document.getElementById('save-account-btn').addEventListener('click', async () => {
+    if (sessionRole !== 'superadmin') { toast('Superadmin only', 'error'); return; }
+    const btn = document.getElementById('save-account-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    const displayName = document.getElementById('acc-display').value.trim();
+    const username = document.getElementById('acc-username').value.trim();
+    const role = document.getElementById('acc-role').value;
+    const password = document.getElementById('acc-password').value;
+    try {
+        let res, d;
+        if (activeAccountId) {
+            const body = { displayName, role };
+            if (password) body.newPassword = password;
+            res = await fetch(`/api/admin/staff-accounts/${activeAccountId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify(body) });
+        } else {
+            if (!username || !password) { toast('Username and password required', 'error'); btn.disabled=false; btn.textContent='Save'; return; }
+            res = await fetch('/api/admin/staff-accounts', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ username, password, displayName, role }) });
+        }
+        d = await res.json();
+        if (!res.ok) { toast(d.message || 'Error', 'error'); }
+        else {
+            await loadAccounts();
+            if (d.account) { activeAccountId = d.account.id; openAccount(d.account.id); }
+            toast(activeAccountId ? 'Account updated ✓' : 'Account created ✓');
+        }
+    } catch { toast('Failed', 'error'); }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save';
+});
+
+document.getElementById('delete-account-btn').addEventListener('click', () => {
+    if (!activeAccountId) return;
+    if (sessionRole !== 'superadmin') { toast('Superadmin only', 'error'); return; }
+    confirm('Delete Account?', 'This will permanently delete this admin account and sign them out immediately. This cannot be undone.', async () => {
+        try {
+            await fetch(`/api/admin/staff-accounts/${activeAccountId}`, { method: 'DELETE', headers: { 'x-admin-token': token } });
+            accountsList = accountsList.filter(a => a.id !== activeAccountId);
+            activeAccountId = null;
+            document.getElementById('account-empty').style.display = 'flex';
+            document.getElementById('account-form').style.display = 'none';
+            renderAccounts(); toast('Account deleted');
+        } catch { toast('Failed to delete', 'error'); }
+    });
+});
 </script>
 </body>
 </html>
