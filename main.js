@@ -58,7 +58,7 @@ app.use('/uploads', express.static(path.join(ROOT, 'uploads')));
 
 // Multer
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, './uploads'),
+    destination: (req, file, cb) => cb(null, path.join(ROOT, 'uploads')),
     filename: (req, file, cb) => cb(null, `${randomBytes(8).toString('hex')}${extname(file.originalname)}`)
 });
 const upload = multer({

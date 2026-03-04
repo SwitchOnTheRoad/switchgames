@@ -660,6 +660,224 @@
         .ql-snow .ql-tooltip { background: var(--surface); border-color: var(--border); color: var(--text); box-shadow: none; }
         .ql-snow .ql-tooltip input[type=text] { background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; }
         .ql-snow .ql-tooltip a.ql-action::after { color: var(--primary); }
+
+        /* ── WORD COUNT ── */
+        .word-count-badge {
+            font-size: 0.7rem;
+            color: var(--muted);
+            padding: 0.2rem 0.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+
+        /* ── AUTO-SAVE INDICATOR ── */
+        .autosave-indicator {
+            font-size: 0.7rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.3s;
+        }
+        .autosave-indicator.saving { color: var(--primary); }
+        .autosave-indicator.saved { color: #4ade80; }
+
+        /* ── GLOBAL SEARCH MODAL ── */
+        .search-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 3000;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 15vh;
+        }
+        .search-modal-overlay.open { display: flex; }
+
+        .search-modal {
+            width: 100%;
+            max-width: 560px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .search-modal-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-modal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-modal-input::placeholder { color: #444; }
+
+        .search-modal-results {
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+        .search-result-item {
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+        .search-result-item:hover { background: var(--surface-mid); }
+        .search-result-item:last-child { border-bottom: none; }
+
+        .search-result-type {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 1px 5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .search-modal-empty {
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .search-hint {
+            padding: 0.6rem 1.25rem;
+            font-size: 0.7rem;
+            color: #444;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1.5rem;
+        }
+        .search-hint kbd {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 1px 5px;
+            font-family: monospace;
+            font-size: 0.65rem;
+        }
+
+        /* ── FILTER PILLS ── */
+        .inbox-action-btn.active-filter {
+            border-color: var(--primary) !important;
+            color: var(--primary) !important;
+        }
+
+        /* ── SEO PREVIEW ── */
+        .seo-preview {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 1rem 1.25rem;
+            font-family: Arial, sans-serif;
+            border-radius: 2px;
+        }
+        .seo-preview-url { font-size: 0.75rem; color: #1a0dab; margin-bottom: 2px; }
+        .seo-preview-title { font-size: 1.1rem; color: #1a0dab; margin-bottom: 3px; font-weight: 400; }
+        .seo-preview-desc { font-size: 0.825rem; color: #4d5156; line-height: 1.5; }
+
+        /* ── MOBILE RESPONSIVE ── */
+        @media (max-width: 768px) {
+            html, body { overflow: hidden; }
+
+            #mobile-topbar { display: flex !important; }
+
+            #app {
+                padding-top: 52px;
+            }
+
+            .rail {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 260px;
+                z-index: 200;
+                transform: translateX(-100%);
+                transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+                overflow-y: auto;
+            }
+
+            .rail.mobile-open {
+                transform: translateX(0);
+            }
+
+            #mobile-overlay.open { display: block !important; }
+
+            .list-panel {
+                width: 100% !important;
+                flex-shrink: 0;
+                transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+            }
+
+            .detail-panel {
+                position: fixed;
+                inset: 52px 0 0 0;
+                z-index: 100;
+                background: var(--bg);
+                transform: translateX(100%);
+                transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+                display: flex !important;
+                flex-direction: column;
+            }
+
+            .detail-panel.mobile-visible {
+                transform: translateX(0);
+            }
+
+            .section.active {
+                flex-direction: column;
+            }
+
+            #section-dashboard {
+                padding-top: 0;
+            }
+
+            .field-row-2, .field-row-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            .detail-body {
+                padding: 1.5rem 1rem;
+            }
+
+            .detail-toolbar {
+                padding: 0.75rem 1rem;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+
+            /* Reduce rail nav on mobile */
+            .rail-header { padding: 4.5rem 1.25rem 1rem; }
+
+            /* Stack operations panel */
+            #section-operations .detail-panel > div {
+                flex-direction: column !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            #mobile-topbar { display: none !important; }
+            #mobile-overlay { display: none !important; }
+            #mobile-back-btn { display: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -686,16 +904,37 @@
 <!-- ═══════════════════════════════════════
      APP
 ═══════════════════════════════════════ -->
+<!-- Mobile overlay -->
+<div id="mobile-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:199;" onclick="closeMobileNav()"></div>
+
+<!-- Mobile top bar -->
+<div id="mobile-topbar" style="display:none;position:fixed;top:0;left:0;right:0;height:52px;background:var(--surface);border-bottom:1px solid var(--border);z-index:150;align-items:center;padding:0 1rem;gap:0.75rem;">
+    <button id="mobile-hamburger" onclick="openMobileNav()" style="background:none;border:none;color:var(--text);cursor:pointer;padding:4px;display:flex;align-items:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <img src="/heroextended.png" alt="Switch" style="height:22px;">
+    <div style="flex:1;"></div>
+    <button id="mobile-back-btn" onclick="mobileGoBack()" style="display:none;background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;padding:4px 10px;font-size:0.75rem;font-family:'Inter',sans-serif;align-items:center;gap:0.3rem;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+    </button>
+</div>
+
 <div id="app" style="display:none;flex-direction:row;height:100vh;">
 
     <!-- RAIL -->
-    <aside class="rail">
+    <aside class="rail" id="rail">
         <div class="rail-header">
             <img src="/heroextended.png" alt="Switch" class="rail-logo">
             <span class="rail-badge">Admin</span>
         </div>
         <nav class="rail-nav">
-            <span class="rail-label">Content</span>
+            <span class="rail-label">Overview</span>
+            <button class="rail-link" data-tab="dashboard">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </button>
+            <span class="rail-label" style="margin-top:1rem;">Content</span>
             <button class="rail-link active" data-tab="games">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
                 Games
@@ -734,6 +973,13 @@
             </button>
         </nav>
         <div class="rail-footer">
+            <button class="btn btn-ghost" id="global-search-btn" style="justify-content:space-between;font-size:0.78rem;">
+                <span style="display:flex;align-items:center;gap:0.5rem;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    Search
+                </span>
+                <kbd style="background:var(--bg);border:1px solid var(--border);padding:1px 5px;font-family:monospace;font-size:0.6rem;color:var(--muted);">⌘K</kbd>
+            </button>
             <a href="/" target="_blank" class="btn btn-ghost" style="justify-content:flex-start;font-size:0.78rem;gap:0.5rem;">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 View Site
@@ -741,6 +987,81 @@
             <button class="btn btn-ghost" id="logout-btn" style="justify-content:flex-start;font-size:0.78rem;">Sign Out</button>
         </div>
     </aside>
+
+    <!-- ═══ DASHBOARD SECTION ═══ -->
+    <div class="section" id="section-dashboard" style="flex-direction:column;overflow-y:auto;">
+        <div style="padding:2rem 2.5rem;max-width:900px;width:100%;display:flex;flex-direction:column;gap:2rem;">
+            <div>
+                <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;color:var(--primary);margin-bottom:0.5rem;">Overview</div>
+                <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;" id="dash-greeting">Good morning</h2>
+            </div>
+            <!-- Stat cards -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.75rem;">
+                <div class="stat-card" style="display:flex;flex-direction:column;gap:0.375rem;">
+                    <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);">Page Views</div>
+                    <div style="font-size:1.75rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);" id="dash-views">—</div>
+                    <div style="font-size:0.72rem;color:var(--muted);">all time</div>
+                </div>
+                <div class="stat-card" style="display:flex;flex-direction:column;gap:0.375rem;">
+                    <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);">Messages</div>
+                    <div style="font-size:1.75rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);" id="dash-messages">—</div>
+                    <div style="font-size:0.72rem;color:var(--muted);" id="dash-messages-sub">total</div>
+                </div>
+                <div class="stat-card" style="display:flex;flex-direction:column;gap:0.375rem;">
+                    <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);">Applications</div>
+                    <div style="font-size:1.75rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);" id="dash-apps">—</div>
+                    <div style="font-size:0.72rem;color:var(--muted);" id="dash-apps-sub">total</div>
+                </div>
+                <div class="stat-card" style="display:flex;flex-direction:column;gap:0.375rem;">
+                    <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);">Blog Posts</div>
+                    <div style="font-size:1.75rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);" id="dash-posts">—</div>
+                    <div style="font-size:0.72rem;color:var(--muted);" id="dash-posts-sub">total</div>
+                </div>
+                <div class="stat-card" style="display:flex;flex-direction:column;gap:0.375rem;">
+                    <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);">Active Games</div>
+                    <div style="font-size:1.75rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--text);" id="dash-games">—</div>
+                    <div style="font-size:0.72rem;color:var(--muted);">live on site</div>
+                </div>
+                <div class="stat-card" style="display:flex;flex-direction:column;gap:0.375rem;border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.04);">
+                    <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--primary);">Unread Inbox</div>
+                    <div style="font-size:1.75rem;font-weight:800;font-family:'Space Grotesk',sans-serif;color:var(--primary);" id="dash-unread">—</div>
+                    <div style="font-size:0.72rem;color:var(--muted);">needs attention</div>
+                </div>
+            </div>
+            <!-- Recent traffic -->
+            <div>
+                <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                    Traffic (last 7 days)
+                    <button onclick="loadDashboard()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.7rem;font-family:'Inter',sans-serif;">↺ Refresh</button>
+                </div>
+                <div id="dash-chart" style="display:flex;align-items:flex-end;gap:4px;height:80px;border-bottom:1px solid var(--border);padding-bottom:4px;"></div>
+                <div id="dash-chart-labels" style="display:flex;gap:4px;margin-top:4px;"></div>
+            </div>
+            <!-- Quick actions -->
+            <div>
+                <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:0.75rem;">Quick Actions</div>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    <button class="btn btn-ghost" onclick="switchTab('blog');document.getElementById('new-post-btn').click();" style="font-size:0.8rem;gap:0.4rem;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New Post
+                    </button>
+                    <button class="btn btn-ghost" onclick="switchTab('games');document.getElementById('new-game-btn').click();" style="font-size:0.8rem;gap:0.4rem;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New Game
+                    </button>
+                    <button class="btn btn-ghost" onclick="switchTab('messages');" style="font-size:0.8rem;gap:0.4rem;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/></svg>View Inbox
+                    </button>
+                    <button class="btn btn-ghost" onclick="switchTab('operations');" style="font-size:0.8rem;gap:0.4rem;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>Analytics
+                    </button>
+                </div>
+            </div>
+            <!-- Recent messages preview -->
+            <div>
+                <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:0.75rem;">Recent Messages</div>
+                <div id="dash-recent-msgs" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- ═══ GAMES SECTION ═══ -->
     <div class="section active" id="section-games">
@@ -833,6 +1154,12 @@
                         <input type="file" id="blog-img-input" accept="image/*" style="display:none">
                     </label>
                     <div class="toolbar-spacer"></div>
+                    <span class="autosave-indicator" id="autosave-indicator" style="display:none;">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span id="autosave-text">Saved</span>
+                    </span>
+                    <span class="word-count-badge" id="word-count">0 words</span>
+                    <div class="toolbar-sep"></div>
                     <button class="btn btn-danger" id="delete-post-btn">Delete</button>
                 </div>
                 <div class="detail-body">
@@ -842,6 +1169,20 @@
                         <input class="field-input" type="text" id="post-author" placeholder="e.g. Switch Team" style="margin-bottom:1rem;">
                     </div>
                     <div id="quill-editor"></div>
+                    <!-- SEO Preview -->
+                    <div style="margin-top:0.5rem;">
+                        <label class="field-label" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;" onclick="document.getElementById('seo-preview-wrap').style.display=document.getElementById('seo-preview-wrap').style.display==='none'?'block':'none'">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                            SEO Preview <span style="font-weight:400;text-transform:none;color:#555;font-size:0.65rem;">(click to toggle)</span>
+                        </label>
+                        <div id="seo-preview-wrap" style="display:none;">
+                            <div class="seo-preview">
+                                <div class="seo-preview-url">switchgames.com/blog/<span id="seo-slug">post-title</span></div>
+                                <div class="seo-preview-title" id="seo-title">Post Title</div>
+                                <div class="seo-preview-desc" id="seo-desc">No description — first 160 characters of content will appear here.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1046,13 +1387,27 @@
     <!-- ═══ MESSAGES SECTION ═══ -->
     <div class="section" id="section-messages">
         <div class="list-panel">
-            <div class="list-panel-head">
-                <span class="list-panel-title">Messages</span>
-                <div style="display:flex;align-items:center;gap:0.5rem;">
-                    <button class="btn" id="messages-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
-                    <button class="btn" id="messages-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
-                    <button class="btn btn-danger" id="messages-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+            <div class="list-panel-head" style="flex-direction:column;align-items:stretch;gap:0.625rem;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <span class="list-panel-title">Messages</span>
                     <span class="list-panel-count" id="messages-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                    <button class="btn btn-ghost inbox-action-btn" id="messages-filter-all" style="padding:0.25rem 0.6rem;font-size:0.7rem;border-color:var(--primary);color:var(--primary);">All</button>
+                    <button class="btn btn-ghost inbox-action-btn" id="messages-filter-unread" style="padding:0.25rem 0.6rem;font-size:0.7rem;">Unread</button>
+                    <div style="flex:1;"></div>
+                    <button class="btn btn-ghost" id="messages-export-btn" title="Export CSV" style="padding:0.25rem 0.5rem;font-size:0.7rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        CSV
+                    </button>
+                    <button class="btn btn-ghost" id="messages-mark-read-btn" title="Mark selected as read" style="padding:0.25rem 0.5rem;font-size:0.7rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Read
+                    </button>
+                    <button class="btn btn-danger" id="messages-bulk-delete-btn" title="Delete selected" style="padding:0.25rem 0.5rem;font-size:0.7rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                        Del
+                    </button>
                 </div>
             </div>
             <div class="list-search">
@@ -1081,13 +1436,27 @@
     <!-- ═══ APPLICATIONS SECTION ═══ -->
     <div class="section" id="section-applications">
         <div class="list-panel">
-            <div class="list-panel-head">
-                <span class="list-panel-title">Applications</span>
-                <div style="display:flex;align-items:center;gap:0.5rem;">
-                    <button class="btn" id="applications-export-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Export CSV</button>
-                    <button class="btn" id="applications-mark-read-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Mark Read</button>
-                    <button class="btn btn-danger" id="applications-bulk-delete-btn" style="padding:0.3rem 0.6rem;font-size:0.72rem;">Delete Selected</button>
+            <div class="list-panel-head" style="flex-direction:column;align-items:stretch;gap:0.625rem;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <span class="list-panel-title">Applications</span>
                     <span class="list-panel-count" id="applications-count" style="font-size:0.7rem;color:var(--muted);"></span>
+                </div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                    <button class="btn btn-ghost inbox-action-btn" id="applications-filter-all" style="padding:0.25rem 0.6rem;font-size:0.7rem;border-color:var(--primary);color:var(--primary);">All</button>
+                    <button class="btn btn-ghost inbox-action-btn" id="applications-filter-unread" style="padding:0.25rem 0.6rem;font-size:0.7rem;">Unread</button>
+                    <div style="flex:1;"></div>
+                    <button class="btn btn-ghost" id="applications-export-btn" title="Export CSV" style="padding:0.25rem 0.5rem;font-size:0.7rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        CSV
+                    </button>
+                    <button class="btn btn-ghost" id="applications-mark-read-btn" title="Mark selected as read" style="padding:0.25rem 0.5rem;font-size:0.7rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Read
+                    </button>
+                    <button class="btn btn-danger" id="applications-bulk-delete-btn" title="Delete selected" style="padding:0.25rem 0.5rem;font-size:0.7rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                        Del
+                    </button>
                 </div>
             </div>
             <div class="list-search">
@@ -1260,6 +1629,25 @@
     </div>
 </div>
 
+<!-- GLOBAL SEARCH MODAL -->
+<div class="search-modal-overlay" id="search-modal-overlay" onclick="if(event.target===this)closeSearch()">
+    <div class="search-modal">
+        <div class="search-modal-input-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="search-modal-input" id="global-search-input" placeholder="Search games, posts, messages, applications…">
+            <kbd style="background:var(--bg);border:1px solid var(--border);padding:2px 6px;font-size:0.65rem;color:var(--muted);">ESC</kbd>
+        </div>
+        <div class="search-modal-results" id="global-search-results">
+            <div class="search-modal-empty">Start typing to search across all content…</div>
+        </div>
+        <div class="search-hint">
+            <span><kbd>↑↓</kbd> Navigate</span>
+            <span><kbd>↵</kbd> Open</span>
+            <span><kbd>ESC</kbd> Close</span>
+        </div>
+    </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -1310,9 +1698,19 @@ function showApp() {
         const accountsBtn = document.getElementById('rail-accounts-btn');
         if (accountsBtn) accountsBtn.style.display = 'none';
     }
+    // Default to dashboard tab
+    document.querySelectorAll('.rail-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const dashLink = document.querySelector('.rail-link[data-tab="dashboard"]');
+    if (dashLink) dashLink.classList.add('active');
+    const dashSection = document.getElementById('section-dashboard');
+    if (dashSection) dashSection.classList.add('active');
+
     initQuill();
-    loadGames(); loadPosts(); loadCareers(); loadMessages(); loadApplications();
-    loadStaff(); loadAccounts(); loadOperations();
+    Promise.all([
+        loadGames(), loadPosts(), loadCareers(), loadMessages(), loadApplications(),
+        loadStaff(), loadAccounts(), loadOperations()
+    ]).then(() => loadDashboard());
 }
 
 if (token) showApp();
@@ -1372,6 +1770,7 @@ function initQuill() {
             ]
         }
     });
+    quill.on('text-change', updateWordCount);
 }
 
 // ── IMAGE UPLOAD ───────────────────────────────────────────────────────────
@@ -2528,6 +2927,337 @@ document.getElementById('delete-account-btn').addEventListener('click', () => {
         } catch { toast('Failed to delete', 'error'); }
     });
 });
+
+// ═══════════════════════════════════════
+// MOBILE NAV
+// ═══════════════════════════════════════
+function openMobileNav() {
+    document.getElementById('rail').classList.add('mobile-open');
+    const overlay = document.getElementById('mobile-overlay');
+    overlay.style.display = 'block';
+    overlay.classList.add('open');
+}
+function closeMobileNav() {
+    document.getElementById('rail').classList.remove('mobile-open');
+    const overlay = document.getElementById('mobile-overlay');
+    overlay.style.display = 'none';
+    overlay.classList.remove('open');
+}
+
+function mobileShowDetail(detailPanel) {
+    if (window.innerWidth > 768) return;
+    detailPanel.classList.add('mobile-visible');
+    const backBtn = document.getElementById('mobile-back-btn');
+    backBtn.style.display = 'flex';
+    backBtn._panel = detailPanel;
+}
+
+function mobileGoBack() {
+    const backBtn = document.getElementById('mobile-back-btn');
+    if (backBtn._panel) backBtn._panel.classList.remove('mobile-visible');
+    backBtn.style.display = 'none';
+}
+
+// Patch openMessage to show detail on mobile
+const _origOpenMessage = openMessage;
+openMessage = function(id) {
+    _origOpenMessage(id);
+    const panel = document.querySelector('#section-messages .detail-panel');
+    if (panel) mobileShowDetail(panel);
+};
+
+const _origOpenApplication = openApplication;
+openApplication = function(id) {
+    _origOpenApplication(id);
+    const panel = document.querySelector('#section-applications .detail-panel');
+    if (panel) mobileShowDetail(panel);
+};
+
+const _origOpenPost = openPost;
+openPost = function(id) {
+    _origOpenPost(id);
+    const panel = document.querySelector('#section-blog .detail-panel');
+    if (panel) mobileShowDetail(panel);
+};
+
+const _origOpenGame = openGame;
+openGame = function(id) {
+    _origOpenGame(id);
+    const panel = document.querySelector('#section-games .detail-panel');
+    if (panel) mobileShowDetail(panel);
+};
+
+// Rail links close mobile nav
+document.querySelectorAll('.rail-link[data-tab]').forEach(link => {
+    link.addEventListener('click', () => {
+        closeMobileNav();
+        mobileGoBack();
+    });
+});
+
+// ═══════════════════════════════════════
+// SWITCH TAB HELPER
+// ═══════════════════════════════════════
+function switchTab(tab) {
+    document.querySelectorAll('.rail-link').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const link = document.querySelector(`.rail-link[data-tab="${tab}"]`);
+    if (link) link.classList.add('active');
+    const section = document.getElementById(`section-${tab}`);
+    if (section) section.classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+function loadDashboard() {
+    // Greeting
+    const h = new Date().getHours();
+    const greet = h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+    const role = sessionRole === 'superadmin' ? 'Superadmin' : sessionRole;
+    document.getElementById('dash-greeting').textContent = `${greet} — ${role}`;
+
+    // Stats from already-loaded data
+    document.getElementById('dash-posts').textContent = posts.length;
+    const livePosts = posts.filter(p => p.published).length;
+    document.getElementById('dash-posts-sub').textContent = `${livePosts} published`;
+
+    document.getElementById('dash-games').textContent = games.filter(g => g.active !== false).length;
+
+    document.getElementById('dash-messages').textContent = messages.length;
+    const unreadMsgs = messages.filter(m => !m.read).length;
+    document.getElementById('dash-messages-sub').textContent = unreadMsgs > 0 ? `${unreadMsgs} unread` : 'all read';
+
+    document.getElementById('dash-apps').textContent = applications.length;
+    const unreadApps = applications.filter(a => !a.read).length;
+    document.getElementById('dash-apps-sub').textContent = unreadApps > 0 ? `${unreadApps} unread` : 'all read';
+
+    document.getElementById('dash-unread').textContent = unreadMsgs + unreadApps;
+
+    // Recent messages preview
+    const recentEl = document.getElementById('dash-recent-msgs');
+    const recent = [...messages].slice(0, 5);
+    if (!recent.length) {
+        recentEl.innerHTML = '<div style="font-size:0.8rem;color:var(--muted);">No messages yet.</div>';
+    } else {
+        recentEl.innerHTML = recent.map(m => `
+            <div onclick="switchTab('messages');openMessage('${m.id}')" style="border:1px solid var(--border);padding:0.75rem 1rem;cursor:pointer;transition:background 0.1s;display:flex;align-items:center;gap:0.75rem;" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background=''">
+                <div style="width:6px;height:6px;border-radius:50%;background:${m.read ? 'var(--border)' : 'var(--primary)'};flex-shrink:0;"></div>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-weight:600;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${m.name}</div>
+                    <div style="font-size:0.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${m.subject}</div>
+                </div>
+                <div style="font-size:0.7rem;color:var(--muted);flex-shrink:0;">${fmtDate(m.createdAt)}</div>
+            </div>`).join('');
+    }
+
+    // Load analytics for views + chart
+    fetch('/api/admin/analytics', { headers: { 'x-admin-token': token } }).then(r => r.json()).then(d => {
+        document.getElementById('dash-views').textContent = (d.totals?.pageViews ?? 0).toLocaleString();
+
+        const trend = d.trend || [];
+        const chartEl = document.getElementById('dash-chart');
+        const labelsEl = document.getElementById('dash-chart-labels');
+        if (!trend.length) { chartEl.innerHTML = '<div style="color:var(--muted);font-size:0.78rem;padding:1rem 0;">No traffic data yet.</div>'; return; }
+        const maxViews = Math.max(...trend.map(r => r.views), 1);
+        chartEl.innerHTML = trend.map(r => {
+            const pct = Math.max(4, Math.round((r.views / maxViews) * 100));
+            return `<div title="${r.date}: ${r.views} views" style="flex:1;background:var(--primary);opacity:0.8;height:${pct}%;min-height:4px;transition:opacity 0.1s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"></div>`;
+        }).join('');
+        labelsEl.innerHTML = trend.map(r => {
+            const d = new Date(r.date);
+            return `<div style="flex:1;text-align:center;font-size:0.6rem;color:var(--muted);overflow:hidden;">${d.toLocaleDateString('en-GB',{weekday:'short'})}</div>`;
+        }).join('');
+    }).catch(() => {});
+}
+
+// Refresh dashboard when switching to it
+document.querySelectorAll('.rail-link[data-tab]').forEach(link => {
+    link.addEventListener('click', () => {
+        if (link.dataset.tab === 'dashboard') setTimeout(loadDashboard, 100);
+    });
+});
+
+// ═══════════════════════════════════════
+// GLOBAL SEARCH (⌘K)
+// ═══════════════════════════════════════
+function openSearch() {
+    document.getElementById('search-modal-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('global-search-input').focus(), 50);
+}
+function closeSearch() {
+    document.getElementById('search-modal-overlay').classList.remove('open');
+    document.getElementById('global-search-input').value = '';
+    document.getElementById('global-search-results').innerHTML = '<div class="search-modal-empty">Start typing to search across all content…</div>';
+}
+
+document.getElementById('global-search-btn').addEventListener('click', openSearch);
+
+document.getElementById('global-search-input').addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    const resultsEl = document.getElementById('global-search-results');
+    if (!q) { resultsEl.innerHTML = '<div class="search-modal-empty">Start typing to search across all content…</div>'; return; }
+
+    const results = [];
+    posts.forEach(p => {
+        if ((p.title || '').toLowerCase().includes(q) || (p.author || '').toLowerCase().includes(q))
+            results.push({ type: 'Blog', label: p.title || 'Untitled', sub: p.published ? 'Published' : 'Draft', action: () => { closeSearch(); switchTab('blog'); openPost(p.id); } });
+    });
+    games.forEach(g => {
+        const label = g.placeId ? `Place ${g.placeId}` : 'New Game';
+        if (label.toLowerCase().includes(q))
+            results.push({ type: 'Game', label, sub: g.active ? 'Active' : 'Inactive', action: () => { closeSearch(); switchTab('games'); openGame(g.id); } });
+    });
+    messages.forEach(m => {
+        if ((m.name + ' ' + m.subject + ' ' + m.email).toLowerCase().includes(q))
+            results.push({ type: 'Message', label: m.name, sub: m.subject, action: () => { closeSearch(); switchTab('messages'); openMessage(m.id); } });
+    });
+    applications.forEach(a => {
+        if ((a.name + ' ' + a.position + ' ' + a.email).toLowerCase().includes(q))
+            results.push({ type: 'Application', label: a.name, sub: a.position, action: () => { closeSearch(); switchTab('applications'); openApplication(a.id); } });
+    });
+    careers.forEach(c => {
+        if ((c.title || '').toLowerCase().includes(q))
+            results.push({ type: 'Career', label: c.title || 'Untitled', sub: c.department || '', action: () => { closeSearch(); switchTab('careers'); } });
+    });
+
+    if (!results.length) { resultsEl.innerHTML = `<div class="search-modal-empty">No results for "<strong>${q}</strong>"</div>`; return; }
+    resultsEl.innerHTML = results.slice(0, 10).map((r, i) => `
+        <div class="search-result-item" data-idx="${i}">
+            <span class="search-result-type">${r.type}</span>
+            <div style="flex:1;min-width:0;">
+                <div style="font-size:0.875rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.label}</div>
+                ${r.sub ? `<div style="font-size:0.72rem;color:var(--muted);">${r.sub}</div>` : ''}
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>`).join('');
+    resultsEl.querySelectorAll('.search-result-item').forEach((el, i) => {
+        el.addEventListener('click', () => results[i].action());
+    });
+});
+
+document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape') closeSearch();
+});
+
+// ═══════════════════════════════════════
+// BLOG WORD COUNT + AUTOSAVE + SEO
+// ═══════════════════════════════════════
+let autosaveTimer = null;
+let autosaveLastPostId = null;
+
+function updateWordCount() {
+    if (!quill) return;
+    const text = quill.getText().trim();
+    const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+    const wc = document.getElementById('word-count');
+    if (wc) wc.textContent = `${words.toLocaleString()} word${words !== 1 ? 's' : ''}`;
+    updateSeoPreview();
+    scheduleAutosave();
+}
+
+function updateSeoPreview() {
+    if (!quill) return;
+    const title = document.getElementById('post-title')?.value || '';
+    const text = quill.getText().replace(/\n+/g, ' ').trim();
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const desc = text.slice(0, 160);
+    const slugEl = document.getElementById('seo-slug');
+    const titleEl = document.getElementById('seo-title');
+    const descEl = document.getElementById('seo-desc');
+    if (slugEl) slugEl.textContent = slug || 'post-title';
+    if (titleEl) titleEl.textContent = title || 'Post Title';
+    if (descEl) descEl.textContent = desc || 'No description yet.';
+}
+
+function scheduleAutosave() {
+    if (!activePostId) return;
+    clearTimeout(autosaveTimer);
+    const indicator = document.getElementById('autosave-indicator');
+    const text = document.getElementById('autosave-text');
+    if (indicator) { indicator.style.display = 'flex'; indicator.className = 'autosave-indicator saving'; if(text) text.textContent = 'Saving…'; }
+    autosaveTimer = setTimeout(async () => {
+        if (!activePostId) return;
+        try {
+            await fetch(`/api/admin/posts/${activePostId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+                body: JSON.stringify({
+                    title: document.getElementById('post-title')?.value || '',
+                    content: quill?.root.innerHTML || '',
+                    author: document.getElementById('post-author')?.value || '',
+                    published: document.getElementById('post-publish')?.checked || false
+                })
+            });
+            if (indicator) { indicator.className = 'autosave-indicator saved'; if(text) text.textContent = 'Auto-saved'; }
+            setTimeout(() => { if (indicator) indicator.style.display = 'none'; }, 2000);
+        } catch { if (indicator) indicator.style.display = 'none'; }
+    }, 3000);
+}
+
+// Wire post-title to SEO preview too
+document.getElementById('post-title')?.addEventListener('input', () => { updateSeoPreview(); scheduleAutosave(); });
+document.getElementById('post-author')?.addEventListener('input', scheduleAutosave);
+
+// ═══════════════════════════════════════
+// INBOX FILTER PILLS
+// ═══════════════════════════════════════
+let messagesFilter = 'all';
+let applicationsFilter = 'all';
+
+function applyMessagesFilter() {
+    document.querySelectorAll('#messages-list .list-item').forEach(el => {
+        const id = el.dataset.id;
+        const msg = messages.find(m => m.id === id);
+        if (!msg) return;
+        if (messagesFilter === 'unread') el.style.display = !msg.read ? '' : 'none';
+        else el.style.display = '';
+    });
+}
+
+function applyApplicationsFilter() {
+    document.querySelectorAll('#applications-list .list-item').forEach(el => {
+        const id = el.dataset.id;
+        const app = applications.find(a => a.id === id);
+        if (!app) return;
+        if (applicationsFilter === 'unread') el.style.display = !app.read ? '' : 'none';
+        else el.style.display = '';
+    });
+}
+
+document.getElementById('messages-filter-all').addEventListener('click', function() {
+    messagesFilter = 'all';
+    document.getElementById('messages-filter-all').style.borderColor = 'var(--primary)'; document.getElementById('messages-filter-all').style.color = 'var(--primary)';
+    document.getElementById('messages-filter-unread').style.borderColor = ''; document.getElementById('messages-filter-unread').style.color = '';
+    applyMessagesFilter();
+});
+document.getElementById('messages-filter-unread').addEventListener('click', function() {
+    messagesFilter = 'unread';
+    document.getElementById('messages-filter-unread').style.borderColor = 'var(--primary)'; document.getElementById('messages-filter-unread').style.color = 'var(--primary)';
+    document.getElementById('messages-filter-all').style.borderColor = ''; document.getElementById('messages-filter-all').style.color = '';
+    applyMessagesFilter();
+});
+
+document.getElementById('applications-filter-all').addEventListener('click', function() {
+    applicationsFilter = 'all';
+    document.getElementById('applications-filter-all').style.borderColor = 'var(--primary)'; document.getElementById('applications-filter-all').style.color = 'var(--primary)';
+    document.getElementById('applications-filter-unread').style.borderColor = ''; document.getElementById('applications-filter-unread').style.color = '';
+    applyApplicationsFilter();
+});
+document.getElementById('applications-filter-unread').addEventListener('click', function() {
+    applicationsFilter = 'unread';
+    document.getElementById('applications-filter-unread').style.borderColor = 'var(--primary)'; document.getElementById('applications-filter-unread').style.color = 'var(--primary)';
+    document.getElementById('applications-filter-all').style.borderColor = ''; document.getElementById('applications-filter-all').style.color = '';
+    applyApplicationsFilter();
+});
+
+// Hook renderMessages/renderApplications to re-apply filter
+const _origRenderMessages = renderMessages;
+renderMessages = function() { _origRenderMessages(); applyMessagesFilter(); };
+const _origRenderApplications = renderApplications;
+renderApplications = function() { _origRenderApplications(); applyApplicationsFilter(); };
+
 </script>
 </body>
 </html>
