@@ -661,13 +661,40 @@
         .ql-snow .ql-tooltip input[type=text] { background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; }
         .ql-snow .ql-tooltip a.ql-action::after { color: var(--primary); }
 
+        /* ═══════════════════════════════════════
+           PROFILE MODAL
+        ═══════════════════════════════════════ */
+        .profile-modal-overlay { display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; padding: 1.5rem; }
+        .profile-modal-overlay.open { display: flex; }
+        .profile-modal { position: relative; background: var(--surface); border: 1px solid var(--border); width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+        .profile-modal-header { padding: 1.5rem 1.75rem 0; display: flex; justify-content: space-between; align-items: center; }
+        .profile-modal-header h3 { font-size: 1rem; font-weight: 700; }
+        .profile-modal-close { background: var(--surface-mid); border: 1px solid var(--border); color: var(--muted); width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.9rem; transition: background 0.15s, color 0.15s; }
+        .profile-modal-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .profile-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin: 1.25rem 1.75rem 0; }
+        .profile-tab { padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; background: none; border-top: none; border-left: none; border-right: none; font-family: 'Inter', sans-serif; }
+        .profile-tab:hover { color: var(--text); }
+        .profile-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .profile-tab-panel { display: none; padding: 1.5rem 1.75rem 1.75rem; }
+        .profile-tab-panel.active { display: flex; flex-direction: column; gap: 1.125rem; }
+        .avatar-picker { display: flex; align-items: center; gap: 1.25rem; }
+        .avatar-preview { width: 64px; height: 64px; border-radius: 50%; background: var(--surface-mid); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--primary); overflow: hidden; flex-shrink: 0; cursor: pointer; transition: border-color 0.15s; position: relative; }
+        .avatar-preview:hover { border-color: var(--primary); }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .avatar-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: center; justify-content: center; border-radius: 50%; }
+        .avatar-preview:hover .avatar-overlay { display: flex; }
+        .avatar-pick-info { display: flex; flex-direction: column; gap: 0.375rem; }
+        .avatar-pick-info span { font-size: 0.78rem; color: var(--muted); }
+        .rail-user-btn { display: flex; align-items: center; gap: 0.625rem; padding: 0.5rem 0.75rem; width: 100%; background: none; border: 1px solid transparent; cursor: pointer; transition: background 0.12s, border-color 0.12s; text-align: left; margin-bottom: 0.25rem; }
+        .rail-user-btn:hover { background: var(--surface-mid); border-color: var(--border); }
+        .rail-user-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--surface-mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.72rem; color: var(--primary); overflow: hidden; flex-shrink: 0; }
+        .rail-user-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .rail-user-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .rail-user-name { font-size: 0.78rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .rail-user-role { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
         /* ── WORD COUNT ── */
         .word-count-badge {
-            font-size: 0.7rem;
-            color: var(--muted);
-            padding: 0.2rem 0.5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
         }
 
         /* ── AUTO-SAVE INDICATOR ── */
@@ -973,6 +1000,14 @@
             </button>
         </nav>
         <div class="rail-footer">
+            <button class="rail-user-btn" id="open-profile-btn" title="My Profile">
+                <div class="rail-user-avatar" id="rail-avatar-el"></div>
+                <div class="rail-user-info">
+                    <span class="rail-user-name" id="rail-display-name">—</span>
+                    <span class="rail-user-role" id="rail-role-label">—</span>
+                </div>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);flex-shrink:0;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
             <button class="btn btn-ghost" id="global-search-btn" style="justify-content:space-between;font-size:0.78rem;">
                 <span style="display:flex;align-items:center;gap:0.5rem;">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1618,6 +1653,74 @@
 </div><!-- /app -->
 
 <!-- CONFIRM DIALOG -->
+<!-- ═══ PROFILE MODAL ═══ -->
+<div class="profile-modal-overlay" id="profile-modal-overlay">
+    <div class="profile-modal">
+        <div class="profile-modal-header">
+            <h3>My Profile</h3>
+            <button class="profile-modal-close" id="profile-modal-close">✕</button>
+        </div>
+        <div class="profile-tabs">
+            <button class="profile-tab active" data-ptab="info">Profile</button>
+            <button class="profile-tab" data-ptab="security">Security</button>
+        </div>
+        <!-- Info Tab -->
+        <div class="profile-tab-panel active" id="ptab-info">
+            <div class="avatar-picker">
+                <div class="avatar-preview" id="profile-avatar-preview" title="Click to change photo">
+                    <span id="profile-avatar-initials"></span>
+                    <div class="avatar-overlay">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                </div>
+                <div class="avatar-pick-info">
+                    <strong style="font-size:0.85rem;">Profile Photo</strong>
+                    <span>Shown on blog posts and in the sidebar</span>
+                    <button class="btn btn-ghost" id="avatar-upload-btn" style="font-size:0.75rem;padding:0.4rem 0.875rem;margin-top:0.25rem;">Upload Photo</button>
+                    <input type="file" id="avatar-file-input" accept="image/*" style="display:none;">
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                <label style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Display Name</label>
+                <input type="text" id="profile-display-name" class="field-input" placeholder="Your public name" maxlength="80">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                <label style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Position / Title</label>
+                <input type="text" id="profile-position" class="field-input" placeholder="e.g. Lead Developer, Writer…" maxlength="100">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                <label style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Short Bio</label>
+                <textarea id="profile-bio" class="field-input" rows="3" placeholder="A short bio shown on author pages…" maxlength="500" style="resize:vertical;"></textarea>
+                <span style="font-size:0.65rem;color:var(--muted);" id="bio-char-count">0 / 500</span>
+            </div>
+            <div id="profile-info-status" style="display:none;padding:0.625rem 0.875rem;font-size:0.8rem;border-radius:2px;"></div>
+            <button class="btn btn-primary" id="profile-save-btn" style="align-self:flex-start;">Save Changes</button>
+        </div>
+        <!-- Security Tab -->
+        <div class="profile-tab-panel" id="ptab-security">
+            <div style="padding:0.875rem 1rem;background:var(--bg);border:1px solid var(--border);font-size:0.8rem;color:var(--muted);border-left:3px solid var(--primary);margin-bottom:0.5rem;">
+                Changing your password will sign you out of all other devices.
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                <label style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Current Password</label>
+                <input type="password" id="pw-current" class="field-input" placeholder="Enter current password" autocomplete="current-password">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                <label style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">New Password</label>
+                <input type="password" id="pw-new" class="field-input" placeholder="Min. 8 characters" autocomplete="new-password">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.375rem;">
+                <label style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Confirm New Password</label>
+                <input type="password" id="pw-confirm" class="field-input" placeholder="Re-enter new password" autocomplete="new-password">
+                <div id="pw-strength" style="height:3px;background:var(--border);margin-top:0.25rem;border-radius:2px;overflow:hidden;"><div id="pw-strength-bar" style="height:100%;width:0;transition:width 0.2s,background 0.2s;"></div></div>
+                <span id="pw-strength-label" style="font-size:0.65rem;color:var(--muted);"></span>
+            </div>
+            <div id="profile-pw-status" style="display:none;padding:0.625rem 0.875rem;font-size:0.8rem;border-radius:2px;"></div>
+            <button class="btn btn-primary" id="profile-pw-btn" style="align-self:flex-start;">Change Password</button>
+        </div>
+    </div>
+</div>
+
 <div class="confirm-overlay" id="confirm-overlay">
     <div class="confirm-box">
         <h3 class="confirm-title" id="confirm-title">Are you sure?</h3>
@@ -1656,6 +1759,9 @@
 // ── STATE ──────────────────────────────────────────────────────────────────
 let token = sessionStorage.getItem('sw_token');
 let sessionRole = sessionStorage.getItem('sw_role') || 'superadmin';
+let sessionDisplayName = sessionStorage.getItem('sw_display') || '';
+let sessionAvatar = sessionStorage.getItem('sw_avatar') || '';
+let sessionPosition = sessionStorage.getItem('sw_position') || '';
 let posts = [], careers = [], games = [];
 let staffList = [], accountsList = [];
 let activePostId = null, activeCareerId = null, activeGameId = null;
@@ -1707,6 +1813,7 @@ function showApp() {
     if (dashSection) dashSection.classList.add('active');
 
     initQuill();
+    updateRailUser();
     Promise.all([
         loadGames(), loadPosts(), loadCareers(), loadMessages(), loadApplications(),
         loadStaff(), loadAccounts(), loadOperations()
@@ -1728,8 +1835,14 @@ async function doLogin() {
         if (!res.ok) { err.textContent = d.message || 'Invalid credentials.'; err.style.display = 'block'; return; }
         token = d.token;
         sessionRole = d.role || 'superadmin';
+        sessionDisplayName = d.displayName || '';
+        sessionAvatar = d.avatar || '';
+        sessionPosition = d.position || '';
         sessionStorage.setItem('sw_token', token);
         sessionStorage.setItem('sw_role', sessionRole);
+        sessionStorage.setItem('sw_display', sessionDisplayName);
+        sessionStorage.setItem('sw_avatar', sessionAvatar);
+        sessionStorage.setItem('sw_position', sessionPosition);
         err.style.display = 'none';
         showApp();
     } catch { err.textContent = 'Login failed. Try again.'; err.style.display = 'block'; }
@@ -1742,6 +1855,9 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
     await fetch('/api/admin/logout', { method: 'POST', headers: { 'x-admin-token': token } });
     sessionStorage.removeItem('sw_token');
     sessionStorage.removeItem('sw_role');
+    sessionStorage.removeItem('sw_display');
+    sessionStorage.removeItem('sw_avatar');
+    sessionStorage.removeItem('sw_position');
     location.reload();
 });
 
@@ -3257,6 +3373,182 @@ const _origRenderMessages = renderMessages;
 renderMessages = function() { _origRenderMessages(); applyMessagesFilter(); };
 const _origRenderApplications = renderApplications;
 renderApplications = function() { _origRenderApplications(); applyApplicationsFilter(); };
+
+// ══════════════════════════════════════════════════════════════
+// PROFILE SYSTEM
+// ══════════════════════════════════════════════════════════════
+
+function renderAvatarEl(el, name, avatarUrl) {
+    if (!el) return;
+    if (avatarUrl) {
+        el.innerHTML = `<img src="${avatarUrl}" alt="${name}">`;
+    } else {
+        el.textContent = (name || '?').charAt(0).toUpperCase();
+    }
+}
+
+function updateRailUser() {
+    const name = sessionDisplayName || 'Admin';
+    const role = sessionRole === 'superadmin' ? 'Super Admin' : sessionRole || 'Staff';
+    document.getElementById('rail-display-name').textContent = name;
+    document.getElementById('rail-role-label').textContent = role;
+    renderAvatarEl(document.getElementById('rail-avatar-el'), name, sessionAvatar);
+}
+
+// Profile modal tabs
+document.querySelectorAll('.profile-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.profile-tab-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`ptab-${tab.dataset.ptab}`).classList.add('active');
+    });
+});
+
+function openProfileModal() {
+    const overlay = document.getElementById('profile-modal-overlay');
+    overlay.classList.add('open');
+    // Load current profile into form
+    document.getElementById('profile-display-name').value = sessionDisplayName || '';
+    document.getElementById('profile-position').value = sessionPosition || '';
+    // Fetch full profile for bio/position
+    fetch('/api/admin/me', { headers: { 'x-admin-token': token } })
+        .then(r => r.json()).then(acc => {
+            document.getElementById('profile-display-name').value = acc.displayName || '';
+            document.getElementById('profile-position').value = acc.position || '';
+            document.getElementById('profile-bio').value = acc.bio || '';
+            document.getElementById('bio-char-count').textContent = `${(acc.bio||'').length} / 500`;
+            // Render avatar preview
+            const previewEl = document.getElementById('profile-avatar-preview');
+            const initialsEl = document.getElementById('profile-avatar-initials');
+            if (acc.avatar) {
+                initialsEl.textContent = '';
+                previewEl.style.backgroundImage = `url(${acc.avatar})`;
+                previewEl.innerHTML = `<img src="${acc.avatar}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"><div class="avatar-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>`;
+            } else {
+                previewEl.innerHTML = `<span id="profile-avatar-initials">${(acc.displayName||'A').charAt(0).toUpperCase()}</span><div class="avatar-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>`;
+            }
+        }).catch(() => {});
+    // Clear password fields
+    ['pw-current','pw-new','pw-confirm'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('pw-strength-bar').style.width = '0';
+    document.getElementById('pw-strength-label').textContent = '';
+    hideStatus('profile-info-status');
+    hideStatus('profile-pw-status');
+}
+
+function closeProfileModal() {
+    document.getElementById('profile-modal-overlay').classList.remove('open');
+}
+
+function showStatus(id, msg, ok) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.style.background = ok ? 'rgba(74,222,128,0.08)' : 'rgba(239,68,68,0.08)';
+    el.style.border = `1px solid ${ok ? 'rgba(74,222,128,0.25)' : 'rgba(239,68,68,0.25)'}`;
+    el.style.color = ok ? '#4ade80' : '#f87171';
+}
+function hideStatus(id) { const el = document.getElementById(id); if (el) { el.style.display = 'none'; el.textContent = ''; } }
+
+document.getElementById('open-profile-btn').addEventListener('click', openProfileModal);
+document.getElementById('profile-modal-close').addEventListener('click', closeProfileModal);
+document.getElementById('profile-modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeProfileModal(); });
+
+// Bio char count
+document.getElementById('profile-bio').addEventListener('input', function() {
+    document.getElementById('bio-char-count').textContent = `${this.value.length} / 500`;
+});
+
+// Avatar upload
+document.getElementById('avatar-upload-btn').addEventListener('click', () => document.getElementById('avatar-file-input').click());
+document.getElementById('profile-avatar-preview').addEventListener('click', () => document.getElementById('avatar-file-input').click());
+document.getElementById('avatar-file-input').addEventListener('change', async function() {
+    const file = this.files[0];
+    if (!file) return;
+    const btn = document.getElementById('avatar-upload-btn');
+    btn.textContent = 'Uploading…';
+    btn.disabled = true;
+    const fd = new FormData();
+    fd.append('avatar', file);
+    try {
+        const res = await fetch('/api/admin/me/avatar', { method: 'POST', headers: { 'x-admin-token': token }, body: fd });
+        const d = await res.json();
+        if (!res.ok) throw new Error(d.message);
+        sessionAvatar = d.url;
+        sessionStorage.setItem('sw_avatar', sessionAvatar);
+        // Update preview
+        const previewEl = document.getElementById('profile-avatar-preview');
+        previewEl.innerHTML = `<img src="${d.url}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"><div class="avatar-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>`;
+        updateRailUser();
+        showStatus('profile-info-status', 'Photo updated!', true);
+    } catch(e) { showStatus('profile-info-status', e.message || 'Upload failed', false); }
+    finally { btn.textContent = 'Upload Photo'; btn.disabled = false; this.value = ''; }
+});
+
+// Save profile info
+document.getElementById('profile-save-btn').addEventListener('click', async () => {
+    const displayName = document.getElementById('profile-display-name').value.trim();
+    const position = document.getElementById('profile-position').value.trim();
+    const bio = document.getElementById('profile-bio').value.trim();
+    if (!displayName) { showStatus('profile-info-status', 'Display name is required', false); return; }
+    const btn = document.getElementById('profile-save-btn');
+    btn.textContent = 'Saving…'; btn.disabled = true;
+    try {
+        const res = await fetch('/api/admin/me', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ displayName, position, bio }) });
+        const d = await res.json();
+        if (!res.ok) throw new Error(d.message);
+        sessionDisplayName = displayName;
+        sessionPosition = position;
+        sessionStorage.setItem('sw_display', displayName);
+        sessionStorage.setItem('sw_position', position);
+        updateRailUser();
+        showStatus('profile-info-status', 'Profile saved!', true);
+    } catch(e) { showStatus('profile-info-status', e.message || 'Save failed', false); }
+    finally { btn.textContent = 'Save Changes'; btn.disabled = false; }
+});
+
+// Password strength meter
+document.getElementById('pw-new').addEventListener('input', function() {
+    const v = this.value;
+    const bar = document.getElementById('pw-strength-bar');
+    const label = document.getElementById('pw-strength-label');
+    if (!v) { bar.style.width = '0'; label.textContent = ''; return; }
+    let score = 0;
+    if (v.length >= 8) score++;
+    if (v.length >= 12) score++;
+    if (/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    const levels = [['#ef4444','20%','Weak'],['#f97316','40%','Fair'],['#eab308','60%','Moderate'],['#22c55e','80%','Strong'],['#16a34a','100%','Very Strong']];
+    const [color, width, text] = levels[Math.min(score, 4)];
+    bar.style.width = width; bar.style.background = color;
+    label.textContent = text; label.style.color = color;
+});
+
+// Change password
+document.getElementById('profile-pw-btn').addEventListener('click', async () => {
+    const currentPw = document.getElementById('pw-current').value;
+    const newPw = document.getElementById('pw-new').value;
+    const confirmPw = document.getElementById('pw-confirm').value;
+    if (!currentPw || !newPw || !confirmPw) { showStatus('profile-pw-status', 'All fields are required', false); return; }
+    if (newPw !== confirmPw) { showStatus('profile-pw-status', 'New passwords do not match', false); return; }
+    if (newPw.length < 8) { showStatus('profile-pw-status', 'Password must be at least 8 characters', false); return; }
+    const btn = document.getElementById('profile-pw-btn');
+    btn.textContent = 'Changing…'; btn.disabled = true;
+    try {
+        const res = await fetch('/api/admin/me/password', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ currentPassword: currentPw, newPassword: newPw }) });
+        const d = await res.json();
+        if (!res.ok) throw new Error(d.message);
+        ['pw-current','pw-new','pw-confirm'].forEach(id => { document.getElementById(id).value = ''; });
+        document.getElementById('pw-strength-bar').style.width = '0';
+        document.getElementById('pw-strength-label').textContent = '';
+        showStatus('profile-pw-status', 'Password changed successfully!', true);
+    } catch(e) { showStatus('profile-pw-status', e.message || 'Failed to change password', false); }
+    finally { btn.textContent = 'Change Password'; btn.disabled = false; }
+});
+
+
 
 </script>
 </body>

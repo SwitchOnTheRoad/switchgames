@@ -7,7 +7,10 @@
       "displayName": "Switch",
       "role": "admin",
       "createdAt": "2026-03-01T23:37:36.090Z",
-      "lastLogin": null
+      "lastLogin": null,
+      "avatar": "",
+      "position": "",
+      "bio": ""
     }
   ]
 }

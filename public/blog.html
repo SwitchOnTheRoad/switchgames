@@ -47,9 +47,12 @@
         .blog-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.75rem; }
         .blog-card.lead .blog-title { font-size: 1.4rem; }
         .blog-preview { color: var(--muted); font-size: 0.875rem; line-height: 1.65; }
-        .blog-empty { padding: 5rem 2rem; text-align: center; color: var(--muted); font-size: 0.875rem; background: var(--surface); border: 1px solid var(--border); }
+        .blog-author { display: flex; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 1rem; }
+        .blog-author-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--surface-mid); border: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: var(--primary); overflow: hidden; }
+        .blog-author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .blog-author-name { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
 
-        /* ── FULL-SCREEN READER ── */
+        .blog-empty { padding: 5rem 2rem; text-align: center; color: var(--muted); font-size: 0.875rem; background: var(--surface); border: 1px solid var(--border); }
         #reader-view {
             display: none;
             position: fixed;
@@ -143,13 +146,35 @@
         .reader-author {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
             margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
+            padding: 1.25rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
         }
-        .reader-author-label { font-size: 0.75rem; color: var(--muted); }
-        .reader-author-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+        .reader-author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--surface-mid);
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+            overflow: hidden;
+        }
+        .reader-author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .reader-author-info { display: flex; flex-direction: column; gap: 0.2rem; }
+        .reader-author-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+        .reader-author-name { font-size: 0.95rem; font-weight: 700; color: var(--text); font-family: 'Space Grotesk', sans-serif; }
+        .reader-author-position { font-size: 0.78rem; color: var(--muted); }
 
         .reader-body { color: #d1d1d1; font-size: 1.05rem; line-height: 1.85; }
         .reader-body h1, .reader-body h2, .reader-body h3 { color: var(--text); margin: 2rem 0 0.875rem; font-family: 'Space Grotesk', sans-serif; }
@@ -218,8 +243,12 @@
         </div>
         <h1 class="reader-title" id="reader-title"></h1>
         <div class="reader-author" id="reader-author" style="display:none;">
-            <span class="reader-author-label">By</span>
-            <span class="reader-author-name" id="reader-author-name"></span>
+            <div class="reader-author-avatar" id="reader-author-avatar"></div>
+            <div class="reader-author-info">
+                <span class="reader-author-label">Written by</span>
+                <span class="reader-author-name" id="reader-author-name"></span>
+                <span class="reader-author-position" id="reader-author-position"></span>
+            </div>
         </div>
         <div class="reader-body" id="reader-body"></div>
     </div>
@@ -281,8 +310,19 @@
 
         const authorEl = document.getElementById('reader-author');
         const authorName = document.getElementById('reader-author-name');
-        if (post.author && post.author.trim()) {
-            authorName.textContent = post.author;
+        const authorPos = document.getElementById('reader-author-position');
+        const authorAvatar = document.getElementById('reader-author-avatar');
+        const name = post.authorName || post.author || '';
+        if (name) {
+            authorName.textContent = name;
+            authorPos.textContent = post.authorPosition || '';
+            authorPos.style.display = post.authorPosition ? '' : 'none';
+            // Avatar
+            if (post.authorAvatar) {
+                authorAvatar.innerHTML = `<img src="${post.authorAvatar}" alt="${name}">`;
+            } else {
+                authorAvatar.innerHTML = name.charAt(0).toUpperCase();
+            }
             authorEl.style.display = 'flex';
         } else {
             authorEl.style.display = 'none';
@@ -328,6 +368,7 @@
             grid.innerHTML = allPosts.map((p, i) => {
                 const thumb = p.image || extractFirstImg(p.content);
                 const isLead = i === 0 && allPosts.length > 1;
+                const authorName = p.authorName || p.author || '';
                 return `<div class="blog-card ${isLead ? 'lead' : ''}" data-id="${p.id}">
                     ${thumb ? `<img src="${thumb}" class="blog-img" alt="${p.title}" loading="lazy">` : '<div class="blog-img-ph"></div>'}
                     <div class="blog-body">
@@ -337,6 +378,7 @@
                         </div>
                         <h3 class="blog-title">${p.title}</h3>
                         <p class="blog-preview">${preview(p.content)}</p>
+                        ${authorName ? `<div class="blog-author"><div class="blog-author-avatar">${p.authorAvatar ? `<img src="${p.authorAvatar}" alt="${authorName}">` : authorName.charAt(0).toUpperCase()}</div><span class="blog-author-name">${authorName}</span></div>` : ''}
                     </div>
                 </div>`;
             }).join('');

@@ -247,7 +247,7 @@ app.post('/api/admin/login', (req, res) => {
         const token = generateToken();
         adminSessions.set(token, { expiresAt: Date.now() + 8 * 60 * 60 * 1000, role: account.role, accountId: account.id });
         logAudit('admin.login', req, { accountId: account.id, role: account.role });
-        return res.json({ message: 'Login successful', token, role: account.role, displayName: account.displayName });
+        return res.json({ message: 'Login successful', token, role: account.role, displayName: account.displayName, avatar: account.avatar || '', position: account.position || '', accountId: account.id });
     }
 
     recordFail(ip);
@@ -261,6 +261,85 @@ app.post('/api/admin/logout', (req, res) => {
         adminSessions.delete(token);
     }
     res.json({ message: 'Logged out' });
+});
+
+// ============================================================
+// MY PROFILE  (any authenticated user can manage their own profile)
+// ============================================================
+
+app.get('/api/admin/me', (req, res) => {
+    const s = getSession(req.headers['x-admin-token']);
+    if (!s) return res.status(401).json({ message: 'Unauthorised' });
+    if (s.accountId === 'master') {
+        return res.json({ id: 'master', username: 'admin', displayName: 'Admin', role: 'superadmin', position: '', bio: '', avatar: '' });
+    }
+    const accounts = readStaffAccounts();
+    const acc = accounts.find(a => a.id === s.accountId);
+    if (!acc) return res.status(404).json({ message: 'Account not found' });
+    const { passwordHash, ...safe } = acc;
+    res.json(safe);
+});
+
+app.put('/api/admin/me', (req, res) => {
+    const s = getSession(req.headers['x-admin-token']);
+    if (!s) return res.status(401).json({ message: 'Unauthorised' });
+    if (s.accountId === 'master') return res.status(400).json({ message: 'Master account cannot be edited here' });
+    const accounts = readStaffAccounts();
+    const idx = accounts.findIndex(a => a.id === s.accountId);
+    if (idx === -1) return res.status(404).json({ message: 'Account not found' });
+    const { displayName, position, bio } = req.body;
+    if (displayName !== undefined) accounts[idx].displayName = String(displayName).slice(0, 80).trim();
+    if (position !== undefined) accounts[idx].position = String(position).slice(0, 100).trim();
+    if (bio !== undefined) accounts[idx].bio = String(bio).slice(0, 500).trim();
+    accounts[idx].updatedAt = new Date().toISOString();
+    writeStaffAccounts(accounts);
+    const { passwordHash, ...safe } = accounts[idx];
+    logAudit('account.profile_update', req, { accountId: s.accountId });
+    res.json({ message: 'Profile updated', account: safe });
+});
+
+app.put('/api/admin/me/password', (req, res) => {
+    const s = getSession(req.headers['x-admin-token']);
+    if (!s) return res.status(401).json({ message: 'Unauthorised' });
+    if (s.accountId === 'master') return res.status(400).json({ message: 'Use ADMIN_PASSWORD_HASH env var to change master password' });
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) return res.status(400).json({ message: 'currentPassword and newPassword required' });
+    if (newPassword.length < 8) return res.status(400).json({ message: 'New password must be at least 8 characters' });
+    if (newPassword.length > 128) return res.status(400).json({ message: 'Password too long' });
+    const accounts = readStaffAccounts();
+    const idx = accounts.findIndex(a => a.id === s.accountId);
+    if (idx === -1) return res.status(404).json({ message: 'Account not found' });
+    if (hashPassword(currentPassword) !== accounts[idx].passwordHash) return res.status(401).json({ message: 'Current password is incorrect' });
+    accounts[idx].passwordHash = hashPassword(newPassword);
+    accounts[idx].updatedAt = new Date().toISOString();
+    writeStaffAccounts(accounts);
+    // Invalidate all other sessions for this account
+    for (const [t, sess] of adminSessions.entries()) {
+        if (sess.accountId === accounts[idx].id && t !== req.headers['x-admin-token']) adminSessions.delete(t);
+    }
+    logAudit('account.password_change', req, { accountId: s.accountId });
+    res.json({ message: 'Password changed successfully' });
+});
+
+app.post('/api/admin/me/avatar', (req, res) => {
+    const s = getSession(req.headers['x-admin-token']);
+    if (!s) return res.status(401).json({ message: 'Unauthorised' });
+    upload.single('avatar')(req, res, (err) => {
+        if (err) return res.status(400).json({ message: err.message });
+        if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+        const avatarUrl = `/uploads/${req.file.filename}`;
+        if (s.accountId !== 'master') {
+            const accounts = readStaffAccounts();
+            const idx = accounts.findIndex(a => a.id === s.accountId);
+            if (idx !== -1) {
+                accounts[idx].avatar = avatarUrl;
+                accounts[idx].updatedAt = new Date().toISOString();
+                writeStaffAccounts(accounts);
+            }
+        }
+        logAudit('account.avatar_upload', req, { accountId: s.accountId });
+        res.json({ url: avatarUrl });
+    });
 });
 
 // Image upload
@@ -748,12 +827,20 @@ app.get('/api/admin/posts', async (req, res) => {
 });
 
 app.post('/api/admin/posts', async (req, res) => {
-    if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
-    const { title, content, published, author } = req.body;
+    const s = getSession(req.headers['x-admin-token']);
+    if (!s) return res.status(401).json({ message: 'Unauthorised' });
+    const { title, content, published, author, image } = req.body;
     if (!title) return res.status(400).json({ message: 'Title required' });
     try {
+        // Build author snapshot from session
+        let authorSnapshot = { authorName: author || '', authorId: s.accountId, authorAvatar: '', authorPosition: '' };
+        if (s.accountId !== 'master') {
+            const accounts = readStaffAccounts();
+            const acc = accounts.find(a => a.id === s.accountId);
+            if (acc) { authorSnapshot = { authorName: acc.displayName || acc.username, authorId: acc.id, authorAvatar: acc.avatar || '', authorPosition: acc.position || '' }; }
+        } else if (!author) { authorSnapshot.authorName = 'Switch Team'; }
         const posts = await loadBlogPosts();
-        const p = { id: randomBytes(8).toString('hex'), title, content: content||'', published: published||false, author: author||'', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+        const p = { id: randomBytes(8).toString('hex'), title, content: content||'', published: published||false, image: image||'', ...authorSnapshot, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         posts.unshift(p);
         await fs.writeFile(path.join(DATA_ROOT, 'blog-posts.json'), JSON.stringify({ posts }, null, 2));
         res.status(201).json({ message: 'Created', post: p });
