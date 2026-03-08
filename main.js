@@ -755,7 +755,14 @@ app.get('/api/games', async (req, res) => {
                 if (!uid && game.placeId) uid = await getUniverseIdFromPlaceId(game.placeId);
                 if (uid) {
                     const stats = await getGameStats(uid);
-                    return { ...game, universeId: uid, visits: stats.visits, playing: stats.playing, name: stats.name, description: stats.description };
+                    return {
+                        ...game,
+                        universeId: uid,
+                        visits: stats.visits,
+                        playing: stats.playing,
+                        name: game.name || stats.name,
+                        description: game.description || stats.description
+                    };
                 }
             } catch (e) { console.error(`Roblox fetch fail for ${game.placeId}:`, e.message); }
             return game;
@@ -771,10 +778,10 @@ app.get('/api/admin/games', async (req, res) => {
 
 app.post('/api/admin/games', async (req, res) => {
     if (!isValidToken(req.headers['x-admin-token'])) return res.status(401).json({ message: 'Unauthorised' });
-    const { placeId, featured, active, thumbnail } = req.body;
+    const { placeId, featured, active, thumbnail, name, description } = req.body;
     try {
         const games = await loadGames();
-        const g = { id: randomBytes(8).toString('hex'), placeId: String(placeId||''), universeId: '', thumbnail: thumbnail||'', featured: featured||false, active: active!==false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+        const g = { id: randomBytes(8).toString('hex'), placeId: String(placeId||''), universeId: '', thumbnail: thumbnail||'', name: name||'', description: description||'', featured: featured||false, active: active!==false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
         games.unshift(g);
         await fs.writeFile(path.join(DATA_ROOT, 'games-data.json'), JSON.stringify({ games }, null, 2));
         res.status(201).json({ message: 'Game created', game: g });

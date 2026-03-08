@@ -1135,6 +1135,14 @@
                         <input class="field-input" type="number" id="game-place-id" placeholder="e.g. 88967358637066">
                     </div>
                     <div>
+                        <label class="field-label">Game Name</label>
+                        <input class="field-input" type="text" id="game-name" placeholder="e.g. Tsubasa Soccer">
+                    </div>
+                    <div>
+                        <label class="field-label">Description</label>
+                        <textarea class="field-textarea" id="game-description" rows="4" placeholder="Describe the game…"></textarea>
+                    </div>
+                    <div>
                         <label class="field-label">Thumbnail</label>
                         <div class="thumb-wrap">
                             <div class="thumb-preview" id="game-thumb-preview">
@@ -1202,6 +1210,27 @@
                     <div>
                         <label class="field-label">Author</label>
                         <input class="field-input" type="text" id="post-author" placeholder="e.g. Switch Team" style="margin-bottom:1rem;">
+                    </div>
+                    <div class="field-row field-row-2">
+                        <div>
+                            <label class="field-label">Tagged Game</label>
+                            <select class="field-select" id="post-tagged-game">
+                                <option value="">— None —</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="field-label">Post Type</label>
+                            <select class="field-select" id="post-tag">
+                                <option value="">— None —</option>
+                                <option value="update">Update</option>
+                                <option value="news">News</option>
+                                <option value="announcement">Announcement</option>
+                                <option value="guide">Guide</option>
+                                <option value="event">Event</option>
+                                <option value="patch-notes">Patch Notes</option>
+                                <option value="devlog">Dev Log</option>
+                            </select>
+                        </div>
                     </div>
                     <div id="quill-editor"></div>
                     <!-- SEO Preview -->
@@ -2531,7 +2560,7 @@ function renderGames() {
     if (!games.length) { list.innerHTML = '<div class="list-empty">No games yet.<br>Hit <strong>+ New</strong> to add one.</div>'; return; }
     list.innerHTML = games.map(g => `
         <div class="list-item ${g.id === activeGameId ? 'active' : ''}" data-id="${g.id}">
-            <div class="list-item-name">${g.placeId ? `Place ${g.placeId}` : 'New Game'}</div>
+            <div class="list-item-name">${g.name || (g.placeId ? `Place ${g.placeId}` : 'New Game')}</div>
             <div class="list-item-tags">
                 ${g.featured ? '<span class="item-tag primary">Featured</span>' : ''}
                 <span class="tag-pill ${g.active ? 'pill-live' : 'pill-draft'}">${g.active ? 'Active' : 'Inactive'}</span>
@@ -2549,6 +2578,8 @@ function openGame(id) {
     document.getElementById('game-empty').style.display = 'none';
     document.getElementById('game-form').style.display = 'flex';
     document.getElementById('game-place-id').value = g.placeId || '';
+    document.getElementById('game-name').value = g.name || '';
+    document.getElementById('game-description').value = g.description || '';
     document.getElementById('game-active').checked = g.active !== false;
     document.getElementById('game-featured').checked = g.featured || false;
     document.getElementById('game-thumb-url').value = g.thumbnail || '';
@@ -2563,7 +2594,7 @@ document.getElementById('new-game-btn').addEventListener('click', async () => {
         const res = await fetch('/api/admin/games', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-            body: JSON.stringify({ placeId: '', active: false, featured: false, thumbnail: '' })
+            body: JSON.stringify({ placeId: '', name: '', description: '', active: false, featured: false, thumbnail: '' })
         });
         const d = await res.json();
         games.unshift(d.game);
@@ -2582,6 +2613,8 @@ document.getElementById('save-game-btn').addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
             body: JSON.stringify({
                 placeId: document.getElementById('game-place-id').value,
+                name: document.getElementById('game-name').value,
+                description: document.getElementById('game-description').value,
                 active: document.getElementById('game-active').checked,
                 featured: document.getElementById('game-featured').checked,
                 thumbnail: document.getElementById('game-thumb-url').value
@@ -2624,15 +2657,21 @@ async function loadPosts() {
 function renderPosts() {
     const list = document.getElementById('posts-list');
     if (!posts.length) { list.innerHTML = '<div class="list-empty">No posts yet.</div>'; return; }
-    list.innerHTML = posts.map(p => `
+    list.innerHTML = posts.map(p => {
+        const taggedGame = p.taggedGameId ? games.find(g => g.id === p.taggedGameId) : null;
+        const gameLabel = taggedGame ? (taggedGame.name || `Place ${taggedGame.placeId}`) : '';
+        const tagLabel = p.postTag ? p.postTag.replace(/-/g, ' ') : '';
+        return `
         <div class="list-item ${p.id === activePostId ? 'active' : ''}" data-id="${p.id}" data-search="${(p.title || '').toLowerCase()}">
             <div class="list-item-name">${p.title || 'Untitled'}</div>
             <div class="list-item-tags">
+                ${gameLabel ? `<span class="item-tag primary">${gameLabel}</span>` : ''}
+                ${tagLabel ? `<span class="item-tag">${tagLabel}</span>` : ''}
                 <span class="item-tag">${fmtDate(p.updatedAt)}</span>
                 <span class="tag-pill ${p.published ? 'pill-live' : 'pill-draft'}">${p.published ? 'Live' : 'Draft'}</span>
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
     document.querySelectorAll('#posts-list .list-item').forEach(el =>
         el.addEventListener('click', () => openPost(el.dataset.id))
     );
@@ -2645,6 +2684,12 @@ function openPost(id) {
     document.getElementById('blog-form').style.display = 'flex';
     document.getElementById('post-title').value = p.title || '';
     document.getElementById('post-author').value = p.author || '';
+    document.getElementById('post-tag').value = p.postTag || '';
+    // Populate tagged game dropdown
+    const gameSelect = document.getElementById('post-tagged-game');
+    gameSelect.innerHTML = '<option value="">— None —</option>' +
+        games.map(g => `<option value="${g.id}">${g.name || (g.placeId ? `Place ${g.placeId}` : 'Unnamed Game')}</option>`).join('');
+    gameSelect.value = p.taggedGameId || '';
     quill.root.innerHTML = p.content || '';
     document.getElementById('post-publish').checked = p.published || false;
     renderPosts();
@@ -2676,7 +2721,9 @@ document.getElementById('save-post-btn').addEventListener('click', async () => {
                 title: document.getElementById('post-title').value,
                 content: quill.root.innerHTML,
                 author: document.getElementById('post-author').value,
-                published: document.getElementById('post-publish').checked
+                published: document.getElementById('post-publish').checked,
+                taggedGameId: document.getElementById('post-tagged-game').value || '',
+                postTag: document.getElementById('post-tag').value || ''
             })
         });
         const d = await res.json();

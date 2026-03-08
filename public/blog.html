@@ -260,6 +260,7 @@
 <script src="footer.js"></script>
 <script>
     let allPosts = [];
+    let allGames = [];
     let currentPostId = null;
 
     function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
@@ -267,6 +268,7 @@
     function readTime(h) { return Math.max(1, Math.round(stripHtml(h).split(/\s+/).filter(Boolean).length / 200)) + ' min read'; }
     function preview(h, l = 150) { const t = stripHtml(h); return t.length > l ? t.slice(0, l).trimEnd() + '…' : t; }
     function extractFirstImg(html) { const m = html.match(/<img[^>]+src=["']([^"']+)["']/i); return m ? m[1] : null; }
+    function fmtTag(t) { return t ? t.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : ''; }
 
     let toastTimer;
     function showToast(msg) {
@@ -307,6 +309,28 @@
         document.getElementById('reader-title').textContent = post.title;
         document.getElementById('reader-body').innerHTML = post.content;
         document.getElementById('reader-view').scrollTop = 0;
+
+        // Tags row (game + post type)
+        const taggedGame = post.taggedGameId ? allGames.find(g => g.id === post.taggedGameId) : null;
+        const gameLabel = taggedGame ? (taggedGame.name || `Place ${taggedGame.placeId}`) : '';
+        const typeLabel = post.postTag ? fmtTag(post.postTag) : '';
+        let tagsHtml = '';
+        if (gameLabel || typeLabel) {
+            tagsHtml = `<div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;">
+                ${gameLabel ? `<span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;background:rgba(251,191,36,0.08);color:var(--primary);border:1px solid rgba(251,191,36,0.2);padding:2px 8px;">${gameLabel}</span>` : ''}
+                ${typeLabel ? `<span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:2px 8px;">${typeLabel}</span>` : ''}
+            </div>`;
+        }
+        // Insert tags before title
+        const titleEl = document.getElementById('reader-title');
+        let existingTags = document.getElementById('reader-tags-row');
+        if (existingTags) existingTags.remove();
+        if (tagsHtml) {
+            const div = document.createElement('div');
+            div.id = 'reader-tags-row';
+            div.innerHTML = tagsHtml;
+            titleEl.parentNode.insertBefore(div, titleEl);
+        }
 
         const authorEl = document.getElementById('reader-author');
         const authorName = document.getElementById('reader-author-name');
@@ -358,8 +382,12 @@
     async function loadPosts() {
         const grid = document.getElementById('blog-grid');
         try {
-            const { posts } = await fetch('/api/blog/posts').then(r => r.json());
-            allPosts = posts || [];
+            const [postsRes, gamesRes] = await Promise.all([
+                fetch('/api/blog/posts').then(r => r.json()),
+                fetch('/api/games').then(r => r.json()).catch(() => ({ games: [] }))
+            ]);
+            allPosts = postsRes.posts || [];
+            allGames = gamesRes.games || [];
             if (!allPosts.length) {
                 grid.innerHTML = '<div class="blog-empty" style="border:none;">No posts yet — check back soon.</div>';
                 return;
@@ -369,6 +397,13 @@
                 const thumb = p.image || extractFirstImg(p.content);
                 const isLead = i === 0 && allPosts.length > 1;
                 const authorName = p.authorName || p.author || '';
+                const taggedGame = p.taggedGameId ? allGames.find(g => g.id === p.taggedGameId) : null;
+                const gameLabel = taggedGame ? (taggedGame.name || `Place ${taggedGame.placeId}`) : '';
+                const typeLabel = p.postTag ? fmtTag(p.postTag) : '';
+                const tagsHtml = (gameLabel || typeLabel) ? `<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">
+                    ${gameLabel ? `<span style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;background:rgba(251,191,36,0.08);color:var(--primary);border:1px solid rgba(251,191,36,0.2);padding:1px 6px;">${gameLabel}</span>` : ''}
+                    ${typeLabel ? `<span style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;background:var(--surface-mid);color:var(--muted);border:1px solid var(--border);padding:1px 6px;">${typeLabel}</span>` : ''}
+                </div>` : '';
                 return `<div class="blog-card ${isLead ? 'lead' : ''}" data-id="${p.id}">
                     ${thumb ? `<img src="${thumb}" class="blog-img" alt="${p.title}" loading="lazy">` : '<div class="blog-img-ph"></div>'}
                     <div class="blog-body">
@@ -376,6 +411,7 @@
                             <span class="blog-date">${fmtDate(p.createdAt)}</span>
                             <span class="blog-rt">${readTime(p.content)}</span>
                         </div>
+                        ${tagsHtml}
                         <h3 class="blog-title">${p.title}</h3>
                         <p class="blog-preview">${preview(p.content)}</p>
                         ${authorName ? `<div class="blog-author"><div class="blog-author-avatar">${p.authorAvatar ? `<img src="${p.authorAvatar}" alt="${authorName}">` : authorName.charAt(0).toUpperCase()}</div><span class="blog-author-name">${authorName}</span></div>` : ''}
