@@ -53,12 +53,13 @@ app.use((req, res, next) => {
 // Serve static files from the project root
 app.use(express.static(ROOT, { index: 'index.html' }));
 
-if (!existsSync(path.join(ROOT, 'uploads'))) mkdirSync(path.join(ROOT, 'uploads'));
-app.use('/uploads', express.static(path.join(ROOT, 'uploads')));
+const UPLOADS_DIR = path.join(process.env.DATA_DIR || __dirname, 'uploads');
+if (!existsSync(UPLOADS_DIR)) mkdirSync(UPLOADS_DIR, { recursive: true });
+app.use('/uploads', express.static(UPLOADS_DIR));
 
 // Multer
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.join(ROOT, 'uploads')),
+    destination: (req, file, cb) => cb(null, UPLOADS_DIR),
     filename: (req, file, cb) => cb(null, `${randomBytes(8).toString('hex')}${extname(file.originalname)}`)
 });
 const upload = multer({
@@ -105,8 +106,27 @@ function getSession(token) {
 }
 function isValidToken(token) { return !!getSession(token); }
 
-// DATA_ROOT = project root (where all JSON data files live, next to main.js)
-const DATA_ROOT = __dirname;
+// DATA_ROOT = persistent disk in production, project root in dev
+// Set DATA_DIR=/var/data in Render environment variables
+const DATA_ROOT = process.env.DATA_DIR || __dirname;
+
+// On first boot, seed the persistent disk with any JSON files that don't exist yet
+const DATA_FILES = [
+    'blog-posts.json', 'games-data.json', 'careers-data.json',
+    'site-settings.json', 'staff-accounts.json', 'audit-log.json',
+    'page-views.json', 'staff.json', 'contacts.json', 'applications.json'
+];
+if (process.env.DATA_DIR) {
+    if (!existsSync(DATA_ROOT)) mkdirSync(DATA_ROOT, { recursive: true });
+    for (const f of DATA_FILES) {
+        const dest = path.join(DATA_ROOT, f);
+        const src = path.join(__dirname, f);
+        if (!existsSync(dest) && existsSync(src)) {
+            try { writeFileSync(dest, readFileSync(src)); console.log(`✅ Seeded ${f} to persistent disk`); }
+            catch (e) { console.warn(`⚠️  Could not seed ${f}:`, e.message); }
+        }
+    }
+}
 
 // Staff accounts
 const STAFF_ACCOUNTS_FILE = path.join(DATA_ROOT, 'staff-accounts.json');
@@ -935,9 +955,6 @@ app.delete('/api/admin/careers/:id', async (req, res) => {
     } catch { res.status(500).json({ message: 'Failed' }); }
 });
 
-// ============================================================
-// HTML ROUTING (clean URLs — /blog serves blog.html etc.)
-// ============================================================
 
 app.get('/', (req, res) => res.sendFile(path.join(ROOT, 'index.html')));
 
