@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Switch</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;0,900;1,800;1,900&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #FBBF24;
@@ -21,7 +21,22 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; line-height: 1.1; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; }
+
+        /* ── GRAIN OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.35;
+        }
+
+        /* ── SCROLL ANIMATIONS ── */
+        .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
 
         /* ── HERO ── */
         .hero {
@@ -42,13 +57,23 @@
         .hero-bg img {
             width: 100%; height: 100%;
             object-fit: cover;
-            opacity: 0.3;
+            opacity: 0.28;
         }
         .hero-bg::after {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,1) 100%);
+        }
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(251,191,36,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251,191,36,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
+            z-index: 0;
         }
         .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
         .hero-logo { max-width: min(88vw, 700px); height: auto; margin-bottom: 1.75rem; }
@@ -79,12 +104,30 @@
         .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
         .stats-inner { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; }
         .stat { text-align: center; }
-        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem,4vw,3rem); font-weight: 800; color: var(--primary); display: block; margin-bottom: 0.25rem; letter-spacing: -0.02em; }
-        .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+        .stat-value { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 900; color: var(--primary); display: block; margin-bottom: 0.25rem; letter-spacing: -0.03em; }
+        .stat-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); }
 
         /* ── SECTION UTILS ── */
-        .section-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--primary); display: block; margin-bottom: 0.75rem; }
-        .section-heading { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; }
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.875rem;
+        }
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 32px; height: 1px;
+            background: var(--primary);
+            opacity: 0.5;
+        }
+        .section-heading { font-size: clamp(1.75rem, 3vw, 2.75rem); font-weight: 900; letter-spacing: -0.02em; }
 
         /* ── FEATURED GAME ── */
         .featured-section { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
@@ -112,11 +155,11 @@
         }
         .featured-img-wrap:hover img { transform: scale(1.04); }
         .featured-info { padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid var(--border); }
-        .featured-name { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; }
+        .featured-name { font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.02em; }
         .featured-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2rem; }
         .featured-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-        .featured-num-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 0.375rem; }
-        .featured-num-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.75rem; font-weight: 800; color: var(--primary); }
+        .featured-num-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.375rem; }
+        .featured-num-val { font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 900; color: var(--primary); letter-spacing: -0.02em; }
 
         /* ── VISION / ABOUT ── */
         .about-section { border-top: 1px solid var(--border); }
@@ -126,7 +169,7 @@
         .about-text p:last-child { margin-bottom: 0; }
         .about-pillars { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
         .about-pillar { background: var(--surface); padding: 1.75rem 2rem; }
-        .about-pillar-num { font-family: 'Space Grotesk', sans-serif; font-size: 0.68rem; font-weight: 700; color: var(--primary); letter-spacing: 0.18em; margin-bottom: 0.5rem; }
+        .about-pillar-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; color: var(--primary); letter-spacing: 0.18em; margin-bottom: 0.5rem; }
         .about-pillar h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .about-pillar p { color: var(--muted); font-size: 0.875rem; line-height: 1.65; }
 
@@ -232,6 +275,7 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-bg"><img src="hero.png" alt=""></div>
+    <div class="hero-grid"></div>
     <div class="hero-content">
         <img src="heroextended.png" alt="Switch" class="hero-logo">
         <p class="hero-sub">An independent Roblox studio building immersive experiences for millions of players.</p>
@@ -283,7 +327,7 @@
 
 <!-- VISION / ABOUT -->
 <div class="about-section">
-    <div class="about-inner">
+    <div class="about-inner fade-up">
         <div class="about-text">
             <span class="section-label">Our Vision</span>
             <h2 class="section-heading">Building worlds that bring people together</h2>
@@ -473,6 +517,12 @@
     loadGamesAndStats();
     loadBlogPosts();
     loadOpenRoles();
+
+    // Scroll animations
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>

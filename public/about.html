@@ -571,6 +571,20 @@
             right: -100px; top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-logo {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 260px;
+            opacity: 0.08;
+            pointer-events: none;
+            user-select: none;
         }
 
         .cta-inner {
@@ -791,19 +805,19 @@
         <div class="values-grid fade-up">
             <div class="value-card">
                 <div class="value-num">001</div>
-                <span class="value-icon">⚡</span>
+                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                 <h3 class="value-title">Craft Over Speed</h3>
                 <p class="value-desc">We'd rather ship one game that's truly exceptional than three that are merely good. Quality is our competitive advantage — and we protect it fiercely.</p>
             </div>
             <div class="value-card">
                 <div class="value-num">002</div>
-                <span class="value-icon">🌍</span>
+                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
                 <h3 class="value-title">Community First</h3>
                 <p class="value-desc">Our players aren't a metric. They're the reason we exist. Every design decision runs through one filter: does this make the experience better for the people playing it?</p>
             </div>
             <div class="value-card">
                 <div class="value-num">003</div>
-                <span class="value-icon">🔭</span>
+                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
                 <h3 class="value-title">Long-Term Thinking</h3>
                 <p class="value-desc">We build for the long run. That means saying no to shortcuts, investing in our team, and making commitments to players that we intend to honour for years.</p>
             </div>
@@ -811,19 +825,19 @@
         <div class="values-grid fade-up" style="border-top:none;">
             <div class="value-card">
                 <div class="value-num">004</div>
-                <span class="value-icon">🔐</span>
+                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
                 <h3 class="value-title">Trust & Transparency</h3>
                 <p class="value-desc">We communicate openly with our players and our team. No spin. No vague roadmaps. When we make a mistake, we say so — and we fix it.</p>
             </div>
             <div class="value-card">
                 <div class="value-num">005</div>
-                <span class="value-icon">🎮</span>
+                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
                 <h3 class="value-title">Relentless Iteration</h3>
                 <p class="value-desc">Launch is day one, not the finish line. We watch the data, listen to feedback, and update constantly — because a great game is never truly finished.</p>
             </div>
             <div class="value-card">
                 <div class="value-num">006</div>
-                <span class="value-icon">🧠</span>
+                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span>
                 <h3 class="value-title">Talent Without Ego</h3>
                 <p class="value-desc">The best idea wins — regardless of who had it. We hire exceptional people and trust them to do exceptional work, without layers of hierarchy getting in the way.</p>
             </div>
@@ -897,6 +911,7 @@
 <!-- CTA -->
 <section class="cta-section">
     <div class="cta-glow"></div>
+    <img src="/heroextended.png" class="cta-logo" alt="">
     <div class="section-wrap">
         <div class="cta-inner fade-up">
             <div class="cta-text">

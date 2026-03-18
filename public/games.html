@@ -195,4 +195,201 @@
         loadGames();
     </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games — Switch</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FBBF24;
+            --bg: #0A0A0A;
+            --surface: #111111;
+            --surface-mid: #181818;
+            --border: #242424;
+            --text: #F5F5F5;
+            --muted: #808080;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+        .page-header {
+            padding: 120px 2rem 4rem;
+            border-bottom: 1px solid var(--border);
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            margin-top: 0.75rem;
+            color: var(--muted);
+            font-size: 1rem;
+            max-width: 480px;
+        }
+
+        .section {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1px;
+        }
+
+        .game-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+            transition: background 0.15s;
+        }
+
+        .game-card:hover { background: var(--surface-mid); border-color: #3a3a3a; }
+
+        .game-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-thumb-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--surface-mid);
+        }
+
+        .game-info {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .game-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .game-stat-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .game-stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            background: var(--surface);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-header { padding: 100px 1.25rem 3rem; }
+            .section { padding: 3rem 1.25rem 4rem; }
+            .games-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <span class="section-label">TAKE A LOOK AT</span>
+        <h1>Our Games</h1>
+        <p>Explore the worlds we've built on Roblox.</p>
+    </div>
+
+    <main class="section">
+        <div class="games-grid" id="games-grid">
+            <div class="empty-state">Loading games…</div>
+        </div>
+    </main>
+
+    <script src="navbar.js"></script>
+    <script src="footer.js"></script>
+    <script>
+        function fmt(n) {
+            if (!n) return '0';
+            if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
+            if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+            if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+            return n.toLocaleString();
+        }
+
+        async function loadGames() {
+            const grid = document.getElementById('games-grid');
+            try {
+                const { games } = await fetch('/api/games').then(r => r.json());
+                if (!games.length) {
+                    grid.innerHTML = '<div class="empty-state">No games published yet.</div>';
+                    return;
+                }
+                grid.innerHTML = games.map(g => `
+                    <a href="https://www.roblox.com/games/${g.placeId}" target="_blank" class="game-card">
+                        ${g.thumbnail
+                            ? `<img src="${g.thumbnail}" class="game-thumb" alt="${g.name || 'Game'}" loading="lazy">`
+                            : `<div class="game-thumb-placeholder"></div>`
+                        }
+                        <div class="game-info">
+                            <div class="game-name">${g.name || 'Untitled Game'}</div>
+                            <div class="game-stats">
+                                <div>
+                                    <div class="game-stat-label">Visits</div>
+                                    <div class="game-stat-value">${fmt(g.visits)}</div>
+                                </div>
+                                <div>
+                                    <div class="game-stat-label">Playing</div>
+                                    <div class="game-stat-value">${fmt(g.playing)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            } catch(e) {
+                grid.innerHTML = '<div class="empty-state">Failed to load games.</div>';
+            }
+        }
+
+        loadGames();
+    </script>
+</body>
 </html>
