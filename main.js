@@ -131,22 +131,22 @@ if (process.env.DATA_DIR) {
 // Staff accounts
 const STAFF_ACCOUNTS_FILE = path.join(DATA_ROOT, 'staff-accounts.json');
 function readStaffAccounts() { try { return JSON.parse(readFileSync(STAFF_ACCOUNTS_FILE, 'utf-8')).accounts; } catch { return []; } }
-function writeStaffAccounts(a) { writeFileSync(STAFF_ACCOUNTS_FILE, JSON.stringify({ accounts: a }, null, 2), 'utf-8'); }
+function writeStaffAccounts(a) { try { writeFileSync(STAFF_ACCOUNTS_FILE, JSON.stringify({ accounts: a }, null, 2), 'utf-8'); } catch (e) { console.error('[writeStaffAccounts]', e.message); } }
 
 // Staff directory
 const STAFF_FILE = path.join(DATA_ROOT, 'staff.json');
 function readStaff() { try { return JSON.parse(readFileSync(STAFF_FILE, 'utf-8')).staff; } catch { return []; } }
-function writeStaff(s) { writeFileSync(STAFF_FILE, JSON.stringify({ staff: s }, null, 2), 'utf-8'); }
+function writeStaff(s) { try { writeFileSync(STAFF_FILE, JSON.stringify({ staff: s }, null, 2), 'utf-8'); } catch (e) { console.error('[writeStaff]', e.message); } }
 
 // Contacts
 const CONTACTS_FILE = path.join(DATA_ROOT, 'contacts.json');
 function readContacts() { try { return JSON.parse(readFileSync(CONTACTS_FILE, 'utf-8')).contacts; } catch { return []; } }
-function writeContacts(c) { writeFileSync(CONTACTS_FILE, JSON.stringify({ contacts: c }, null, 2), 'utf-8'); }
+function writeContacts(c) { try { writeFileSync(CONTACTS_FILE, JSON.stringify({ contacts: c }, null, 2), 'utf-8'); } catch (e) { console.error('[writeContacts]', e.message); } }
 
 // Applications
 const APPLICATIONS_FILE = path.join(DATA_ROOT, 'applications.json');
 function readApplications() { try { return JSON.parse(readFileSync(APPLICATIONS_FILE, 'utf-8')).applications; } catch { return []; } }
-function writeApplications(a) { writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications: a }, null, 2), 'utf-8'); }
+function writeApplications(a) { try { writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications: a }, null, 2), 'utf-8'); } catch (e) { console.error('[writeApplications]', e.message); } }
 
 
 const SITE_SETTINGS_FILE = path.join(DATA_ROOT, 'site-settings.json');
@@ -178,13 +178,13 @@ function readSiteSettings() {
         return { ...DEFAULT_SETTINGS };
     }
 }
-function writeSiteSettings(settings) { writeFileSync(SITE_SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8'); }
+function writeSiteSettings(settings) { try { writeFileSync(SITE_SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8'); } catch (e) { console.error('[writeSiteSettings]', e.message); } }
 
 function readAuditLog() { try { return JSON.parse(readFileSync(AUDIT_LOG_FILE, 'utf-8')).entries || []; } catch { return []; } }
-function writeAuditLog(entries) { writeFileSync(AUDIT_LOG_FILE, JSON.stringify({ entries: entries.slice(0, 1000) }, null, 2), 'utf-8'); }
+function writeAuditLog(entries) { try { writeFileSync(AUDIT_LOG_FILE, JSON.stringify({ entries: entries.slice(0, 1000) }, null, 2), 'utf-8'); } catch (e) { console.error('[writeAuditLog]', e.message); } }
 
 function readPageViews() { try { return JSON.parse(readFileSync(PAGE_VIEWS_FILE, 'utf-8')).views || []; } catch { return []; } }
-function writePageViews(views) { writeFileSync(PAGE_VIEWS_FILE, JSON.stringify({ views: views.slice(0, 5000) }, null, 2), 'utf-8'); }
+function writePageViews(views) { try { writeFileSync(PAGE_VIEWS_FILE, JSON.stringify({ views: views.slice(0, 5000) }, null, 2), 'utf-8'); } catch (e) { console.error('[writePageViews]', e.message); } }
 
 function logAudit(action, req, details = {}) {
     const token = req.headers['x-admin-token'];
@@ -973,6 +973,12 @@ app.use((req, res) => {
     fs.access(p404)
         .then(() => res.status(404).sendFile(p404))
         .catch(() => res.status(404).send('404 — Not Found'));
+});
+
+// Global error handler — ensures uncaught route errors return JSON, not HTML
+app.use((err, req, res, next) => {
+    console.error('[unhandled error]', err.message);
+    res.status(500).json({ message: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
