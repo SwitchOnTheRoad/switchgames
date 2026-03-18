@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/games" class="nav-link">Games</a></li>
+                <li><a href="/about" class="nav-link">About</a></li>
                 <li><a href="/blog" class="nav-link">Blog</a></li>
                 <li><a href="/careers" class="nav-link">Careers</a></li>
                 <li><a href="/#contact" class="nav-cta">Contact</a></li>
