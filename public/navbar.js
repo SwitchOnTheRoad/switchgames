@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 2rem;
-            height: 64px;
+            height: 72px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .nav-logo img {
-            height: 34px;
+            height: 42px;
             display: block;
         }
 
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .nav-link {
             display: block;
             padding: 0 1.25rem;
-            height: 64px;
-            line-height: 64px;
+            height: 72px;
+            line-height: 72px;
             color: #808080;
             font-family: 'Inter', sans-serif;
             font-weight: 500;
@@ -151,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/games" class="nav-link">Games</a></li>
-                <li><a href="/about" class="nav-link">About</a></li>
                 <li><a href="/blog" class="nav-link">Blog</a></li>
                 <li><a href="/careers" class="nav-link">Careers</a></li>
                 <li><a href="/#contact" class="nav-cta">Contact</a></li>

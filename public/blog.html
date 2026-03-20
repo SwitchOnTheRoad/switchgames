@@ -176,6 +176,14 @@
         .reader-copy-btn:hover { color: var(--text); border-color: #3a3a3a; }
         .reader-copy-btn.copied { background: rgba(251,191,36,0.08); color: var(--primary); border-color: rgba(251,191,36,0.3); }
 
+
+        .reader-cover {
+            width: 100%;
+            max-height: 420px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border);
+        }
         .reader-content { max-width: 740px; margin: 0 auto; padding: 5rem 4vw 8rem; }
 
         .reader-meta {
@@ -289,6 +297,7 @@
             <span>Copy Link</span>
         </button>
     </div>
+    <img id="reader-cover" class="reader-cover" src="" alt="" style="display:none;">
     <div class="reader-content">
         <div class="reader-meta">
             <span class="reader-date" id="reader-date"></span>
@@ -360,6 +369,8 @@
         document.getElementById('reader-title').textContent = post.title;
         document.getElementById('reader-body').innerHTML = post.content;
         document.getElementById('reader-view').scrollTop = 0;
+        const coverEl = document.getElementById('reader-cover');
+        if (post.image) { coverEl.src = post.image; coverEl.style.display = 'block'; } else { coverEl.style.display = 'none'; }
 
         const taggedGame = post.taggedGameId ? allGames.find(g => g.id === post.taggedGameId) : null;
         const gameLabel = taggedGame ? (taggedGame.name || `Place ${taggedGame.placeId}`) : '';

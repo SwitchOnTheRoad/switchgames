@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — Switch</title>
     <link rel="icon" type="image/png" href="/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #FBBF24;
@@ -93,7 +93,7 @@
         }
 
         .hero-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(3.5rem, 9vw, 8.5rem);
             font-weight: 900;
             line-height: 0.92;
@@ -171,7 +171,7 @@
             margin: 0 auto;
             padding: 0 4vw;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             border-left: 1px solid var(--border);
         }
 
@@ -196,7 +196,7 @@
         .stat-item:hover::before { transform: scaleX(1); }
 
         .stat-num {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(2.5rem, 4vw, 3.75rem);
             font-weight: 900;
             color: var(--primary);
@@ -259,7 +259,7 @@
         }
 
         .mission-heading {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(2rem, 3.5vw, 3.5rem);
             font-weight: 800;
             line-height: 1.1;
@@ -315,7 +315,7 @@
         }
 
         .values-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(2rem, 3vw, 3rem);
             font-weight: 800;
             margin-top: 1rem;
@@ -354,7 +354,7 @@
         }
 
         .value-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 1rem;
@@ -389,7 +389,7 @@
         .timeline-head { margin-bottom: 5rem; }
 
         .timeline-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(2rem, 3vw, 3rem);
             font-weight: 800;
             margin-top: 1rem;
@@ -454,7 +454,7 @@
         }
 
         .timeline-evt-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
@@ -482,7 +482,7 @@
         }
 
         .team-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(2rem, 3vw, 3rem);
             font-weight: 800;
             margin-top: 1rem;
@@ -523,14 +523,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary);
         }
 
         .member-name {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.05rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
@@ -568,17 +568,14 @@
             width: 500px; height: 500px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%);
-            right: -100px; top: 50%;
+            right: -160px; top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .cta-logo {
             position: absolute;
-            right: 60px;
+            right: -20px;
             top: 50%;
             transform: translateY(-50%);
             width: 260px;
@@ -593,12 +590,13 @@
             align-items: center;
             gap: 4rem;
             position: relative;
+            z-index: 1;
         }
 
         .cta-text { max-width: 560px; }
 
         .cta-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: clamp(2rem, 3.5vw, 3.5rem);
             font-weight: 900;
             line-height: 1.1;
@@ -669,7 +667,7 @@
         .cta-badge:hover { border-color: var(--primary); }
 
         .cta-badge-num {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: 2.5rem;
             font-weight: 900;
             color: var(--primary);
@@ -701,7 +699,7 @@
         @media (max-width: 1024px) {
             .mission-inner { grid-template-columns: 1fr; gap: 3rem; }
             .mission-left { position: static; }
-            .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
+            .stats-strip-inner { grid-template-columns: repeat(3, 1fr); }
             .values-grid { grid-template-columns: 1fr; }
             .value-card { border-right: none; border-bottom: 1px solid var(--border); }
             .value-card:last-child { border-bottom: none; }
@@ -735,7 +733,7 @@
             That Last.
         </h1>
         <div class="hero-bottom">
-            <p class="hero-desc">Switch is a Roblox game studio crafting experiences that bring people together — from the first click to the millionth visit, and everything in between.</p>
+            <p class="hero-desc">Switch is a Roblox game studio founded in 2024, crafting experiences that bring people together — from the first click to the millionth visit, and everything in between.</p>
             <div class="hero-scroll">
                 <div class="scroll-track"></div>
                 <span>Scroll</span>
@@ -758,10 +756,6 @@
         <div class="stat-item">
             <div class="stat-num" id="stat-playing">—</div>
             <div class="stat-label">Playing Now</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="stat-team">—</div>
-            <div class="stat-label">Team Members</div>
         </div>
     </div>
 </div>
@@ -857,35 +851,28 @@
 
             <div class="timeline-entry">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2022 — FOUNDED</div>
+                <div class="timeline-year">March 2024 — FOUNDED</div>
                 <h3 class="timeline-evt-title">Switch is born</h3>
-                <p class="timeline-evt-desc">A small group of passionate Roblox developers come together with a shared vision: build games that actually feel like games. The studio starts with nothing but ideas and determination.</p>
+                <p class="timeline-evt-desc">The studio is founded with one goal: build Roblox games that actually feel like games. Starting from scratch with nothing but ideas and a vision for what quality on the platform could look like.</p>
             </div>
 
             <div class="timeline-entry">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2023 — FIRST LAUNCH</div>
-                <h3 class="timeline-evt-title">Our first title ships</h3>
-                <p class="timeline-evt-desc">After months of prototyping and playtesting, Switch launches its first public game. The response from the community confirms that players are hungry for higher-quality Roblox experiences.</p>
+                <div class="timeline-year">August 2024 — FIRST TITLE</div>
+                <h3 class="timeline-evt-title">Tsubasa Soccer enters development</h3>
+                <p class="timeline-evt-desc">Work begins on Tsubasa Soccer — our first title. Months of prototyping, playtesting, and relentless iteration to get the feel right before anything ships.</p>
             </div>
 
             <div class="timeline-entry">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2024 — GROWTH</div>
-                <h3 class="timeline-evt-title">The team scales</h3>
-                <p class="timeline-evt-desc">With growing player counts and a reputation for quality, Switch begins growing the team — bringing in talented developers, designers and community managers to take things to the next level.</p>
+                <div class="timeline-year">7 March 2025 — LAUNCH</div>
+                <h3 class="timeline-evt-title">Tsubasa Soccer launches</h3>
+                <p class="timeline-evt-desc">Tsubasa Soccer goes live on Roblox. The response from players confirms what we believed from day one — there's a real appetite for higher-quality experiences on the platform.</p>
             </div>
 
             <div class="timeline-entry">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2025 — EXPANSION</div>
-                <h3 class="timeline-evt-title">Multi-game studio</h3>
-                <p class="timeline-evt-desc">Switch expands its portfolio, running multiple live games simultaneously. We invest in internal tools, player-facing systems, and a culture that can support long-term, sustainable growth.</p>
-            </div>
-
-            <div class="timeline-entry">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">2026 — NOW</div>
+                <div class="timeline-year">2025 — NOW</div>
                 <h3 class="timeline-evt-title">Still building</h3>
                 <p class="timeline-evt-desc">The mission hasn't changed. We're still a team of people who love games and believe Roblox is one of the most exciting creative platforms in the world. The best chapters are ahead.</p>
             </div>
@@ -893,20 +880,7 @@
     </div>
 </section>
 
-<!-- TEAM -->
-<section class="team">
-    <div class="section-wrap">
-        <div class="team-head fade-up">
-            <div>
-                <div class="mono-label">04 — The Team</div>
-                <h2 class="team-title">The people behind the games.</h2>
-            </div>
-        </div>
-        <div id="team-grid" class="team-grid">
-            <div class="team-loading">Loading team…</div>
-        </div>
-    </div>
-</section>
+
 
 <!-- CTA -->
 <section class="cta-section">
@@ -915,7 +889,7 @@
     <div class="section-wrap">
         <div class="cta-inner fade-up">
             <div class="cta-text">
-                <div class="mono-label">05 — Join Us</div>
+                <div class="mono-label">04 — Join Us</div>
                 <h2 class="cta-title">
                     Want to help<br>
                     build <em>what's next?</em>
@@ -954,32 +928,7 @@ async function loadStats() {
     } catch {}
 }
 
-// Load team
-async function loadTeam() {
-    const grid = document.getElementById('team-grid');
-    try {
-        const { staff } = await fetch('/api/staff').then(r => r.json());
-        if (!staff?.length) {
-            grid.innerHTML = '<div class="team-loading">No team members listed yet.</div>';
-            document.getElementById('stat-team').textContent = '—';
-            return;
-        }
-        document.getElementById('stat-team').textContent = staff.length;
-        grid.innerHTML = staff.map(m => {
-            const initials = (m.displayName || m.username || '?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-            const avatar = m.avatar
-                ? `<img src="${m.avatar}" alt="${m.displayName || ''}" class="member-avatar" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="member-avatar-placeholder" style="display:none">${initials}</div>`
-                : `<div class="member-avatar-placeholder">${initials}</div>`;
-            return `<div class="member-card">
-                ${avatar}
-                <div class="member-name">${m.displayName || m.username}</div>
-                ${m.position ? `<div class="member-position">${m.position}</div>` : ''}
-            </div>`;
-        }).join('');
-    } catch {
-        grid.innerHTML = '<div class="team-loading">Failed to load team.</div>';
-    }
-}
+
 
 // Load careers count for CTA
 async function loadCareers() {
@@ -1009,7 +958,6 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up, .timeline-entry').forEach(el => observer.observe(el));
 
 loadStats();
-loadTeam();
 loadCareers();
 </script>
 </body>

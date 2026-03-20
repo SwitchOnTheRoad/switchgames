@@ -232,6 +232,15 @@
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
 
+
+        /* Rich text from Quill */
+        .rich-text p { margin-bottom: 0.75rem; }
+        .rich-text p:last-child { margin-bottom: 0; }
+        .rich-text ul, .rich-text ol { margin: 0.5rem 0 0.75rem 1.5rem; }
+        .rich-text li { margin-bottom: 0.3rem; }
+        .rich-text strong { color: var(--text); font-weight: 600; }
+        .rich-text a { color: var(--primary); text-decoration: none; }
+        .rich-text a:hover { text-decoration: underline; }
         @media (max-width: 900px) {
             .careers-layout { grid-template-columns: 1fr; }
             .jobs-sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 380px; }
@@ -360,7 +369,7 @@
                 <span class="detail-tag">${career.location}</span>
             </div>
             <h2 class="detail-title">${career.title}</h2>
-            ${career.description?`<div class="detail-section"><div class="detail-section-label">About the Role</div><p class="detail-desc">${career.description}</p></div>`:''}
+            ${career.description?`<div class="detail-section"><div class="detail-section-label">About the Role</div><div class="detail-desc rich-text">${career.description}</div></div>`:''}
             ${career.requirements?.length?`<div class="detail-section"><div class="detail-section-label">Requirements</div><ul class="detail-list">${career.requirements.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:''}
             ${career.niceToHave?.length?`<div class="detail-section"><div class="detail-section-label">Nice to Have</div><ul class="detail-list">${career.niceToHave.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:''}
             ${career.salary?`<div class="detail-section"><div class="detail-section-label">Compensation</div><div style="color:var(--primary);font-family:'Syne',sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:-0.01em;">${career.salary}</div></div>`:''}

@@ -76,7 +76,7 @@
             z-index: 0;
         }
         .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
-        .hero-logo { max-width: min(88vw, 700px); height: auto; margin-bottom: 1.75rem; }
+        .hero-logo { max-width: min(92vw, 900px); height: auto; margin-bottom: 2.25rem; }
         .hero-sub { font-size: clamp(0.95rem, 1.6vw, 1.15rem); color: var(--muted); max-width: 480px; margin-bottom: 2.5rem; }
         .hero-btns { display: flex; gap: 0.875rem; flex-wrap: wrap; justify-content: center; }
         .scroll-hint {
@@ -90,8 +90,8 @@
         /* ── BUTTONS ── */
         .btn {
             display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.75rem 1.75rem; border-radius: 4px;
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.875rem;
+            padding: 1rem 2.25rem; border-radius: 4px;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
             text-decoration: none; cursor: pointer; border: none; letter-spacing: 0.02em;
             transition: background 0.15s, color 0.15s, border-color 0.15s;
         }
@@ -100,12 +100,14 @@
         .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* ── STATS ── */
-        .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
-        .stats-inner { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; }
-        .stat { text-align: center; }
-        .stat-value { font-family: 'Syne', sans-serif; font-size: clamp(2rem,4vw,3rem); font-weight: 900; color: var(--primary); display: block; margin-bottom: 0.25rem; letter-spacing: -0.03em; }
-        .stat-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); }
+        /* ── STATS STRIP ── */
+        .stats-strip { background: var(--surface); border-bottom: 1px solid var(--border); overflow: hidden; border-top: 1px solid var(--border); }
+        .stats-strip-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: repeat(3, 1fr); border-left: 1px solid var(--border); }
+        .stat-item { padding: 2.5rem 2rem; border-right: 1px solid var(--border); position: relative; overflow: hidden; }
+        .stat-item::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--primary); transform: scaleX(0); transform-origin: left; transition: transform 0.6s ease; }
+        .stat-item:hover::before { transform: scaleX(1); }
+        .stat-num { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 4vw, 3.75rem); font-weight: 900; color: var(--primary); line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.03em; }
+        .stat-lbl { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; }
 
         /* ── SECTION UTILS ── */
         .section-label {
@@ -189,8 +191,13 @@
         .blog-title { font-size: 1rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.625rem; }
         .blog-preview { color: var(--muted); font-size: 0.85rem; line-height: 1.65; }
 
-        /* ── CAREERS TEASER ── */
-        .careers-section { border-top: 1px solid var(--border); }
+        /* ── ABOUT EM HIGHLIGHT ── */
+        .about-text em { font-style: normal; color: var(--primary); }
+
+        /* ── CAREERS GLOW ── */
+        .careers-section { border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+        .careers-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(251,191,36,0.06) 0%, transparent 65%); right: -120px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        .careers-logo-ghost { position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); height: 180px; opacity: 0.05; pointer-events: none; user-select: none; }
         .careers-inner { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
         .careers-hdr { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
         .open-roles-list { display: flex; flex-direction: column; border: 1px solid var(--border); }
@@ -253,7 +260,7 @@
             .featured-card { grid-template-columns: 1fr; }
             .featured-img-wrap { min-height: 280px; }
             .featured-info { border-left: none; border-top: 1px solid var(--border); padding: 2rem; }
-            .stats-inner { grid-template-columns: repeat(2,1fr); }
+            .stats-strip-inner { grid-template-columns: 1fr 1fr 1fr; }
             .blog-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 640px) {
@@ -262,11 +269,13 @@
             .btn { justify-content: center; }
             .featured-section, .blog-section, .contact-section, .careers-inner { padding: 3.5rem 1.25rem; }
             .about-inner { padding: 3.5rem 1.25rem; }
-            .stats-inner { padding: 2.5rem 1.25rem; }
+            .stats-strip-inner { grid-template-columns: 1fr; padding: 0 1.25rem; }
+            .stat-item { padding: 1.75rem 1.25rem; }
             .form-row { grid-template-columns: 1fr; }
             .blog-grid { grid-template-columns: 1fr; }
             .section-hdr, .careers-hdr { flex-direction: column; align-items: flex-start; gap: 1rem; }
             .open-role-row { padding: 1.25rem; }
+            .careers-logo-ghost { display: none; }
         }
     </style>
 </head>
@@ -287,13 +296,21 @@
     <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
-<!-- STATS -->
-<div class="stats-bar">
-    <div class="stats-inner">
-        <div class="stat"><span class="stat-value" id="games-count">—</span><span class="stat-label">Games</span></div>
-        <div class="stat"><span class="stat-value" id="ccu-display">—</span><span class="stat-label">Playing Now</span></div>
-        <div class="stat"><span class="stat-value" id="visit-display">—</span><span class="stat-label">Total Visits</span></div>
-        <div class="stat"><span class="stat-value">2025</span><span class="stat-label">Founded</span></div>
+<!-- STATS STRIP -->
+<div class="stats-strip">
+    <div class="stats-strip-inner">
+        <div class="stat-item">
+            <div class="stat-num" id="games-count">—</div>
+            <div class="stat-lbl">Games Published</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="visit-display">—</div>
+            <div class="stat-lbl">Total Visits</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num" id="ccu-display">—</div>
+            <div class="stat-lbl">Playing Now</div>
+        </div>
     </div>
 </div>
 
@@ -330,10 +347,10 @@
     <div class="about-inner fade-up">
         <div class="about-text">
             <span class="section-label">Our Vision</span>
-            <h2 class="section-heading">Building worlds that bring people together</h2>
-            <p>Switch is an independent Roblox game studio founded in 2025. We create games that are polished, competitive, and community-driven — experiences that players come back to again and again.</p>
-            <p>We believe Roblox is one of the most exciting platforms for reaching millions of players. Our team works fast, ships often, and listens closely to our communities to build what players actually want to play.</p>
-            <a href="/games" class="btn btn-outline" style="margin-top:1rem;">See Our Games</a>
+            <h2 class="section-heading">Building worlds that <em>bring people together</em></h2>
+            <p>Switch is an independent Roblox studio founded in 2024. We make games that are <em>polished, competitive, and community-driven</em> — experiences players come back to again and again.</p>
+            <p>We believe Roblox is one of the most exciting platforms on the planet. Our team moves fast, ships often, and actually listens to its players.</p>
+            <a href="/about" class="btn btn-outline" style="margin-top:1rem;">Our Story →</a>
         </div>
         <div class="about-pillars">
             <div class="about-pillar">
@@ -357,7 +374,7 @@
 
 <!-- BLOG -->
 <div class="blog-section" id="blog">
-    <div class="blog-inner">
+    <div class="blog-inner fade-up">
         <div class="section-hdr">
             <div><span class="section-label">Updates</span><h2 class="section-heading">Latest Posts</h2></div>
             <a href="/blog" class="btn btn-outline" style="flex-shrink:0;">All Posts</a>
@@ -370,7 +387,9 @@
 
 <!-- CAREERS TEASER -->
 <div class="careers-section" id="careers-preview">
-    <div class="careers-inner">
+    <div class="careers-glow"></div>
+    <img src="heroextended.png" class="careers-logo-ghost" alt="">
+    <div class="careers-inner fade-up">
         <div class="careers-hdr">
             <div><span class="section-label">Join the Team</span><h2 class="section-heading">Open Positions</h2></div>
             <a href="/careers" class="btn btn-primary" style="flex-shrink:0;">View All Roles</a>
@@ -430,7 +449,7 @@
     async function loadGamesAndStats() {
         try {
             const {games} = await fetch('/api/games').then(r=>r.json());
-            document.getElementById('games-count').textContent = games.length;
+            document.getElementById('games-count').textContent = games.length || '—';
             document.getElementById('ccu-display').textContent = fmt(games.reduce((s,g)=>s+(g.playing||0),0));
             document.getElementById('visit-display').textContent = fmt(games.reduce((s,g)=>s+(g.visits||0),0));
             const f = games.find(g=>g.featured);
