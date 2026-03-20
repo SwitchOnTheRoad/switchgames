@@ -6,7 +6,7 @@
     <title>Admin — Switch</title>
     <meta name="robots" content="noindex, nofollow"/>
     <link rel="icon" type="image/png" href="/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
     <style>
 :root {
@@ -45,7 +45,6 @@ body {
 /* ═══════════════════════════════════════
    LOGIN  —  Split-screen editorial
 ═══════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;0,900;1,800;1,900&display=swap');
 
 #login-screen {
     display: flex;
@@ -118,7 +117,7 @@ body {
 }
 
 .login-left-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Syne', sans-serif;
     font-size: clamp(3rem, 5vw, 5.5rem);
     font-weight: 900;
     line-height: 0.9;
@@ -186,7 +185,7 @@ body {
 }
 
 .login-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Syne', sans-serif;
     font-size: 2rem;
     font-weight: 900;
     letter-spacing: -0.02em;
@@ -317,7 +316,7 @@ body {
 
 .sidebar-user-info { min-width: 0; flex: 1; }
 .sidebar-user-name {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 0.78rem;
     font-weight: 700;
     white-space: nowrap;
@@ -449,7 +448,7 @@ body {
 }
 
 .topbar-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     color: var(--muted);
@@ -554,7 +553,7 @@ body {
 .metric-icon { font-size: 0.85rem; opacity: 0.7; }
 
 .metric-value {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -596,7 +595,7 @@ body {
 }
 
 .panel-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 0.75rem;
     font-weight: 700;
     display: flex;
@@ -767,7 +766,7 @@ body {
 .list-row.active { background: var(--surface-2); border-left-color: var(--primary); }
 
 .list-row-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     white-space: nowrap;
@@ -862,7 +861,7 @@ body {
 }
 
 .toolbar-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     flex: 1;
@@ -1247,7 +1246,7 @@ body {
 }
 
 .profile-info-name {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: -0.01em;
@@ -1942,7 +1941,7 @@ body {
                 <div style="flex:1;overflow-y:auto;padding:1.75rem;">
                     <div style="max-width:560px;display:flex;flex-direction:column;gap:1.5rem;">
                         <div>
-                            <div style="font-family:'Space Grotesk',sans-serif;font-size:0.875rem;font-weight:700;margin-bottom:0.25rem;">Announcement Banner</div>
+                            <div style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;margin-bottom:0.25rem;">Announcement Banner</div>
                             <div style="font-size:0.75rem;color:var(--muted);margin-bottom:1rem;">Shown to all site visitors at the top of every page.</div>
                             <div class="announce-preview" id="announce-preview" style="display:none"></div>
                             <div style="display:flex;flex-direction:column;gap:0.875rem;">
@@ -2011,7 +2010,7 @@ body {
                                 </div>
                             </div>
                             <div class="divider"></div>
-                            <div style="font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:700;margin-bottom:0.5rem;">Change Password</div>
+                            <div style="font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;margin-bottom:0.5rem;">Change Password</div>
                             <div class="field-group">
                                 <label class="field-label">Current Password</label>
                                 <input type="password" class="field-input" id="profile-cur-pw" placeholder="••••••••">
@@ -2324,7 +2323,7 @@ async function loadAnalytics() {
                     ${[['Total Page Views', totals.pageViews,'yellow'],['Total Contacts', totals.contacts,'green'],['Total Applications',totals.applications,'blue'],['Unread Messages',totals.unreadMessages,'red'],['Unread Applications',totals.unreadApplications,'red']].map(([l,v,c])=>`
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.625rem 0;border-bottom:1px solid var(--border);">
                             <span style="font-size:0.75rem;color:var(--muted);">${l}</span>
-                            <span style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:var(--${c})">${fmtNum(v)}</span>
+                            <span style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--${c})">${fmtNum(v)}</span>
                         </div>`).join('')}
                 </div>
             </div>
@@ -2332,7 +2331,7 @@ async function loadAnalytics() {
                 <div class="panel-head"><div class="panel-title">Busiest Day</div></div>
                 <div class="panel-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;padding:2rem;">
                     ${busiestDay ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted-2);letter-spacing:0.15em;">${busiestDay.date}</div>
-                    <div style="font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:800;color:var(--primary);letter-spacing:-0.03em;">${busiestDay.views}</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--primary);letter-spacing:-0.03em;">${busiestDay.views}</div>
                     <div style="font-size:0.72rem;color:var(--muted);">page views</div>` : '<div style="color:var(--muted-2);font-size:0.78rem;">No data yet</div>'}
                 </div>
             </div>

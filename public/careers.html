@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Careers — Switch</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,800;0,900;1,800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #FBBF24;
@@ -20,7 +20,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; }
+        h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; }
 
         body::before {
             content: '';
@@ -121,7 +121,7 @@
         .job-item.active { background: var(--surface-mid); border-left-color: var(--primary); }
 
         .job-item-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1rem; font-weight: 800;
             margin-bottom: 0.5rem; color: var(--text); line-height: 1.2;
         }
@@ -363,7 +363,7 @@
             ${career.description?`<div class="detail-section"><div class="detail-section-label">About the Role</div><p class="detail-desc">${career.description}</p></div>`:''}
             ${career.requirements?.length?`<div class="detail-section"><div class="detail-section-label">Requirements</div><ul class="detail-list">${career.requirements.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:''}
             ${career.niceToHave?.length?`<div class="detail-section"><div class="detail-section-label">Nice to Have</div><ul class="detail-list">${career.niceToHave.map(r=>`<li>${r}</li>`).join('')}</ul></div>`:''}
-            ${career.salary?`<div class="detail-section"><div class="detail-section-label">Compensation</div><div style="color:var(--primary);font-family:'Playfair Display',serif;font-weight:900;font-size:1.4rem;letter-spacing:-0.01em;">${career.salary}</div></div>`:''}
+            ${career.salary?`<div class="detail-section"><div class="detail-section-label">Compensation</div><div style="color:var(--primary);font-family:'Syne',sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:-0.01em;">${career.salary}</div></div>`:''}
             <div class="apply-area">
                 <h4>Ready to apply?</h4>
                 <p>Send us your details and we'll get back to you within a few days.</p>
