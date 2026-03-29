@@ -1,486 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <script src="/loader.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog — Switch</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #FBBF24;
-            --bg: #0A0A0A;
-            --surface: #111111;
-            --surface-mid: #181818;
-            --border: #242424;
-            --text: #F5F5F5;
-            --muted: #808080;
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Syne', sans-serif; font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; }
+<head><script src="/loader.js"></script><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Blog — Switch</title><link rel="icon" type="image/png" href="/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#080808;--blue:#2563EB;--blue-mid:#1D4ED8;--white:#FAFAF8;--muted:#6B6B6B;--rule:#1C1C1C;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden;}
+h1,h2,h3{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em;}a{text-decoration:none;color:inherit;}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.75rem;font-family:'Manrope',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;border:none;text-decoration:none;transition:background 0.15s,transform 0.12s;}
+.btn:hover{transform:translateY(-1px);}
+#grid-view{display:block;}
+.page-hdr{padding:140px 3rem 5rem;border-bottom:1px solid var(--rule);}
+.ph-inner{max-width:1400px;margin:0 auto;}
+.ph-eye{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;}
+.ph-eye::before{content:'';display:block;width:20px;height:1px;background:var(--blue);}
+.ph-h1{font-size:clamp(4rem,9vw,8rem);line-height:0.9;}
+.ph-sub{color:var(--muted);font-size:0.975rem;line-height:1.8;margin-top:1.5rem;}
+.section{max-width:1400px;margin:0 auto;padding:5rem 3rem 7rem;}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);}
+.blog-card{background:var(--ink);cursor:pointer;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background 0.15s;}
+.blog-card:hover{background:#0d0d0d;}
+.blog-card.lead{grid-column:1/-1;}
+.blog-img-wrap{overflow:hidden;}
+.blog-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1),filter 0.3s;filter:grayscale(20%);}
+.blog-card.lead .blog-img{aspect-ratio:21/9;}
+.blog-card:hover .blog-img{transform:scale(1.04);filter:grayscale(0%);}
+.blog-img-ph{width:100%;aspect-ratio:16/9;background:#0e0e0e;}
+.blog-body{padding:1.75rem;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--rule);}
+.blog-card.lead .blog-body{padding:2rem 2.25rem;}
+.blog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.875rem;}
+.blog-date{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);}
+.blog-rt{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--muted);}
+.blog-title{font-family:'Anton',sans-serif;font-size:1.2rem;text-transform:uppercase;letter-spacing:-0.01em;line-height:1;margin-bottom:0.75rem;}
+.blog-card.lead .blog-title{font-size:1.75rem;}
+.blog-preview{color:var(--muted);font-size:0.875rem;line-height:1.7;}
+.blog-author{display:flex;align-items:center;gap:0.5rem;margin-top:auto;padding-top:1rem;}
+.blog-av{width:22px;height:22px;background:#111;border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:0.6rem;color:var(--blue);overflow:hidden;flex-shrink:0;}
+.blog-av img{width:100%;height:100%;object-fit:cover;display:block;}
+.blog-an{font-size:0.72rem;color:var(--muted);font-weight:500;}
+.blog-empty{padding:5rem 2rem;text-align:center;color:#222;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;}
 
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-            pointer-events: none; z-index: 9998; opacity: 0.35;
-        }
-
-        #grid-view { display: block; }
-
-        /* PAGE HEADER */
-        .page-header {
-            padding: 130px 4vw 5rem;
-            border-bottom: 1px solid var(--border);
-            position: relative; overflow: hidden;
-        }
-        .page-header-grid {
-            position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(251,191,36,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(251,191,36,0.03) 1px, transparent 1px);
-            background-size: 72px 72px;
-            mask-image: radial-gradient(ellipse 80% 100% at 0% 50%, black 0%, transparent 70%);
-        }
-        .page-header-inner { max-width: 1200px; margin: 0 auto; position: relative; }
-
-        .section-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.65rem; letter-spacing: 0.22em;
-            color: var(--primary); text-transform: uppercase;
-            display: flex; align-items: center; gap: 0.75rem;
-            margin-bottom: 1.25rem;
-        }
-        .section-label::before {
-            content: ''; display: block;
-            width: 32px; height: 1px;
-            background: var(--primary); opacity: 0.5;
-        }
-        .page-header h1 { font-size: clamp(3rem, 6vw, 5.5rem); margin-bottom: 1rem; }
-        .page-header p { color: var(--muted); font-size: 1rem; line-height: 1.75; }
-
-        /* BLOG GRID */
-        .section { max-width: 1200px; margin: 0 auto; padding: 5rem 4vw 7rem; }
-
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-        }
-
-        .blog-card {
-            background: var(--surface); cursor: pointer;
-            transition: background 0.15s;
-            display: flex; flex-direction: column;
-            position: relative; overflow: hidden;
-        }
-        .blog-card::after {
-            content: '';
-            position: absolute; bottom: 0; left: 0;
-            width: 100%; height: 2px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-            transform: scaleX(0); transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        .blog-card:hover { background: var(--surface-mid); }
-        .blog-card:hover::after { transform: scaleX(1); }
-
-        .blog-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-        .blog-img-ph { width: 100%; aspect-ratio: 16/9; background: var(--surface-mid); display: block; }
-
-        .blog-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; }
-        .blog-card.lead .blog-body { padding: 2rem 2.25rem; }
-
-        .blog-top {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 0.875rem;
-        }
-        .blog-date {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.62rem; text-transform: uppercase;
-            letter-spacing: 0.14em; color: var(--primary);
-        }
-        .blog-rt { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); }
-
-        .blog-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.15rem; font-weight: 800;
-            line-height: 1.25; margin-bottom: 0.75rem;
-        }
-        .blog-card.lead .blog-title { font-size: 1.5rem; }
-
-        .blog-preview { color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
-
-        .blog-author {
-            display: flex; align-items: center; gap: 0.5rem;
-            margin-top: auto; padding-top: 1rem;
-        }
-        .blog-author-avatar {
-            width: 22px; height: 22px; border-radius: 50%;
-            background: var(--surface-mid); border: 1px solid var(--border);
-            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            font-size: 0.6rem; font-weight: 700; color: var(--primary); overflow: hidden;
-        }
-        .blog-author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .blog-author-name { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
-
-        .blog-empty {
-            padding: 5rem 2rem; text-align: center;
-            color: var(--muted); font-size: 0.875rem;
-            background: var(--surface); border: 1px solid var(--border);
-            font-family: 'DM Mono', monospace; letter-spacing: 0.1em;
-        }
-
-        /* READER VIEW */
-        #reader-view {
-            display: none; position: fixed; inset: 0;
-            background: var(--bg); z-index: 9999; overflow-y: auto;
-        }
-        #reader-view.open { display: block; }
-
-        .reader-topbar {
-            position: sticky; top: 0;
-            background: rgba(10,10,10,0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            padding: 0.875rem 4vw;
-            display: flex; align-items: center; gap: 1rem; z-index: 10;
-        }
-        .reader-back-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            background: transparent; border: 1px solid var(--border);
-            color: var(--muted); font-family: 'Inter', sans-serif;
-            font-size: 0.8rem; font-weight: 600; padding: 0.5rem 1rem;
-            cursor: pointer; transition: color 0.15s, border-color 0.15s;
-        }
-        .reader-back-btn:hover { color: var(--text); border-color: #3a3a3a; }
-        .reader-topbar-title {
-            flex: 1;
-            font-family: 'Syne', sans-serif;
-            font-size: 0.9rem; font-weight: 800; color: var(--muted);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .reader-copy-btn {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.5rem 1rem; background: var(--surface);
-            border: 1px solid var(--border); color: var(--muted);
-            font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600;
-            cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
-        }
-        .reader-copy-btn:hover { color: var(--text); border-color: #3a3a3a; }
-        .reader-copy-btn.copied { background: rgba(251,191,36,0.08); color: var(--primary); border-color: rgba(251,191,36,0.3); }
-
-
-        .reader-cover {
-            width: 100%;
-            max-height: 420px;
-            object-fit: cover;
-            display: block;
-            border-bottom: 1px solid var(--border);
-        }
-        .reader-content { max-width: 740px; margin: 0 auto; padding: 5rem 4vw 8rem; }
-
-        .reader-meta {
-            display: flex; gap: 1.25rem; align-items: center;
-            margin-bottom: 1.5rem; flex-wrap: wrap;
-        }
-        .reader-date {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.68rem; text-transform: uppercase;
-            letter-spacing: 0.16em; color: var(--primary);
-        }
-        .reader-rt { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); }
-        .reader-sep { width: 1px; height: 12px; background: var(--border); }
-
-        .reader-title { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 0.75rem; }
-
-        .reader-author {
-            display: flex; align-items: center; gap: 1rem;
-            margin-bottom: 3rem; padding: 1.25rem 1.5rem;
-            background: var(--surface); border: 1px solid var(--border);
-            border-left: 3px solid var(--primary);
-        }
-        .reader-author-avatar {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: var(--surface-mid); border: 1px solid var(--border);
-            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.1rem;
-            color: var(--primary); overflow: hidden;
-        }
-        .reader-author-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .reader-author-info { display: flex; flex-direction: column; gap: 0.2rem; }
-        .reader-author-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.6rem; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted);
-        }
-        .reader-author-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--text); }
-        .reader-author-position { font-size: 0.78rem; color: var(--muted); }
-
-        .reader-body { color: #d1d1d1; font-size: 1.05rem; line-height: 1.85; }
-        .reader-body h1, .reader-body h2, .reader-body h3 { color: var(--text); margin: 2rem 0 0.875rem; font-family: 'Syne', sans-serif; }
-        .reader-body h2 { font-size: 1.75rem; }
-        .reader-body h3 { font-size: 1.35rem; }
-        .reader-body p { margin-bottom: 1.25rem; }
-        .reader-body ul, .reader-body ol { margin: 0 0 1.25rem 1.5rem; }
-        .reader-body li { margin-bottom: 0.5rem; }
-        .reader-body blockquote {
-            border-left: 3px solid var(--primary); margin: 2rem 0;
-            padding: 1rem 1.5rem; color: var(--muted); font-style: italic;
-            font-family: 'Syne', sans-serif; font-size: 1.15rem;
-        }
-        .reader-body img { max-width: 100%; margin: 2rem auto; display: block; }
-        .reader-body a { color: var(--primary); text-decoration: none; }
-        .reader-body a:hover { text-decoration: underline; }
-        .reader-body strong { color: var(--text); font-weight: 600; }
-
-        #sw-toast {
-            position: fixed; bottom: 2rem; left: 50%;
-            transform: translateX(-50%) translateY(12px);
-            background: var(--surface); border: 1px solid var(--border);
-            color: var(--text); font-family: 'DM Mono', monospace;
-            font-size: 0.75rem; letter-spacing: 0.08em;
-            padding: 0.6rem 1.25rem; opacity: 0; pointer-events: none;
-            transition: opacity 0.2s, transform 0.2s; z-index: 99999; white-space: nowrap;
-        }
-        #sw-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr 1fr; } .blog-card.lead { grid-column: 1 / -1; } }
-        @media (max-width: 600px) {
-            .page-header { padding: 110px 1.5rem 3.5rem; }
-            .section { padding: 3.5rem 1.5rem 5rem; }
-            .blog-grid { grid-template-columns: 1fr; }
-            .blog-card.lead { grid-column: 1; }
-            .reader-topbar { padding: 0.75rem 1.25rem; gap: 0.75rem; }
-            .reader-topbar-title { display: none; }
-            .reader-content { padding: 2.5rem 1.25rem 6rem; }
-            .reader-copy-btn span { display: none; }
-        }
-    </style>
-</head>
+/* READER */
+#reader-view{display:none;position:fixed;inset:0;background:var(--ink);z-index:9999;overflow-y:auto;}
+#reader-view.open{display:block;}
+.reader-bar{position:sticky;top:0;background:rgba(8,8,8,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--rule);padding:0 3rem;height:60px;display:flex;align-items:center;gap:1rem;z-index:10;}
+.reader-back{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid var(--rule);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.5rem 1rem;cursor:pointer;transition:all 0.2s;}
+.reader-back:hover{color:var(--white);border-color:#333;}
+.reader-bar-title{flex:1;font-family:'Anton',sans-serif;font-size:0.9rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.reader-copy{display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:transparent;border:1px solid var(--rule);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+.reader-copy:hover{color:var(--white);border-color:#333;}
+.reader-copy.copied{color:var(--blue);border-color:rgba(37,99,235,0.4);}
+.reader-cover{width:100%;max-height:420px;object-fit:cover;display:block;border-bottom:1px solid var(--rule);}
+.reader-content{max-width:720px;margin:0 auto;padding:5rem 3rem 8rem;}
+.reader-meta{display:flex;gap:1.5rem;align-items:center;margin-bottom:1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;}
+.r-date{color:var(--blue);}
+.r-sep{width:1px;height:10px;background:var(--rule);}
+.r-rt{color:var(--muted);}
+.reader-title{font-family:'Anton',sans-serif;font-size:clamp(2.25rem,5vw,3.75rem);text-transform:uppercase;letter-spacing:-0.01em;line-height:0.93;margin-bottom:0.75rem;}
+.reader-author{display:flex;align-items:center;gap:1rem;margin-bottom:3rem;padding:1.25rem 1.5rem;border-left:2px solid var(--blue);background:#0a0a0a;}
+.r-av{width:44px;height:44px;background:#111;border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:1.1rem;color:var(--blue);overflow:hidden;flex-shrink:0;}
+.r-av img{width:100%;height:100%;object-fit:cover;display:block;}
+.r-au-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+.r-au-name{font-family:'Anton',sans-serif;font-size:1rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--white);}
+.r-au-pos{font-size:0.78rem;color:var(--muted);}
+.reader-body{color:rgba(250,250,248,0.6);font-size:1rem;line-height:1.85;}
+.reader-body h1,.reader-body h2,.reader-body h3{font-family:'Anton',sans-serif;text-transform:uppercase;color:var(--white);margin:2rem 0 0.875rem;letter-spacing:-0.01em;}
+.reader-body h2{font-size:1.75rem;}.reader-body h3{font-size:1.35rem;}
+.reader-body p{margin-bottom:1.25rem;}.reader-body ul,.reader-body ol{margin:0 0 1.25rem 1.5rem;}.reader-body li{margin-bottom:0.5rem;}
+.reader-body blockquote{border-left:2px solid var(--blue);margin:2rem 0;padding:1rem 1.5rem;color:var(--muted);font-style:italic;background:#0a0a0a;}
+.reader-body img{max-width:100%;margin:2rem auto;display:block;}
+.reader-body a{color:var(--blue);}.reader-body a:hover{text-decoration:underline;}
+.reader-body strong{color:var(--white);font-weight:600;}
+#sw-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(12px);background:#111;border:1px solid var(--rule);color:var(--white);font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;padding:0.6rem 1.25rem;opacity:0;pointer-events:none;transition:opacity 0.2s,transform 0.2s;z-index:99999;white-space:nowrap;}
+#sw-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.tags-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.tag-pill{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--rule);}
+.tag-pill.game{color:var(--blue);border-color:rgba(37,99,235,0.3);}
+.tag-pill.type{color:var(--muted);}
+@media(max-width:900px){.blog-grid{grid-template-columns:1fr 1fr;}.blog-card.lead{grid-column:1/-1;}}
+@media(max-width:600px){.page-hdr{padding:120px 1.5rem 3.5rem;}.section{padding:3.5rem 1.5rem 5rem;}.blog-grid{grid-template-columns:1fr;}.blog-card.lead{grid-column:1;}.reader-bar{padding:0 1.5rem;}.reader-bar-title{display:none;}.reader-content{padding:2.5rem 1.5rem 6rem;}}
+</style></head>
 <body>
-
 <div id="grid-view">
-    <div class="page-header">
-        <div class="page-header-grid"></div>
-        <div class="page-header-inner">
-            <div class="section-label">Read</div>
-            <h1>The Blog.</h1>
-            <p>Updates, dev insights and announcements from the team.</p>
-        </div>
-    </div>
-    <main class="section">
-        <div class="blog-grid fade-up" id="blog-grid">
-            <div class="blog-empty" style="border:none;">Loading…</div>
-        </div>
-    </main>
+    <div class="page-hdr"><div class="ph-inner"><div class="ph-eye">Read</div><h1 class="ph-h1">The Blog.</h1><p class="ph-sub">Updates, dev insights and announcements from the team.</p></div></div>
+    <main class="section"><div class="blog-grid" id="blog-grid"><div class="blog-empty">Loading…</div></div></main>
 </div>
-
 <div id="reader-view">
-    <div class="reader-topbar">
-        <button class="reader-back-btn" id="reader-back-btn">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            Back
-        </button>
-        <span class="reader-topbar-title" id="reader-topbar-title"></span>
-        <button class="reader-copy-btn" id="reader-copy-btn">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span>Copy Link</span>
-        </button>
+    <div class="reader-bar">
+        <button class="reader-back" id="reader-back">← Back</button>
+        <span class="reader-bar-title" id="reader-bar-title"></span>
+        <button class="reader-copy" id="reader-copy">Copy Link</button>
     </div>
     <img id="reader-cover" class="reader-cover" src="" alt="" style="display:none;">
     <div class="reader-content">
-        <div class="reader-meta">
-            <span class="reader-date" id="reader-date"></span>
-            <div class="reader-sep"></div>
-            <span class="reader-rt" id="reader-rt"></span>
+        <div class="reader-meta"><span class="r-date" id="r-date"></span><div class="r-sep"></div><span class="r-rt" id="r-rt"></span></div>
+        <h1 class="reader-title" id="r-title"></h1>
+        <div class="reader-author" id="r-author" style="display:none;">
+            <div class="r-av" id="r-av"></div>
+            <div><div class="r-au-label">Written by</div><div class="r-au-name" id="r-au-name"></div><div class="r-au-pos" id="r-au-pos"></div></div>
         </div>
-        <h1 class="reader-title" id="reader-title"></h1>
-        <div class="reader-author" id="reader-author" style="display:none;">
-            <div class="reader-author-avatar" id="reader-author-avatar"></div>
-            <div class="reader-author-info">
-                <span class="reader-author-label">Written by</span>
-                <span class="reader-author-name" id="reader-author-name"></span>
-                <span class="reader-author-position" id="reader-author-position"></span>
-            </div>
-        </div>
-        <div class="reader-body" id="reader-body"></div>
+        <div class="reader-body" id="r-body"></div>
     </div>
 </div>
-
 <div id="sw-toast"></div>
-
-<script src="navbar.js"></script>
-<script src="footer.js"></script>
+<script src="/navbar.js"></script><script src="/footer.js"></script>
 <script>
-    let allPosts = [], allGames = [], currentPostId = null;
-
-    function fmtDate(iso) { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
-    function stripHtml(h) { const d = document.createElement('div'); d.innerHTML = h; return d.textContent || d.innerText || ''; }
-    function readTime(h) { return Math.max(1, Math.round(stripHtml(h).split(/\s+/).filter(Boolean).length / 200)) + ' min read'; }
-    function preview(h, l = 150) { const t = stripHtml(h); return t.length > l ? t.slice(0, l).trimEnd() + '…' : t; }
-    function extractFirstImg(html) { const m = html.match(/<img[^>]+src=["']([^"']+)["']/i); return m ? m[1] : null; }
-    function fmtTag(t) { return t ? t.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : ''; }
-
-    let toastTimer;
-    function showToast(msg) {
-        const t = document.getElementById('sw-toast');
-        t.textContent = msg; t.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-    }
-
-    function copyLink() {
-        if (!currentPostId) return;
-        const url = `${location.origin}/blog?post=${currentPostId}`;
-        const btn = document.getElementById('reader-copy-btn');
-        const fallback = () => {
-            const ta = document.createElement('textarea');
-            ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
-            document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); showToast('Link copied!'); } catch { showToast('Copy: ' + url); }
-            document.body.removeChild(ta);
-        };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(() => showToast('Link copied!')).catch(fallback);
-        } else { fallback(); }
-        btn.classList.add('copied');
-        btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>`;
-        setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Link</span>`;
-        }, 2200);
-    }
-
-    function openReader(post) {
-        currentPostId = post.id;
-        document.getElementById('reader-topbar-title').textContent = post.title;
-        document.getElementById('reader-date').textContent = fmtDate(post.createdAt);
-        document.getElementById('reader-rt').textContent = readTime(post.content);
-        document.getElementById('reader-title').textContent = post.title;
-        document.getElementById('reader-body').innerHTML = post.content;
-        document.getElementById('reader-view').scrollTop = 0;
-        const coverEl = document.getElementById('reader-cover');
-        if (post.image) { coverEl.src = post.image; coverEl.style.display = 'block'; } else { coverEl.style.display = 'none'; }
-
-        const taggedGame = post.taggedGameId ? allGames.find(g => g.id === post.taggedGameId) : null;
-        const gameLabel = taggedGame ? (taggedGame.name || `Place ${taggedGame.placeId}`) : '';
-        const typeLabel = post.postTag ? fmtTag(post.postTag) : '';
-        const titleEl = document.getElementById('reader-title');
-        let existingTags = document.getElementById('reader-tags-row');
-        if (existingTags) existingTags.remove();
-        if (gameLabel || typeLabel) {
-            const div = document.createElement('div');
-            div.id = 'reader-tags-row';
-            div.style.cssText = 'display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;';
-            div.innerHTML = `
-                ${gameLabel ? `<span style="font-family:'DM Mono',monospace;font-size:0.6rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;background:rgba(251,191,36,0.08);color:var(--primary);border:1px solid rgba(251,191,36,0.2);padding:2px 8px;">${gameLabel}</span>` : ''}
-                ${typeLabel ? `<span style="font-family:'DM Mono',monospace;font-size:0.6rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:2px 8px;">${typeLabel}</span>` : ''}`;
-            titleEl.parentNode.insertBefore(div, titleEl);
-        }
-
-        const authorEl = document.getElementById('reader-author');
-        const name = post.authorName || post.author || '';
-        if (name) {
-            document.getElementById('reader-author-name').textContent = name;
-            const posEl = document.getElementById('reader-author-position');
-            posEl.textContent = post.authorPosition || '';
-            posEl.style.display = post.authorPosition ? '' : 'none';
-            const avatarEl = document.getElementById('reader-author-avatar');
-            avatarEl.innerHTML = post.authorAvatar ? `<img src="${post.authorAvatar}" alt="${name}">` : name.charAt(0).toUpperCase();
-            authorEl.style.display = 'flex';
-        } else { authorEl.style.display = 'none'; }
-
-        document.getElementById('grid-view').style.display = 'none';
-        document.getElementById('reader-view').classList.add('open');
-        document.body.style.overflow = 'hidden';
-        history.pushState({ postId: post.id }, '', `?post=${post.id}`);
-    }
-
-    function closeReader() {
-        currentPostId = null;
-        document.getElementById('grid-view').style.display = 'block';
-        document.getElementById('reader-view').classList.remove('open');
-        document.body.style.overflow = '';
-        history.pushState(null, '', '/blog');
-    }
-
-    document.getElementById('reader-back-btn').addEventListener('click', closeReader);
-    document.getElementById('reader-copy-btn').addEventListener('click', copyLink);
-    window.addEventListener('popstate', e => {
-        if (e.state && e.state.postId) { const post = allPosts.find(p => p.id === e.state.postId); if (post) { openReader(post); return; } }
-        closeReader();
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReader(); });
-
-    async function loadPosts() {
-        const grid = document.getElementById('blog-grid');
-        try {
-            const [postsRes, gamesRes] = await Promise.all([
-                fetch('/api/blog/posts').then(r => r.json()),
-                fetch('/api/games').then(r => r.json()).catch(() => ({ games: [] }))
-            ]);
-            allPosts = postsRes.posts || [];
-            allGames = gamesRes.games || [];
-            if (!allPosts.length) {
-                grid.innerHTML = '<div class="blog-empty" style="border:none;">No posts yet — check back soon.</div>';
-                return;
-            }
-            grid.innerHTML = allPosts.map((p, i) => {
-                const thumb = p.image || extractFirstImg(p.content);
-                const isLead = i === 0 && allPosts.length > 1;
-                const authorName = p.authorName || p.author || '';
-                const taggedGame = p.taggedGameId ? allGames.find(g => g.id === p.taggedGameId) : null;
-                const gameLabel = taggedGame ? (taggedGame.name || `Place ${taggedGame.placeId}`) : '';
-                const typeLabel = p.postTag ? fmtTag(p.postTag) : '';
-                const tagsHtml = (gameLabel || typeLabel) ? `<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">
-                    ${gameLabel ? `<span style="font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;background:rgba(251,191,36,0.08);color:var(--primary);border:1px solid rgba(251,191,36,0.2);padding:1px 6px;">${gameLabel}</span>` : ''}
-                    ${typeLabel ? `<span style="font-family:'DM Mono',monospace;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.12em;background:var(--surface-mid);color:var(--muted);border:1px solid var(--border);padding:1px 6px;">${typeLabel}</span>` : ''}
-                </div>` : '';
-                return `<div class="blog-card ${isLead ? 'lead' : ''}" data-id="${p.id}">
-                    ${thumb ? `<img src="${thumb}" class="blog-img" alt="${p.title}" loading="lazy">` : '<div class="blog-img-ph"></div>'}
-                    <div class="blog-body">
-                        <div class="blog-top">
-                            <span class="blog-date">${fmtDate(p.createdAt)}</span>
-                            <span class="blog-rt">${readTime(p.content)}</span>
-                        </div>
-                        ${tagsHtml}
-                        <h3 class="blog-title">${p.title}</h3>
-                        <p class="blog-preview">${preview(p.content)}</p>
-                        ${authorName ? `<div class="blog-author"><div class="blog-author-avatar">${p.authorAvatar ? `<img src="${p.authorAvatar}" alt="${authorName}">` : authorName.charAt(0).toUpperCase()}</div><span class="blog-author-name">${authorName}</span></div>` : ''}
-                    </div>
-                </div>`;
-            }).join('');
-
-            document.querySelectorAll('.blog-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const post = allPosts.find(p => p.id === card.dataset.id);
-                    if (post) openReader(post);
-                });
-            });
-
-            const postId = new URLSearchParams(location.search).get('post');
-            if (postId) { const post = allPosts.find(p => p.id === postId); if (post) openReader(post); }
-        } catch(e) {
-            grid.innerHTML = '<div class="blog-empty" style="border:none;">Failed to load posts.</div>';
-        }
-    }
-
-    loadPosts();
-
-    const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+let allPosts=[],allGames=[],currentId=null;
+function fmtDate(iso){return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});}
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||'';}
+function rt(h){return Math.max(1,Math.round(strip(h).split(/\s+/).filter(Boolean).length/200))+' min read';}
+function prev(h,l=150){const t=strip(h);return t.length>l?t.slice(0,l).trimEnd()+'…':t;}
+function extractImg(html){const m=html.match(/<img[^>]+src=["']([^"']+)["']/i);return m?m[1]:null;}
+function fmtTag(t){return t?t.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()):'';}
+let toastT;
+function toast(msg){const t=document.getElementById('sw-toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);}
+function copyLink(){
+    if(!currentId)return;
+    const url=`${location.origin}/blog?post=${currentId}`;
+    const btn=document.getElementById('reader-copy');
+    const ok=()=>{toast('Link copied!');btn.classList.add('copied');btn.textContent='Copied!';setTimeout(()=>{btn.classList.remove('copied');btn.textContent='Copy Link';},2200);};
+    const fb=()=>{try{const ta=document.createElement('textarea');ta.value=url;ta.style='position:fixed;opacity:0;';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);ok();}catch{toast('Copy: '+url);}};
+    if(navigator.clipboard?.writeText)navigator.clipboard.writeText(url).then(ok).catch(fb);else fb();
+}
+function openReader(post){
+    currentId=post.id;
+    document.getElementById('reader-bar-title').textContent=post.title;
+    document.getElementById('r-date').textContent=fmtDate(post.createdAt);
+    document.getElementById('r-rt').textContent=rt(post.content);
+    document.getElementById('r-title').textContent=post.title;
+    document.getElementById('r-body').innerHTML=post.content;
+    document.getElementById('reader-view').scrollTop=0;
+    const cov=document.getElementById('reader-cover');
+    if(post.image){cov.src=post.image;cov.style.display='block';}else{cov.style.display='none';}
+    const title=document.getElementById('r-title');
+    let existTags=document.getElementById('r-tags');if(existTags)existTags.remove();
+    const taggedGame=post.taggedGameId?allGames.find(g=>g.id===post.taggedGameId):null;
+    const gameLabel=taggedGame?(taggedGame.name||`Place ${taggedGame.placeId}`):'';
+    const typeLabel=post.postTag?fmtTag(post.postTag):'';
+    if(gameLabel||typeLabel){const div=document.createElement('div');div.id='r-tags';div.className='tags-row';div.innerHTML=`${gameLabel?`<span class="tag-pill game">${gameLabel}</span>`:''}${typeLabel?`<span class="tag-pill type">${typeLabel}</span>`:''}`;title.parentNode.insertBefore(div,title);}
+    const au=document.getElementById('r-author');
+    const name=post.authorName||post.author||'';
+    if(name){document.getElementById('r-au-name').textContent=name;const pos=document.getElementById('r-au-pos');pos.textContent=post.authorPosition||'';pos.style.display=post.authorPosition?'':'none';const av=document.getElementById('r-av');av.innerHTML=post.authorAvatar?`<img src="${post.authorAvatar}" alt="${name}">`:'';if(!post.authorAvatar)av.textContent=name.charAt(0).toUpperCase();au.style.display='flex';}else{au.style.display='none';}
+    document.getElementById('grid-view').style.display='none';
+    document.getElementById('reader-view').classList.add('open');
+    document.body.style.overflow='hidden';
+    history.pushState({postId:post.id},'',`?post=${post.id}`);
+}
+function closeReader(){currentId=null;document.getElementById('grid-view').style.display='block';document.getElementById('reader-view').classList.remove('open');document.body.style.overflow='';history.pushState(null,'','/blog');}
+document.getElementById('reader-back').addEventListener('click',closeReader);
+document.getElementById('reader-copy').addEventListener('click',copyLink);
+window.addEventListener('popstate',e=>{if(e.state?.postId){const p=allPosts.find(x=>x.id===e.state.postId);if(p){openReader(p);return;}}closeReader();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeReader();});
+async function loadPosts(){
+    const grid=document.getElementById('blog-grid');
+    try{
+        const[pr,gr]=await Promise.all([fetch('/api/blog/posts').then(r=>r.json()),fetch('/api/games').then(r=>r.json()).catch(()=>({games:[]}))]);
+        allPosts=pr.posts||[];allGames=gr.games||[];
+        if(!allPosts.length){grid.innerHTML='<div class="blog-empty">No posts yet — check back soon.</div>';return;}
+        grid.innerHTML=allPosts.map((p,i)=>{
+            const thumb=p.image||extractImg(p.content);
+            const isLead=i===0&&allPosts.length>1;
+            const aName=p.authorName||p.author||'';
+            const tGame=p.taggedGameId?allGames.find(g=>g.id===p.taggedGameId):null;
+            const gLbl=tGame?(tGame.name||`Place ${tGame.placeId}`):'';
+            const tLbl=p.postTag?fmtTag(p.postTag):'';
+            const tagsH=(gLbl||tLbl)?`<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">${gLbl?`<span class="tag-pill game">${gLbl}</span>`:''}${tLbl?`<span class="tag-pill type">${tLbl}</span>`:''}</div>`:'';
+            return`<div class="blog-card${isLead?' lead':''}" data-id="${p.id}">
+                <div class="blog-img-wrap">${thumb?`<img src="${thumb}" class="blog-img" alt="${p.title}" loading="lazy">`:'<div class="blog-img-ph"></div>'}</div>
+                <div class="blog-body">
+                    <div class="blog-top"><span class="blog-date">${fmtDate(p.createdAt)}</span><span class="blog-rt">${rt(p.content)}</span></div>
+                    ${tagsH}<h3 class="blog-title">${p.title}</h3>
+                    <p class="blog-preview">${prev(p.content)}</p>
+                    ${aName?`<div class="blog-author"><div class="blog-av">${p.authorAvatar?`<img src="${p.authorAvatar}" alt="${aName}">`:aName.charAt(0).toUpperCase()}</div><span class="blog-an">${aName}</span></div>`:''}
+                </div></div>`;
+        }).join('');
+        document.querySelectorAll('.blog-card').forEach(card=>{card.addEventListener('click',()=>{const p=allPosts.find(x=>x.id===card.dataset.id);if(p)openReader(p);});});
+        const pid=new URLSearchParams(location.search).get('post');
+        if(pid){const p=allPosts.find(x=>x.id===pid);if(p)openReader(p);}
+    }catch(e){grid.innerHTML='<div class="blog-empty">Failed to load posts.</div>';}
+}
+loadPosts();
 </script>
-</body>
-</html>
+</body></html>

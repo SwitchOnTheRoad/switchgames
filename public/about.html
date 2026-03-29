@@ -1,964 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <script src="/loader.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — Switch</title>
-    <link rel="icon" type="image/png" href="/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #FBBF24;
-            --primary-dim: rgba(251,191,36,0.12);
-            --bg: #080808;
-            --surface: #101010;
-            --surface-2: #161616;
-            --border: #1e1e1e;
-            --text: #F0F0F0;
-            --muted: #666;
-            --muted-2: #444;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-        }
-
-        /* ── GRAIN OVERLAY ── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.4;
-        }
-
-        /* ── HERO ── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 8rem 4vw 4rem;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero-grid-bg {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(251,191,36,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(251,191,36,0.03) 1px, transparent 1px);
-            background-size: 80px 80px;
-            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
-        }
-
-        .hero-glow {
-            position: absolute;
-            width: 600px; height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(251,191,36,0.07) 0%, transparent 70%);
-            top: 10%; left: -100px;
-            pointer-events: none;
-        }
-
-        .hero-eyebrow {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 0.22em;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            position: relative;
-        }
-        .hero-eyebrow::before {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 1px;
-            background: var(--primary);
-            opacity: 0.5;
-        }
-
-        .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3.5rem, 9vw, 8.5rem);
-            font-weight: 900;
-            line-height: 0.92;
-            letter-spacing: -0.03em;
-            color: var(--text);
-            position: relative;
-            max-width: 1000px;
-        }
-
-        .hero-title em {
-            font-style: italic;
-            color: var(--primary);
-        }
-
-        .hero-bottom {
-            margin-top: 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 2rem;
-            position: relative;
-        }
-
-        .hero-desc {
-            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
-            color: var(--muted);
-            max-width: 440px;
-            line-height: 1.85;
-            font-weight: 400;
-        }
-
-        .hero-scroll {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--muted-2);
-            font-family: 'DM Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        .scroll-track {
-            width: 1px;
-            height: 60px;
-            background: var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-        .scroll-track::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 40%;
-            background: var(--primary);
-            animation: scrollDown 2.2s ease-in-out infinite;
-        }
-        @keyframes scrollDown {
-            0% { transform: translateY(-100%); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(250%); opacity: 0; }
-        }
-
-        /* ── STATS TICKER ── */
-        .stats-strip {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .stats-strip-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 4vw;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border-left: 1px solid var(--border);
-        }
-
-        .stat-item {
-            padding: 2.5rem 2rem;
-            border-right: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 2px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.6s ease;
-        }
-
-        .stat-item:hover::before { transform: scaleX(1); }
-
-        .stat-num {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 4vw, 3.75rem);
-            font-weight: 900;
-            color: var(--primary);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.03em;
-        }
-
-        .stat-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.16em;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-
-        /* ── SECTION UTILS ── */
-        .section-wrap {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 4vw;
-        }
-
-        .mono-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .mono-label::after {
-            content: '';
-            flex: 1;
-            max-width: 60px;
-            height: 1px;
-            background: var(--primary);
-            opacity: 0.4;
-        }
-
-        /* ── MISSION SECTION ── */
-        .mission {
-            border-bottom: 1px solid var(--border);
-            padding: 8rem 0;
-        }
-
-        .mission-inner {
-            display: grid;
-            grid-template-columns: 1fr 1.6fr;
-            gap: 6rem;
-            align-items: start;
-        }
-
-        .mission-left {
-            position: sticky;
-            top: 120px;
-        }
-
-        .mission-heading {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 3.5vw, 3.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-top: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .mission-heading em {
-            font-style: italic;
-            color: var(--primary);
-        }
-
-        .mission-right {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            padding-top: 0.5rem;
-        }
-
-        .mission-block {
-            padding-left: 2rem;
-            border-left: 1px solid var(--border);
-            transition: border-color 0.3s;
-        }
-
-        .mission-block:hover {
-            border-left-color: var(--primary);
-        }
-
-        .mission-block p {
-            font-size: clamp(1rem, 1.5vw, 1.2rem);
-            line-height: 1.85;
-            color: var(--muted);
-            font-weight: 400;
-        }
-
-        .mission-block p strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        /* ── VALUES ── */
-        .values {
-            border-bottom: 1px solid var(--border);
-            padding: 8rem 0;
-        }
-
-        .values-head {
-            margin-bottom: 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .values-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 3vw, 3rem);
-            font-weight: 800;
-            margin-top: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border: 1px solid var(--border);
-        }
-
-        .value-card {
-            padding: 2.75rem 2.25rem;
-            border-right: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-            transition: background 0.25s;
-        }
-
-        .value-card:last-child { border-right: none; }
-        .value-card:hover { background: var(--surface); }
-
-        .value-num {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            color: var(--primary);
-            margin-bottom: 2rem;
-        }
-
-        .value-icon {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .value-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .value-desc {
-            font-size: 0.875rem;
-            line-height: 1.8;
-            color: var(--muted);
-        }
-
-        .value-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 3px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .value-card:hover::after { transform: scaleX(1); }
-
-        /* ── TIMELINE ── */
-        .timeline {
-            border-bottom: 1px solid var(--border);
-            padding: 8rem 0;
-        }
-
-        .timeline-head { margin-bottom: 5rem; }
-
-        .timeline-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 3vw, 3rem);
-            font-weight: 800;
-            margin-top: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .timeline-track {
-            position: relative;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 1px;
-            background: var(--border);
-        }
-
-        .timeline-line::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 0%;
-            background: var(--primary);
-            transition: height 1s ease;
-        }
-
-        .timeline-entry {
-            padding-left: 3.5rem;
-            padding-bottom: 4rem;
-            position: relative;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .timeline-entry.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .timeline-entry:last-child { padding-bottom: 0; }
-
-        .timeline-dot {
-            position: absolute;
-            left: -5px; top: 4px;
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--border);
-            border: 2px solid var(--bg);
-            transition: background 0.3s;
-        }
-
-        .timeline-entry:hover .timeline-dot { background: var(--primary); }
-
-        .timeline-year {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.18em;
-            color: var(--primary);
-            margin-bottom: 0.75rem;
-        }
-
-        .timeline-evt-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            line-height: 1.2;
-        }
-
-        .timeline-evt-desc {
-            font-size: 0.9rem;
-            color: var(--muted);
-            line-height: 1.75;
-            max-width: 520px;
-        }
-
-        /* ── TEAM ── */
-        .team {
-            border-bottom: 1px solid var(--border);
-            padding: 8rem 0;
-        }
-
-        .team-head {
-            margin-bottom: 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .team-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 3vw, 3rem);
-            font-weight: 800;
-            margin-top: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-        }
-
-        .member-card {
-            background: var(--bg);
-            padding: 2rem 1.75rem;
-            transition: background 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .member-card:hover { background: var(--surface); }
-
-        .member-avatar {
-            width: 56px; height: 56px;
-            border-radius: 0;
-            object-fit: cover;
-            margin-bottom: 1.25rem;
-            border: 1px solid var(--border);
-        }
-
-        .member-avatar-placeholder {
-            width: 56px; height: 56px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .member-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            line-height: 1.2;
-        }
-
-        .member-position {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.62rem;
-            letter-spacing: 0.12em;
-            color: var(--primary);
-            text-transform: uppercase;
-        }
-
-        .team-loading {
-            background: var(--bg);
-            padding: 4rem;
-            text-align: center;
-            color: var(--muted);
-            font-family: 'DM Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
-        /* ── CTA ── */
-        .cta-section {
-            padding: 8rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-glow {
-            position: absolute;
-            width: 500px; height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%);
-            right: -160px; top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-
-        .cta-logo {
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 260px;
-            opacity: 0.08;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .cta-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 4rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-text { max-width: 560px; }
-
-        .cta-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 3.5vw, 3.5rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-top: 1.25rem;
-            letter-spacing: -0.02em;
-        }
-
-        .cta-title em { font-style: italic; color: var(--primary); }
-
-        .cta-desc {
-            color: var(--muted);
-            font-size: 1rem;
-            line-height: 1.75;
-            margin-top: 1.5rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.875rem 2rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.18s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #000;
-        }
-        .btn-primary:hover { background: #E5A800; transform: translateY(-1px); }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-
-        .cta-aside {
-            flex-shrink: 0;
-            text-align: right;
-        }
-
-        .cta-badge {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 160px; height: 160px;
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            transition: border-color 0.3s;
-        }
-
-        .cta-badge:hover { border-color: var(--primary); }
-
-        .cta-badge-num {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            line-height: 1;
-        }
-
-        .cta-badge-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 0.55rem;
-            letter-spacing: 0.18em;
-            color: var(--muted);
-            text-transform: uppercase;
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-
-        /* ── SCROLL ANIMATIONS ── */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
-            .mission-inner { grid-template-columns: 1fr; gap: 3rem; }
-            .mission-left { position: static; }
-            .stats-strip-inner { grid-template-columns: repeat(3, 1fr); }
-            .values-grid { grid-template-columns: 1fr; }
-            .value-card { border-right: none; border-bottom: 1px solid var(--border); }
-            .value-card:last-child { border-bottom: none; }
-            .cta-inner { flex-direction: column; align-items: flex-start; }
-            .cta-aside { text-align: left; }
-        }
-
-        @media (max-width: 640px) {
-            .hero { padding: 6rem 1.5rem 2.5rem; }
-            .section-wrap { padding: 0 1.5rem; }
-            .stats-strip-inner { grid-template-columns: 1fr 1fr; padding: 0 1.5rem; }
-            .stat-item { padding: 1.75rem 1.25rem; }
-            .mission, .values, .timeline, .team, .cta-section { padding: 5rem 0; }
-            .team-head { flex-direction: column; align-items: flex-start; }
-            .values-head { flex-direction: column; align-items: flex-start; }
-        }
-    </style>
-</head>
+<head><script src="/loader.js"></script><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>About — Switch</title><link rel="icon" type="image/png" href="/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#080808;--blue:#2563EB;--blue-mid:#1D4ED8;--white:#FAFAF8;--muted:#6B6B6B;--rule:#1C1C1C;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--ink);color:var(--white);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Anton',sans-serif;text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em;}a{text-decoration:none;color:inherit;}
+.wrap{max-width:1400px;margin:0 auto;padding:0 3rem;}
+[data-r]{opacity:0;transform:translateY(32px);transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1);}[data-r].in{opacity:1;transform:none;}
+[data-r][data-d="1"]{transition-delay:0.1s;}[data-r][data-d="2"]{transition-delay:0.2s;}[data-r][data-d="3"]{transition-delay:0.3s;}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.8rem 1.75rem;font-family:'Manrope',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;border:none;text-decoration:none;transition:background 0.15s,transform 0.12s;}
+.btn:hover{transform:translateY(-1px);}.btn-blue{background:var(--blue);color:var(--white);}.btn-blue:hover{background:var(--blue-mid);}
+.btn-outline{background:transparent;border:1px solid rgba(250,250,248,0.22);color:var(--white);}.btn-outline:hover{border-color:rgba(250,250,248,0.5);}
+.s-idx{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5rem;border-bottom:1px solid var(--rule);position:relative;overflow:hidden;}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(37,99,235,0.12) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);pointer-events:none;}
+.hero-inner{max-width:1400px;margin:0 auto;width:100%;position:relative;z-index:1;}
+.ph-eye{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;}
+.ph-eye::before{content:'';display:block;width:20px;height:1px;background:var(--blue);}
+.hero-title{font-family:'Anton',sans-serif;font-size:clamp(4rem,10vw,9.5rem);line-height:0.88;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:3rem;}
+.hero-title em{font-style:italic;color:var(--blue);}
+.hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;padding-top:2.5rem;border-top:1px solid rgba(250,250,248,0.07);}
+.hero-desc{color:var(--muted);font-size:0.975rem;line-height:1.8;max-width:440px;}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.5rem;color:#333;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--blue),transparent);animation:sl 2s ease-in-out infinite;}
+@keyframes sl{0%,100%{opacity:1}50%{opacity:0.25}}
+
+/* STATS */
+.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule);}
+.stat-cell{padding:2.75rem 3rem;border-right:1px solid var(--rule);position:relative;overflow:hidden;cursor:default;}
+.stat-cell:last-child{border-right:none;}
+.stat-cell::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--blue);transform:scaleY(0);transform-origin:bottom;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);}
+.stat-cell:hover::before{transform:scaleY(1);}
+.stat-num{font-family:'Anton',sans-serif;font-size:clamp(3rem,5vw,4.5rem);line-height:1;letter-spacing:-0.01em;margin-bottom:0.5rem;}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+
+/* MISSION */
+.mission{border-bottom:1px solid var(--rule);padding:6rem 0;}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;}
+.mission-l{position:sticky;top:100px;}
+.mission-title{font-family:'Anton',sans-serif;font-size:clamp(2.25rem,4vw,4rem);text-transform:uppercase;letter-spacing:-0.01em;line-height:0.93;margin-top:1.5rem;}
+.mission-title em{font-style:italic;color:var(--blue);}
+.mission-blocks{display:flex;flex-direction:column;gap:2.5rem;padding-top:1rem;}
+.mission-block{border-left:1px solid var(--rule);padding-left:2rem;transition:border-color 0.3s;}
+.mission-block.in{border-color:var(--blue);}
+.mission-block p{color:var(--muted);font-size:1rem;line-height:1.85;}
+.mission-block p strong{color:var(--white);font-weight:600;}
+
+/* VALUES */
+.values{border-bottom:1px solid var(--rule);padding:6rem 0;}
+.values-title{font-family:'Anton',sans-serif;font-size:clamp(2.5rem,5vw,5rem);text-transform:uppercase;letter-spacing:-0.01em;margin-top:1rem;margin-bottom:3rem;}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);}
+.value-card{padding:2.5rem;border-right:1px solid var(--rule);transition:background 0.2s;}
+.value-card:last-child{border-right:none;}
+.value-card:hover{background:#0e0e0e;}
+.v-num{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;color:#333;margin-bottom:1.5rem;}
+.v-icon{display:inline-flex;padding:0.65rem;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);margin-bottom:1.25rem;}
+.v-icon svg{stroke:var(--blue);}
+.v-title{font-family:'Anton',sans-serif;font-size:1.05rem;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:0.75rem;}
+.v-body{color:var(--muted);font-size:0.875rem;line-height:1.75;}
+.values-grid2{border-top:none;}
+
+/* TIMELINE */
+.timeline{border-bottom:1px solid var(--rule);padding:6rem 0;}
+.tl-title{font-family:'Anton',sans-serif;font-size:clamp(2.5rem,5vw,5rem);text-transform:uppercase;letter-spacing:-0.01em;margin-top:1rem;margin-bottom:4rem;}
+.tl-track{padding-left:2.5rem;border-left:1px solid var(--rule);display:flex;flex-direction:column;gap:3.5rem;}
+.tl-entry{position:relative;}
+.tl-dot{position:absolute;left:-2.5rem;top:3px;transform:translateX(calc(-50% + 0.5px));width:10px;height:10px;border-radius:50%;border:1px solid #333;background:var(--ink);transition:all 0.3s;}
+.tl-entry.in .tl-dot{border-color:var(--blue);background:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.15);}
+.tl-year{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;}
+.tl-title2{font-family:'Anton',sans-serif;font-size:1.35rem;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:0.75rem;}
+.tl-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;max-width:560px;}
+
+/* CTA */
+.cta{background:#0a0a0a;border-top:1px solid var(--rule);padding:7rem 0;position:relative;overflow:hidden;}
+.cta-line{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--blue),transparent);}
+.cta-inner{display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;}
+.cta-title{font-family:'Anton',sans-serif;font-size:clamp(2.5rem,5vw,5.5rem);text-transform:uppercase;letter-spacing:-0.01em;line-height:0.9;margin:1.5rem 0;}
+.cta-title em{font-style:italic;color:var(--blue);}
+.cta-sub{color:var(--muted);font-size:0.95rem;line-height:1.8;max-width:520px;margin-bottom:2.5rem;}
+.cta-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.cta-badge{text-align:center;border:1px solid var(--rule);padding:2rem 3rem;}
+.cta-badge-num{font-family:'Anton',sans-serif;font-size:4rem;line-height:1;letter-spacing:-0.01em;}
+.cta-badge-lbl{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:0.5rem;}
+
+@media(max-width:1000px){.mission-grid{grid-template-columns:1fr;}.mission-l{position:static;}.values-grid{grid-template-columns:1fr;}.value-card{border-right:none;border-bottom:1px solid var(--rule);}.value-card:last-child{border-bottom:none;}.cta-inner{grid-template-columns:1fr;}.stats-strip{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){.hero{padding:0 1.5rem 4rem;}.wrap{padding:0 1.5rem;}.stats-strip{grid-template-columns:1fr;}.stat-cell{border-right:none;border-bottom:1px solid var(--rule);padding:2rem 1.5rem;}.stat-cell:last-child{border-bottom:none;}.hero-bottom{flex-direction:column;}.tl-track{padding-left:1.5rem;}.tl-dot{left:-1.5rem;}}
+</style></head>
 <body>
-
-<!-- HERO -->
 <section class="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-
-    <div class="section-wrap" style="position:relative;">
-        <div class="hero-eyebrow">Our Story</div>
-        <h1 class="hero-title">
-            We Build<br>
-            <em>Worlds</em><br>
-            That Last.
-        </h1>
+    <div class="hero-dots"></div>
+    <div class="hero-inner">
+        <div class="ph-eye">About Switch</div>
+        <h1 class="hero-title">We make games<br>people <em>actually</em> love.</h1>
         <div class="hero-bottom">
-            <p class="hero-desc">Switch is a Roblox game studio founded in 2024, crafting experiences that bring people together — from the first click to the millionth visit, and everything in between.</p>
-            <div class="hero-scroll">
-                <div class="scroll-track"></div>
-                <span>Scroll</span>
-            </div>
+            <p class="hero-desc">Switch is a Roblox game studio founded in 2025 — obsessed with craft, community, and making games that earn their place on your screen.</p>
+            <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
         </div>
     </div>
 </section>
 
-<!-- STATS STRIP -->
 <div class="stats-strip">
-    <div class="stats-strip-inner">
-        <div class="stat-item">
-            <div class="stat-num" id="stat-games">—</div>
-            <div class="stat-label">Games Published</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="stat-visits">—</div>
-            <div class="stat-label">Total Visits</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="stat-playing">—</div>
-            <div class="stat-label">Playing Now</div>
-        </div>
-    </div>
+    <div class="stat-cell" data-r><div class="stat-num" id="st-games">—</div><div class="stat-lbl">Games Published</div></div>
+    <div class="stat-cell" data-r data-d="1"><div class="stat-num" id="st-visits">—</div><div class="stat-lbl">Total Visits</div></div>
+    <div class="stat-cell" data-r data-d="2"><div class="stat-num" id="st-ccu">—</div><div class="stat-lbl">Playing Now</div></div>
 </div>
 
-<!-- MISSION -->
 <section class="mission">
-    <div class="section-wrap">
-        <div class="mission-inner">
-            <div class="mission-left">
-                <div class="mono-label">01 — Mission</div>
-                <h2 class="mission-heading">
-                    Play is<br>
-                    <em>serious</em><br>
-                    business.
-                </h2>
-            </div>
-            <div class="mission-right">
-                <div class="mission-block fade-up">
-                    <p>We believe that <strong>great games change people.</strong> They create friendships across continents, teach skills no classroom can, and give players a place to feel genuinely alive. That's why we treat every game we build as a long-term commitment — not a quick launch.</p>
-                </div>
-                <div class="mission-block fade-up">
-                    <p>Switch was founded on one idea: <strong>Roblox is the most underestimated creative platform on the planet.</strong> The audience is there. The tools are there. What's been missing is studios that treat the craft with the same rigour as the biggest names in the industry.</p>
-                </div>
-                <div class="mission-block fade-up">
-                    <p>We're building those games. <strong>Titles that earn their player counts.</strong> Communities that outlast the hype cycle. Experiences that players come back to — not because they have to, but because they want to.</p>
-                </div>
+    <div class="wrap">
+        <div class="mission-grid">
+            <div class="mission-l" data-r><div class="s-idx">01 — Mission</div><h2 class="mission-title">Why we <em>exist.</em></h2></div>
+            <div class="mission-blocks">
+                <div class="mission-block" data-r><p>Switch was founded on one idea: <strong>Roblox is the most underestimated creative platform on the planet.</strong> The audience is there. The tools are there. What's been missing is studios that treat the craft with the same rigour as the biggest names in the industry.</p></div>
+                <div class="mission-block" data-r><p>We're building those games. <strong>Titles that earn their player counts.</strong> Communities that outlast the hype cycle. Experiences that players come back to — not because they have to, but because they want to.</p></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- VALUES -->
 <section class="values">
-    <div class="section-wrap">
-        <div class="values-head fade-up">
-            <div>
-                <div class="mono-label">02 — Values</div>
-                <h2 class="values-title">What we stand for.</h2>
-            </div>
+    <div class="wrap">
+        <div data-r><div class="s-idx">02 — Values</div><h2 class="values-title">What we stand for.</h2></div>
+        <div class="values-grid" data-r>
+            <div class="value-card"><div class="v-num">001</div><span class="v-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><h3 class="v-title">Craft Over Speed</h3><p class="v-body">We'd rather ship one exceptional game than three mediocre ones. Quality is non-negotiable.</p></div>
+            <div class="value-card"><div class="v-num">002</div><span class="v-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><h3 class="v-title">Community First</h3><p class="v-body">Every decision runs through one filter: does this make the experience better for the players?</p></div>
+            <div class="value-card"><div class="v-num">003</div><span class="v-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><h3 class="v-title">Long-Term Thinking</h3><p class="v-body">We build for the long run — making commitments to players we intend to honour for years.</p></div>
         </div>
-        <div class="values-grid fade-up">
-            <div class="value-card">
-                <div class="value-num">001</div>
-                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-                <h3 class="value-title">Craft Over Speed</h3>
-                <p class="value-desc">We'd rather ship one game that's truly exceptional than three that are merely good. Quality is our competitive advantage — and we protect it fiercely.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-num">002</div>
-                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-                <h3 class="value-title">Community First</h3>
-                <p class="value-desc">Our players aren't a metric. They're the reason we exist. Every design decision runs through one filter: does this make the experience better for the people playing it?</p>
-            </div>
-            <div class="value-card">
-                <div class="value-num">003</div>
-                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                <h3 class="value-title">Long-Term Thinking</h3>
-                <p class="value-desc">We build for the long run. That means saying no to shortcuts, investing in our team, and making commitments to players that we intend to honour for years.</p>
-            </div>
-        </div>
-        <div class="values-grid fade-up" style="border-top:none;">
-            <div class="value-card">
-                <div class="value-num">004</div>
-                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-                <h3 class="value-title">Trust & Transparency</h3>
-                <p class="value-desc">We communicate openly with our players and our team. No spin. No vague roadmaps. When we make a mistake, we say so — and we fix it.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-num">005</div>
-                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
-                <h3 class="value-title">Relentless Iteration</h3>
-                <p class="value-desc">Launch is day one, not the finish line. We watch the data, listen to feedback, and update constantly — because a great game is never truly finished.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-num">006</div>
-                <span class="value-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span>
-                <h3 class="value-title">Talent Without Ego</h3>
-                <p class="value-desc">The best idea wins — regardless of who had it. We hire exceptional people and trust them to do exceptional work, without layers of hierarchy getting in the way.</p>
-            </div>
+        <div class="values-grid values-grid2" data-r>
+            <div class="value-card"><div class="v-num">004</div><span class="v-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><h3 class="v-title">Trust & Transparency</h3><p class="v-body">No spin. When we make a mistake, we say so — and fix it.</p></div>
+            <div class="value-card"><div class="v-num">005</div><span class="v-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span><h3 class="v-title">Relentless Iteration</h3><p class="v-body">Launch is day one. We watch the data, listen to players, and update constantly.</p></div>
+            <div class="value-card"><div class="v-num">006</div><span class="v-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span><h3 class="v-title">Talent Without Ego</h3><p class="v-body">The best idea wins — regardless of who had it. No hierarchy, just great work.</p></div>
         </div>
     </div>
 </section>
 
-<!-- TIMELINE -->
 <section class="timeline">
-    <div class="section-wrap">
-        <div class="timeline-head fade-up">
-            <div class="mono-label">03 — History</div>
-            <h2 class="timeline-title">How we got here.</h2>
-        </div>
-        <div class="timeline-track">
-            <div class="timeline-line" id="timeline-line"></div>
-
-            <div class="timeline-entry">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">March 2024 — FOUNDED</div>
-                <h3 class="timeline-evt-title">Switch is born</h3>
-                <p class="timeline-evt-desc">The studio is founded with one goal: build Roblox games that actually feel like games. Starting from scratch with nothing but ideas and a vision for what quality on the platform could look like.</p>
-            </div>
-
-            <div class="timeline-entry">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">August 2024 — FIRST TITLE</div>
-                <h3 class="timeline-evt-title">Tsubasa Soccer enters development</h3>
-                <p class="timeline-evt-desc">Work begins on Tsubasa Soccer — our first title. Months of prototyping, playtesting, and relentless iteration to get the feel right before anything ships.</p>
-            </div>
-
-            <div class="timeline-entry">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">7 March 2025 — LAUNCH</div>
-                <h3 class="timeline-evt-title">Tsubasa Soccer launches</h3>
-                <p class="timeline-evt-desc">Tsubasa Soccer goes live on Roblox. The response from players confirms what we believed from day one — there's a real appetite for higher-quality experiences on the platform.</p>
-            </div>
-
-            <div class="timeline-entry">
-                <div class="timeline-dot"></div>
-                <div class="timeline-year">2025 — NOW</div>
-                <h3 class="timeline-evt-title">Still building</h3>
-                <p class="timeline-evt-desc">The mission hasn't changed. We're still a team of people who love games and believe Roblox is one of the most exciting creative platforms in the world. The best chapters are ahead.</p>
-            </div>
+    <div class="wrap">
+        <div data-r><div class="s-idx">03 — History</div><h2 class="tl-title">How we got here.</h2></div>
+        <div class="tl-track">
+            <div class="tl-entry" data-r><div class="tl-dot"></div><div class="tl-year">March 2025 — Founded</div><h3 class="tl-title2">Switch is born</h3><p class="tl-desc">The studio is founded with one goal: build Roblox games that actually feel like games. Starting with nothing but ideas and a vision for what quality on the platform could look like.</p></div>
+            <div class="tl-entry" data-r><div class="tl-dot"></div><div class="tl-year">August 2025 — First Title</div><h3 class="tl-title2">Tsubasa Soccer enters development</h3><p class="tl-desc">Work begins on our first title. Months of prototyping, playtesting, and relentless iteration to get the feel right before anything ships.</p></div>
+            <div class="tl-entry" data-r><div class="tl-dot"></div><div class="tl-year">7 March 2026 — Launch</div><h3 class="tl-title2">Tsubasa Soccer launches</h3><p class="tl-desc">Tsubasa Soccer goes live on Roblox. The response confirms what we believed from day one — there's a real appetite for higher-quality experiences on the platform.</p></div>
+            <div class="tl-entry" data-r><div class="tl-dot"></div><div class="tl-year">2026 — Now</div><h3 class="tl-title2">Still building</h3><p class="tl-desc">The mission hasn't changed. We're still a team who love games and believe Roblox is one of the most exciting creative platforms in the world. The best chapters are ahead.</p></div>
         </div>
     </div>
 </section>
 
-
-
-<!-- CTA -->
-<section class="cta-section">
-    <div class="cta-glow"></div>
-    <img src="/heroextended.png" class="cta-logo" alt="">
-    <div class="section-wrap">
-        <div class="cta-inner fade-up">
-            <div class="cta-text">
-                <div class="mono-label">04 — Join Us</div>
-                <h2 class="cta-title">
-                    Want to help<br>
-                    build <em>what's next?</em>
-                </h2>
-                <p class="cta-desc">We're always looking for talented, passionate people who want to make things that matter. Explore open roles or drop us a message — we'd love to hear from you.</p>
-                <div class="cta-buttons">
-                    <a href="/careers" class="btn btn-primary">See Open Roles →</a>
-                    <a href="/#contact" class="btn btn-outline">Get In Touch</a>
-                </div>
-            </div>
-            <div class="cta-aside" id="cta-openroles">
-                <!-- populated by JS -->
-            </div>
+<section class="cta">
+    <div class="cta-line"></div>
+    <div class="wrap">
+        <div class="cta-inner" data-r>
+            <div><div class="s-idx">04 — Join Us</div><h2 class="cta-title">Want to help build <em>what's next?</em></h2><p class="cta-sub">We're always looking for talented, passionate people who want to make things that matter. Explore open roles or drop us a message.</p><div class="cta-btns"><a href="/careers" class="btn btn-blue">See Open Roles →</a><a href="/#contact" class="btn btn-outline">Get In Touch</a></div></div>
+            <div id="cta-badge"></div>
         </div>
     </div>
 </section>
 
-<script src="/navbar.js"></script>
-<script src="/footer.js"></script>
+<script src="/navbar.js"></script><script src="/footer.js"></script>
 <script>
-function fmt(n) {
-    if (!n && n !== 0) return '—';
-    if (n >= 1e9) return (n/1e9).toFixed(1)+'B';
-    if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
-    if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
-    return n.toLocaleString();
-}
-
-// Load game stats
-async function loadStats() {
-    try {
-        const { games } = await fetch('/api/games').then(r => r.json());
-        document.getElementById('stat-games').textContent = games.length || '—';
-        document.getElementById('stat-visits').textContent = fmt(games.reduce((s,g) => s+(g.visits||0), 0));
-        document.getElementById('stat-playing').textContent = fmt(games.reduce((s,g) => s+(g.playing||0), 0));
-    } catch {}
-}
-
-
-
-// Load careers count for CTA
-async function loadCareers() {
-    try {
-        const { careers } = await fetch('/api/careers').then(r => r.json());
-        const count = careers?.length || 0;
-        if (count > 0) {
-            document.getElementById('cta-openroles').innerHTML = `
-                <div class="cta-badge">
-                    <div class="cta-badge-num">${count}</div>
-                    <div class="cta-badge-label">Open Roles</div>
-                </div>`;
-        }
-    } catch {}
-}
-
-// Scroll animations
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.fade-up, .timeline-entry').forEach(el => observer.observe(el));
-
-loadStats();
-loadCareers();
+function fmt(n){if(!n&&n!==0)return'—';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString();}
+async function loadStats(){try{const{games}=await fetch('/api/games').then(r=>r.json());document.getElementById('st-games').textContent=games.length||'—';document.getElementById('st-visits').textContent=fmt(games.reduce((s,g)=>s+(g.visits||0),0));document.getElementById('st-ccu').textContent=fmt(games.reduce((s,g)=>s+(g.playing||0),0));}catch{}}
+async function loadCareers(){try{const{careers}=await fetch('/api/careers').then(r=>r.json());const count=careers?.length||0;if(count>0){document.getElementById('cta-badge').innerHTML=`<div class="cta-badge"><div class="cta-badge-num">${count}</div><div class="cta-badge-lbl">Open Roles</div></div>`;}}catch{}}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:0.08});
+document.querySelectorAll('[data-r],.tl-entry,.mission-block').forEach(el=>obs.observe(el));
+loadStats();loadCareers();
 </script>
-</body>
-</html>
+</body></html>

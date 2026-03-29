@@ -6,13 +6,13 @@
     <title>Admin — Switch</title>
     <meta name="robots" content="noindex, nofollow"/>
     <link rel="icon" type="image/png" href="/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
     <style>
 :root {
-    --primary: #FBBF24;
-    --primary-dim: rgba(251,191,36,0.1);
-    --primary-glow: rgba(251,191,36,0.15);
+    --primary: #2563EB;
+    --primary-dim: rgba(37,99,235,0.12);
+    --primary-glow: rgba(37,99,235,0.18);
     --bg: #070707;
     --surface: #0e0e0e;
     --surface-2: #141414;
@@ -35,7 +35,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     background: var(--bg);
     color: var(--text);
     font-size: 13px;
@@ -69,8 +69,8 @@ body {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(251,191,36,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(251,191,36,0.04) 1px, transparent 1px);
+        linear-gradient(rgba(37,99,235,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.03) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse 90% 90% at 30% 50%, black 0%, transparent 100%);
 }
@@ -87,7 +87,7 @@ body {
     position: absolute;
     width: 500px; height: 500px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(251,191,36,0.07) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 65%);
     top: 50%; left: -80px;
     transform: translateY(-50%);
     pointer-events: none;
@@ -98,7 +98,7 @@ body {
 
 .login-left-mid { position: relative; }
 .login-eyebrow {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.24em;
     color: var(--primary);
@@ -117,8 +117,8 @@ body {
 }
 
 .login-left-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2.5rem, 4.5vw, 5rem);
     font-weight: 900;
     line-height: 0.9;
     letter-spacing: -0.02em;
@@ -131,7 +131,7 @@ body {
 }
 
 .login-left-desc {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.875rem;
     color: var(--muted);
     line-height: 1.75;
@@ -151,7 +151,7 @@ body {
     background: var(--border);
 }
 .login-left-bot span {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     letter-spacing: 0.2em;
     color: var(--muted-2);
@@ -175,7 +175,7 @@ body {
 }
 
 .login-heading {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.02em;
@@ -192,7 +192,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 0.4rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
 }
 .login-input {
     width: 100%;
@@ -200,7 +200,7 @@ body {
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.875rem;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
@@ -219,7 +219,7 @@ body {
     padding: 0.65rem 1rem;
     font-size: 0.75rem;
     margin-bottom: 0.875rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     line-height: 1.5;
 }
 
@@ -228,7 +228,7 @@ body {
     padding: 0.85rem;
     background: var(--primary);
     color: #000;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.85rem;
     font-weight: 700;
     border: none;
@@ -241,7 +241,7 @@ body {
     justify-content: center;
     gap: 0.5rem;
 }
-.login-btn:hover { background: #e5a800; }
+.login-btn:hover { background: #1D4ED8; }
 .login-btn:active { transform: scale(0.99); }
 .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -249,7 +249,7 @@ body {
     margin-top: 1.75rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     color: var(--muted-2);
     letter-spacing: 0.1em;
@@ -306,7 +306,7 @@ body {
 
 .sidebar-user-info { min-width: 0; flex: 1; }
 .sidebar-user-name {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 0.78rem;
     font-weight: 700;
     white-space: nowrap;
@@ -314,7 +314,7 @@ body {
     text-overflow: ellipsis;
 }
 .sidebar-user-role {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem;
     color: var(--primary);
     letter-spacing: 0.1em;
@@ -342,7 +342,7 @@ body {
 .sidebar-nav::-webkit-scrollbar { width: 0; }
 
 .nav-group-label {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem;
     letter-spacing: 0.2em;
     color: var(--muted-2);
@@ -365,7 +365,7 @@ body {
     width: 100%;
     text-align: left;
     transition: color 0.12s, background 0.12s;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     border-left: 2px solid transparent;
     position: relative;
 }
@@ -390,7 +390,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0 4px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .sidebar-footer {
@@ -407,7 +407,7 @@ body {
     background: transparent;
     border: 1px solid var(--border);
     color: var(--muted);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.75rem;
     font-weight: 500;
     cursor: pointer;
@@ -438,7 +438,7 @@ body {
 }
 
 .topbar-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     color: var(--muted);
@@ -448,7 +448,7 @@ body {
 .topbar-spacer { flex: 1; }
 
 .topbar-clock {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
     color: var(--muted-2);
     letter-spacing: 0.08em;
@@ -458,7 +458,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     color: var(--green);
     letter-spacing: 0.1em;
@@ -531,7 +531,7 @@ body {
 .metric-card.orange::before { background: var(--orange); }
 
 .metric-label {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     letter-spacing: 0.18em;
     color: var(--muted);
@@ -545,7 +545,7 @@ body {
 .metric-icon { opacity: 0.45; flex-shrink: 0; }
 
 .metric-value {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -587,7 +587,7 @@ body {
 }
 
 .panel-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 0.75rem;
     font-weight: 700;
     display: flex;
@@ -596,7 +596,7 @@ body {
 }
 
 .panel-mono {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     color: var(--muted-2);
     letter-spacing: 0.1em;
@@ -638,7 +638,7 @@ body {
 .activity-text { font-size: 0.75rem; line-height: 1.5; color: var(--muted); }
 .activity-text strong { color: var(--text); font-weight: 600; }
 .activity-time {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     color: var(--muted-2);
     margin-top: 0.2rem;
@@ -657,7 +657,7 @@ body {
     background: var(--surface-2);
     border: 1px solid var(--border);
     color: var(--muted);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.72rem;
     font-weight: 600;
     cursor: pointer;
@@ -703,7 +703,7 @@ body {
 }
 
 .list-pane-title {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.18em;
     color: var(--muted);
@@ -723,7 +723,7 @@ body {
     background: var(--surface-2);
     border: 1px solid var(--border);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.78rem;
     outline: none;
     transition: border-color 0.15s;
@@ -758,7 +758,7 @@ body {
 .list-row.active { background: var(--surface-2); border-left-color: var(--primary); }
 
 .list-row-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     white-space: nowrap;
@@ -786,12 +786,12 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
 }
 .pill-live { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
 .pill-draft { background: var(--surface-3); color: var(--muted); border: 1px solid var(--border-2); }
 .pill-new { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
-.pill-yellow { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(251,191,36,0.2); }
+.pill-yellow { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(37,99,235,0.25); }
 .pill-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
 
 .meta-dot {
@@ -801,7 +801,7 @@ body {
 .meta-txt {
     font-size: 0.68rem;
     color: var(--muted-2);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .list-empty {
@@ -836,7 +836,7 @@ body {
 .detail-empty p {
     font-size: 0.78rem;
     color: var(--muted-2);
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.06em;
 }
 
@@ -858,7 +858,7 @@ body {
 }
 
 .toolbar-title {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     flex: 1;
@@ -884,7 +884,7 @@ body {
 .field-group { display: flex; flex-direction: column; gap: 0.375rem; }
 
 .field-label {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     color: var(--muted);
@@ -896,7 +896,7 @@ body {
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.82rem;
     outline: none;
     width: 100%;
@@ -958,7 +958,7 @@ body {
     align-items: center;
     gap: 0.375rem;
     padding: 0.55rem 1rem;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
     border: none;
@@ -969,8 +969,8 @@ body {
 }
 .btn svg { width: 12px; height: 12px; }
 
-.btn-primary { background: var(--primary); color: #000; }
-.btn-primary:hover { background: #e5a800; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #1D4ED8; }
 
 .btn-ghost {
     background: transparent;
@@ -1033,7 +1033,7 @@ body {
     color: var(--text);
     font-size: 0.72rem;
     outline: none;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 .tag-add-input::placeholder { color: var(--muted-2); }
 
@@ -1048,7 +1048,7 @@ body {
     border: 1px solid var(--border) !important;
     background: var(--surface) !important;
     min-height: 200px !important;
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
 }
 .ql-editor { color: var(--text) !important; font-size: 0.85rem !important; min-height: 200px !important; }
 .ql-snow .ql-picker { color: var(--muted) !important; }
@@ -1073,7 +1073,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     color: var(--muted-2);
     letter-spacing: 0.08em;
@@ -1133,7 +1133,7 @@ body {
     font-size: 0.73rem;
 }
 .audit-time {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem;
     color: var(--muted-2);
     flex-shrink: 0;
@@ -1161,7 +1161,7 @@ body {
     display: inline-flex;
     align-items: center;
     padding: 1px 6px;
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -1169,7 +1169,7 @@ body {
 }
 .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
 .badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
-.badge-yellow { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(251,191,36,0.2); }
+.badge-yellow { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(37,99,235,0.25); }
 .badge-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
 .badge-muted { background: var(--surface-3); color: var(--muted); border: 1px solid var(--border-2); }
 
@@ -1178,7 +1178,7 @@ body {
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .info-block { }
 .info-key {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     color: var(--muted-2);
@@ -1243,14 +1243,14 @@ body {
 }
 
 .profile-info-name {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Anton', sans-serif;
     font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: -0.01em;
 }
 
 .profile-info-role {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
     color: var(--primary);
     letter-spacing: 0.15em;
@@ -1622,7 +1622,7 @@ body {
                             <div class="detail-body">
                                 <div class="field-group">
                                     <label class="field-label">Title</label>
-                                    <input type="text" class="field-input" id="post-title" placeholder="Post title…" style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;">
+                                    <input type="text" class="field-input" id="post-title" placeholder="Post title…" style="font-family:'Anton',sans-serif;font-size:1rem;font-weight:700;">
                                 </div>
 
                                 <!-- Cover image — upload or URL -->
@@ -2058,7 +2058,7 @@ body {
                 <div style="flex:1;overflow-y:auto;padding:1.75rem;">
                     <div style="max-width:560px;display:flex;flex-direction:column;gap:1.5rem;">
                         <div>
-                            <div style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;margin-bottom:0.25rem;">Announcement Banner</div>
+                            <div style="font-family:'Anton',sans-serif;font-size:0.875rem;font-weight:700;margin-bottom:0.25rem;">Announcement Banner</div>
                             <div style="font-size:0.75rem;color:var(--muted);margin-bottom:1rem;">Shows a banner at the top of every page on the site.</div>
                             <div class="announce-preview" id="announce-preview" style="display:none"></div>
                             <div style="display:flex;flex-direction:column;gap:0.875rem;">
@@ -2074,7 +2074,7 @@ body {
                                 <div class="field-row">
                                     <div class="field-group">
                                         <label class="field-label">Background Colour</label>
-                                        <input type="color" class="field-input" id="announce-bg" value="#FBBF24" oninput="previewAnnounce()" style="height:40px;cursor:pointer;padding:2px;">
+                                        <input type="color" class="field-input" id="announce-bg" value="#2563EB" oninput="previewAnnounce()" style="height:40px;cursor:pointer;padding:2px;">
                                     </div>
                                     <div class="field-group">
                                         <label class="field-label">Text Colour</label>
@@ -2127,7 +2127,7 @@ body {
                                 </div>
                             </div>
                             <div class="divider"></div>
-                            <div style="font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;margin-bottom:0.5rem;">Change Password</div>
+                            <div style="font-family:'Anton',sans-serif;font-size:0.78rem;font-weight:700;margin-bottom:0.5rem;">Change Password</div>
                             <div class="field-group">
                                 <label class="field-label">Current Password</label>
                                 <input type="password" class="field-input" id="profile-cur-pw" placeholder="••••••••">
@@ -2372,12 +2372,12 @@ function drawChart(trend) {
             datasets: [{
                 label: 'Views',
                 data: viewData,
-                borderColor: '#FBBF24',
-                backgroundColor: 'rgba(251,191,36,0.06)',
+                borderColor: '#2563EB',
+                backgroundColor: 'rgba(37,99,235,0.06)',
                 borderWidth: 2,
                 fill: true,
                 tension: 0.3,
-                pointBackgroundColor: '#FBBF24',
+                pointBackgroundColor: '#2563EB',
                 pointRadius: 3,
                 pointHoverRadius: 5,
             }]
@@ -2437,18 +2437,18 @@ async function loadAnalytics() {
                     <table style="width:100%;border-collapse:collapse;font-size:0.75rem;">
                         <thead>
                             <tr style="border-bottom:1px solid var(--border);">
-                                <th style="text-align:left;padding:0.5rem 0.75rem;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Date</th>
-                                <th style="text-align:right;padding:0.5rem 0.75rem;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Views</th>
-                                <th style="text-align:right;padding:0.5rem 0.75rem;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Contacts</th>
-                                <th style="text-align:right;padding:0.5rem 0.75rem;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Applications</th>
+                                <th style="text-align:left;padding:0.5rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Date</th>
+                                <th style="text-align:right;padding:0.5rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Views</th>
+                                <th style="text-align:right;padding:0.5rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Contacts</th>
+                                <th style="text-align:right;padding:0.5rem 0.75rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--muted-2);text-transform:uppercase;font-weight:400;">Applications</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${trend.slice().reverse().map(d => `<tr style="border-bottom:1px solid var(--border);">
-                                <td style="padding:0.5rem 0.75rem;font-family:'DM Mono',monospace;color:var(--muted);">${d.date}</td>
-                                <td style="padding:0.5rem 0.75rem;text-align:right;color:var(--primary);font-family:'DM Mono',monospace;">${d.views}</td>
-                                <td style="padding:0.5rem 0.75rem;text-align:right;color:var(--green);font-family:'DM Mono',monospace;">${d.contacts}</td>
-                                <td style="padding:0.5rem 0.75rem;text-align:right;color:var(--blue);font-family:'DM Mono',monospace;">${d.applications}</td>
+                                <td style="padding:0.5rem 0.75rem;font-family:'JetBrains Mono',monospace;color:var(--muted);">${d.date}</td>
+                                <td style="padding:0.5rem 0.75rem;text-align:right;color:var(--primary);font-family:'JetBrains Mono',monospace;">${d.views}</td>
+                                <td style="padding:0.5rem 0.75rem;text-align:right;color:var(--green);font-family:'JetBrains Mono',monospace;">${d.contacts}</td>
+                                <td style="padding:0.5rem 0.75rem;text-align:right;color:var(--blue);font-family:'JetBrains Mono',monospace;">${d.applications}</td>
                             </tr>`).join('')}
                         </tbody>
                     </table>
@@ -2460,15 +2460,15 @@ async function loadAnalytics() {
                     ${[['Total Page Views', totals.pageViews,'yellow'],['Total Contacts', totals.contacts,'green'],['Total Applications',totals.applications,'blue'],['Unread Messages',totals.unreadMessages,'red'],['Unread Applications',totals.unreadApplications,'red']].map(([l,v,c])=>`
                         <div style="display:flex;justify-content:space-between;align-items:center;padding:0.625rem 0;border-bottom:1px solid var(--border);">
                             <span style="font-size:0.75rem;color:var(--muted);">${l}</span>
-                            <span style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--${c})">${fmtNum(v)}</span>
+                            <span style="font-family:'Anton',sans-serif;font-size:1.1rem;font-weight:800;color:var(--${c})">${fmtNum(v)}</span>
                         </div>`).join('')}
                 </div>
             </div>
             <div class="panel">
                 <div class="panel-head"><div class="panel-title">Busiest Day</div></div>
                 <div class="panel-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;padding:2rem;">
-                    ${busiestDay ? `<div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted-2);letter-spacing:0.15em;">${busiestDay.date}</div>
-                    <div style="font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--primary);letter-spacing:-0.03em;">${busiestDay.views}</div>
+                    ${busiestDay ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted-2);letter-spacing:0.15em;">${busiestDay.date}</div>
+                    <div style="font-family:'Anton',sans-serif;font-size:3rem;font-weight:800;color:var(--primary);letter-spacing:-0.03em;">${busiestDay.views}</div>
                     <div style="font-size:0.72rem;color:var(--muted);">page views</div>` : '<div style="color:var(--muted-2);font-size:0.78rem;">No data yet</div>'}
                 </div>
             </div>
@@ -2969,7 +2969,7 @@ async function loadSiteSettings() {
         const a = settings.announcement || {};
         setToggle('announce-toggle', 'announce-enabled', a.enabled || false);
         document.getElementById('announce-text').value = a.text || '';
-        document.getElementById('announce-bg').value = a.background || '#FBBF24';
+        document.getElementById('announce-bg').value = a.background || '#2563EB';
         document.getElementById('announce-color').value = a.textColor || '#0A0A0A';
         document.getElementById('announce-link').value = a.link || '';
         previewAnnounce();
