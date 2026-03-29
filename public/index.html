@@ -32,45 +32,127 @@
         [data-r].in{opacity:1;transform:none;}
         [data-r][data-d="1"]{transition-delay:0.1s;}[data-r][data-d="2"]{transition-delay:0.2s;}
 
-        /* MARQUEE */
-        .marquee-strip{background:var(--blue);overflow:hidden;padding:0.65rem 0;}
-        .marquee-track{display:flex;width:max-content;animation:scrollLeft 24s linear infinite;}
-        .marquee-item{font-family:'Anton',sans-serif;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--white);padding:0 2.5rem;border-right:1px solid rgba(255,255,255,0.14);white-space:nowrap;}
-        @keyframes scrollLeft{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-        /* HERO SECTION - DOMINANT LOGO & SMALLER SUBTITLE */
-        .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;border-bottom:1px solid var(--rule);}
-        .hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(37,99,235,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.04) 1px,transparent 1px);background-size:80px 80px;}
-        .hero-grid::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 90% at 50% 50%,transparent 20%,var(--ink) 100%);}
-        
-        .hero-body{position:relative;z-index:1;max-width:1400px;width:100%;padding:0 3rem;display:flex;flex-direction:column;align-items:center;text-align:center;}
-        
-        /* Logo even bigger */
-        .hero-logo-large{width:clamp(450px, 65vw, 950px);display:block;margin-top: 5vh; margin-bottom: 1.5rem; filter:brightness(0) invert(1);opacity:0;transform:translateY(30px);animation:heroFadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;}
-        
-        /* Text smaller and spaced */
-        .hero-tline-wrap{overflow:hidden;}
-        .hero-tline{font-family:'Anton',sans-serif;font-size:clamp(2rem, 5vw, 5rem);line-height:1;letter-spacing:0.05em;text-transform:uppercase;color:var(--white);display:block;transform:translateY(105%);animation:heroFadeUpText 0.95s cubic-bezier(0.16,1,0.3,1) forwards;}
+
+        /* ── HERO ── */
+        .hero{
+            position:relative;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-end;
+            overflow:hidden;
+            border-bottom:1px solid var(--rule);
+        }
+
+        /* Hero.png as background */
+        .hero-bg{
+            position:absolute;
+            inset:0;
+            z-index:0;
+        }
+        .hero-bg img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            object-position:center top;
+            opacity:0.45;
+        }
+        /* Dark vignette — stronger on left/bottom where text lives */
+        .hero-bg::after{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:
+                linear-gradient(to right, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.55) 55%, rgba(8,8,8,0.1) 100%),
+                linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 60%);
+        }
+
+        /* Subtle grid overlay */
+        .hero-grid{
+            position:absolute;
+            inset:0;
+            z-index:1;
+            background-image:linear-gradient(rgba(37,99,235,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.025) 1px,transparent 1px);
+            background-size:80px 80px;
+            mask-image:linear-gradient(to right, black 0%, transparent 60%);
+        }
+
+        .hero-body{
+            position:relative;
+            z-index:2;
+            max-width:1400px;
+            width:100%;
+            padding:0 3rem 5rem;
+            margin:0 auto;
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+            text-align:left;
+        }
+
+        /* Logo — smaller, left aligned */
+        .hero-logo{
+            width:clamp(160px, 22vw, 280px);
+            display:block;
+            margin-bottom:2.5rem;
+            filter:brightness(0) invert(1);
+            opacity:0;
+            transform:translateY(24px);
+            animation:heroUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.25s forwards;
+        }
+
+        /* Main headline */
+        .hero-tline-wrap{overflow:hidden;margin-bottom:0.5rem;}
+        .hero-tline{
+            font-family:'Anton',sans-serif;
+            font-size:clamp(3.5rem, 8vw, 8.5rem);
+            line-height:0.92;
+            letter-spacing:-0.01em;
+            text-transform:uppercase;
+            color:var(--white);
+            display:block;
+            transform:translateY(105%);
+            animation:heroSlideUp 0.95s cubic-bezier(0.16,1,0.3,1) 0.35s forwards;
+        }
+        .hero-tline-2{animation-delay:0.45s;}
         .hero-tline .accent{color:var(--blue);}
-        
-        @keyframes heroFadeUp{to{opacity:1;transform:translateY(0);}}
-        @keyframes heroFadeUpText{to{transform:translateY(0);}}
 
-        .hero-footer{width:100%;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-top:5rem;padding-top:2.5rem;border-top:1px solid rgba(250,250,248,0.07);opacity:0;animation:heroFadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;text-align:left;}
-        .hero-tagline{font-size:clamp(0.9rem,1.2vw,1rem);color:var(--muted);line-height:1.7;max-width:440px;}
-        .hero-actions{display:flex;gap:0.875rem;}
+        .hero-sub{
+            font-size:clamp(0.9rem, 1.2vw, 1rem);
+            color:var(--muted);
+            line-height:1.75;
+            max-width:420px;
+            margin-top:1.75rem;
+            margin-bottom:2.5rem;
+            opacity:0;
+            animation:heroUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+        }
+
+        .hero-actions{
+            display:flex;
+            gap:0.875rem;
+            flex-wrap:wrap;
+            opacity:0;
+            animation:heroUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.7s forwards;
+        }
+
+        @keyframes heroUp{to{opacity:1;transform:translateY(0);}}
+        @keyframes heroSlideUp{to{transform:translateY(0);}}
 
         /* BUTTONS */
         .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.875rem;font-family:'Manrope',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;border:none;transition:background 0.15s,transform 0.12s;}
         .btn:hover{transform:translateY(-1px);}
         .btn-blue{background:var(--blue);color:var(--white);}
         .btn-blue:hover{background:var(--blue-mid);}
-        .btn-ghost{background:transparent;border:1px solid rgba(250,250,248,0.18);color:var(--white);}
+        .btn-ghost{background:transparent;border:1px solid rgba(250,250,248,0.22);color:var(--white);}
+        .btn-ghost:hover{border-color:rgba(250,250,248,0.5);}
         .btn-dark{background:#111;color:var(--white);border:1px solid var(--rule);}
 
         /* STATS */
         .stats-strip{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule);}
         .stat-cell{padding:2.75rem 3rem;border-right:1px solid var(--rule);position:relative;}
+        .stat-cell:last-child{border-right:none;}
         .stat-cell::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--blue);transform:scaleY(0);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);}
         .stat-cell:hover::before{transform:scaleY(1);}
         .stat-num{font-family:'Anton',sans-serif;font-size:clamp(3rem,5vw,4.5rem);line-height:1;margin-bottom:0.5rem;}
@@ -80,7 +162,7 @@
         .wrap{max-width:1400px;margin:0 auto;padding:0 3rem;}
         .s-hdr{display:flex;align-items:flex-end;justify-content:space-between;padding:3rem 0 2.5rem;border-bottom:1px solid var(--rule);gap:2rem;}
         .s-idx{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;}
-        .s-title{font-family:'Anton',sans-serif;font-size:clamp(2.25rem,4vw,4rem);text-transform:uppercase;line-height:0.95;}
+        .s-title{font-family:'Anton',sans-serif;font-size:clamp(2.75rem,5vw,5rem);text-transform:uppercase;line-height:0.93;letter-spacing:-0.01em;}
 
         /* FEATURED GAME */
         .featured-section{border-bottom:1px solid var(--rule);padding:4rem 0;}
@@ -131,14 +213,15 @@
         .blog-ttl{font-weight:700;font-size:1.05rem;transition:color 0.15s;}
         .blog-row:hover .blog-ttl{color:var(--blue);}
 
-        /* CONTACT */
+        /* CONTACT — fixed mobile stacking */
         .contact-sec{padding:5rem 0 6rem;}
-        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
         .c-heading{font-family:'Anton',sans-serif;font-size:clamp(3rem,6vw,6rem);line-height:0.9;text-transform:uppercase;}
         .ff{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.25rem;}
-        .ff label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(250,250,248,0.28);text-transform:uppercase;}
-        .ff input,.ff textarea{background:#0e0e0e;border:1px solid var(--rule);color:var(--white);padding:0.875rem 1rem;outline:none;}
+        .ff label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(250,250,248,0.28);text-transform:uppercase;display:block;}
+        .ff input,.ff textarea{background:#0e0e0e;border:1px solid var(--rule);color:var(--white);padding:0.875rem 1rem;outline:none;width:100%;font-family:'Manrope',sans-serif;font-size:0.9rem;}
         .ff input:focus,.ff textarea:focus{border-color:var(--blue);}
+        .ff textarea{resize:vertical;min-height:120px;}
 
         /* MODAL */
         .modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,8,8,0.9);backdrop-filter:blur(16px);align-items:center;justify-content:center;padding:2rem;}
@@ -148,6 +231,7 @@
         .m-title{font-family:'Anton',sans-serif;font-size:2rem;text-transform:uppercase;padding:2rem;}
         .m-body{padding:0 2rem 2.5rem;color:var(--muted);line-height:1.8;}
 
+        /* RESPONSIVE */
         @media(max-width:1024px){
             .featured-card{grid-template-columns:1fr;margin:0 1.5rem;}
             .featured-info-col{padding:3rem 2rem;border-left:none;border-top:1px solid var(--rule);}
@@ -156,12 +240,19 @@
             .about-grid{grid-template-columns:1fr;}
         }
         @media(max-width:768px){
-            .hero-body,.wrap{padding:0 1.5rem;}
-            .hero-logo-large{width: 90vw;}
+            .hero-body,.wrap{padding-left:1.5rem;padding-right:1.5rem;}
+            .hero-body{padding-bottom:4rem;}
             .stats-strip{grid-template-columns:1fr;}
-            .hero-actions{flex-direction:column;}
+            .stat-cell{border-right:none;border-bottom:1px solid var(--rule);}
             .games-grid{grid-template-columns:1fr;}
             .s-hdr{flex-direction:column;align-items:flex-start;}
+            /* Contact form — stack on mobile */
+            .contact-grid{
+                grid-template-columns:1fr;
+                gap:3rem;
+            }
+            .hero-actions{flex-direction:column;width:100%;}
+            .hero-actions .btn{width:100%;justify-content:center;}
         }
     </style>
 </head>
@@ -174,27 +265,30 @@
 
 <div class="cursor" id="cursor"></div>
 
-<div class="marquee-strip">
-    <div class="marquee-track">
-        <div class="marquee-item">Switch</div><div class="marquee-item">Est. 2025</div><div class="marquee-item">Roblox Studio</div><div class="marquee-item">Tsubasa Soccer</div><div class="marquee-item">Switch</div><div class="marquee-item">Est. 2025</div><div class="marquee-item">Roblox Studio</div><div class="marquee-item">Tsubasa Soccer</div>
-    </div>
-</div>
 
+
+<!-- HERO — left aligned, Hero.png backdrop -->
 <section class="hero">
+    <div class="hero-bg">
+        <img src="/Hero.png" alt="">
+    </div>
     <div class="hero-grid"></div>
+
     <div class="hero-body">
-        <img src="/logoextended.png" class="hero-logo-large" alt="Switch">
-        
+        <img src="/logoextended.png" class="hero-logo" alt="Switch">
+
         <div class="hero-tline-wrap">
-            <span class="hero-tline">We Make <span class="accent">Games.</span></span>
+            <span class="hero-tline">We Make</span>
+        </div>
+        <div class="hero-tline-wrap">
+            <span class="hero-tline hero-tline-2"><span class="accent">Games.</span></span>
         </div>
 
-        <div class="hero-footer">
-            <p class="hero-tagline">An independent Roblox studio building experiences that millions of players actually want to play.</p>
-            <div class="hero-actions">
-                <a href="/games" class="btn btn-blue">Explore Games ↗</a>
-                <a href="#contact" class="btn btn-ghost">Contact Us</a>
-            </div>
+        <p class="hero-sub">An independent Roblox studio building experiences that millions of players actually want to play.</p>
+
+        <div class="hero-actions">
+            <a href="/games" class="btn btn-blue">Explore Games</a>
+            <a href="#contact" class="btn btn-ghost">Contact Us</a>
         </div>
     </div>
 </section>
@@ -206,7 +300,7 @@
 </div>
 
 <section class="featured-section" id="featured-wrap" style="display:none;">
-    <div class="wrap"><div class="s-hdr" data-r><div><div class="s-idx">01 — Featured</div><h2 class="s-title">Now Playing</h2></div><a href="/games" class="btn btn-dark">All Games →</a></div></div>
+    <div class="wrap"><div class="s-hdr" data-r><div><div class="s-idx">01 — Featured</div><h2 class="s-title">Now Playing</h2></div><a href="/games" class="btn btn-dark">All Games</a></div></div>
     <a href="#" id="featured-link" class="featured-card">
         <div class="featured-img-col"><img id="feat-img" src="" alt=""></div>
         <div class="featured-info-col">
@@ -217,7 +311,7 @@
                 <div><div class="feat-stat-lbl">Playing</div><div class="feat-stat-val" id="feat-playing">—</div></div>
                 <div><div class="feat-stat-lbl">Visits</div><div class="feat-stat-val" id="feat-visits">—</div></div>
             </div>
-            <div class="btn btn-blue" style="width:fit-content">Play on Roblox ↗</div>
+            <div class="btn btn-blue" style="width:fit-content">Play on Roblox</div>
         </div>
     </a>
 </section>
@@ -228,13 +322,13 @@
 </section>
 
 <section style="border-top:1px solid var(--rule);">
-    <div class="wrap"><div class="s-hdr" data-r><div><div class="s-idx">03 — Studio</div><h2 class="s-title">About Us</h2></div><a href="/about" class="btn btn-dark">Our Story →</a></div></div>
+    <div class="wrap"><div class="s-hdr" data-r><div><div class="s-idx">03 — Studio</div><h2 class="s-title">About Us</h2></div><a href="/about" class="btn btn-dark">Our Story</a></div></div>
     <div class="wrap">
         <div class="about-grid">
             <div class="about-l" data-r>
                 <h2 class="about-big">Building worlds<br>that <span class="hl">bring</span><br>people together.</h2>
                 <p class="about-p">Switch is a Roblox game studio founded in 2025. We make games that are polished, competitive, and community-driven.</p>
-                <a href="/about" class="btn btn-ghost" style="margin-top:1.5rem;">Read More →</a>
+                <a href="/about" class="btn btn-ghost" style="margin-top:1.5rem;">Read More</a>
             </div>
             <div class="about-r" data-r data-d="2">
                 <div class="pillars">
@@ -257,13 +351,15 @@
     <div class="wrap">
         <div class="s-idx">05 — Contact</div>
         <div class="contact-grid">
-            <div data-r><h2 class="c-heading">Get in<br>Touch.</h2></div>
+            <div data-r>
+                <h2 class="c-heading">Get in<br>Touch.</h2>
+            </div>
             <div data-r data-d="2">
                 <form id="contact-form">
                     <div class="ff"><label>Name</label><input type="text" id="cn" required></div>
                     <div class="ff"><label>Email</label><input type="email" id="ce" required></div>
-                    <div class="ff"><label>Message</label><textarea id="cm" rows="4" required></textarea></div>
-                    <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center;">Send Message →</button>
+                    <div class="ff"><label>Message</label><textarea id="cm" rows="5" required></textarea></div>
+                    <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center;">Send Message</button>
                 </form>
             </div>
         </div>
@@ -272,7 +368,7 @@
 
 <div class="modal" id="blog-modal">
     <div class="m-inner">
-        <div class="m-bar"><span id="m-date"></span><button class="m-close" onclick="closeModal()">✕</button></div>
+        <div class="m-bar"><span id="m-date"></span><button class="m-close" onclick="closeModal()">&#x2715;</button></div>
         <h2 class="m-title" id="m-title"></h2>
         <div class="m-body" id="m-body"></div>
     </div>
@@ -334,9 +430,9 @@
             const { posts } = await fetch('/api/blog/posts').then(r => r.json());
             document.getElementById('blog-list').innerHTML = posts.slice(0,3).map((p,i) => `
                 <div class="blog-row" onclick="openModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
-                    <span class="blog-num">0${i+1}</span>
+                    <span class="blog-num" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--blue);letter-spacing:0.1em;">0${i+1}</span>
                     <div class="blog-ttl">${p.title}</div>
-                    <span class="blog-rt">Read More →</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;white-space:nowrap;">Read More</span>
                 </div>`).join('');
         } catch(e) {}
     }
@@ -348,6 +444,28 @@
         document.body.style.overflow = 'hidden';
     }
     function closeModal() { document.getElementById('blog-modal').classList.remove('open'); document.body.style.overflow = ''; }
+
+    // Contact form
+    document.getElementById('contact-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        const orig = btn.textContent;
+        btn.disabled = true; btn.textContent = 'Sending...';
+        try {
+            const r = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: document.getElementById('cn').value,
+                    email: document.getElementById('ce').value,
+                    subject: 'Website Contact',
+                    message: document.getElementById('cm').value
+                })
+            });
+            if (r.ok) { e.target.reset(); btn.textContent = 'Sent!'; setTimeout(() => { btn.disabled = false; btn.textContent = orig; }, 3000); }
+            else throw new Error();
+        } catch { btn.disabled = false; btn.textContent = orig; alert('Failed to send. Please try again.'); }
+    });
 
     loadGames();
     loadBlog();
