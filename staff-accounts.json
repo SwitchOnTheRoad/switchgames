@@ -1,3 +1,13 @@
 {
- 
+  "accounts": [
+    {
+      "id": "d87ffabf14c37cd4",
+      "username": "Switch",
+      "passwordHash": "c6791c45e011aecd2f3c0f20b919784c4f8bd2d1be2f5c54e9e6b0043225058e",
+      "displayName": "Switch",
+      "role": "admin",
+      "createdAt": "2026-03-30T20:39:03.749Z",
+      "lastLogin": "2026-03-30T20:39:34.039Z"
+    }
+  ]
 }

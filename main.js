@@ -130,22 +130,22 @@ if (process.env.DATA_DIR) {
 
 // Staff accounts
 const STAFF_ACCOUNTS_FILE = path.join(DATA_ROOT, 'staff-accounts.json');
-function readStaffAccounts() { try { return JSON.parse(readFileSync(STAFF_ACCOUNTS_FILE, 'utf-8')).accounts; } catch { return []; } }
+function readStaffAccounts() { try { return JSON.parse(readFileSync(STAFF_ACCOUNTS_FILE, 'utf-8')).accounts || []; } catch { return []; } }
 function writeStaffAccounts(a) { try { writeFileSync(STAFF_ACCOUNTS_FILE, JSON.stringify({ accounts: a }, null, 2), 'utf-8'); } catch (e) { console.error('[writeStaffAccounts]', e.message); } }
 
 // Staff directory
 const STAFF_FILE = path.join(DATA_ROOT, 'staff.json');
-function readStaff() { try { return JSON.parse(readFileSync(STAFF_FILE, 'utf-8')).staff; } catch { return []; } }
+function readStaff() { try { return JSON.parse(readFileSync(STAFF_FILE, 'utf-8')).staff || []; } catch { return []; } }
 function writeStaff(s) { try { writeFileSync(STAFF_FILE, JSON.stringify({ staff: s }, null, 2), 'utf-8'); } catch (e) { console.error('[writeStaff]', e.message); } }
 
 // Contacts
 const CONTACTS_FILE = path.join(DATA_ROOT, 'contacts.json');
-function readContacts() { try { return JSON.parse(readFileSync(CONTACTS_FILE, 'utf-8')).contacts; } catch { return []; } }
+function readContacts() { try { return JSON.parse(readFileSync(CONTACTS_FILE, 'utf-8')).contacts || []; } catch { return []; } }
 function writeContacts(c) { try { writeFileSync(CONTACTS_FILE, JSON.stringify({ contacts: c }, null, 2), 'utf-8'); } catch (e) { console.error('[writeContacts]', e.message); } }
 
 // Applications
 const APPLICATIONS_FILE = path.join(DATA_ROOT, 'applications.json');
-function readApplications() { try { return JSON.parse(readFileSync(APPLICATIONS_FILE, 'utf-8')).applications; } catch { return []; } }
+function readApplications() { try { return JSON.parse(readFileSync(APPLICATIONS_FILE, 'utf-8')).applications || []; } catch { return []; } }
 function writeApplications(a) { try { writeFileSync(APPLICATIONS_FILE, JSON.stringify({ applications: a }, null, 2), 'utf-8'); } catch (e) { console.error('[writeApplications]', e.message); } }
 
 

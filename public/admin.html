@@ -1595,7 +1595,18 @@ body {
                                     <div class="field-group"><label class="field-label">Discord</label><input type="text" class="field-input" id="staff-discord" placeholder="username"></div>
                                     <div class="field-group"><label class="field-label">Roblox Username</label><input type="text" class="field-input" id="staff-roblox" placeholder="RobloxUser"></div>
                                 </div>
-                                <div class="field-group"><label class="field-label">Avatar URL</label><input type="text" class="field-input" id="staff-avatar" placeholder="https://…"></div>
+                                <div class="field-group">
+                                    <label class="field-label">Avatar</label>
+                                    <div style="display:flex;align-items:center;gap:0.875rem;">
+                                        <img id="staff-avatar-preview" src="" alt="" style="width:40px;height:40px;object-fit:cover;background:var(--surface3);border:1px solid var(--rule);display:none;">
+                                        <div style="flex:1;">
+                                            <input type="file" id="staff-avatar-file" accept="image/*" style="display:none" onchange="previewStaffAvatar(this)">
+                                            <input type="hidden" id="staff-avatar">
+                                            <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('staff-avatar-file').click()">Upload Image</button>
+                                            <span id="staff-avatar-filename" style="font-size:0.72rem;color:var(--text3);margin-left:0.5rem;"></span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="field-group"><label class="field-label">Internal Notes</label><textarea class="field-textarea" id="staff-notes" rows="2" placeholder="Internal notes…"></textarea></div>
                             </div>
                         </div>
@@ -2187,19 +2198,35 @@ function renderStaff(){
         <div class="list-row-meta"><span class="meta-txt">${esc(m.role||m.department||'')}</span><span class="pill ${m.status==='active'?'pill-live':'pill-draft'}">${m.status||'active'}</span></div>
     </div>`).join('')||'<div class="list-empty">No staff members yet.</div>';
 }
-function openNewStaff(){currentStaff=null;document.getElementById('staff-form-title').textContent='New Member';['staff-name','staff-role','staff-department','staff-discord','staff-roblox','staff-avatar','staff-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('staff-status').value='active';document.getElementById('staff-delete-btn').style.display='none';showDetailForm('staff');}
+function openNewStaff(){currentStaff=null;document.getElementById('staff-form-title').textContent='New Member';['staff-name','staff-role','staff-department','staff-discord','staff-roblox','staff-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('staff-avatar').value='';document.getElementById('staff-avatar-file').value='';document.getElementById('staff-avatar-filename').textContent='';document.getElementById('staff-avatar-preview').style.display='none';document.getElementById('staff-status').value='active';document.getElementById('staff-delete-btn').style.display='none';showDetailForm('staff');}
+function previewStaffAvatar(input){const file=input.files[0];if(!file)return;const prev=document.getElementById('staff-avatar-preview');prev.src=URL.createObjectURL(file);prev.style.display='block';document.getElementById('staff-avatar-filename').textContent=file.name;}
 function openStaff(id){
     currentStaff=staffList.find(s=>s.id===id);if(!currentStaff)return;
     document.getElementById('staff-form-title').textContent=currentStaff.name;
     document.getElementById('staff-name').value=currentStaff.name||'';document.getElementById('staff-role').value=currentStaff.role||'';
     document.getElementById('staff-department').value=currentStaff.department||'';document.getElementById('staff-status').value=currentStaff.status||'active';
     document.getElementById('staff-discord').value=currentStaff.discord||'';document.getElementById('staff-roblox').value=currentStaff.roblox||'';
-    document.getElementById('staff-avatar').value=currentStaff.avatar||'';document.getElementById('staff-notes').value=currentStaff.notes||'';
+    document.getElementById('staff-avatar').value=currentStaff.avatar||'';
+    document.getElementById('staff-avatar-file').value='';
+    document.getElementById('staff-avatar-filename').textContent='';
+    const prev=document.getElementById('staff-avatar-preview');
+    if(currentStaff.avatar){prev.src=currentStaff.avatar;prev.style.display='block';}else{prev.src='';prev.style.display='none';}
+    document.getElementById('staff-notes').value=currentStaff.notes||'';
     document.getElementById('staff-delete-btn').style.display='inline-flex';renderStaff();showDetailForm('staff');
 }
 async function saveStaff(){
     const name=document.getElementById('staff-name').value.trim();if(!name){toast('Name is required','error');return;}
-    const body={name,role:document.getElementById('staff-role').value.trim(),department:document.getElementById('staff-department').value.trim(),status:document.getElementById('staff-status').value,discord:document.getElementById('staff-discord').value.trim(),roblox:document.getElementById('staff-roblox').value.trim(),avatar:document.getElementById('staff-avatar').value.trim(),notes:document.getElementById('staff-notes').value.trim()};
+    let avatarUrl=document.getElementById('staff-avatar').value.trim();
+    const fileInput=document.getElementById('staff-avatar-file');
+    if(fileInput.files[0]){
+        try{
+            const fd=new FormData();fd.append('image',fileInput.files[0]);
+            const r=await fetch('/api/admin/upload',{method:'POST',headers:{'x-admin-token':TOKEN},body:fd});
+            const d=await r.json();if(!r.ok)throw new Error(d.message||'Upload failed');
+            avatarUrl=d.url;
+        }catch(e){toast('Avatar upload failed: '+e.message,'error');return;}
+    }
+    const body={name,role:document.getElementById('staff-role').value.trim(),department:document.getElementById('staff-department').value.trim(),status:document.getElementById('staff-status').value,discord:document.getElementById('staff-discord').value.trim(),roblox:document.getElementById('staff-roblox').value.trim(),avatar:avatarUrl,notes:document.getElementById('staff-notes').value.trim()};
     try{if(currentStaff){await api('PUT',`/api/admin/staff/${currentStaff.id}`,body);toast('Updated','success');}else{await api('POST','/api/admin/staff',body);toast('Added','success');}await loadStaff();}catch(e){toast(e.message,'error');}
 }
 async function deleteStaff(){
@@ -2215,20 +2242,31 @@ function renderAccounts(){
         <div class="list-row-meta"><span class="badge badge-${a.role==='admin'?'blue':a.role==='moderator'?'green':'muted'}">${a.role}</span></div>
     </div>`).join('')||'<div class="list-empty">No accounts yet.</div>';
 }
-function openNewAccount(){currentAccount=null;document.getElementById('accounts-form-title').textContent='New Account';['acc-username','acc-displayname','acc-password'].forEach(id=>document.getElementById(id).value='');document.getElementById('acc-role').value='editor';document.getElementById('accounts-delete-btn').style.display='none';showDetailForm('accounts');}
+function openNewAccount(){currentAccount=null;document.getElementById('accounts-form-title').textContent='New Account';['acc-username','acc-displayname','acc-password'].forEach(id=>document.getElementById(id).value='');document.getElementById('acc-role').value='editor';document.getElementById('acc-username').disabled=false;document.getElementById('acc-username').style.opacity='1';document.getElementById('accounts-delete-btn').style.display='none';showDetailForm('accounts');}
 function openAccount(id){
     currentAccount=accountsList.find(a=>a.id===id);if(!currentAccount)return;
     document.getElementById('accounts-form-title').textContent=currentAccount.username;
     document.getElementById('acc-username').value=currentAccount.username||'';document.getElementById('acc-displayname').value=currentAccount.displayName||'';
     document.getElementById('acc-role').value=currentAccount.role||'editor';document.getElementById('acc-password').value='';
+    document.getElementById('acc-username').disabled=true;document.getElementById('acc-username').style.opacity='0.4';
     document.getElementById('accounts-delete-btn').style.display='inline-flex';renderAccounts();showDetailForm('accounts');
 }
 async function saveAccount(){
-    const body={displayName:document.getElementById('acc-displayname').value.trim(),role:document.getElementById('acc-role').value};
-    const pw=document.getElementById('acc-password').value;if(pw)body.newPassword=pw;
+    const displayName=document.getElementById('acc-displayname').value.trim();
+    const role=document.getElementById('acc-role').value;
+    const pw=document.getElementById('acc-password').value;
     try{
-        if(currentAccount){await api('PUT',`/api/admin/staff-accounts/${currentAccount.id}`,body);toast('Updated','success');}
-        else{const username=document.getElementById('acc-username').value.trim();if(!username||!pw){toast('Username and password are required','error');return;}await api('POST','/api/admin/staff-accounts',{username,password:pw,displayName:body.displayName,role:body.role});toast('Account created','success');}
+        if(currentAccount){
+            const body={displayName,role};if(pw){if(pw.length<8){toast('Password must be 8+ characters','error');return;}body.newPassword=pw;}
+            await api('PUT',`/api/admin/staff-accounts/${currentAccount.id}`,body);toast('Updated','success');
+        }else{
+            const username=document.getElementById('acc-username').value.trim();
+            if(!username){toast('Username is required','error');return;}
+            if(!pw){toast('Password is required','error');return;}
+            if(pw.length<8){toast('Password must be 8+ characters','error');return;}
+            await api('POST','/api/admin/staff-accounts',{username,password:pw,displayName:displayName||username,role});
+            toast('Account created','success');
+        }
         await loadAccounts();
     }catch(e){toast(e.message,'error');}
 }
