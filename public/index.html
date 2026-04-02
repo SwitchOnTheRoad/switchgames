@@ -464,15 +464,19 @@
         .careers-cta{
             border-bottom:1px solid var(--rule);
             position:relative;overflow:hidden;
-            background-image:url('/Hero.png');
-            background-size:cover;
-            background-position:center;
-            background-attachment:fixed;
         }
         .careers-cta::before{
             content:'';position:absolute;inset:0;
             background:rgba(4,11,24,0.88);
             pointer-events:none;
+            z-index:0;
+        }
+        .careers-bg{
+            position:absolute;inset:0;
+            background-image:url('/Image3.png');
+            background-size:cover;
+            background-position:center top;
+            z-index:-1;
         }
         .careers-top{
             display:grid;grid-template-columns:1fr 0.55fr;
@@ -680,17 +684,29 @@
                 <a href="/about" class="btn btn-link">Full Story →</a>
             </div>
         </div>
-        <div class="wrap">
-            <div class="about-top" data-r>
-                <div class="about-statement">
-                    <h2>Building worlds<br>that <em>bring</em><br>people together.</h2>
-                </div>
-                <div class="about-side">
-                    <p>Switch is an independent Roblox studio founded in 2025. We build polished, competitive, community-driven experiences — games that players actually want to come back to.</p>
-                    <a href="/about" class="btn btn-outline" style="width:fit-content;">Our Story</a>
+
+        <!-- Image2 underlay behind the about statement -->
+        <div style="position:relative;overflow:hidden;border-bottom:1px solid var(--rule);">
+            <div style="position:absolute;inset:0;background-image:url('/Image2.png');background-size:cover;background-position:center;opacity:0.12;"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(4,11,24,0.7) 0%,rgba(4,11,24,0.4) 100%);"></div>
+            <div class="wrap" style="position:relative;z-index:1;">
+                <div class="about-top" data-r>
+                    <div class="about-statement">
+                        <h2>Building worlds<br>that <em>bring</em><br>people together.</h2>
+                    </div>
+                    <div class="about-side">
+                        <p>Switch is an independent Roblox studio founded in 2025. We build polished, competitive, community-driven experiences — games that players actually want to come back to.</p>
+                        <a href="/about" class="btn btn-outline" style="width:fit-content;">Our Story</a>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Image1 full-width break -->
+        <div style="width:100%;overflow:hidden;border-bottom:1px solid var(--rule);max-height:55vh;" data-r>
+            <img src="/Image1.png" alt="Switch gameplay" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
+        </div>
+
         <div class="pillars-row" data-r>
             <div class="pillar-col">
                 <div class="pillar-big-num">01</div>
@@ -747,6 +763,7 @@
 
     <!-- ── CAREERS CTA ── -->
     <section class="careers-cta">
+        <div class="careers-bg"></div>
         <div class="wrap">
             <div class="s-hdr" style="border-bottom:1px solid rgba(255,255,255,0.07);position:relative;z-index:1;" data-r>
                 <div><div class="s-idx">04 — Team</div></div>
