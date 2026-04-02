@@ -424,50 +424,60 @@
         }
         .careers-cta::before{
             content:'';position:absolute;inset:0;
-            background:radial-gradient(ellipse 70% 70% at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
+            background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(59,130,246,0.07) 0%, transparent 70%);
             pointer-events:none;
         }
-        .careers-inner{
+        .careers-banner{
+            border:1px solid var(--rule);
+            background:var(--bg2);
             display:grid;grid-template-columns:1fr auto;
-            align-items:center;gap:4rem;
+            align-items:center;gap:3rem;
+            padding:3rem 3.5rem;
+            margin-top:3rem;
+            position:relative;overflow:hidden;
+        }
+        .careers-banner::before{
+            content:'';position:absolute;left:0;top:0;bottom:0;
+            width:3px;background:linear-gradient(to bottom,var(--blue),var(--cyan));
         }
         .careers-heading{
             font-family:'Russo One',sans-serif;
-            font-size:clamp(2.5rem,5vw,5rem);
+            font-size:clamp(2rem,3.5vw,3.5rem);
             letter-spacing:-0.01em;line-height:0.9;
             text-transform:uppercase;
         }
         .careers-heading span{color:var(--blue);}
         .careers-desc{
             color:var(--muted);font-size:0.95rem;line-height:1.75;
-            max-width:480px;margin-top:1.25rem;
+            max-width:560px;margin-top:1rem;
         }
-        .open-roles{
-            display:flex;flex-direction:column;gap:1px;
-            background:var(--rule);
-            border:1px solid var(--rule);
-            min-width:320px;
+        .careers-badge{
+            display:flex;flex-direction:column;align-items:center;
+            gap:0.35rem;flex-shrink:0;
         }
-        .role-row{
-            background:var(--bg2);
-            padding:1.25rem 1.5rem;
-            display:flex;justify-content:space-between;align-items:center;
-            gap:1.5rem;
-            transition:background 0.15s;cursor:pointer;
+        .careers-badge-dot{
+            width:10px;height:10px;border-radius:50%;
+            background:var(--cyan);
+            box-shadow:0 0 12px rgba(56,189,248,0.6);
+            animation:fpulse 2.5s infinite;
+            margin-bottom:0.25rem;
         }
-        .role-row:hover{background:var(--bg3);}
-        .role-title{font-weight:600;font-size:0.9rem;}
-        .role-type{
+        .careers-badge-label{
             font-family:'JetBrains Mono',monospace;
-            font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;
-            color:var(--blue);
+            font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;
+            color:var(--cyan);white-space:nowrap;
+        }
+        .careers-badge-sub{
+            font-family:'JetBrains Mono',monospace;
+            font-size:0.52rem;letter-spacing:0.1em;text-transform:uppercase;
+            color:var(--muted);
         }
 
         /* ── BLOG ── */
         .blog-row{
-            display:grid;grid-template-columns:64px 1fr auto;
+            display:grid;grid-template-columns:72px 1fr auto;
             align-items:center;gap:2rem;
-            padding:2rem 0;border-bottom:1px solid var(--rule);
+            padding:1.75rem 0;border-bottom:1px solid var(--rule);
             cursor:pointer;position:relative;
         }
         .blog-row::before{
@@ -476,6 +486,21 @@
             transform:scaleY(0);transition:transform 0.3s;
         }
         .blog-row:hover::before{transform:scaleY(1);}
+        .blog-thumb{
+            width:72px;height:48px;
+            border-radius:2px;overflow:hidden;
+            background:var(--bg3);flex-shrink:0;
+            border:1px solid var(--rule);
+        }
+        .blog-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s;}
+        .blog-row:hover .blog-thumb img{transform:scale(1.08);}
+        .blog-thumb-placeholder{
+            width:100%;height:100%;
+            display:flex;align-items:center;justify-content:center;
+            font-family:'JetBrains Mono',monospace;
+            font-size:0.55rem;letter-spacing:0.1em;
+            color:var(--muted);
+        }
         .blog-ttl{font-weight:500;font-size:1rem;transition:color 0.15s;}
         .blog-row:hover .blog-ttl{color:var(--blue);}
         .blog-arrow{
@@ -544,15 +569,15 @@
             .pillar-col:last-child{border-bottom:none;}
             .stats-strip{grid-template-columns:1fr 1fr;}
             .stat-cell:nth-child(2){border-right:none;}
-            .careers-inner{grid-template-columns:1fr;}
-            .open-roles{min-width:auto;}
+            .careers-banner{grid-template-columns:1fr;padding:2.5rem 2rem;}
+            .careers-badge{flex-direction:row;justify-content:flex-start;}
         }
         @media(max-width:768px){
             .wrap{padding-left:1.5rem;padding-right:1.5rem;}
             .games-grid{grid-template-columns:1fr;}
             .s-hdr{flex-direction:column;align-items:flex-start;}
             .contact-grid{grid-template-columns:1fr;gap:3rem;}
-            .blog-row{grid-template-columns:48px 1fr;}
+            .blog-row{grid-template-columns:60px 1fr;}
             .blog-arrow{display:none;}
             .stats-strip{grid-template-columns:1fr 1fr;}
         }
@@ -700,35 +725,19 @@
     <!-- ── CAREERS CTA ── -->
     <section class="careers-cta">
         <div class="wrap">
-            <div class="careers-inner" data-r>
+            <div data-r>
+                <div class="s-idx">04 — Team</div>
+            </div>
+            <div class="careers-banner" data-r>
                 <div>
-                    <div class="s-idx">04 — Team</div>
-                    <h2 class="careers-heading">Join the<br><span>Studio.</span></h2>
-                    <p class="careers-desc">We're a small team building big things. If you're passionate about Roblox, game design, or development — we want to hear from you.</p>
-                    <a href="/careers" class="btn btn-blue" style="margin-top:2rem;">View Open Roles</a>
+                    <h2 class="careers-heading">We're <span>hiring.</span></h2>
+                    <p class="careers-desc">Switch is a small team building big things on Roblox. If you're passionate about game design, development, or art — we want to hear from you.</p>
+                    <a href="/careers" class="btn btn-blue" style="margin-top:2rem;">See Open Roles →</a>
                 </div>
-                <div class="open-roles" id="careers-roles">
-                    <div class="role-row">
-                        <div>
-                            <div class="role-title">Game Developer</div>
-                            <div class="role-type">Lua · Remote</div>
-                        </div>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </div>
-                    <div class="role-row">
-                        <div>
-                            <div class="role-title">UI/UX Designer</div>
-                            <div class="role-type">Design · Remote</div>
-                        </div>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </div>
-                    <div class="role-row">
-                        <div>
-                            <div class="role-title">3D Artist</div>
-                            <div class="role-type">Art · Remote</div>
-                        </div>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </div>
+                <div class="careers-badge">
+                    <div class="careers-badge-dot"></div>
+                    <div class="careers-badge-label">Now Recruiting</div>
+                    <div class="careers-badge-sub">Remote · All Levels</div>
                 </div>
             </div>
         </div>
@@ -798,7 +807,7 @@ document.addEventListener('mousemove', e => {
     ring.style.left = (e.clientX - 18) + 'px';
     ring.style.top  = (e.clientY - 18) + 'px';
 });
-document.querySelectorAll('a,button,.blog-row,.g-card,.featured-card,.pillar-col,.role-row').forEach(el => {
+document.querySelectorAll('a,button,.blog-row,.g-card,.featured-card,.pillar-col').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
 });
@@ -1056,8 +1065,16 @@ async function loadBlog() {
         const { posts } = await fetch('/api/blog/posts').then(r => r.json());
         document.getElementById('blog-list').innerHTML = posts.slice(0, 3).map((p, i) => `
             <div class="blog-row" onclick="openModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
-                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;">0${i + 1}</span>
-                <div class="blog-ttl">${p.title}</div>
+                <div class="blog-thumb">
+                    ${p.coverImage
+                        ? `<img src="${p.coverImage}" alt="${p.title}" loading="lazy">`
+                        : `<div class="blog-thumb-placeholder">0${i + 1}</div>`
+                    }
+                </div>
+                <div>
+                    <div class="blog-ttl">${p.title}</div>
+                    ${p.date ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.4rem;">${p.date}</div>` : ''}
+                </div>
                 <span class="blog-arrow">Read →</span>
             </div>`).join('');
     } catch(e) {}
