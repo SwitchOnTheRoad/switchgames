@@ -178,6 +178,16 @@
             font-size:1rem;color:rgba(228,237,255,0.6);
             line-height:1.75;max-width:440px;
         }
+        .vid-scroll-hint{
+            position:absolute;bottom:2.5rem;right:3rem;z-index:3;
+            display:flex;flex-direction:column;align-items:center;gap:0.6rem;
+        }
+        .vid-scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,transparent,rgba(56,189,248,0.45));}
+        .vid-scroll-lbl{
+            font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+            letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);
+            writing-mode:vertical-rl;
+        }
         @media(max-width:768px){
             .video-content{padding:0 1.5rem 4rem;max-width:100%;}
             .video-title{font-size:clamp(1.8rem,6vw,3rem);}
@@ -252,7 +262,7 @@
         .who-text-wrap{position:relative;z-index:1;text-align:center;}
         .who-text{
             font-family:'Russo One',sans-serif;
-            font-size:clamp(18vw,23vw,30vw);
+            font-size:clamp(20vw,25vw,32vw);
             line-height:0.82;
             letter-spacing:-0.03em;
             text-transform:uppercase;
@@ -264,21 +274,15 @@
             color:transparent;
             display:block;
         }
-        .who-sub{
-            font-family:'JetBrains Mono',monospace;
-            font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;
-            color:rgba(228,237,255,0.35);
-            margin-top:2rem;
+        .who-cycle-wrap{overflow:hidden;text-align:center;margin-top:1.25rem;}
+        .who-cycle{
+            font-family:'Russo One',sans-serif;
+            font-size:clamp(4vw,7vw,10vw);
+            letter-spacing:0.18em;text-transform:uppercase;
+            color:var(--blue);display:block;
+            animation:cycleIn 0.55s cubic-bezier(0.16,1,0.3,1);
         }
-        .who-hint{
-            position:absolute;bottom:2.5rem;left:50%;
-            transform:translateX(-50%);
-            font-family:'JetBrains Mono',monospace;
-            font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;
-            color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:0.6rem;
-            z-index:1;
-        }
-        .who-hint-line{width:1px;height:40px;background:linear-gradient(to bottom,transparent,var(--muted));}
+        @keyframes cycleIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 
         /* ── ABOUT ── */
         .about-top{
@@ -306,7 +310,7 @@
             display:flex;flex-direction:column;justify-content:space-between;
         }
         .about-side p{
-            font-size:1rem;color:var(--muted);line-height:1.8;
+            font-size:1rem;color:rgba(228,237,255,0.65);line-height:1.8;
             max-width:340px;margin-bottom:2.5rem;
         }
 
@@ -377,26 +381,17 @@
             background:var(--bg2);border:1px solid var(--rule);
             min-height:500px;margin:2.5rem auto 0;max-width:1340px;
             overflow:hidden;transition:border-color 0.3s;
-            cursor:pointer;
+            cursor:pointer;border-radius:12px;
         }
         .featured-card:hover{border-color:var(--blue);}
-        .featured-img-col{position:relative;overflow:hidden;background:var(--bg3);}
+        .featured-img-col{position:relative;overflow:hidden;background:var(--bg3);border-radius:12px 0 0 12px;}
         .featured-img-col img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(0.16,1,0.3,1),filter 0.4s;}
         .featured-card:hover .featured-img-col img{transform:scale(1.04);}
         .featured-info-col{
             padding:3.5rem;display:flex;flex-direction:column;
             justify-content:center;border-left:1px solid var(--rule);
+            border-radius:0 12px 12px 0;
         }
-        .feat-tag{
-            font-family:'JetBrains Mono',monospace;font-size:0.58rem;
-            letter-spacing:0.2em;text-transform:uppercase;
-            color:var(--blue);display:flex;align-items:center;gap:0.75rem;margin-bottom:2rem;
-        }
-        .feat-dot{
-            width:5px;height:5px;background:var(--cyan);border-radius:50%;
-            animation:fpulse 2.5s infinite;
-        }
-        @keyframes fpulse{0%,100%{opacity:1;}50%{opacity:0.2;}}
         .feat-name{
             font-family:'Russo One',sans-serif;
             font-size:clamp(2rem,3.5vw,3.5rem);
@@ -419,11 +414,12 @@
         /* ── GAMES GRID ── */
         .games-grid{
             display:grid;grid-template-columns:repeat(3,1fr);
-            gap:1px;background:var(--rule);border-bottom:1px solid var(--rule);
+            gap:1.5rem;background:transparent;border-radius:12px;overflow:visible;border-bottom:none;
+            padding:0 3rem;
         }
         .g-card{
             background:var(--bg);position:relative;
-            aspect-ratio:4/5;overflow:hidden;
+            aspect-ratio:4/5;overflow:hidden;border-radius:10px;
             display:flex;flex-direction:column;justify-content:flex-end;
             padding:2.5rem;cursor:pointer;
         }
@@ -504,8 +500,25 @@
             display:flex;flex-direction:column;justify-content:space-between;
         }
         .careers-side p{
-            font-size:1rem;color:var(--muted);line-height:1.8;
+            font-size:1rem;color:rgba(228,237,255,0.65);line-height:1.8;
             max-width:340px;margin-bottom:2.5rem;
+        }
+
+        /* ── CAREERS HERO IMG ── */
+        .careers-hero-img{
+            position:relative;overflow:hidden;
+            height:340px;margin:0;
+            border-bottom:1px solid rgba(255,255,255,0.07);
+        }
+        .careers-hero-img img{
+            width:100%;height:100%;object-fit:cover;
+            opacity:0.35;display:block;
+            transition:transform 1.4s cubic-bezier(0.16,1,0.3,1);
+            filter:brightness(0.7);
+        }
+        .careers-hero-img::after{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(to bottom,rgba(4,11,24,0.4) 0%,rgba(4,11,24,0.2) 50%,rgba(4,11,24,0.55) 100%);
         }
 
         /* ── BLOG ── */
@@ -662,17 +675,19 @@
             <h2 class="video-title">We build worlds<br>people <span>actually</span> love.</h2>
             <p class="video-desc">Switch is an independent Roblox studio obsessed with craft and community. No shortcuts. No filler. Just games built to last.</p>
         </div>
+        <div class="vid-scroll-hint">
+            <div class="vid-scroll-line"></div>
+            <span class="vid-scroll-lbl">Scroll</span>
+        </div>
     </section>
 
     <!-- ── WHO ARE WE — full screen text mask ── -->
     <section class="who-section">
         <div class="who-text-wrap">
-            <span class="who-text">WHO<br>ARE WE</span>
-            <p class="who-sub">Roblox Game Studio — Est. 2025</p>
-        </div>
-        <div class="who-hint">
-            <div class="who-hint-line"></div>
-            <span>Scroll</span>
+            <span class="who-text">SWITCH</span>
+            <div class="who-cycle-wrap">
+                <span class="who-cycle" id="who-cycle">GAMES</span>
+            </div>
         </div>
     </section>
 
@@ -681,7 +696,6 @@
         <div class="wrap">
             <div class="s-hdr" data-r>
                 <div><div class="s-idx">01 — Studio</div></div>
-                <a href="/about" class="btn btn-link">Full Story →</a>
             </div>
         </div>
 
@@ -696,7 +710,7 @@
                     </div>
                     <div class="about-side">
                         <p>Switch is an independent Roblox studio founded in 2025. We build polished, competitive, community-driven experiences — games that players actually want to come back to.</p>
-                        <a href="/about" class="btn btn-outline" style="width:fit-content;">Our Story</a>
+                        <a href="/about" class="btn btn-blue" style="width:fit-content;">Our Story →</a>
                     </div>
                 </div>
             </div>
@@ -731,14 +745,13 @@
     <section class="featured-section" id="featured-wrap" style="display:none;">
         <div class="wrap">
             <div class="s-hdr" data-r>
-                <div><div class="s-idx">02 — Featured</div><h2 class="s-title">Now Playing</h2></div>
+                <div><h2 class="s-title">Featured Game</h2></div>
                 <a href="/games" class="btn btn-link">All Games →</a>
             </div>
         </div>
         <a href="#" id="featured-link" class="featured-card">
             <div class="featured-img-col"><img id="feat-img" src="" alt=""></div>
             <div class="featured-info-col">
-                <div class="feat-tag"><span class="feat-dot"></span>Featured Game</div>
                 <h3 class="feat-name" id="feat-name">—</h3>
                 <p class="feat-desc" id="feat-desc">—</p>
                 <div class="feat-stats">
@@ -770,6 +783,9 @@
                 <a href="/careers" class="btn btn-link">Open Roles →</a>
             </div>
         </div>
+        <div class="careers-hero-img">
+            <img src="/Hero.png" alt="Careers" loading="lazy">
+        </div>
         <div class="wrap">
             <div class="careers-top" data-r>
                 <div class="careers-statement">
@@ -783,21 +799,10 @@
         </div>
     </section>
 
-    <!-- ── BLOG ── -->
-    <section style="border-top:1px solid var(--rule);">
-        <div class="wrap">
-            <div class="s-hdr" data-r>
-                <div><div class="s-idx">05 — Updates</div><h2 class="s-title">Latest Posts</h2></div>
-                <a href="/blog" class="btn btn-link">All Posts →</a>
-            </div>
-            <div class="blog-list" id="blog-list"></div>
-        </div>
-    </section>
-
     <!-- ── CONTACT ── -->
     <section class="contact-sec" id="contact">
         <div class="wrap">
-            <div class="s-idx">06 — Contact</div>
+            <div class="s-idx">05 — Contact</div>
             <div class="contact-grid">
                 <div data-r>
                     <h2 class="c-heading">Let's<br><span>Talk.</span></h2>
@@ -1101,6 +1106,21 @@ document.getElementById('contact-form').addEventListener('submit', async e => {
 
 loadGames();
 loadBlog();
+
+/* WHO CYCLE */
+(function(){
+    const words=['GAMES','STUDIOS','EXPERIENCES','WORLDS','BUILDS','CREATIONS'];
+    let i=0;
+    const el=document.getElementById('who-cycle');
+    if(!el)return;
+    setInterval(()=>{
+        i=(i+1)%words.length;
+        el.style.animation='none';
+        void el.offsetWidth;
+        el.textContent=words[i];
+        el.style.animation='cycleIn 0.55s cubic-bezier(0.16,1,0.3,1)';
+    },2800);
+})();
 </script>
 </body>
 </html>

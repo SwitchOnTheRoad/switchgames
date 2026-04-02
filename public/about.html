@@ -25,19 +25,6 @@ h1,h2,h3,h4{font-family:'Russo One',sans-serif;text-transform:uppercase;line-hei
 .hero-title em{font-style:italic;color:var(--blue);}
 .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap;padding-top:2.5rem;border-top:1px solid rgba(250,250,248,0.07);}
 .hero-desc{color:var(--muted);font-size:0.975rem;line-height:1.8;max-width:440px;}
-.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:0.5rem;color:#333;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;}
-.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--blue),transparent);animation:sl 2s ease-in-out infinite;}
-@keyframes sl{0%,100%{opacity:1}50%{opacity:0.25}}
-
-/* STATS */
-.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--rule);}
-.stat-cell{padding:2.75rem 3rem;border-right:1px solid var(--rule);position:relative;overflow:hidden;cursor:default;}
-.stat-cell:last-child{border-right:none;}
-.stat-cell::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--blue);transform:scaleY(0);transform-origin:bottom;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);}
-.stat-cell:hover::before{transform:scaleY(1);}
-.stat-num{font-family:'Russo One',sans-serif;font-size:clamp(3rem,5vw,4.5rem);line-height:1;letter-spacing:-0.01em;margin-bottom:0.5rem;}
-.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
-
 /* MISSION */
 .mission{border-bottom:1px solid var(--rule);padding:6rem 0;}
 .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;}
@@ -97,17 +84,10 @@ h1,h2,h3,h4{font-family:'Russo One',sans-serif;text-transform:uppercase;line-hei
         <div class="ph-eye">About Switch</div>
         <h1 class="hero-title">We make games<br>people <em>actually</em> love.</h1>
         <div class="hero-bottom">
-            <p class="hero-desc">Switch is a Roblox game studio founded in 2025 — obsessed with craft, community, and making games that earn their place on your screen.</p>
-            <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+            <p class="hero-desc">Switch is an independent studio obsessed with craft, community, and making games people actually want to come back to.</p>
         </div>
     </div>
 </section>
-
-<div class="stats-strip">
-    <div class="stat-cell" data-r><div class="stat-num" id="st-games">—</div><div class="stat-lbl">Games Published</div></div>
-    <div class="stat-cell" data-r data-d="1"><div class="stat-num" id="st-visits">—</div><div class="stat-lbl">Total Visits</div></div>
-    <div class="stat-cell" data-r data-d="2"><div class="stat-num" id="st-ccu">—</div><div class="stat-lbl">Playing Now</div></div>
-</div>
 
 <section class="mission">
     <div class="wrap">
@@ -161,11 +141,9 @@ h1,h2,h3,h4{font-family:'Russo One',sans-serif;text-transform:uppercase;line-hei
 
 <script src="/navbar.js"></script><script src="/footer.js"></script>
 <script>
-function fmt(n){if(!n&&n!==0)return'—';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString();}
-async function loadStats(){try{const{games}=await fetch('/api/games').then(r=>r.json());document.getElementById('st-games').textContent=games.length||'—';document.getElementById('st-visits').textContent=fmt(games.reduce((s,g)=>s+(g.visits||0),0));document.getElementById('st-ccu').textContent=fmt(games.reduce((s,g)=>s+(g.playing||0),0));}catch{}}
 async function loadCareers(){try{const{careers}=await fetch('/api/careers').then(r=>r.json());const count=careers?.length||0;if(count>0){document.getElementById('cta-badge').innerHTML=`<div class="cta-badge"><div class="cta-badge-num">${count}</div><div class="cta-badge-lbl">Open Roles</div></div>`;}}catch{}}
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('[data-r],.tl-entry,.mission-block').forEach(el=>obs.observe(el));
-loadStats();loadCareers();
+loadCareers();
 </script>
 </body></html>
