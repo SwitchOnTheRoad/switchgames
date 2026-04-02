@@ -607,12 +607,35 @@
         }
         @media(max-width:768px){
             .wrap{padding-left:1.5rem;padding-right:1.5rem;}
-            .games-grid{grid-template-columns:1fr;}
+            .games-grid{grid-template-columns:1fr 1fr;}
             .s-hdr{flex-direction:column;align-items:flex-start;}
-            .contact-grid{grid-template-columns:1fr;gap:3rem;}
-            .blog-row{grid-template-columns:60px 1fr;}
+            .contact-grid{grid-template-columns:1fr;gap:2.5rem;}
+            .blog-row{grid-template-columns:56px 1fr;}
             .blog-arrow{display:none;}
             .stats-strip{grid-template-columns:1fr 1fr;}
+            .about-top{grid-template-columns:1fr;}
+            .about-statement{border-right:none;border-bottom:1px solid var(--rule);padding-right:0;}
+            .about-side{padding-left:0;}
+            .careers-top{grid-template-columns:1fr;}
+            .careers-statement{border-right:none;border-bottom:1px solid rgba(255,255,255,0.07);padding-right:0;}
+            .careers-side{padding-left:0;padding-top:2rem;}
+            .featured-card{grid-template-columns:1fr;}
+            .featured-img-col{aspect-ratio:16/9;border-radius:12px 12px 0 0;}
+            .featured-info-col{padding:2rem;border-left:none;border-top:1px solid var(--rule);border-radius:0 0 12px 12px;}
+            .pillars-row{grid-template-columns:1fr;}
+            .pillar-col{border-right:none;border-bottom:1px solid var(--rule);}
+            .pillar-col:last-child{border-bottom:none;}
+        }
+        @media(max-width:480px){
+            .wrap{padding:0 1.25rem;}
+            .games-grid{grid-template-columns:1fr;padding:0 1.25rem;}
+            .who-text{font-size:clamp(22vw,28vw,35vw);}
+            .who-cycle{font-size:clamp(6vw,9vw,12vw);}
+            .video-content{padding:0 1.25rem 3rem;}
+            .video-title{font-size:clamp(1.6rem,5vw,2.5rem);}
+            .vid-scroll-hint{display:none;}
+            .c-heading{font-size:clamp(2.5rem,10vw,4rem);}
+            #hero{min-height:100vh;}
         }
     </style>
 </head>

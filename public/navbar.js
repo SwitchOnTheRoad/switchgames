@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
         @media (max-width: 768px) {
             .nav-container { padding: 0 1.5rem; }
-            .nav-menu { display: none; position: fixed; top: calc(64px + var(--sw-banner-height)); left: 0; right: 0; flex-direction: column; gap: 0; background: #040b18; border-bottom: 1px solid #112035; }
+            .nav-menu { display: none; position: fixed; top: calc(64px + var(--sw-banner-height)); left: 0; right: 0; flex-direction: column; gap: 0; background: #040b18; border-bottom: 1px solid #112035; z-index: 999; }
             .nav-menu.active { display: flex; }
             .nav-menu li { width: 100%; border-bottom: 1px solid #112035; }
             .nav-link { height: auto; line-height: 1; padding: 1rem 1.5rem; font-size: 0.7rem; }
