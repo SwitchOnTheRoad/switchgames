@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .navbar {
             position: fixed; top: var(--sw-banner-height); left: 0; right: 0;
             z-index: 1000;
-            background: rgba(8,8,8,0.92);
+            background: rgba(4,11,24,0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid #1C1C1C;
+            border-bottom: 1px solid #112035;
             transform: translateY(-100%);
             transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
         }
@@ -18,33 +18,35 @@ document.addEventListener('DOMContentLoaded', () => {
         .nav-menu { display: flex; list-style: none; gap: 0; align-items: center; }
         .nav-link {
             display: block; padding: 0 1.1rem; height: 64px; line-height: 64px;
-            color: #5A5A5A; font-family: 'JetBrains Mono', monospace;
+            color: #4a6890; font-family: 'JetBrains Mono', monospace;
             font-size: 0.62rem; text-decoration: none; letter-spacing: 0.14em;
             text-transform: uppercase; transition: color 0.15s; position: relative;
         }
-        .nav-link:hover { color: #FAFAF8; }
-        .nav-link.active { color: #2563EB; }
-        .nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 1.1rem; right: 1.1rem; height: 1px; background: #2563EB; }
+        .nav-link:hover { color: #e4edff; }
+        .nav-link.active { color: #3b82f6; }
+        .nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 1.1rem; right: 1.1rem; height: 1px; background: #3b82f6; }
         .nav-cta {
             display: inline-flex; align-items: center; padding: 0.55rem 1.25rem;
-            background: #2563EB; color: #FAFAF8; font-family: 'JetBrains Mono', monospace;
+            background: #3b82f6; color: #e4edff; font-family: 'JetBrains Mono', monospace;
             font-size: 0.6rem; font-weight: 600; text-decoration: none; letter-spacing: 0.14em;
-            text-transform: uppercase; margin-left: 1rem; transition: background 0.15s;
+            text-transform: uppercase; margin-left: 1rem;
+            transition: background 0.15s, box-shadow 0.15s;
+            border-radius: 4px;
         }
-        .nav-cta:hover { background: #1D4ED8; }
+        .nav-cta:hover { background: #2563eb; box-shadow: 0 0 18px rgba(59,130,246,0.35); }
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-        .hamburger span { width: 22px; height: 1px; background: #FAFAF8; transition: all 0.2s ease; display: block; }
+        .hamburger span { width: 22px; height: 1px; background: #e4edff; transition: all 0.2s ease; display: block; }
         .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
         @media (max-width: 768px) {
             .nav-container { padding: 0 1.5rem; }
-            .nav-menu { display: none; position: fixed; top: calc(64px + var(--sw-banner-height)); left: 0; right: 0; flex-direction: column; gap: 0; background: #080808; border-bottom: 1px solid #1C1C1C; }
+            .nav-menu { display: none; position: fixed; top: calc(64px + var(--sw-banner-height)); left: 0; right: 0; flex-direction: column; gap: 0; background: #040b18; border-bottom: 1px solid #112035; }
             .nav-menu.active { display: flex; }
-            .nav-menu li { width: 100%; border-bottom: 1px solid #1C1C1C; }
+            .nav-menu li { width: 100%; border-bottom: 1px solid #112035; }
             .nav-link { height: auto; line-height: 1; padding: 1rem 1.5rem; font-size: 0.7rem; }
             .nav-link.active::after { display: none; }
-            .nav-cta { margin: 1rem 1.5rem; }
+            .nav-cta { margin: 1rem 1.5rem; border-radius: 4px; }
             .hamburger { display: flex; }
         }
     </style>
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/games" class="nav-link">Games</a></li>
+                <li><a href="/about" class="nav-link">About</a></li>
                 <li><a href="/blog" class="nav-link">Blog</a></li>
                 <li><a href="/careers" class="nav-link">Careers</a></li>
                 <li><a href="/#contact" class="nav-cta">Contact</a></li>
@@ -81,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = String(a.text);
             const safeLink = a.link && /^https?:\/\//.test(a.link) ? a.link : '';
             el.style.display = 'block';
-            el.style.background = a.background || '#2563EB';
-            el.style.color = a.textColor || '#FAFAF8';
+            el.style.background = a.background || '#3b82f6';
+            el.style.color = a.textColor || '#e4edff';
             el.innerHTML = safeLink ? `<a href="${safeLink}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">${text}</a>` : text;
             const h = Math.round(el.getBoundingClientRect().height || 36);
             document.documentElement.style.setProperty('--sw-banner-height', `${h}px`);
