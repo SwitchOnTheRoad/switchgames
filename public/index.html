@@ -504,22 +504,6 @@
             max-width:340px;margin-bottom:2.5rem;
         }
 
-        /* ── CAREERS HERO IMG ── */
-        .careers-hero-img{
-            position:relative;overflow:hidden;
-            height:340px;margin:0;
-            border-bottom:1px solid rgba(255,255,255,0.07);
-        }
-        .careers-hero-img img{
-            width:100%;height:100%;object-fit:cover;
-            opacity:0.35;display:block;
-            transition:transform 1.4s cubic-bezier(0.16,1,0.3,1);
-            filter:brightness(0.7);
-        }
-        .careers-hero-img::after{
-            content:'';position:absolute;inset:0;
-            background:linear-gradient(to bottom,rgba(4,11,24,0.4) 0%,rgba(4,11,24,0.2) 50%,rgba(4,11,24,0.55) 100%);
-        }
 
         /* ── BLOG ── */
         .blog-row{
@@ -671,7 +655,6 @@
             <source src="/Video.mp4" type="video/mp4">
         </video>
         <div class="video-content" data-r>
-            <div class="video-eyebrow">Our Mission</div>
             <h2 class="video-title">We build worlds<br>people <span>actually</span> love.</h2>
             <p class="video-desc">Switch is an independent Roblox studio obsessed with craft and community. No shortcuts. No filler. Just games built to last.</p>
         </div>
@@ -693,12 +676,6 @@
 
     <!-- ── ABOUT ── -->
     <section style="border-top:1px solid var(--rule);">
-        <div class="wrap">
-            <div class="s-hdr" data-r>
-                <div><div class="s-idx">01 — Studio</div></div>
-            </div>
-        </div>
-
         <!-- Image2 underlay behind the about statement -->
         <div style="position:relative;overflow:hidden;border-bottom:1px solid var(--rule);">
             <div style="position:absolute;inset:0;background-image:url('/Image2.png');background-size:cover;background-position:center;opacity:0.12;"></div>
@@ -716,11 +693,7 @@
             </div>
         </div>
 
-        <!-- Image1 underlay behind pillars -->
-        <div style="position:relative;overflow:hidden;">
-            <div style="position:absolute;inset:0;background-image:url('/Image1.png');background-size:cover;background-position:center;opacity:0.1;"></div>
-            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,11,24,0.5) 0%,rgba(4,11,24,0.3) 50%,rgba(4,11,24,0.6) 100%);"></div>
-            <div class="pillars-row" data-r style="position:relative;z-index:1;">
+        <div class="pillars-row" data-r>
             <div class="pillar-col">
                 <div class="pillar-big-num">01</div>
                 <div class="pillar-col-title">Community First</div>
@@ -736,7 +709,6 @@
                 <div class="pillar-col-title">Built to Last</div>
                 <div class="pillar-col-body">No quick flips. We build studios, teams, and games meant to run for years.</div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -767,7 +739,7 @@
     <section id="other-games-section" style="display:none;">
         <div class="wrap">
             <div class="s-hdr" data-r>
-                <div><div class="s-idx">03 — Games</div><h2 class="s-title">More to Play</h2></div>
+                <div><h2 class="s-title">More to Play</h2></div>
                 <a href="/games" class="btn btn-link">View All →</a>
             </div>
         </div>
@@ -777,15 +749,6 @@
     <!-- ── CAREERS CTA ── -->
     <section class="careers-cta">
         <div class="careers-bg"></div>
-        <div class="wrap">
-            <div class="s-hdr" style="border-bottom:1px solid rgba(255,255,255,0.07);position:relative;z-index:1;" data-r>
-                <div><div class="s-idx">04 — Team</div></div>
-                <a href="/careers" class="btn btn-link">Open Roles →</a>
-            </div>
-        </div>
-        <div class="careers-hero-img">
-            <img src="/Hero.png" alt="Careers" loading="lazy">
-        </div>
         <div class="wrap">
             <div class="careers-top" data-r>
                 <div class="careers-statement">
@@ -802,7 +765,6 @@
     <!-- ── CONTACT ── -->
     <section class="contact-sec" id="contact">
         <div class="wrap">
-            <div class="s-idx">05 — Contact</div>
             <div class="contact-grid">
                 <div data-r>
                     <h2 class="c-heading">Let's<br><span>Talk.</span></h2>
