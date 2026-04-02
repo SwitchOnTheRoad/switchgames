@@ -702,12 +702,11 @@
             </div>
         </div>
 
-        <!-- Image1 full-width break -->
-        <div style="width:100%;overflow:hidden;border-bottom:1px solid var(--rule);max-height:55vh;" data-r>
-            <img src="/Image1.png" alt="Switch gameplay" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
-        </div>
-
-        <div class="pillars-row" data-r>
+        <!-- Image1 underlay behind pillars -->
+        <div style="position:relative;overflow:hidden;">
+            <div style="position:absolute;inset:0;background-image:url('/Image1.png');background-size:cover;background-position:center;opacity:0.1;"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,11,24,0.5) 0%,rgba(4,11,24,0.3) 50%,rgba(4,11,24,0.6) 100%);"></div>
+            <div class="pillars-row" data-r style="position:relative;z-index:1;">
             <div class="pillar-col">
                 <div class="pillar-big-num">01</div>
                 <div class="pillar-col-title">Community First</div>
@@ -723,6 +722,7 @@
                 <div class="pillar-col-title">Built to Last</div>
                 <div class="pillar-col-body">No quick flips. We build studios, teams, and games meant to run for years.</div>
             </div>
+        </div>
         </div>
     </section>
 
