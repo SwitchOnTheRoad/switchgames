@@ -1,0 +1,55 @@
+import { Link } from 'react-router-dom'
+import NewsletterSignup from './NewsletterSignup'
+
+export default function Footer() {
+  return (
+    <footer className="bg-black px-6 md:px-12 lg:px-16 pt-16 pb-10" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="max-w-7xl mx-auto">
+
+        {/* Newsletter */}
+        <div className="mb-16">
+          <NewsletterSignup />
+        </div>
+
+        <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-12">
+          <div>
+            <img src="/logo.png" alt="Switch" className="h-10 w-10 object-contain mb-3" />
+            <p className="text-sm text-gray-300 max-w-xs" style={{ lineHeight: 1.65 }}>
+              UGC game development for culture and the brands that shape it.
+            </p>
+          </div>
+          <div className="flex gap-10 md:gap-16 text-sm flex-wrap">
+            <div className="flex flex-col gap-3">
+              <p className="text-xs uppercase tracking-widest text-gray-300 mb-1">Studio</p>
+              <Link to="/games" className="text-gray-300 hover:text-white transition-colors">Games</Link>
+              <Link to="/work" className="text-gray-300 hover:text-white transition-colors">Work</Link>
+              <Link to="/team" className="text-gray-300 hover:text-white transition-colors">Team</Link>
+              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors">Blog</Link>
+            </div>
+            <div className="flex flex-col gap-3">
+              <p className="text-xs uppercase tracking-widest text-gray-300 mb-1">Company</p>
+              <Link to="/careers" className="text-gray-300 hover:text-white transition-colors">Careers</Link>
+              <Link to="/press" className="text-gray-300 hover:text-white transition-colors">Press</Link>
+              <Link to="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link>
+            </div>
+            <div className="flex flex-col gap-3">
+              <p className="text-xs uppercase tracking-widest text-gray-300 mb-1">Social</p>
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">Twitter / X</a>
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">Instagram</a>
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">Roblox</a>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-xs text-gray-300">© 2026 Switch. playswitchgames.com</p>
+          <div className="flex gap-6 text-xs text-gray-300">
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
+            <Link to="/press" className="hover:text-white transition-colors">Press</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
