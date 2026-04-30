@@ -37,7 +37,7 @@ const upload = multer({
   limits: { fileSize: 200 * 1024 * 1024 },
 })
 
-server.post('/upload', (req, res) => {
+server.post('/api/upload', (req, res) => {
   upload.single('file')(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       console.error('Multer error:', err.code, err.message)
@@ -56,7 +56,7 @@ server.post('/upload', (req, res) => {
   })
 })
 
-server.delete('/upload', (req, res) => {
+server.delete('/api/upload', (req, res) => {
   const { filename } = req.body
   if (!filename || filename.includes('..')) return res.status(400).json({ error: 'Invalid filename' })
   const filePath = path.join(uploadsDir, filename)
@@ -67,7 +67,7 @@ server.delete('/upload', (req, res) => {
 // middlewares are already replaced by express.static
 
 // ── Email endpoint ────────────────────────────────────────────────────────────
-server.post('/send-email', async (req, res) => {
+server.post('/api/send-email', async (req, res) => {
   const RESEND_KEY = process.env.RESEND_API_KEY
   if (!RESEND_KEY) {
     console.log('📧 Contact form submission (no RESEND_API_KEY):', req.body)
@@ -105,14 +105,14 @@ server.post('/send-email', async (req, res) => {
 // ── MongoDB Dynamic REST API Routes ──────────────────────────────────────────
 const getCollection = (name) => mongoose.connection.collection(name)
 
-server.get('/:collection', async (req, res) => {
+server.get('/api/:collection', async (req, res) => {
   try {
     const data = await getCollection(req.params.collection).find({}).toArray()
     res.json(data)
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
-server.get('/:collection/:id', async (req, res) => {
+server.get('/api/:collection/:id', async (req, res) => {
   try {
     const doc = await getCollection(req.params.collection).findOne({ id: req.params.id })
     if (!doc) return res.status(404).json({ error: 'Not found' })
@@ -120,7 +120,7 @@ server.get('/:collection/:id', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
-server.post('/:collection', async (req, res) => {
+server.post('/api/:collection', async (req, res) => {
   try {
     const newDoc = { ...req.body, id: Date.now().toString() }
     await getCollection(req.params.collection).insertOne(newDoc)
@@ -128,7 +128,7 @@ server.post('/:collection', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
-server.put('/:collection/:id', async (req, res) => {
+server.put('/api/:collection/:id', async (req, res) => {
   try {
     const result = await getCollection(req.params.collection).findOneAndUpdate(
       { id: req.params.id },
@@ -140,7 +140,7 @@ server.put('/:collection/:id', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
-server.delete('/:collection/:id', async (req, res) => {
+server.delete('/api/:collection/:id', async (req, res) => {
   try {
     await getCollection(req.params.collection).deleteOne({ id: req.params.id })
     res.json({ ok: true })
