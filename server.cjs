@@ -103,18 +103,25 @@ server.post('/api/send-email', async (req, res) => {
 })
 
 // ── MongoDB Dynamic REST API Routes ──────────────────────────────────────────
-const getCollection = (name) => mongoose.connection.collection(name)
+const getDb = async () => {
+  if (mongoose.connection.readyState !== 1) {
+    await mongoose.connect(process.env.MONGODB_URI)
+  }
+  return mongoose.connection.db
+}
 
 server.get('/api/:collection', async (req, res) => {
   try {
-    const data = await getCollection(req.params.collection).find({}).toArray()
+    const db = await getDb()
+    const data = await db.collection(req.params.collection).find({}).toArray()
     res.json(data)
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
 server.get('/api/:collection/:id', async (req, res) => {
   try {
-    const doc = await getCollection(req.params.collection).findOne({ id: req.params.id })
+    const db = await getDb()
+    const doc = await db.collection(req.params.collection).findOne({ id: req.params.id })
     if (!doc) return res.status(404).json({ error: 'Not found' })
     res.json(doc)
   } catch (err) { res.status(500).json({ error: err.message }) }
@@ -122,15 +129,17 @@ server.get('/api/:collection/:id', async (req, res) => {
 
 server.post('/api/:collection', async (req, res) => {
   try {
+    const db = await getDb()
     const newDoc = { ...req.body, id: Date.now().toString() }
-    await getCollection(req.params.collection).insertOne(newDoc)
+    await db.collection(req.params.collection).insertOne(newDoc)
     res.status(201).json(newDoc)
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
 server.put('/api/:collection/:id', async (req, res) => {
   try {
-    const result = await getCollection(req.params.collection).findOneAndUpdate(
+    const db = await getDb()
+    const result = await db.collection(req.params.collection).findOneAndUpdate(
       { id: req.params.id },
       { $set: req.body },
       { returnDocument: 'after' }
@@ -142,7 +151,8 @@ server.put('/api/:collection/:id', async (req, res) => {
 
 server.delete('/api/:collection/:id', async (req, res) => {
   try {
-    await getCollection(req.params.collection).deleteOne({ id: req.params.id })
+    const db = await getDb()
+    await db.collection(req.params.collection).deleteOne({ id: req.params.id })
     res.json({ ok: true })
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
