@@ -30,7 +30,7 @@ export default function SectionReveal({ children, className = '', style, delay =
 
   return (
     <Tag
-      ref={ref as React.RefObject<HTMLDivElement>}
+      ref={ref as any}
       className={className}
       style={{
         opacity: visible ? 1 : 0,
