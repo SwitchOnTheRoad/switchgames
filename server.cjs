@@ -103,11 +103,13 @@ server.post('/api/send-email', async (req, res) => {
 })
 
 // ── MongoDB Dynamic REST API Routes ──────────────────────────────────────────
+let dbPromise = null;
 const getDb = async () => {
-  if (mongoose.connection.readyState !== 1) {
-    await mongoose.connect(process.env.MONGODB_URI)
+  if (mongoose.connection.readyState === 1) return mongoose.connection.db;
+  if (!dbPromise) {
+    dbPromise = mongoose.connect(process.env.MONGODB_URI).then(() => mongoose.connection.db);
   }
-  return mongoose.connection.db
+  return dbPromise;
 }
 
 server.get('/api/:collection', async (req, res) => {
