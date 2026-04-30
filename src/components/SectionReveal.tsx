@@ -28,8 +28,10 @@ export default function SectionReveal({ children, className = '', style, delay =
     return () => io.disconnect()
   }, [])
 
+  const Component = Tag as any
+
   return (
-    <Tag
+    <Component
       ref={ref as any}
       className={className}
       style={{
@@ -40,6 +42,6 @@ export default function SectionReveal({ children, className = '', style, delay =
       }}
     >
       {children}
-    </Tag>
+    </Component>
   )
 }
