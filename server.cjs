@@ -11,6 +11,7 @@ const server = express()
 server.use(cors())
 server.use(express.json({ limit: '50mb' }))
 server.use(express.static(path.join(__dirname, 'public')))
+server.use(express.static(path.join(__dirname, 'dist')))
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
@@ -146,8 +147,18 @@ server.delete('/:collection/:id', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }) }
 })
 
-const PORT = 3001
-server.listen(PORT, () => {
+// ── Catch-all for React Router ───────────────────────────────────────────────
+server.get('*', (req, res) => {
+  const distHtml = path.join(__dirname, 'dist', 'index.html')
+  if (fs.existsSync(distHtml)) {
+    res.sendFile(distHtml)
+  } else {
+    res.status(404).send('Frontend not built. Run npm run build.')
+  }
+})
+
+const PORT = process.env.PORT || 3001
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`\n🎮 Switch API  →  http://localhost:${PORT}`)
   console.log(`📁 Uploads     →  http://localhost:${PORT}/uploads`)
   console.log(`📧 Email: ${process.env.RESEND_API_KEY ? 'Resend ✓' : 'No key — add RESEND_API_KEY to .env'}`)
