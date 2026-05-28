@@ -19,10 +19,10 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <div className="liquid-glass rounded-2xl border border-white/10 px-8 py-8 max-w-xl mx-auto text-center">
-      <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">Newsletter</p>
-      <h3 className="text-2xl font-normal mb-2" style={{ letterSpacing: '-0.03em' }}>Stay in the loop.</h3>
-      <p className="text-sm text-gray-300 mb-6" style={{ lineHeight: 1.6 }}>
+    <div className="rounded-2xl border border-white/[0.06] px-8 py-8 max-w-xl mx-auto text-center bg-white/[0.02]">
+      <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Newsletter</p>
+      <h3 className="text-2xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>Stay in the loop.</h3>
+      <p className="text-sm text-gray-400 mb-6" style={{ lineHeight: 1.6 }}>
         New games, brand collabs, and studio updates — straight to your inbox.
       </p>
 
@@ -36,12 +36,12 @@ export default function NewsletterSignup() {
             onChange={e => setEmail(e.target.value)}
             placeholder="your@email.com"
             required
-            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+            className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-full px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors"
           />
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="bg-white text-black px-5 py-3 rounded-xl text-sm font-medium hover:bg-gray-100 transition-colors disabled:opacity-40 flex-shrink-0"
+            className="btn-pill btn-pill-solid flex-shrink-0 disabled:opacity-40"
           >
             {status === 'sending' ? '...' : 'Subscribe'}
           </button>

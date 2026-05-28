@@ -44,7 +44,7 @@ export default function CaseStudyDetailPage() {
         <h1 className="text-4xl md:text-5xl font-normal mb-4" style={{ letterSpacing: '-0.04em', lineHeight: 1.0 }}>{cs.title}</h1>
         <div className="flex flex-wrap gap-2 mb-10 pb-10" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {cs.tags.map(tag => (
-            <span key={tag} className="liquid-glass rounded-lg px-3 py-1 text-xs text-gray-300 border border-white/20">{tag}</span>
+            <span key={tag} className="rounded-full px-3 py-1 text-xs text-gray-400 border border-white/10 bg-white/[0.02]">{tag}</span>
           ))}
         </div>
 
@@ -72,7 +72,7 @@ export default function CaseStudyDetailPage() {
         <div className="mt-16 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <p className="text-sm text-gray-300 mb-4">Want results like this for your brand?</p>
           <Link to="/contact">
-            <button className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm">
+            <button className="btn-pill btn-pill-solid">
               Work With Us
             </button>
           </Link>

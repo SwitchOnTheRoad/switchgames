@@ -19,10 +19,10 @@ const BENEFITS = [
 ]
 
 const TYPE_COLORS: Record<string, string> = {
-  'Full-time': 'border-white/20 text-gray-300',
-  'Part-time': 'border-white/20 text-gray-300',
-  'Contract': 'border-yellow-400/30 text-yellow-300',
-  'Internship': 'border-blue-400/30 text-blue-300',
+  'Full-time': 'border-white/15 text-gray-400',
+  'Part-time': 'border-white/15 text-gray-400',
+  'Contract': 'border-yellow-400/25 text-yellow-300',
+  'Internship': 'border-blue-400/25 text-blue-300',
 }
 
 export default function CareersPage() {
@@ -53,11 +53,11 @@ export default function CareersPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
 
         <div className="relative z-10 px-6 md:px-12 lg:px-16 pt-32 pb-16 max-w-5xl">
-          <p className="text-xs tracking-widest uppercase text-gray-300 mb-4">Careers</p>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-normal mb-6 text-white" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+          <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Careers</p>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium mb-6 text-white" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
             Build the future<br />of gaming.
           </h1>
-          <p className="text-base md:text-lg text-gray-300 max-w-lg" style={{ lineHeight: 1.7 }}>
+          <p className="text-base md:text-lg text-gray-400 max-w-lg" style={{ lineHeight: 1.7 }}>
             We're a small team doing big things. If you want your work to be played by millions, Switch is the place.
           </p>
         </div>
@@ -73,9 +73,9 @@ export default function CareersPage() {
               { title: 'We play what we make.', desc: 'We\'re gamers first. If it doesn\'t feel right to us, it doesn\'t ship. That\'s the standard.' },
             ].map((card, i) => (
               <SectionReveal key={card.title} delay={i * 80}>
-                <div className="liquid-glass rounded-2xl p-8 border border-white/10 h-full">
+                <div className="rounded-2xl p-8 border border-white/[0.06] h-full bg-white/[0.02]">
                   <h3 className="text-xl font-medium mb-3" style={{ letterSpacing: '-0.02em' }}>{card.title}</h3>
-                  <p className="text-sm text-gray-300" style={{ lineHeight: 1.7 }}>{card.desc}</p>
+                  <p className="text-sm text-gray-400" style={{ lineHeight: 1.7 }}>{card.desc}</p>
                 </div>
               </SectionReveal>
             ))}
@@ -87,10 +87,10 @@ export default function CareersPage() {
       <section className="bg-black py-20 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <SectionReveal>
-            <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Perks & Benefits</p>
+            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Perks & Benefits</p>
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h2 className="text-4xl md:text-5xl font-normal mb-12" style={{ letterSpacing: '-0.03em' }}>
+            <h2 className="text-4xl md:text-5xl font-medium mb-12" style={{ letterSpacing: '-0.03em' }}>
               We take care<br />of our people.
             </h2>
           </SectionReveal>
@@ -98,14 +98,14 @@ export default function CareersPage() {
           <div className="grid md:grid-cols-3 gap-3">
             {BENEFITS.map((b, i) => (
               <SectionReveal key={b.n} delay={i * 60}>
-                <div className="liquid-glass rounded-2xl p-8 border border-white/10 relative overflow-hidden h-full">
+                <div className="rounded-2xl p-8 border border-white/[0.06] relative overflow-hidden h-full bg-white/[0.02]">
                   {/* Faded number in bg */}
                   <span
                     className="absolute select-none pointer-events-none"
                     style={{
                       fontSize: 140,
                       fontWeight: 700,
-                      opacity: 0.04,
+                      opacity: 0.03,
                       top: -30,
                       right: -10,
                       letterSpacing: -8,
@@ -115,9 +115,9 @@ export default function CareersPage() {
                   >
                     {b.n}
                   </span>
-                  <p className="text-xs uppercase tracking-widest text-gray-300 mb-3 relative z-10">{b.n}</p>
+                  <p className="text-xs uppercase tracking-[0.15em] text-gray-500 mb-3 relative z-10">{b.n}</p>
                   <h3 className="text-lg font-medium mb-2 relative z-10" style={{ letterSpacing: '-0.02em' }}>{b.title}</h3>
-                  <p className="text-sm text-gray-300 relative z-10" style={{ lineHeight: 1.65 }}>{b.desc}</p>
+                  <p className="text-sm text-gray-400 relative z-10" style={{ lineHeight: 1.65 }}>{b.desc}</p>
                 </div>
               </SectionReveal>
             ))}
@@ -129,10 +129,10 @@ export default function CareersPage() {
       <section className="bg-black py-20 px-6 md:px-12 lg:px-16">
         <div className="max-w-5xl mx-auto">
           <SectionReveal>
-            <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Open Roles</p>
+            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Open Roles</p>
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h2 className="text-4xl md:text-5xl font-normal mb-8" style={{ letterSpacing: '-0.03em' }}>
+            <h2 className="text-4xl md:text-5xl font-medium mb-8" style={{ letterSpacing: '-0.03em' }}>
               {jobs.length > 0 ? `${jobs.length} open position${jobs.length !== 1 ? 's' : ''}.` : 'Open positions.'}
             </h2>
           </SectionReveal>
@@ -144,8 +144,8 @@ export default function CareersPage() {
                 <button
                   key={d}
                   onClick={() => setDept(d)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors border ${
-                    dept === d ? 'bg-white text-black border-white' : 'liquid-glass border-white/20 text-gray-300 hover:text-white'
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
+                    dept === d ? 'bg-white text-black border-white' : 'border-white/15 text-gray-400 hover:text-white hover:border-white/30'
                   }`}
                 >
                   {d}
@@ -158,16 +158,16 @@ export default function CareersPage() {
           {loading ? (
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="liquid-glass rounded-2xl h-20 animate-pulse border border-white/5" />
+                <div key={i} className="rounded-2xl h-20 animate-pulse border border-white/5 bg-white/[0.02]" />
               ))}
             </div>
           ) : filtered.length === 0 ? (
             <SectionReveal>
-              <div className="liquid-glass rounded-2xl p-10 border border-white/10 text-center">
-                <p className="text-gray-300 mb-4">No open roles in this department right now.</p>
+              <div className="rounded-2xl p-10 border border-white/[0.06] text-center bg-white/[0.02]">
+                <p className="text-gray-400 mb-4">No open roles in this department right now.</p>
                 <Link to="/contact">
-                  <button className="liquid-glass border border-white/20 text-white px-6 py-2 rounded-lg text-sm hover:bg-white hover:text-black transition-colors">
-                    Send us your CV anyway →
+                  <button className="btn-pill btn-pill-sm">
+                    Send us your CV anyway <span style={{ fontSize: 11 }}>↗</span>
                   </button>
                 </Link>
               </div>
@@ -176,28 +176,28 @@ export default function CareersPage() {
             <div className="space-y-3">
               {filtered.map((job, i) => (
                 <SectionReveal key={job.id} delay={i * 50}>
-                  <div className="liquid-glass rounded-2xl border border-white/10 overflow-hidden">
+                  <div className="rounded-2xl border border-white/[0.06] overflow-hidden bg-white/[0.02]">
                     {/* Header row */}
                     <button
-                      className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left hover:bg-white/3 transition-colors"
+                      className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left hover:bg-white/[0.02] transition-colors"
                       onClick={() => setExpanded(expanded === job.id ? null : job.id)}
                     >
                       <div className="flex items-center gap-4 flex-1 min-w-0">
                         <div>
                           <h3 className="font-medium text-base" style={{ letterSpacing: '-0.01em' }}>{job.title}</h3>
                           <div className="flex flex-wrap items-center gap-2 mt-1">
-                            <span className="text-xs text-gray-300">{job.department}</span>
-                            <span className="text-white/20 text-xs">·</span>
-                            <span className="text-xs text-gray-300">{job.location}</span>
+                            <span className="text-xs text-gray-500">{job.department}</span>
+                            <span className="text-white/15 text-xs">·</span>
+                            <span className="text-xs text-gray-500">{job.location}</span>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 flex-shrink-0">
-                        <span className={`liquid-glass rounded-lg px-2 py-0.5 text-xs border ${TYPE_COLORS[job.type] || 'border-white/20 text-gray-300'}`}>
+                        <span className={`rounded-full px-3 py-0.5 text-xs border ${TYPE_COLORS[job.type] || 'border-white/15 text-gray-400'}`}>
                           {job.type}
                         </span>
                         <span
-                          className="text-gray-300 transition-transform duration-300"
+                          className="text-gray-500 transition-transform duration-300"
                           style={{ transform: expanded === job.id ? 'rotate(180deg)' : 'none', display: 'inline-block' }}
                         >
                           ↓
@@ -207,15 +207,15 @@ export default function CareersPage() {
 
                     {/* Expanded detail */}
                     {expanded === job.id && (
-                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-6 py-6">
-                        <p className="text-sm text-gray-300 mb-5" style={{ lineHeight: 1.7 }}>{job.description}</p>
+                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} className="px-6 py-6">
+                        <p className="text-sm text-gray-400 mb-5" style={{ lineHeight: 1.7 }}>{job.description}</p>
                         {job.requirements && (
                           <div className="mb-6">
-                            <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">What we're looking for</p>
+                            <p className="text-xs uppercase tracking-[0.15em] text-gray-500 mb-3">What we're looking for</p>
                             <ul className="space-y-2">
                               {job.requirements.split('\n').filter(Boolean).map((req, i) => (
-                                <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
-                                  <span className="text-white/30 mt-0.5">—</span>
+                                <li key={i} className="flex items-start gap-3 text-sm text-gray-400">
+                                  <span className="text-white/20 mt-0.5">—</span>
                                   <span>{req}</span>
                                 </li>
                               ))}
@@ -223,8 +223,8 @@ export default function CareersPage() {
                           </div>
                         )}
                         <Link to={`/contact?role=${encodeURIComponent(job.title)}&type=Careers`}>
-                          <button className="bg-white text-black px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">
-                            Apply for this role →
+                          <button className="btn-pill btn-pill-solid">
+                            Apply for this role <span style={{ fontSize: 11 }}>↗</span>
                           </button>
                         </Link>
                       </div>
@@ -238,14 +238,14 @@ export default function CareersPage() {
           {/* Bottom CTA */}
           {jobs.length > 0 && (
             <SectionReveal>
-              <div className="mt-8 liquid-glass rounded-2xl p-8 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="mt-8 rounded-2xl p-8 border border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-6 bg-white/[0.02]">
                 <div>
                   <p className="font-medium mb-1">Don't see your role?</p>
-                  <p className="text-sm text-gray-300">We're always open to exceptional people. Send us your CV and tell us what you'd bring.</p>
+                  <p className="text-sm text-gray-400">We're always open to exceptional people. Send us your CV and tell us what you'd bring.</p>
                 </div>
                 <Link to="/contact">
-                  <button className="flex-shrink-0 liquid-glass border border-white/20 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-white hover:text-black transition-colors">
-                    Get in Touch →
+                  <button className="flex-shrink-0 btn-pill">
+                    Get in Touch <span style={{ fontSize: 11 }}>↗</span>
                   </button>
                 </Link>
               </div>

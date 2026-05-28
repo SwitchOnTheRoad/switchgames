@@ -36,7 +36,7 @@ export default function BlogPage() {
           {loading ? (
             <div className="grid md:grid-cols-3 gap-5">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="liquid-glass rounded-2xl h-72 animate-pulse border border-white/5" />
+                <div key={i} className="rounded-2xl h-72 animate-pulse border border-white/[0.06] bg-white/[0.02]" />
               ))}
             </div>
           ) : posts.length === 0 ? (

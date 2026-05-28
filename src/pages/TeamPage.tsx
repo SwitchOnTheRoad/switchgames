@@ -28,15 +28,15 @@ export default function TeamPage() {
         </div>
         <div className="max-w-7xl mx-auto relative z-10">
           <SectionReveal>
-            <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Team</p>
+            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Team</p>
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-7xl font-normal mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+            <h1 className="text-5xl md:text-7xl font-medium mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
               The people<br />behind Switch.
             </h1>
           </SectionReveal>
           <SectionReveal delay={120}>
-            <p className="text-base md:text-lg text-gray-300 max-w-xl" style={{ lineHeight: 1.7 }}>
+            <p className="text-base md:text-lg text-gray-400 max-w-xl" style={{ lineHeight: 1.7 }}>
               Small team. Big output. Every person here shapes what we build and how we build it.
             </p>
           </SectionReveal>
@@ -49,16 +49,16 @@ export default function TeamPage() {
           {loading ? (
             <div className="grid md:grid-cols-3 gap-5">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="liquid-glass rounded-2xl h-80 animate-pulse border border-white/5" />
+                <div key={i} className="rounded-2xl h-80 animate-pulse border border-white/5 bg-white/[0.02]" />
               ))}
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-5">
               {team.map((member, i) => (
                 <SectionReveal key={member.id} delay={i * 80}>
-                  <div className="liquid-glass rounded-2xl border border-white/10 overflow-hidden group">
+                  <div className="rounded-2xl border border-white/[0.06] overflow-hidden group bg-white/[0.02]">
                     {/* Avatar */}
-                    <div className="relative h-64 bg-white/3 flex items-center justify-center overflow-hidden">
+                    <div className="relative h-64 flex items-center justify-center overflow-hidden">
                       {member.imageUrl ? (
                         <img
                           src={member.imageUrl}
@@ -66,8 +66,8 @@ export default function TeamPage() {
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                          <span className="text-5xl font-semibold text-white/20" style={{ letterSpacing: '-0.04em' }}>
+                        <div className="w-full h-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                          <span className="text-5xl font-semibold text-white/10" style={{ letterSpacing: '-0.04em' }}>
                             {member.name.split(' ').map(n => n[0]).join('')}
                           </span>
                         </div>
@@ -78,21 +78,21 @@ export default function TeamPage() {
                     {/* Info */}
                     <div className="p-6">
                       <h3 className="text-lg font-semibold mb-0.5" style={{ letterSpacing: '-0.02em' }}>{member.name}</h3>
-                      <p className="text-sm text-gray-300 mb-3">{member.role}</p>
+                      <p className="text-sm text-gray-400 mb-3">{member.role}</p>
                       {member.bio && (
-                        <p className="text-sm text-gray-300" style={{ lineHeight: 1.65 }}>{member.bio}</p>
+                        <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>{member.bio}</p>
                       )}
                       {(member.twitter || member.linkedin) && (
                         <div className="flex gap-3 mt-4">
                           {member.twitter && (
                             <a href={member.twitter} target="_blank" rel="noopener noreferrer"
-                              className="text-xs text-gray-300 hover:text-white transition-colors uppercase tracking-widest">
+                              className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
                               Twitter ↗
                             </a>
                           )}
                           {member.linkedin && (
                             <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
-                              className="text-xs text-gray-300 hover:text-white transition-colors uppercase tracking-widest">
+                              className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
                               LinkedIn ↗
                             </a>
                           )}
@@ -106,12 +106,12 @@ export default function TeamPage() {
               {/* Join us card */}
               <SectionReveal delay={team.length * 80}>
                 <a href="/careers" className="block h-full">
-                  <div className="liquid-glass rounded-2xl border border-white/10 h-full flex flex-col items-center justify-center p-8 text-center group cursor-pointer hover:border-white/20 transition-colors" style={{ minHeight: 340 }}>
-                    <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center mb-5 group-hover:border-white/40 transition-colors liquid-glass">
-                      <span className="text-2xl">+</span>
+                  <div className="rounded-2xl border border-white/[0.06] h-full flex flex-col items-center justify-center p-8 text-center group cursor-pointer hover:border-white/15 transition-colors bg-white/[0.02]" style={{ minHeight: 340 }}>
+                    <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-5 group-hover:border-white/25 transition-colors">
+                      <span className="text-2xl text-gray-400">+</span>
                     </div>
                     <h3 className="text-lg font-medium mb-2" style={{ letterSpacing: '-0.02em' }}>Join Switch</h3>
-                    <p className="text-sm text-gray-300" style={{ lineHeight: 1.65 }}>
+                    <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>
                       We're building the team. See open roles →
                     </p>
                   </div>

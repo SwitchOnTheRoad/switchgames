@@ -7,19 +7,59 @@ const multer = require('multer')
 const mongoose = require('mongoose')
 
 const server = express()
+const dbFile = path.join(__dirname, 'db.json')
+let useLocalDb = process.env.NODE_ENV !== 'production' || !process.env.MONGODB_URI
 
 server.use(cors())
 server.use(express.json({ limit: '50mb' }))
 server.use(express.static(path.join(__dirname, 'public')))
 server.use(express.static(path.join(__dirname, 'dist')))
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ Connected to MongoDB Atlas'))
-  .catch(err => console.error('❌ MongoDB Connection Error:', err))
+if (!useLocalDb && process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 })
+    .then(() => {
+      useLocalDb = false
+      console.log('Connected to MongoDB Atlas')
+    })
+    .catch(err => {
+      useLocalDb = true
+      console.error('MongoDB unavailable; using local db.json:', err.message)
+    })
+} else {
+  console.log('Using local db.json')
+}
 
-// ── File upload ──────────────────────────────────────────────────────────────
-// Must be defined before server.use(middlewares) so json-server middleware
-// doesn't interfere with the multipart/form-data stream.
+const readLocalDb = () => {
+  if (!fs.existsSync(dbFile)) return {}
+  try {
+    return JSON.parse(fs.readFileSync(dbFile, 'utf8'))
+  } catch (err) {
+    console.error('Failed to read db.json:', err.message)
+    return {}
+  }
+}
+
+const writeLocalDb = (data) => {
+  fs.writeFileSync(dbFile, JSON.stringify(data, null, 2) + '\n')
+}
+
+const getLocalCollection = (collection) => {
+  const data = readLocalDb()
+  if (!Array.isArray(data[collection])) data[collection] = []
+  return { data, items: data[collection] }
+}
+
+const matchesQuery = (doc, query) => {
+  return Object.entries(query).every(([key, value]) => {
+    if (key.startsWith('_')) return true
+    if (Array.isArray(value)) return value.includes(String(doc[key]))
+    return String(doc[key]) === String(value)
+  })
+}
+
+const shouldUseMongo = () => !useLocalDb && mongoose.connection.readyState === 1
+
+// File upload
 const uploadsDir = path.join(__dirname, 'public', 'uploads')
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true })
 
@@ -51,7 +91,7 @@ server.post('/api/upload', (req, res) => {
       return res.status(400).json({ error: 'No file received' })
     }
     const url = `/uploads/${req.file.filename}`
-    console.log(`📁 Uploaded: ${req.file.originalname} (${req.file.mimetype}) → ${url}`)
+    console.log(`Uploaded: ${req.file.originalname} (${req.file.mimetype}) -> ${url}`)
     res.json({ url, filename: req.file.filename, size: req.file.size })
   })
 })
@@ -64,13 +104,11 @@ server.delete('/api/upload', (req, res) => {
   res.json({ ok: true })
 })
 
-// middlewares are already replaced by express.static
-
-// ── Email endpoint ────────────────────────────────────────────────────────────
+// Email endpoint
 server.post('/api/send-email', async (req, res) => {
   const RESEND_KEY = process.env.RESEND_API_KEY
   if (!RESEND_KEY) {
-    console.log('📧 Contact form submission (no RESEND_API_KEY):', req.body)
+    console.log('Contact form submission (no RESEND_API_KEY):', req.body)
     return res.json({ ok: true, note: 'Set RESEND_API_KEY in .env to receive emails' })
   }
   try {
@@ -81,14 +119,14 @@ server.post('/api/send-email', async (req, res) => {
       from: 'Switch <noreply@playswitchgames.com>',
       to: ['hello@playswitchgames.com'],
       replyTo: email,
-      subject: `New enquiry: ${enquiryType || 'General'} — ${name}`,
+      subject: `New enquiry: ${enquiryType || 'General'} - ${name}`,
       html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto">
         <h2>New enquiry via playswitchgames.com</h2>
         <hr style="border:none;border-top:1px solid #eee;margin:16px 0">
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
-        <p><strong>Type:</strong> ${enquiryType || '—'}</p>
+        <p><strong>Type:</strong> ${enquiryType || '-'}</p>
         <hr style="border:none;border-top:1px solid #eee;margin:16px 0">
         <p style="white-space:pre-wrap">${message}</p>
         <hr style="border:none;border-top:1px solid #eee;margin:16px 0">
@@ -102,64 +140,100 @@ server.post('/api/send-email', async (req, res) => {
   }
 })
 
-// ── MongoDB Dynamic REST API Routes ──────────────────────────────────────────
-let dbPromise = null;
-const getDb = async () => {
-  if (mongoose.connection.readyState === 1) return mongoose.connection.db;
-  if (!dbPromise) {
-    dbPromise = mongoose.connect(process.env.MONGODB_URI).then(() => mongoose.connection.db);
-  }
-  return dbPromise;
-}
-
+// Dynamic REST API routes. Uses MongoDB when connected, otherwise db.json.
 server.get('/api/:collection', async (req, res) => {
   try {
-    const db = await getDb()
-    const data = await db.collection(req.params.collection).find({}).toArray()
+    if (shouldUseMongo()) {
+      const data = await mongoose.connection.db.collection(req.params.collection).find(req.query).toArray()
+      return res.json(data)
+    }
+
+    const { items } = getLocalCollection(req.params.collection)
+    const data = Object.keys(req.query).length ? items.filter(item => matchesQuery(item, req.query)) : items
     res.json(data)
-  } catch (err) { res.status(500).json({ error: err.message }) }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 })
 
 server.get('/api/:collection/:id', async (req, res) => {
   try {
-    const db = await getDb()
-    const doc = await db.collection(req.params.collection).findOne({ id: req.params.id })
+    if (shouldUseMongo()) {
+      const doc = await mongoose.connection.db.collection(req.params.collection).findOne({ id: req.params.id })
+      if (!doc) return res.status(404).json({ error: 'Not found' })
+      return res.json(doc)
+    }
+
+    const { items } = getLocalCollection(req.params.collection)
+    const doc = items.find(item => item.id === req.params.id)
     if (!doc) return res.status(404).json({ error: 'Not found' })
     res.json(doc)
-  } catch (err) { res.status(500).json({ error: err.message }) }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 })
 
 server.post('/api/:collection', async (req, res) => {
   try {
-    const db = await getDb()
-    const newDoc = { ...req.body, id: Date.now().toString() }
-    await db.collection(req.params.collection).insertOne(newDoc)
+    const newDoc = { ...req.body, id: req.body.id || Date.now().toString() }
+
+    if (shouldUseMongo()) {
+      await mongoose.connection.db.collection(req.params.collection).insertOne(newDoc)
+      return res.status(201).json(newDoc)
+    }
+
+    const { data, items } = getLocalCollection(req.params.collection)
+    items.push(newDoc)
+    writeLocalDb(data)
     res.status(201).json(newDoc)
-  } catch (err) { res.status(500).json({ error: err.message }) }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 })
 
-server.put('/api/:collection/:id', async (req, res) => {
+const updateDoc = async (req, res) => {
   try {
-    const db = await getDb()
-    const result = await db.collection(req.params.collection).findOneAndUpdate(
-      { id: req.params.id },
-      { $set: req.body },
-      { returnDocument: 'after' }
-    )
-    if (!result) return res.status(404).json({ error: 'Not found' })
-    res.json(result)
-  } catch (err) { res.status(500).json({ error: err.message }) }
-})
+    if (shouldUseMongo()) {
+      const result = await mongoose.connection.db.collection(req.params.collection).findOneAndUpdate(
+        { id: req.params.id },
+        { $set: req.body },
+        { returnDocument: 'after' }
+      )
+      if (!result) return res.status(404).json({ error: 'Not found' })
+      return res.json(result)
+    }
+
+    const { data, items } = getLocalCollection(req.params.collection)
+    const index = items.findIndex(item => item.id === req.params.id)
+    if (index === -1) return res.status(404).json({ error: 'Not found' })
+    items[index] = { ...items[index], ...req.body, id: req.params.id }
+    writeLocalDb(data)
+    res.json(items[index])
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+
+server.put('/api/:collection/:id', updateDoc)
+server.patch('/api/:collection/:id', updateDoc)
 
 server.delete('/api/:collection/:id', async (req, res) => {
   try {
-    const db = await getDb()
-    await db.collection(req.params.collection).deleteOne({ id: req.params.id })
+    if (shouldUseMongo()) {
+      await mongoose.connection.db.collection(req.params.collection).deleteOne({ id: req.params.id })
+      return res.json({ ok: true })
+    }
+
+    const { data, items } = getLocalCollection(req.params.collection)
+    data[req.params.collection] = items.filter(item => item.id !== req.params.id)
+    writeLocalDb(data)
     res.json({ ok: true })
-  } catch (err) { res.status(500).json({ error: err.message }) }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 })
 
-// ── Catch-all for React Router ───────────────────────────────────────────────
+// Catch-all for React Router
 server.get('*', (req, res) => {
   const distHtml = path.join(__dirname, 'dist', 'index.html')
   if (fs.existsSync(distHtml)) {
@@ -171,7 +245,7 @@ server.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3001
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n🎮 Switch API  →  http://localhost:${PORT}`)
-  console.log(`📁 Uploads     →  http://localhost:${PORT}/uploads`)
-  console.log(`📧 Email: ${process.env.RESEND_API_KEY ? 'Resend ✓' : 'No key — add RESEND_API_KEY to .env'}`)
+  console.log(`\nSwitch API -> http://localhost:${PORT}`)
+  console.log(`Uploads    -> http://localhost:${PORT}/uploads`)
+  console.log(`Email      -> ${process.env.RESEND_API_KEY ? 'Resend enabled' : 'No RESEND_API_KEY set'}`)
 })

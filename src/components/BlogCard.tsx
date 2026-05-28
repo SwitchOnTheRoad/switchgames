@@ -4,7 +4,7 @@ import type { Post } from '../types'
 export default function BlogCard({ post }: { post: Post }) {
   return (
     <Link to={`/blog/${post.slug}`} className="block group">
-      <div className="liquid-glass rounded-2xl overflow-hidden border border-white/10 h-full">
+      <div className="rounded-2xl overflow-hidden border border-white/[0.06] h-full bg-white/[0.02]">
         {post.coverVideoUrl && (
           <div className="relative h-44 overflow-hidden">
             <video
@@ -17,7 +17,7 @@ export default function BlogCard({ post }: { post: Post }) {
           </div>
         )}
         <div className="p-5">
-          <p className="text-xs text-gray-300 mb-2 uppercase tracking-widest">
+          <p className="text-xs text-gray-500 mb-2 uppercase tracking-[0.15em]">
             {new Date(post.publishedAt).toLocaleDateString('en-GB', {
               day: 'numeric', month: 'long', year: 'numeric',
             })}
@@ -25,7 +25,7 @@ export default function BlogCard({ post }: { post: Post }) {
           <h3 className="text-base font-medium mb-2" style={{ letterSpacing: '-0.02em' }}>
             {post.title}
           </h3>
-          <p className="text-sm text-gray-300 line-clamp-2" style={{ lineHeight: 1.6 }}>
+          <p className="text-sm text-gray-400 line-clamp-2" style={{ lineHeight: 1.6 }}>
             {post.excerpt}
           </p>
         </div>

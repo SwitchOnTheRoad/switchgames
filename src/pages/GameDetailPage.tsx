@@ -60,7 +60,7 @@ export default function GameDetailPage() {
           </Link>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <div className="liquid-glass rounded-lg px-3 py-1 inline-block mb-3 border border-white/20">
+              <div className="rounded-full px-3 py-1 inline-block mb-3 border border-white/10 bg-white/[0.02]">
                 <span className="text-xs text-gray-300 uppercase tracking-wider">{game.genre}</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-normal" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
@@ -69,7 +69,7 @@ export default function GameDetailPage() {
             </div>
             {game.robloxUrl && (
               <a href={game.robloxUrl} target="_blank" rel="noopener noreferrer">
-                <button className="bg-white text-black px-8 py-4 rounded-xl font-medium hover:bg-gray-100 transition-colors text-sm">
+                <button className="btn-pill btn-pill-solid">
                   Play on Roblox ↗
                 </button>
               </a>
@@ -93,7 +93,7 @@ export default function GameDetailPage() {
               <RobloxStats game={game} />
             </SectionReveal>
             <SectionReveal delay={80}>
-              <div className="liquid-glass rounded-xl p-5 border border-white/10 space-y-4">
+              <div className="rounded-2xl p-6 border border-white/[0.06] bg-white/[0.02] space-y-4">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-gray-300 mb-1">Genre</p>
                   <p className="text-sm font-medium">{game.genre}</p>
@@ -121,7 +121,7 @@ export default function GameDetailPage() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {related.map(g => (
                   <Link key={g.id} to={`/games/${g.id}`}>
-                    <div className="liquid-glass rounded-2xl overflow-hidden relative group" style={{ height: 200 }}>
+                    <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06]" style={{ height: 200 }}>
                       {g.imageUrl ? (
                         <img src={g.imageUrl} alt={g.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                       ) : (

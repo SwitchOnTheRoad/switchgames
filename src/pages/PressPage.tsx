@@ -43,7 +43,7 @@ export default function PressPage() {
 
           {/* Boilerplate */}
           <SectionReveal>
-            <div className="liquid-glass rounded-2xl p-8 border border-white/10 mb-6">
+            <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] mb-6">
               <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">About Switch — Boilerplate</p>
               <p className="text-sm text-gray-300 mb-4" style={{ lineHeight: 1.8 }}>
                 Switch is a UGC game development studio specialising in Roblox — the platform with over 80 million daily active users. We build original games and immersive branded experiences for some of the world's most recognised brands, helping them reach the next generation of consumers where they already spend their time.
@@ -53,7 +53,7 @@ export default function PressPage() {
               </p>
               <button
                 onClick={() => navigator.clipboard.writeText("Switch is a UGC game development studio specialising in Roblox...")}
-                className="mt-4 text-xs text-gray-300 hover:text-white transition-colors uppercase tracking-widest border border-white/10 rounded-lg px-3 py-1.5 liquid-glass"
+                className="mt-4 text-xs text-gray-400 hover:text-white transition-colors uppercase tracking-[0.1em] border border-white/10 bg-white/[0.02] rounded-full px-4 py-2 inline-block"
               >
                 Copy Text
               </button>
@@ -63,7 +63,7 @@ export default function PressPage() {
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             {/* Fast facts */}
             <SectionReveal>
-              <div className="liquid-glass rounded-2xl p-8 border border-white/10 h-full">
+              <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] h-full">
                 <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Fast Facts</p>
                 <div className="space-y-4">
                   {FACTS.map(fact => (
@@ -78,7 +78,7 @@ export default function PressPage() {
 
             {/* Media contact */}
             <SectionReveal delay={80}>
-              <div className="liquid-glass rounded-2xl p-8 border border-white/10 h-full flex flex-col justify-between">
+              <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] h-full flex flex-col justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Media Contact</p>
                   <h3 className="text-2xl font-normal mb-2" style={{ letterSpacing: '-0.03em' }}>Get in touch</h3>
@@ -99,11 +99,11 @@ export default function PressPage() {
 
           {/* Logo + assets */}
           <SectionReveal>
-            <div className="liquid-glass rounded-2xl p-8 border border-white/10 mb-6">
+            <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] mb-6">
               <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Brand Assets</p>
               <div className="grid md:grid-cols-3 gap-4">
                 {ASSETS.map(asset => (
-                  <div key={asset.label} className="liquid-glass rounded-xl border border-white/10 overflow-hidden">
+                  <div key={asset.label} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
                     <div className="h-28 flex items-center justify-center p-6" style={{ background: 'rgba(255,255,255,0.02)' }}>
                       <img src={asset.file} alt={asset.label} className="h-12 w-12 object-contain" />
                     </div>
@@ -126,7 +126,7 @@ export default function PressPage() {
 
           {/* Usage guidelines */}
           <SectionReveal>
-            <div className="liquid-glass rounded-2xl p-8 border border-white/10">
+            <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02]">
               <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Usage Guidelines</p>
               <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300" style={{ lineHeight: 1.7 }}>
                 <div>

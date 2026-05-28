@@ -125,7 +125,7 @@ export default function FileUpload({ value, onChange, type = 'any', label, place
             </div>
           ) : (
             <div className="p-8 flex flex-col items-center gap-2 text-center">
-              <div className="w-10 h-10 rounded-xl liquid-glass border border-white/20 flex items-center justify-center text-lg mb-1">
+              <div className="w-10 h-10 rounded-xl bg-white/[0.02] border border-white/10 flex items-center justify-center text-lg mb-1">
                 {type === 'image' ? '🖼' : type === 'video' ? '🎬' : '📁'}
               </div>
               <p className="text-sm text-white">Drop file here or click to browse</p>

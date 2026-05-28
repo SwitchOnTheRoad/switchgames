@@ -27,6 +27,9 @@ import AdminCaseStudies from './pages/admin/AdminCaseStudies'
 import AdminNewsletter from './pages/admin/AdminNewsletter'
 import ProtectedRoute from './pages/admin/ProtectedRoute'
 
+import TermsPage from './pages/TermsPage'
+import PrivacyPage from './pages/PrivacyPage'
+
 function AppInner() {
   usePageTracking()
   return (
@@ -42,6 +45,8 @@ function AppInner() {
       <Route path="/press" element={<PressPage />} />
       <Route path="/work" element={<CaseStudiesPage />} />
       <Route path="/work/:slug" element={<CaseStudyDetailPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
         <Route index element={<AdminDashboard />} />

@@ -25,20 +25,20 @@ export default function ShareButtons({ title, url }: Props) {
       <a
         href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encoded}`}
         target="_blank" rel="noopener noreferrer"
-        className="liquid-glass rounded-lg px-3 py-1.5 border border-white/20 text-xs text-gray-300 hover:text-white transition-colors"
+        className="rounded-full px-3 py-1.5 border border-white/10 bg-white/[0.02] text-xs text-gray-400 hover:text-white transition-colors"
       >
         X / Twitter
       </a>
       <a
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encoded}`}
         target="_blank" rel="noopener noreferrer"
-        className="liquid-glass rounded-lg px-3 py-1.5 border border-white/20 text-xs text-gray-300 hover:text-white transition-colors"
+        className="rounded-full px-3 py-1.5 border border-white/10 bg-white/[0.02] text-xs text-gray-400 hover:text-white transition-colors"
       >
         LinkedIn
       </a>
       <button
         onClick={share}
-        className="liquid-glass rounded-lg px-3 py-1.5 border border-white/20 text-xs text-gray-300 hover:text-white transition-colors"
+        className="rounded-full px-3 py-1.5 border border-white/10 bg-white/[0.02] text-xs text-gray-400 hover:text-white transition-colors"
       >
         Copy Link
       </button>

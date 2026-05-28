@@ -40,17 +40,17 @@ export default function CaseStudiesPage() {
 
           {loading ? (
             <div className="grid md:grid-cols-2 gap-5">
-              {[...Array(2)].map((_, i) => <div key={i} className="liquid-glass rounded-2xl h-80 animate-pulse border border-white/5" />)}
+              {[...Array(2)].map((_, i) => <div key={i} className="rounded-2xl h-80 animate-pulse border border-white/[0.06] bg-white/[0.02]" />)}
             </div>
           ) : cases.length === 0 ? (
             <SectionReveal>
-              <div className="liquid-glass rounded-2xl border border-white/10 p-16 text-center max-w-xl mx-auto">
+              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-16 text-center max-w-xl mx-auto">
                 <p className="text-3xl mb-4" style={{ letterSpacing: '-0.03em' }}>Coming soon.</p>
                 <p className="text-sm text-gray-300 mb-8" style={{ lineHeight: 1.7 }}>
                   We're working on our first brand activations. Want to be one of them?
                 </p>
                 <Link to="/contact">
-                  <button className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm">
+                  <button className="btn-pill btn-pill-solid">
                     Get in Touch
                   </button>
                 </Link>
@@ -61,7 +61,7 @@ export default function CaseStudiesPage() {
               {cases.map((c, i) => (
                 <SectionReveal key={c.id} delay={i * 80}>
                   <Link to={`/work/${c.slug}`} className="block group">
-                    <div className="liquid-glass rounded-2xl overflow-hidden border border-white/10 h-full">
+                    <div className="rounded-2xl overflow-hidden border border-white/[0.06] bg-white/[0.02] h-full">
                       <div className="relative h-64 overflow-hidden">
                         {c.coverVideoUrl ? (
                           <video autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
@@ -75,7 +75,7 @@ export default function CaseStudiesPage() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
                           {c.tags.map(tag => (
-                            <span key={tag} className="liquid-glass rounded-lg px-2 py-1 text-xs text-gray-300 border border-white/20">{tag}</span>
+                            <span key={tag} className="rounded-full px-3 py-1 text-xs text-gray-400 border border-white/10 bg-white/[0.02]">{tag}</span>
                           ))}
                         </div>
                       </div>

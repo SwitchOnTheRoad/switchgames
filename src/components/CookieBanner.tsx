@@ -18,7 +18,7 @@ export default function CookieBanner() {
       className="fixed bottom-5 left-1/2 z-50 px-4 w-full max-w-lg"
       style={{ transform: 'translateX(-50%)' }}
     >
-      <div className="liquid-glass rounded-2xl border border-white/20 px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <p className="text-sm text-gray-300 flex-1" style={{ lineHeight: 1.6 }}>
           We use cookies to improve your experience and analyse site traffic.{' '}
           <a href="/privacy" className="text-white underline hover:no-underline">Privacy policy</a>
@@ -26,13 +26,13 @@ export default function CookieBanner() {
         <div className="flex gap-2 flex-shrink-0">
           <button
             onClick={decline}
-            className="px-4 py-2 rounded-lg text-sm text-gray-300 border border-white/20 hover:text-white transition-colors liquid-glass"
+            className="px-4 py-2 rounded-full text-sm text-gray-400 border border-white/10 hover:text-white transition-colors"
           >
             Decline
           </button>
           <button
             onClick={accept}
-            className="px-4 py-2 rounded-lg text-sm font-medium bg-white text-black hover:bg-gray-100 transition-colors"
+            className="btn-pill btn-pill-solid"
           >
             Accept
           </button>

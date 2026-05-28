@@ -26,12 +26,12 @@ export default function NotFoundPage() {
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link to="/">
-              <button className="bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors text-sm">
+              <button className="btn-pill btn-pill-solid">
                 Back to Home
               </button>
             </Link>
             <Link to="/games">
-              <button className="liquid-glass border border-white/20 text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-colors text-sm">
+              <button className="btn-pill">
                 See Games
               </button>
             </Link>
