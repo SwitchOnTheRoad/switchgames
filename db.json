@@ -72,6 +72,24 @@
       "device": "tablet",
       "timestamp": "2026-06-01T20:52:07.438Z",
       "date": "2026-06-01"
+    },
+    {
+      "id": "28090cbb-862e-4957-98bd-1b086626160e",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-07T22:50:48.841Z",
+      "date": "2026-06-07"
+    },
+    {
+      "id": "ee1deb3b-51fe-452d-bb9d-2caaebe511a0",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-07T22:50:48.840Z",
+      "date": "2026-06-07"
     }
   ],
   "events": []

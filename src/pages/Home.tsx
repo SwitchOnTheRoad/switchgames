@@ -50,7 +50,7 @@ export default function Home() {
         <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
         <video 
           autoPlay loop muted playsInline 
-          src="/earth.mp4" 
+          src="/backgroundvideo.mp4" 
           className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-75 ease-out" 
           style={{ transform: `scale(${bgScale})`, transformOrigin: 'center center' }}
         />
