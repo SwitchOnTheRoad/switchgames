@@ -73,6 +73,22 @@ export interface CaseStudy {
   published: boolean
 }
 
+export interface JobApplication {
+  id: string
+  jobId: string
+  jobTitle: string
+  name: string
+  email: string
+  phone?: string
+  location?: string
+  portfolio?: string
+  linkedIn?: string
+  coverLetter: string
+  cvUrl?: string
+  status: 'new' | 'reviewing' | 'shortlisted' | 'rejected'
+  createdAt: string
+}
+
 export interface NewsletterSubscriber {
   id: string
   email: string

@@ -18,6 +18,61 @@
   "newsletter": [
     {}
   ],
-  "pageviews": [],
+  "pageviews": [
+    {
+      "id": "f145f714-10e1-41b1-be53-dbd2f8bee8e4",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "tablet",
+      "timestamp": "2026-06-01T20:51:45.120Z",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "713974ef-8906-4dd4-a855-6ebac3359ae4",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "tablet",
+      "timestamp": "2026-06-01T20:51:45.118Z",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "efc207d6-3e8b-4686-b3c7-6c076d6358b1",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "tablet",
+      "timestamp": "2026-06-01T20:51:53.601Z",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "4bb004a3-fb3e-4709-9f0e-111f9705b7a2",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "tablet",
+      "timestamp": "2026-06-01T20:52:01.697Z",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "73fca7bb-ae13-446c-9e94-0bcb6754a0b0",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "tablet",
+      "timestamp": "2026-06-01T20:52:05.562Z",
+      "date": "2026-06-01"
+    },
+    {
+      "id": "24b9c7c6-4f8a-431b-a8b5-6d1307d6e30e",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "tablet",
+      "timestamp": "2026-06-01T20:52:07.438Z",
+      "date": "2026-06-01"
+    }
+  ],
   "events": []
 }

@@ -303,3 +303,26 @@ body {
     flex: 0 0 380px;
   }
 }
+
+/* ─── Application Form Input ─────────────────────────── */
+.app-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 200ms ease, background 200ms ease;
+  font-family: inherit;
+}
+
+.app-input::placeholder {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.app-input:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+}

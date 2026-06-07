@@ -14,6 +14,7 @@ const NAV_SECTIONS: { heading: string, items: { path: string, label: string, exa
     { path: '/admin/careers', label: 'Careers' },
   ]},
   { heading: 'Inbox', items: [
+    { path: '/admin/applications', label: 'Applications' },
     { path: '/admin/contacts', label: 'Enquiries' },
     { path: '/admin/newsletter', label: 'Newsletter' },
   ]},

@@ -1,4 +1,4 @@
-import type { Game, Post, Job, Contact, TeamMember, CaseStudy, NewsletterSubscriber } from '../types'
+import type { Game, Post, Job, JobApplication, Contact, TeamMember, CaseStudy, NewsletterSubscriber } from '../types'
 
 const BASE = '/api'
 
@@ -83,6 +83,23 @@ export async function submitContact(data: Omit<Contact, 'id'>): Promise<void> {
 }
 export async function deleteContact(id: string): Promise<void> {
   await fetch(`${BASE}/contacts/${id}`, { method: 'DELETE' })
+}
+
+// ─── Job Applications ─────────────────────────────────────────────────────────
+export async function getApplications(): Promise<JobApplication[]> {
+  const res = await fetch(`${BASE}/applications`)
+  if (!res.ok) throw new Error('Failed to fetch applications')
+  return res.json()
+}
+export async function submitApplication(data: Omit<JobApplication, 'id'>): Promise<void> {
+  await fetch(`${BASE}/applications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+}
+export async function updateApplication(id: string, data: Partial<JobApplication>): Promise<JobApplication> {
+  const res = await fetch(`${BASE}/applications/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+  return res.json()
+}
+export async function deleteApplication(id: string): Promise<void> {
+  await fetch(`${BASE}/applications/${id}`, { method: 'DELETE' })
 }
 
 // ─── Team ────────────────────────────────────────────────────────────────────

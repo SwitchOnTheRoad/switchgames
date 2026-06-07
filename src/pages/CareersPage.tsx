@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import SectionReveal from '../components/SectionReveal'
+import JobApplicationModal from '../components/JobApplicationModal'
 import { getJobs } from '../api'
 import SEOMeta from '../components/SEOMeta'
 import type { Job } from '../types'
@@ -30,6 +30,7 @@ export default function CareersPage() {
   const [loading, setLoading] = useState(true)
   const [dept, setDept] = useState('All')
   const [expanded, setExpanded] = useState<string | null>(null)
+  const [applyJob, setApplyJob] = useState<Job | null>(null)
 
   useEffect(() => {
     getJobs()
@@ -165,11 +166,11 @@ export default function CareersPage() {
             <SectionReveal>
               <div className="rounded-2xl p-10 border border-white/[0.06] text-center bg-white/[0.02]">
                 <p className="text-gray-400 mb-4">No open roles in this department right now.</p>
-                <Link to="/contact">
+                <a href="mailto:hello@playswitchgames.com">
                   <button className="btn-pill btn-pill-sm">
                     Send us your CV anyway <span style={{ fontSize: 11 }}>↗</span>
                   </button>
-                </Link>
+                </a>
               </div>
             </SectionReveal>
           ) : (
@@ -222,11 +223,12 @@ export default function CareersPage() {
                             </ul>
                           </div>
                         )}
-                        <Link to={`/contact?role=${encodeURIComponent(job.title)}&type=Careers`}>
-                          <button className="btn-pill btn-pill-solid">
-                            Apply for this role <span style={{ fontSize: 11 }}>↗</span>
-                          </button>
-                        </Link>
+                        <button
+                          className="btn-pill btn-pill-solid"
+                          onClick={() => setApplyJob(job)}
+                        >
+                          Apply for this role <span style={{ fontSize: 11 }}>↗</span>
+                        </button>
                       </div>
                     )}
                   </div>
@@ -243,11 +245,9 @@ export default function CareersPage() {
                   <p className="font-medium mb-1">Don't see your role?</p>
                   <p className="text-sm text-gray-400">We're always open to exceptional people. Send us your CV and tell us what you'd bring.</p>
                 </div>
-                <Link to="/contact">
-                  <button className="flex-shrink-0 btn-pill">
-                    Get in Touch <span style={{ fontSize: 11 }}>↗</span>
-                  </button>
-                </Link>
+                <a href="mailto:hello@playswitchgames.com" className="flex-shrink-0 btn-pill">
+                  Get in Touch <span style={{ fontSize: 11 }}>↗</span>
+                </a>
               </div>
             </SectionReveal>
           )}
@@ -255,6 +255,14 @@ export default function CareersPage() {
       </section>
 
       <Footer />
+
+      {/* Application modal */}
+      {applyJob && (
+        <JobApplicationModal
+          job={applyJob}
+          onClose={() => setApplyJob(null)}
+        />
+      )}
     </div>
   )
 }

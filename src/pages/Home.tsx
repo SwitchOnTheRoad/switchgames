@@ -13,7 +13,6 @@ import { getGames, getPosts } from '../api'
 import SEOMeta from '../components/SEOMeta'
 import type { Game, Post } from '../types'
 
-const TICKER_ITEMS = ['Game Development', 'Brand Activations', 'Roblox Worlds', 'UGC Items', 'Cultural Games', 'playswitchgames.com']
 
 export default function Home() {
   const [games, setGames] = useState<Game[]>([])
@@ -106,17 +105,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── TICKER ───────────────────────────────────────── */}
-      <div className="bg-black py-4 overflow-hidden" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="flex gap-12 whitespace-nowrap" style={{ animation: 'ticker 28s linear infinite' }}>
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <span key={i} className={`text-xs uppercase tracking-[0.15em] ${i % 2 === 0 ? 'text-gray-400' : 'text-white/15'}`}>
-              {i % 2 === 0 ? item : '✦'}
-            </span>
-          ))}
-        </div>
-        <style>{`@keyframes ticker { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }`}</style>
-      </div>
 
       {/* ─── GAMES ────────────────────────────────────────── */}
       <section id="games" className="bg-black py-16">

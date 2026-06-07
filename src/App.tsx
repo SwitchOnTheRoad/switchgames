@@ -25,6 +25,7 @@ import AdminContacts from './pages/admin/AdminContacts'
 import AdminTeam from './pages/admin/AdminTeam'
 import AdminCaseStudies from './pages/admin/AdminCaseStudies'
 import AdminNewsletter from './pages/admin/AdminNewsletter'
+import AdminApplications from './pages/admin/AdminApplications'
 import ProtectedRoute from './pages/admin/ProtectedRoute'
 
 import TermsPage from './pages/TermsPage'
@@ -54,6 +55,7 @@ function AppInner() {
         <Route path="blog" element={<AdminBlog />} />
         <Route path="careers" element={<AdminCareers />} />
         <Route path="contacts" element={<AdminContacts />} />
+        <Route path="applications" element={<AdminApplications />} />
         <Route path="team" element={<AdminTeam />} />
         <Route path="case-studies" element={<AdminCaseStudies />} />
         <Route path="newsletter" element={<AdminNewsletter />} />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getPageViews, getEvents, getContacts, getGames, getPosts, getJobs, getNewsletterSubscribers } from '../../api'
+import { getPageViews, getEvents, getContacts, getGames, getPosts, getJobs, getNewsletterSubscribers, getApplications } from '../../api'
 import type { PageView } from '../../api'
 
 // ─── Mini SVG line chart ──────────────────────────────────────────────────────
@@ -116,7 +116,7 @@ function StatCard({ label, value, sub, trend }: { label: string; value: string |
 // ─── Main dashboard ───────────────────────────────────────────────────────────
 export default function AdminDashboard() {
   const [pageviews, setPageviews] = useState<PageView[]>([])
-  const [counts, setCounts] = useState({ games: 0, posts: 0, jobs: 0, contacts: 0, subscribers: 0 })
+  const [counts, setCounts] = useState({ games: 0, posts: 0, jobs: 0, contacts: 0, subscribers: 0, applications: 0 })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -127,9 +127,10 @@ export default function AdminDashboard() {
       getJobs(),
       getContacts(),
       getNewsletterSubscribers(),
-    ]).then(([pv, games, posts, jobs, contacts, subs]) => {
+      getApplications(),
+    ]).then(([pv, games, posts, jobs, contacts, subs, apps]) => {
       setPageviews(pv)
-      setCounts({ games: games.length, posts: posts.filter(p => p.published).length, jobs: jobs.filter(j => j.open).length, contacts: contacts.length, subscribers: subs.length })
+      setCounts({ games: games.length, posts: posts.filter(p => p.published).length, jobs: jobs.filter(j => j.open).length, contacts: contacts.length, subscribers: subs.length, applications: apps.length })
     }).finally(() => setLoading(false))
   }, [])
 
@@ -184,11 +185,12 @@ export default function AdminDashboard() {
       </div>
 
       {/* ── Content stats ── */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         {[
           { label: 'Games', value: counts.games, path: '/admin/games' },
           { label: 'Blog Posts', value: counts.posts, path: '/admin/blog' },
           { label: 'Open Roles', value: counts.jobs, path: '/admin/careers' },
+          { label: 'Applications', value: counts.applications, path: '/admin/applications' },
           { label: 'Enquiries', value: counts.contacts, path: '/admin/contacts' },
           { label: 'Subscribers', value: counts.subscribers, path: '/admin/newsletter' },
         ].map(s => (

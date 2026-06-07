@@ -226,7 +226,7 @@ export default function AdminBlog() {
                   {saving ? 'Saving...' : editing ? 'Save Changes' : 'Create Post'}
                 </button>
                 <button onClick={() => setShowForm(false)} className="px-6 py-3 rounded-lg border border-white/20 text-sm text-gray-300 hover:text-white transition-colors">
-                  Cancel
+                 Cancel
                 </button>
               </div>
             </div>
