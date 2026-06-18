@@ -8,11 +8,11 @@ interface Props {
 }
 
 const SITE = 'Switch'
-const DEFAULT_DESC = 'UGC game development studio. We build games for culture — and for the brands that want to live inside it.'
+const DEFAULT_DESC = 'UGC game development studio. We build games for culture, and operate them for the long term.'
 const DEFAULT_IMAGE = '/logo.png'
 
 export default function SEOMeta({ title, description = DEFAULT_DESC, image = DEFAULT_IMAGE, url }: Props) {
-  const fullTitle = title ? `${title} — ${SITE}` : `${SITE} — UGC Game Development`
+  const fullTitle = title ? `${title} | ${SITE}` : `${SITE} | UGC Game Development`
 
   useEffect(() => {
     document.title = fullTitle

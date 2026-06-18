@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import SectionReveal from '../components/SectionReveal'
-import JobApplicationModal from '../components/JobApplicationModal'
 import { getJobs } from '../api'
 import SEOMeta from '../components/SEOMeta'
 import type { Job } from '../types'
@@ -10,12 +10,12 @@ import type { Job } from '../types'
 const DEPARTMENTS = ['All', 'Engineering', 'Design', 'Production', 'Marketing', 'Other']
 
 const BENEFITS = [
-  { n: '01', title: 'Remote First', desc: 'Work from anywhere. We\'re async by default and built for distributed teams.' },
-  { n: '02', title: 'Competitive Pay', desc: 'We benchmark against top studios, not startups. Your skills are worth it.' },
-  { n: '03', title: 'Game Access', desc: 'Every game we build, you play first. Free access to everything in our portfolio.' },
-  { n: '04', title: '£1k Learning Budget', desc: 'Yearly allowance for courses, books, conferences, or whatever makes you better.' },
-  { n: '05', title: 'Flexible Hours', desc: 'Ship great work on your schedule. Meetings are minimal and always recorded.' },
-  { n: '06', title: 'Fast Growth', desc: 'Small team, big output. Your impact is immediate and your career moves fast.' },
+  { n: '01', title: 'Remote First', desc: 'Work from anywhere. We collaborate async and meet when it matters.' },
+  { n: '02', title: 'Competitive Pay', desc: 'Fair compensation that reflects your skills and experience.' },
+  { n: '03', title: 'Game Access', desc: 'Free access to everything in our portfolio, including early builds.' },
+  { n: '04', title: 'Learning Budget', desc: 'Annual allowance for courses, books, or tools that help you grow.' },
+  { n: '05', title: 'Flexible Hours', desc: 'Core hours keep the team aligned, with flexibility around them.' },
+  { n: '06', title: 'Small Team', desc: 'Your work has real impact. No bureaucracy, just building.' },
 ]
 
 const TYPE_COLORS: Record<string, string> = {
@@ -30,7 +30,6 @@ export default function CareersPage() {
   const [loading, setLoading] = useState(true)
   const [dept, setDept] = useState('All')
   const [expanded, setExpanded] = useState<string | null>(null)
-  const [applyJob, setApplyJob] = useState<Job | null>(null)
 
   useEffect(() => {
     getJobs()
@@ -43,7 +42,7 @@ export default function CareersPage() {
   return (
     <div className="bg-black text-white min-h-screen">
       <Nav />
-      <SEOMeta title="Careers" description="Join Switch — build the future of gaming." />
+      <SEOMeta title="Careers" description="Join Switch. Build the future of gaming." />
 
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="min-h-[70vh] bg-black relative flex items-center overflow-hidden">
@@ -54,7 +53,7 @@ export default function CareersPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
 
         <div className="relative z-10 px-6 md:px-12 lg:px-16 pt-32 pb-16 max-w-5xl">
-          <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-4">Careers</p>
+
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium mb-6 text-white" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
             Build the future<br />of gaming.
           </h1>
@@ -70,7 +69,7 @@ export default function CareersPage() {
           <div className="grid md:grid-cols-3 gap-3">
             {[
               { title: 'We move fast.', desc: 'No bureaucracy. No endless meetings. We ship and iterate. Good ideas get built the same week.' },
-              { title: 'We build real things.', desc: 'Every game we ship is played by real people. There\'s no internal tools or B2B software — just worlds players love.' },
+              { title: 'We build real things.', desc: 'Every game we ship is played by real people. There\'s no internal tools or B2B software. Just worlds players love.' },
               { title: 'We play what we make.', desc: 'We\'re gamers first. If it doesn\'t feel right to us, it doesn\'t ship. That\'s the standard.' },
             ].map((card, i) => (
               <SectionReveal key={card.title} delay={i * 80}>
@@ -87,9 +86,7 @@ export default function CareersPage() {
       {/* ── BENEFITS ─────────────────────────────────────── */}
       <section className="bg-black py-20 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
-          <SectionReveal>
-            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Perks & Benefits</p>
-          </SectionReveal>
+      
           <SectionReveal delay={60}>
             <h2 className="text-4xl md:text-5xl font-medium mb-12" style={{ letterSpacing: '-0.03em' }}>
               We take care<br />of our people.
@@ -129,9 +126,7 @@ export default function CareersPage() {
       {/* ── OPEN POSITIONS ───────────────────────────────── */}
       <section className="bg-black py-20 px-6 md:px-12 lg:px-16">
         <div className="max-w-5xl mx-auto">
-          <SectionReveal>
-            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Open Roles</p>
-          </SectionReveal>
+
           <SectionReveal delay={60}>
             <h2 className="text-4xl md:text-5xl font-medium mb-8" style={{ letterSpacing: '-0.03em' }}>
               {jobs.length > 0 ? `${jobs.length} open position${jobs.length !== 1 ? 's' : ''}.` : 'Open positions.'}
@@ -166,11 +161,11 @@ export default function CareersPage() {
             <SectionReveal>
               <div className="rounded-2xl p-10 border border-white/[0.06] text-center bg-white/[0.02]">
                 <p className="text-gray-400 mb-4">No open roles in this department right now.</p>
-                <a href="mailto:hello@playswitchgames.com">
-                  <button className="btn-pill btn-pill-sm">
+                <Link to="/contact?topic=careers" className="btn-pill btn-pill-sm">
+                  <span>
                     Send us your CV anyway <span style={{ fontSize: 11 }}>↗</span>
-                  </button>
-                </a>
+                  </span>
+                </Link>
               </div>
             </SectionReveal>
           ) : (
@@ -223,12 +218,12 @@ export default function CareersPage() {
                             </ul>
                           </div>
                         )}
-                        <button
+                        <Link
+                          to={`/careers/${job.id}/apply`}
                           className="btn-pill btn-pill-solid"
-                          onClick={() => setApplyJob(job)}
                         >
                           Apply for this role <span style={{ fontSize: 11 }}>↗</span>
-                        </button>
+                        </Link>
                       </div>
                     )}
                   </div>
@@ -255,14 +250,6 @@ export default function CareersPage() {
       </section>
 
       <Footer />
-
-      {/* Application modal */}
-      {applyJob && (
-        <JobApplicationModal
-          job={applyJob}
-          onClose={() => setApplyJob(null)}
-        />
-      )}
     </div>
   )
 }

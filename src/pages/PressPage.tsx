@@ -13,14 +13,14 @@ const FACTS = [
   { label: 'Founded', value: '2026' },
   { label: 'Location', value: 'London, UK' },
   { label: 'Platform', value: 'Roblox' },
-  { label: 'Focus', value: 'UGC Game Development & Brand Activations' },
+  { label: 'Focus', value: 'UGC Game Development & Live-Ops' },
   { label: 'Contact', value: 'press@playswitchgames.com' },
 ]
 
 export default function PressPage() {
   return (
     <div className="bg-black text-white min-h-screen">
-      <SEOMeta title="Press" description="Press kit, assets, and media contact for Switch — UGC game development studio." />
+      <SEOMeta title="Press" description="Press kit, assets, and media contact for Switch, UGC game development studio." />
       <Nav />
 
       <div className="pt-40 pb-24 px-6 md:px-12 lg:px-16">
@@ -28,7 +28,7 @@ export default function PressPage() {
 
           {/* Header */}
           <SectionReveal>
-            <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Press & Media</p>
+
           </SectionReveal>
           <SectionReveal delay={60}>
             <h1 className="text-5xl md:text-6xl font-normal mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
@@ -44,12 +44,12 @@ export default function PressPage() {
           {/* Boilerplate */}
           <SectionReveal>
             <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] mb-6">
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">About Switch — Boilerplate</p>
+
               <p className="text-sm text-gray-300 mb-4" style={{ lineHeight: 1.8 }}>
-                Switch is a UGC game development studio specialising in Roblox — the platform with over 80 million daily active users. We build original games and immersive branded experiences for some of the world's most recognised brands, helping them reach the next generation of consumers where they already spend their time.
+                Switch is a UGC game development studio specialising in Roblox, the platform with over 80 million daily active users. We build original games and scale immersive experiences, helping developers retain and engage players over the long term through continuous live-ops.
               </p>
               <p className="text-sm text-gray-300" style={{ lineHeight: 1.8 }}>
-                Founded in 2026 and based in London, Switch combines deep game design expertise with cultural fluency to create worlds players return to and brand moments they remember.
+                Founded in 2026 and based in London, Switch combines deep game design expertise with cultural fluency to create worlds players return to and communities they grow with.
               </p>
               <button
                 onClick={() => navigator.clipboard.writeText("Switch is a UGC game development studio specialising in Roblox...")}
@@ -64,7 +64,7 @@ export default function PressPage() {
             {/* Fast facts */}
             <SectionReveal>
               <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] h-full">
-                <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Fast Facts</p>
+
                 <div className="space-y-4">
                   {FACTS.map(fact => (
                     <div key={fact.label} className="flex justify-between items-start gap-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '1rem' }}>
@@ -80,10 +80,10 @@ export default function PressPage() {
             <SectionReveal delay={80}>
               <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] h-full flex flex-col justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Media Contact</p>
+
                   <h3 className="text-2xl font-normal mb-2" style={{ letterSpacing: '-0.03em' }}>Get in touch</h3>
                   <p className="text-sm text-gray-300 mb-6" style={{ lineHeight: 1.65 }}>
-                    For interviews, features, and press enquiries — we reply within 24 hours.
+                    For interviews, features, and press enquiries, we reply within 24 hours.
                   </p>
                   <a href="mailto:press@playswitchgames.com" className="text-sm font-medium hover:text-gray-300 transition-colors">
                     press@playswitchgames.com ↗
@@ -100,7 +100,7 @@ export default function PressPage() {
           {/* Logo + assets */}
           <SectionReveal>
             <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] mb-6">
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Brand Assets</p>
+
               <div className="grid md:grid-cols-3 gap-4">
                 {ASSETS.map(asset => (
                   <div key={asset.label} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
@@ -127,7 +127,7 @@ export default function PressPage() {
           {/* Usage guidelines */}
           <SectionReveal>
             <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02]">
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-6">Usage Guidelines</p>
+
               <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300" style={{ lineHeight: 1.7 }}>
                 <div>
                   <p className="text-white font-medium mb-2">✓ You may</p>

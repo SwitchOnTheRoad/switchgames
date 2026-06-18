@@ -56,7 +56,7 @@ export default function AdminCaseStudies() {
       <div className="liquid-glass rounded-2xl border border-white/10 overflow-hidden">
         <table className="w-full">
           <thead><tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            {['Brand', 'Title', 'Status', ''].map(h => <th key={h} className="text-left text-xs uppercase tracking-widest text-gray-300 px-6 py-4 font-normal">{h}</th>)}
+            {['Game / Client', 'Title', 'Status', ''].map(h => <th key={h} className="text-left text-xs uppercase tracking-widest text-gray-300 px-6 py-4 font-normal">{h}</th>)}
           </tr></thead>
           <tbody>
             {loading ? <tr><td colSpan={4} className="px-6 py-8 text-center text-sm text-gray-300">Loading...</td></tr> :
@@ -82,7 +82,7 @@ export default function AdminCaseStudies() {
             <h2 className="text-xl font-semibold mb-6" style={{ letterSpacing: '-0.02em' }}>{editing ? 'Edit' : 'New'} Case Study</h2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div><label className="block text-xs uppercase tracking-widest text-gray-300 mb-2">Brand</label><input type="text" value={form.brand} onChange={e => set('brand', e.target.value)} className={INPUT} placeholder="e.g. Nike" autoFocus /></div>
+                <div><label className="block text-xs uppercase tracking-widest text-gray-300 mb-2">Game / Client</label><input type="text" value={form.brand} onChange={e => set('brand', e.target.value)} className={INPUT} placeholder="e.g. Obby Creator" autoFocus /></div>
                 <div><label className="block text-xs uppercase tracking-widest text-gray-300 mb-2">Slug</label><input type="text" value={form.slug} onChange={e => set('slug', e.target.value)} className={INPUT} /></div>
               </div>
               <div><label className="block text-xs uppercase tracking-widest text-gray-300 mb-2">Title</label><input type="text" value={form.title} onChange={e => handleTitle(e.target.value)} className={INPUT} placeholder="e.g. Nike Air Max World" /></div>

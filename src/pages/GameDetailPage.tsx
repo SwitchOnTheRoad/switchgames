@@ -83,7 +83,7 @@ export default function GameDetailPage() {
         <div className="grid md:grid-cols-3 gap-12">
           <div className="md:col-span-2">
             <SectionReveal>
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">About</p>
+
               <p className="text-lg text-gray-300 mb-8" style={{ lineHeight: 1.75 }}>{game.description}</p>
             </SectionReveal>
           </div>

@@ -27,12 +27,12 @@ export default function GamesPage() {
   return (
     <div className="bg-black text-white min-h-screen">
       <Nav />
-      <SEOMeta title="Games" description="All Switch games — explore our portfolio of Roblox titles." />
+      <SEOMeta title="Games" description="All Switch games. Explore our portfolio of Roblox titles." />
 
       <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <SectionReveal>
-            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Games</p>
+
           </SectionReveal>
           <SectionReveal delay={60}>
             <h1 className="text-5xl md:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.04em' }}>

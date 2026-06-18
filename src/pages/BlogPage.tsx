@@ -25,7 +25,7 @@ export default function BlogPage() {
       <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <SectionReveal>
-            <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Blog</p>
+
           </SectionReveal>
           <SectionReveal delay={60}>
             <h1 className="text-5xl md:text-6xl font-normal mb-12" style={{ letterSpacing: '-0.04em' }}>
@@ -40,7 +40,7 @@ export default function BlogPage() {
               ))}
             </div>
           ) : posts.length === 0 ? (
-            <p className="text-gray-300 py-20 text-center">No posts yet — check back soon.</p>
+            <p className="text-gray-300 py-20 text-center">No posts yet. Check back soon.</p>
           ) : (
             <SectionReveal>
               <div className="grid md:grid-cols-3 gap-5">

@@ -10,6 +10,7 @@ import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
 import ContactPage from './pages/ContactPage'
 import CareersPage from './pages/CareersPage'
+import JobApplicationPage from './pages/JobApplicationPage'
 import TeamPage from './pages/TeamPage'
 import PressPage from './pages/PressPage'
 import CaseStudiesPage from './pages/CaseStudiesPage'
@@ -42,6 +43,7 @@ function AppInner() {
       <Route path="/blog/:slug" element={<BlogPostPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/careers" element={<CareersPage />} />
+      <Route path="/careers/:id/apply" element={<JobApplicationPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/press" element={<PressPage />} />
       <Route path="/work" element={<CaseStudiesPage />} />

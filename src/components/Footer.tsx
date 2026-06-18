@@ -15,7 +15,7 @@ export default function Footer() {
           <div>
             <img src="/logo.png" alt="Switch" className="h-10 w-10 object-contain mb-3" />
             <p className="text-sm text-gray-500 max-w-xs" style={{ lineHeight: 1.65 }}>
-              UGC game development for culture and the brands that shape it.
+              UGC game development for culture and the communities that shape it.
             </p>
           </div>
           <div className="flex gap-10 md:gap-16 text-sm flex-wrap">

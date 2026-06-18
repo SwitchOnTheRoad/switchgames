@@ -51,26 +51,26 @@ export default function CaseStudyDetailPage() {
         <div className="space-y-12">
           {cs.challenge && (
             <div>
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">The Challenge</p>
+
               <p className="text-base text-gray-300" style={{ lineHeight: 1.8 }}>{cs.challenge}</p>
             </div>
           )}
           {cs.solution && (
             <div>
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">What We Built</p>
+
               <p className="text-base text-gray-300" style={{ lineHeight: 1.8 }}>{cs.solution}</p>
             </div>
           )}
           {cs.results && (
             <div>
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">Results</p>
+
               <p className="text-base text-gray-300" style={{ lineHeight: 1.8 }}>{cs.results}</p>
             </div>
           )}
         </div>
 
         <div className="mt-16 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          <p className="text-sm text-gray-300 mb-4">Want results like this for your brand?</p>
+          <p className="text-sm text-gray-300 mb-4">Want results like this for your game?</p>
           <Link to="/contact">
             <button className="btn-pill btn-pill-solid">
               Work With Us

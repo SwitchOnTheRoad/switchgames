@@ -20,10 +20,10 @@ export default function NewsletterSignup() {
 
   return (
     <div className="rounded-2xl border border-white/[0.06] px-8 py-8 max-w-xl mx-auto text-center bg-white/[0.02]">
-      <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Newsletter</p>
+
       <h3 className="text-2xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>Stay in the loop.</h3>
       <p className="text-sm text-gray-400 mb-6" style={{ lineHeight: 1.6 }}>
-        New games, brand collabs, and studio updates — straight to your inbox.
+        New games, live-ops insights, and studio updates, straight to your inbox.
       </p>
 
       {status === 'done' ? (

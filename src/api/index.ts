@@ -60,6 +60,11 @@ export async function getJobs(): Promise<Job[]> {
   if (!res.ok) throw new Error('Failed to fetch jobs')
   return res.json()
 }
+export async function getJobById(id: string): Promise<Job> {
+  const res = await fetch(`${BASE}/jobs/${id}`)
+  if (!res.ok) throw new Error('Job not found')
+  return res.json()
+}
 export async function createJob(data: Omit<Job, 'id'>): Promise<Job> {
   const res = await fetch(`${BASE}/jobs`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
   return res.json()

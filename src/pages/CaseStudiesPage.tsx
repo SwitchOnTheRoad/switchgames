@@ -19,13 +19,13 @@ export default function CaseStudiesPage() {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <SEOMeta title="Case Studies" description="How Switch builds brand experiences inside Roblox that players actually love." />
+      <SEOMeta title="Case Studies" description="How Switch builds live-ops driven experiences inside Roblox that players actually love." />
       <Nav />
 
       <div className="pt-40 pb-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <SectionReveal>
-            <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Work</p>
+
           </SectionReveal>
           <SectionReveal delay={60}>
             <h1 className="text-5xl md:text-6xl font-normal mb-4" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
@@ -34,7 +34,7 @@ export default function CaseStudiesPage() {
           </SectionReveal>
           <SectionReveal delay={120}>
             <p className="text-base md:text-lg text-gray-300 mb-16 max-w-xl" style={{ lineHeight: 1.7 }}>
-              Real brands. Real worlds. Real results.
+              Real games. Real worlds. Real results.
             </p>
           </SectionReveal>
 
@@ -47,7 +47,7 @@ export default function CaseStudiesPage() {
               <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-16 text-center max-w-xl mx-auto">
                 <p className="text-3xl mb-4" style={{ letterSpacing: '-0.03em' }}>Coming soon.</p>
                 <p className="text-sm text-gray-300 mb-8" style={{ lineHeight: 1.7 }}>
-                  We're working on our first brand activations. Want to be one of them?
+                  We're scaling our next live-ops hit. Want to partner with us?
                 </p>
                 <Link to="/contact">
                   <button className="btn-pill btn-pill-solid">

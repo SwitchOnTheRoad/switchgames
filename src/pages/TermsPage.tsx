@@ -27,7 +27,7 @@ export default function TermsPage() {
             <SectionReveal delay={150}>
               <h2 className="text-xl font-semibold text-white mb-4">2. Description of Service</h2>
               <p>
-                Switch is a UGC game development studio that builds experiences on platforms like Roblox. We provide information about our games, studio updates, and brand activation services.
+                Switch is a UGC game development studio that builds experiences on platforms like Roblox. We provide information about our games, studio updates, and live-ops services.
               </p>
             </SectionReveal>
 

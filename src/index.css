@@ -72,6 +72,37 @@ body {
 ::-webkit-scrollbar-track { background: #000; }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 2px; }
 
+/* ─── Hero Background Slideshow ─────────────────────── */
+@keyframes heroPan {
+  from { transform: var(--from, scale(1.08)); }
+  to   { transform: var(--to, scale(1.0)); }
+}
+
+/* Dot indicators for slideshow */
+.hero-slide-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.hero-slide-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: all 400ms ease;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.hero-slide-dot.active {
+  width: 20px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.85);
+}
+
 /* ─── Hero Game Stack ────────────────────────────────── */
 .hero-stack {
   position: relative;
@@ -326,3 +357,57 @@ body {
   border-color: rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.06);
 }
+
+/* ─── Growth Chart (Exponential) ─────────────────────── */
+.partner-chart-box {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.partner-chart-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.partner-chart-pivot-label {
+  position: absolute;
+  top: 12px;
+  left: 38%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.partner-chart-x-labels {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.partner-chart-label-dim {
+  color: rgba(255,255,255,0.3);
+}
+
+.partner-chart-label-bright {
+  color: #fff;
+}
+
+
+
+
+

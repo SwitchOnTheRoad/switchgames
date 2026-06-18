@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import SectionReveal from '../components/SectionReveal'
 import { submitContact } from '../api'
 
 const ENQUIRY_TYPES = [
-  'Brand Partnership',
+  'Live-Ops Partnership',
   'Game Development',
   'Licensing & UGC',
   'Press & Media',
@@ -17,10 +17,23 @@ const ENQUIRY_TYPES = [
 const INPUT = 'w-full bg-white/[0.04] border border-white/[0.08] rounded-full px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors'
 
 export default function ContactPage() {
+  const [searchParams] = useSearchParams()
+  const isCareers = searchParams.get('topic') === 'careers'
+  const formRef = useRef<HTMLFormElement>(null)
   const [form, setForm] = useState({
-    name: '', email: '', company: '', enquiryType: '', message: '',
+    name: '',
+    email: '',
+    company: '',
+    enquiryType: isCareers ? 'Careers' : '',
+    message: isCareers ? "Hi Switch team, I'd like to send my CV for future roles." : '',
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  useEffect(() => {
+    if (!isCareers || !formRef.current) return
+    const top = formRef.current.getBoundingClientRect().top + window.scrollY - 120
+    window.scrollTo({ top: Math.max(top, 0), left: 0 })
+  }, [isCareers])
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
 
@@ -78,7 +91,7 @@ export default function ContactPage() {
             {/* Left */}
             <div className="md:sticky" style={{ top: 120 }}>
               <SectionReveal>
-                <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Contact</p>
+
               </SectionReveal>
               <SectionReveal delay={60}>
                 <h1 className="text-5xl md:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
@@ -87,7 +100,7 @@ export default function ContactPage() {
               </SectionReveal>
               <SectionReveal delay={120}>
                 <p className="text-base text-gray-400 mb-10" style={{ lineHeight: 1.7 }}>
-                  Whether you're a brand, a studio, or just want to talk games — we'd love to hear from you. We reply to every message.
+                  Whether you're a developer, a studio, or just want to talk games, we'd love to hear from you. We reply to every message.
                 </p>
               </SectionReveal>
 
@@ -110,7 +123,7 @@ export default function ContactPage() {
 
             {/* Right: Form */}
             <SectionReveal>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs uppercase tracking-[0.15em] text-gray-500 mb-2">Name *</label>
@@ -131,7 +144,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-[0.15em] text-gray-500 mb-2">Company / Brand</label>
+                  <label className="block text-xs uppercase tracking-[0.15em] text-gray-500 mb-2">Studio / Game</label>
                   <input
                     type="text" value={form.company}
                     onChange={e => set('company', e.target.value)}
@@ -171,7 +184,7 @@ export default function ContactPage() {
                 </div>
 
                 {status === 'error' && (
-                  <p className="text-sm text-red-400">Something went wrong — try emailing us directly at hello@playswitchgames.com</p>
+                  <p className="text-sm text-red-400">Something went wrong. Try emailing us directly at hello@playswitchgames.com</p>
                 )}
 
                 <button
