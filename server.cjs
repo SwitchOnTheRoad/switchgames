@@ -233,6 +233,90 @@ server.delete('/api/:collection/:id', async (req, res) => {
   }
 })
 
+// ─── Roblox Global Stats ───────────────────────────────────────────────────────
+const extractPlaceId = (url) => {
+  if (!url) return null;
+  const match = url.match(/roblox\.com\/games\/(\d+)/);
+  return match ? match[1] : null;
+};
+
+const universeIdCache = {};
+
+server.get('/api/roblox-stats', async (req, res) => {
+  try {
+    let games = [];
+    if (shouldUseMongo()) {
+      games = await mongoose.connection.db.collection('games').find({}).toArray();
+    } else {
+      const { items } = getLocalCollection('games');
+      games = items;
+    }
+
+    const placeIds = games.map(g => extractPlaceId(g.robloxUrl)).filter(Boolean);
+    if (placeIds.length === 0) {
+      return res.json({ livePlayers: 0, totalVisits: 0, likeRatio: 0 });
+    }
+
+    const universeIds = [];
+    for (const pid of placeIds) {
+      if (!universeIdCache[pid]) {
+        try {
+          const uRes = await fetch(`https://apis.roblox.com/universes/v1/places/${pid}/universe`);
+          if (uRes.ok) {
+            const data = await uRes.json();
+            universeIdCache[pid] = data.universeId;
+          }
+        } catch(e) {
+          console.error('Failed to get universeId for', pid, e.message);
+        }
+      }
+      if (universeIdCache[pid]) {
+        universeIds.push(universeIdCache[pid]);
+      }
+    }
+
+    if (universeIds.length === 0) {
+       return res.json({ livePlayers: 0, totalVisits: 0, likeRatio: 0 });
+    }
+
+    const uIdsStr = universeIds.join(',');
+    const [gamesRes, votesRes] = await Promise.all([
+      fetch(`https://games.roblox.com/v1/games?universeIds=${uIdsStr}`).then(r => r.json()),
+      fetch(`https://games.roblox.com/v1/games/votes?universeIds=${uIdsStr}`).then(r => r.json())
+    ]);
+
+    let livePlayers = 0;
+    let totalVisits = 0;
+    let upVotes = 0;
+    let downVotes = 0;
+
+    if (gamesRes.data) {
+      gamesRes.data.forEach(g => {
+        livePlayers += g.playing || 0;
+        totalVisits += g.visits || 0;
+      });
+    }
+
+    if (votesRes.data) {
+      votesRes.data.forEach(v => {
+        upVotes += v.upVotes || 0;
+        downVotes += v.downVotes || 0;
+      });
+    }
+
+    let likeRatio = 0;
+    const totalVotes = upVotes + downVotes;
+    if (totalVotes > 0) {
+      likeRatio = Math.round((upVotes / totalVotes) * 100);
+    }
+
+    res.json({ livePlayers, totalVisits, likeRatio });
+  } catch(err) {
+    console.error('Roblox Stats Error:', err);
+    res.status(500).json({ error: 'Failed to fetch Roblox stats' });
+  }
+});
+
 // Catch-all for React Router
 server.get('*', (req, res) => {
   const distHtml = path.join(__dirname, 'dist', 'index.html')

@@ -11,6 +11,7 @@ import GrowthChart from '../components/GrowthChart'
 import BlogCard from '../components/BlogCard'
 import { getGames, getPosts } from '../api'
 import SEOMeta from '../components/SEOMeta'
+import GlobalStatsSection from '../components/GlobalStatsSection'
 import type { Game, Post } from '../types'
 
 
@@ -18,14 +19,6 @@ export default function Home() {
   const [games, setGames] = useState<Game[]>([])
   const [posts, setPosts] = useState<Post[]>([])
   const [slideIndex, setSlideIndex] = useState(0)
-
-  const [scrollY, setScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     getGames().then(setGames).catch(() => {})
@@ -46,19 +39,16 @@ export default function Home() {
 
   const latestPosts = posts.slice(0, 3)
 
-  const bgScale = 1 + scrollY * 0.0003
-
   return (
     <div className="bg-black text-white min-h-screen">
       <Nav />
       <SEOMeta />
 
       {/* ─── HERO ─────────────────────────────────────────── */}
-      <section className="h-[200vh] bg-black relative">
-        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+      <section className="relative h-screen w-full flex items-center overflow-hidden bg-black">
 
           {/* Game thumbnail slideshow background */}
-          <HeroBgSlideshow games={games} scaleFactor={bgScale} />
+          <HeroBgSlideshow games={games} scaleFactor={1} />
 
           {/* Dark overlay — lighter so thumbnails pop */}
           <div className="absolute inset-0 bg-black/55 z-[1]" />
@@ -114,8 +104,7 @@ export default function Home() {
 
 
 
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
-        </div>
+          <div className="absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
       </section>
 
 
@@ -149,6 +138,9 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* ─── GLOBAL STATS ──────────────────────────────────── */}
+      <GlobalStatsSection />
 
       {/* ─── IMPACT ──────────────────────────────────── */}
       <section id="impact" className="bg-black py-28 px-6 md:px-12 lg:px-16">

@@ -603,6 +603,24 @@
       "device": "desktop",
       "timestamp": "2026-06-18T00:22:11.715Z",
       "date": "2026-06-18"
+    },
+    {
+      "id": "d8cfa661-dc35-4571-aa45-9efbbb4ea1b2",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-21T20:31:26.155Z",
+      "date": "2026-06-21"
+    },
+    {
+      "id": "e8bdb556-1699-405b-8ce8-4595a876fb73",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-21T20:31:26.158Z",
+      "date": "2026-06-21"
     }
   ],
   "events": []

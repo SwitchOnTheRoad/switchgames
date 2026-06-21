@@ -1,27 +1,37 @@
-require('dotenv').config()
-const mongoose = require('mongoose')
+const https = require('https');
 
-let dbPromise = null;
-const getDb = async () => {
-  if (mongoose.connection.readyState === 1) return mongoose.connection.db;
-  if (!dbPromise) {
-    dbPromise = mongoose.connect(process.env.MONGODB_URI).then(() => mongoose.connection.db);
-  }
-  return dbPromise;
+function get(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          resolve(data);
+        }
+      });
+    }).on('error', reject);
+  });
 }
 
 async function test() {
   try {
-    const promises = [
-      getDb().then(db => db.collection('games').find({}).toArray()),
-      getDb().then(db => db.collection('posts').find({}).toArray()),
-      getDb().then(db => db.collection('team').find({}).toArray()),
-    ]
-    const results = await Promise.all(promises)
-    console.log('Success!', results.map(r => r.length))
-  } catch(e) {
-    console.error('Error:', e)
+    const placeId = 920587237; // Adopt Me
+    const uRes = await get(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
+    console.log('Universe Res:', uRes);
+    const universeId = uRes.universeId;
+
+    const gRes = await get(`https://games.roblox.com/v1/games?universeIds=${universeId}`);
+    console.log('Games Res:', JSON.stringify(gRes, null, 2));
+
+    const vRes = await get(`https://games.roblox.com/v1/games/votes?universeIds=${universeId}`);
+    console.log('Votes Res:', JSON.stringify(vRes, null, 2));
+
+  } catch (err) {
+    console.error(err);
   }
-  process.exit(0)
 }
-test()
+
+test();
