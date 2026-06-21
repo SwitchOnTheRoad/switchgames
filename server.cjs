@@ -140,6 +140,98 @@ server.post('/api/send-email', async (req, res) => {
   }
 })
 
+// Roblox Global Stats
+const extractPlaceId = (url) => {
+  if (!url) return null
+  const match = String(url).match(/roblox\.com\/games\/(\d+)/i)
+  return match ? match[1] : null
+}
+
+const universeIdCache = {}
+
+const fetchRobloxJson = async (url) => {
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`Roblox API returned ${response.status} for ${url}`)
+  }
+  return response.json()
+}
+
+server.get('/api/roblox-stats', async (req, res) => {
+  try {
+    let games = []
+    if (shouldUseMongo()) {
+      games = await mongoose.connection.db.collection('games').find({}).toArray()
+    } else {
+      const { items } = getLocalCollection('games')
+      games = items
+    }
+
+    const placeIds = [...new Set(games.map(g => extractPlaceId(g.robloxUrl)).filter(Boolean))]
+    if (placeIds.length === 0) {
+      return res.json({ livePlayers: 0, totalVisits: 0, likeRatio: 0 })
+    }
+
+    const universeIds = []
+    for (const placeId of placeIds) {
+      if (!universeIdCache[placeId]) {
+        try {
+          const data = await fetchRobloxJson(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`)
+          if (data.universeId) universeIdCache[placeId] = data.universeId
+        } catch (err) {
+          console.error('Failed to get Roblox universeId for', placeId, err.message)
+        }
+      }
+      if (universeIdCache[placeId]) {
+        universeIds.push(universeIdCache[placeId])
+      }
+    }
+
+    const uniqueUniverseIds = [...new Set(universeIds)]
+    if (uniqueUniverseIds.length === 0) {
+      return res.json({ livePlayers: 0, totalVisits: 0, likeRatio: 0 })
+    }
+
+    const universeIdsParam = uniqueUniverseIds.join(',')
+    const [gamesRes, votesRes] = await Promise.allSettled([
+      fetchRobloxJson(`https://games.roblox.com/v1/games?universeIds=${universeIdsParam}`),
+      fetchRobloxJson(`https://games.roblox.com/v1/games/votes?universeIds=${universeIdsParam}`),
+    ])
+
+    if (gamesRes.status === 'rejected') {
+      throw gamesRes.reason
+    }
+    if (votesRes.status === 'rejected') {
+      console.error('Failed to get Roblox votes:', votesRes.reason.message)
+    }
+
+    let livePlayers = 0
+    let totalVisits = 0
+    let upVotes = 0
+    let downVotes = 0
+
+    for (const game of gamesRes.value.data || []) {
+      livePlayers += game.playing || 0
+      totalVisits += game.visits || 0
+    }
+
+    if (votesRes.status === 'fulfilled') {
+      for (const vote of votesRes.value.data || []) {
+        upVotes += vote.upVotes || 0
+        downVotes += vote.downVotes || 0
+      }
+    }
+
+    const totalVotes = upVotes + downVotes
+    const likeRatio = totalVotes > 0 ? Math.round((upVotes / totalVotes) * 100) : 0
+
+    res.json({ livePlayers, totalVisits, likeRatio })
+  } catch (err) {
+    console.error('Roblox Stats Error:', err)
+    res.status(500).json({ error: 'Failed to fetch Roblox stats' })
+  }
+})
+
 // Dynamic REST API routes. Uses MongoDB when connected, otherwise db.json.
 server.get('/api/:collection', async (req, res) => {
   try {
@@ -232,90 +324,6 @@ server.delete('/api/:collection/:id', async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 })
-
-// ─── Roblox Global Stats ───────────────────────────────────────────────────────
-const extractPlaceId = (url) => {
-  if (!url) return null;
-  const match = url.match(/roblox\.com\/games\/(\d+)/);
-  return match ? match[1] : null;
-};
-
-const universeIdCache = {};
-
-server.get('/api/roblox-stats', async (req, res) => {
-  try {
-    let games = [];
-    if (shouldUseMongo()) {
-      games = await mongoose.connection.db.collection('games').find({}).toArray();
-    } else {
-      const { items } = getLocalCollection('games');
-      games = items;
-    }
-
-    const placeIds = games.map(g => extractPlaceId(g.robloxUrl)).filter(Boolean);
-    if (placeIds.length === 0) {
-      return res.json({ livePlayers: 0, totalVisits: 0, likeRatio: 0 });
-    }
-
-    const universeIds = [];
-    for (const pid of placeIds) {
-      if (!universeIdCache[pid]) {
-        try {
-          const uRes = await fetch(`https://apis.roblox.com/universes/v1/places/${pid}/universe`);
-          if (uRes.ok) {
-            const data = await uRes.json();
-            universeIdCache[pid] = data.universeId;
-          }
-        } catch(e) {
-          console.error('Failed to get universeId for', pid, e.message);
-        }
-      }
-      if (universeIdCache[pid]) {
-        universeIds.push(universeIdCache[pid]);
-      }
-    }
-
-    if (universeIds.length === 0) {
-       return res.json({ livePlayers: 0, totalVisits: 0, likeRatio: 0 });
-    }
-
-    const uIdsStr = universeIds.join(',');
-    const [gamesRes, votesRes] = await Promise.all([
-      fetch(`https://games.roblox.com/v1/games?universeIds=${uIdsStr}`).then(r => r.json()),
-      fetch(`https://games.roblox.com/v1/games/votes?universeIds=${uIdsStr}`).then(r => r.json())
-    ]);
-
-    let livePlayers = 0;
-    let totalVisits = 0;
-    let upVotes = 0;
-    let downVotes = 0;
-
-    if (gamesRes.data) {
-      gamesRes.data.forEach(g => {
-        livePlayers += g.playing || 0;
-        totalVisits += g.visits || 0;
-      });
-    }
-
-    if (votesRes.data) {
-      votesRes.data.forEach(v => {
-        upVotes += v.upVotes || 0;
-        downVotes += v.downVotes || 0;
-      });
-    }
-
-    let likeRatio = 0;
-    const totalVotes = upVotes + downVotes;
-    if (totalVotes > 0) {
-      likeRatio = Math.round((upVotes / totalVotes) * 100);
-    }
-
-    res.json({ livePlayers, totalVisits, likeRatio });
-  } catch(err) {
-    console.error('Roblox Stats Error:', err);
-    res.status(500).json({ error: 'Failed to fetch Roblox stats' });
-  }
-});
 
 // Catch-all for React Router
 server.get('*', (req, res) => {
