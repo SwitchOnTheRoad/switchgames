@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import SectionReveal from '../components/SectionReveal'
-import { getJobs } from '../api'
+import HeroBgSlideshow from '../components/HeroBgSlideshow'
+import { getGames, getJobs } from '../api'
 import SEOMeta from '../components/SEOMeta'
-import type { Job } from '../types'
+import type { Game, Job } from '../types'
 
 const DEPARTMENTS = ['All', 'Engineering', 'Design', 'Production', 'Marketing', 'Other']
 
@@ -27,6 +28,7 @@ const TYPE_COLORS: Record<string, string> = {
 
 export default function CareersPage() {
   const [jobs, setJobs] = useState<Job[]>([])
+  const [games, setGames] = useState<Game[]>([])
   const [loading, setLoading] = useState(true)
   const [dept, setDept] = useState('All')
   const [expanded, setExpanded] = useState<string | null>(null)
@@ -35,6 +37,7 @@ export default function CareersPage() {
     getJobs()
       .then(data => setJobs(data.filter(j => j.open)))
       .finally(() => setLoading(false))
+    getGames().then(setGames).catch(() => {})
   }, [])
 
   const filtered = dept === 'All' ? jobs : jobs.filter(j => j.department === dept)
@@ -46,10 +49,12 @@ export default function CareersPage() {
 
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="min-h-[70vh] bg-black relative flex items-center overflow-hidden">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260421_072701_f6a01abb-eb30-4559-9d6e-774362defbc3.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/60 z-[1]" />
+        <HeroBgSlideshow games={games} scaleFactor={1} />
+        <div className="absolute inset-0 bg-black/65 z-[1]" />
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)' }}
+        />
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
 
         <div className="relative z-10 px-6 md:px-12 lg:px-16 pt-32 pb-16 max-w-5xl">

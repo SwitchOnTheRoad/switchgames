@@ -67,10 +67,12 @@ export async function getJobById(id: string): Promise<Job> {
 }
 export async function createJob(data: Omit<Job, 'id'>): Promise<Job> {
   const res = await fetch(`${BASE}/jobs`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  if (!res.ok) throw new Error('Failed to create job')
   return res.json()
 }
 export async function updateJob(id: string, data: Partial<Job>): Promise<Job> {
   const res = await fetch(`${BASE}/jobs/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+  if (!res.ok) throw new Error('Failed to update job')
   return res.json()
 }
 export async function deleteJob(id: string): Promise<void> {
@@ -84,7 +86,8 @@ export async function getContacts(): Promise<Contact[]> {
   return res.json()
 }
 export async function submitContact(data: Omit<Contact, 'id'>): Promise<void> {
-  await fetch(`${BASE}/contacts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  const res = await fetch(`${BASE}/contacts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  if (!res.ok) throw new Error('Failed to submit contact')
 }
 export async function deleteContact(id: string): Promise<void> {
   await fetch(`${BASE}/contacts/${id}`, { method: 'DELETE' })
@@ -97,10 +100,12 @@ export async function getApplications(): Promise<JobApplication[]> {
   return res.json()
 }
 export async function submitApplication(data: Omit<JobApplication, 'id'>): Promise<void> {
-  await fetch(`${BASE}/applications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  const res = await fetch(`${BASE}/applications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  if (!res.ok) throw new Error('Failed to submit application')
 }
 export async function updateApplication(id: string, data: Partial<JobApplication>): Promise<JobApplication> {
   const res = await fetch(`${BASE}/applications/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+  if (!res.ok) throw new Error('Failed to update application')
   return res.json()
 }
 export async function deleteApplication(id: string): Promise<void> {
@@ -116,10 +121,12 @@ export async function getTeam(): Promise<TeamMember[]> {
 }
 export async function createTeamMember(data: Omit<TeamMember, 'id'>): Promise<TeamMember> {
   const res = await fetch(`${BASE}/team`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  if (!res.ok) throw new Error('Failed to create team member')
   return res.json()
 }
 export async function updateTeamMember(id: string, data: Partial<TeamMember>): Promise<TeamMember> {
   const res = await fetch(`${BASE}/team/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+  if (!res.ok) throw new Error('Failed to update team member')
   return res.json()
 }
 export async function deleteTeamMember(id: string): Promise<void> {
@@ -141,10 +148,12 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy> {
 }
 export async function createCaseStudy(data: Omit<CaseStudy, 'id'>): Promise<CaseStudy> {
   const res = await fetch(`${BASE}/caseStudies`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: crypto.randomUUID() }) })
+  if (!res.ok) throw new Error('Failed to create case study')
   return res.json()
 }
 export async function updateCaseStudy(id: string, data: Partial<CaseStudy>): Promise<CaseStudy> {
   const res = await fetch(`${BASE}/caseStudies/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+  if (!res.ok) throw new Error('Failed to update case study')
   return res.json()
 }
 export async function deleteCaseStudy(id: string): Promise<void> {
@@ -153,7 +162,8 @@ export async function deleteCaseStudy(id: string): Promise<void> {
 
 // ─── Newsletter ───────────────────────────────────────────────────────────────
 export async function subscribeNewsletter(email: string): Promise<void> {
-  await fetch(`${BASE}/newsletter`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, id: crypto.randomUUID(), createdAt: new Date().toISOString() }) })
+  const res = await fetch(`${BASE}/newsletter`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, id: crypto.randomUUID(), createdAt: new Date().toISOString() }) })
+  if (!res.ok) throw new Error('Failed to subscribe to newsletter')
 }
 export async function getNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
   const res = await fetch(`${BASE}/newsletter`)

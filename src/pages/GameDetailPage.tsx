@@ -16,11 +16,17 @@ export default function GameDetailPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getGames().then(games => {
-      const found = games.find(g => g.id === id)
-      setGame(found || null)
-      setRelated(games.filter(g => g.id !== id).slice(0, 3))
-    }).finally(() => setLoading(false))
+    getGames()
+      .then(games => {
+        const found = games.find(g => g.id === id)
+        setGame(found || null)
+        setRelated(games.filter(g => g.id !== id).slice(0, 3))
+      })
+      .catch(e => {
+        console.error('Failed to load games:', e)
+        setGame(null)
+      })
+      .finally(() => setLoading(false))
   }, [id])
 
   if (loading) return (

@@ -27,8 +27,14 @@ export default function AdminTeam() {
     try {
       if (editing) await updateTeamMember(editing.id, form)
       else await createTeamMember(form)
-      await load(); setShowForm(false)
-    } finally { setSaving(false) }
+      await load()
+      setShowForm(false)
+    } catch (e) {
+      alert('Failed to save team member: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const set = (k: keyof Form, v: string | number) => setForm(f => ({ ...f, [k]: v }))
@@ -56,7 +62,7 @@ export default function AdminTeam() {
                 <p className="text-xs text-gray-300 mb-3">{m.role}</p>
                 <div className="flex gap-2">
                   <button onClick={() => openEdit(m)} className="text-xs text-gray-300 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 transition-colors">Edit</button>
-                  <button onClick={async () => { if (window.confirm('Delete?')) { await deleteTeamMember(m.id); load() } }} className="text-xs text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg border border-red-400/20 transition-colors">Remove</button>
+                  <button onClick={async () => { if (window.confirm('Delete?')) { try { await deleteTeamMember(m.id); await load() } catch (e) { alert('Failed to delete member: ' + (e instanceof Error ? e.message : 'Unknown error')); console.error(e) } } }} className="text-xs text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg border border-red-400/20 transition-colors">Remove</button>
                 </div>
               </div>
             </div>

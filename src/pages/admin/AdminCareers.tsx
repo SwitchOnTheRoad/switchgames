@@ -43,13 +43,25 @@ export default function AdminCareers() {
     try {
       if (editing) await updateJob(editing.id, form)
       else await createJob({ ...form, createdAt: new Date().toISOString() })
-      await load(); setShowForm(false)
-    } finally { setSaving(false) }
+      await load()
+      setShowForm(false)
+    } catch (e) {
+      alert('Failed to save job: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleDelete = async (j: Job) => {
     if (!window.confirm(`Delete "${j.title}"?`)) return
-    await deleteJob(j.id); await load()
+    try {
+      await deleteJob(j.id)
+      await load()
+    } catch (e) {
+      alert('Failed to delete job: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    }
   }
 
   const set = (k: keyof JobForm, v: string | boolean) => setForm(f => ({ ...f, [k]: v }))

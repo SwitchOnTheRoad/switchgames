@@ -18,6 +18,7 @@ export default function GamesPage() {
   useEffect(() => {
     getGames()
       .then(setGames)
+      .catch(e => console.error('Failed to load games:', e))
       .finally(() => setLoading(false))
   }, [])
 

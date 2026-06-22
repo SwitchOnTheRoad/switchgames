@@ -14,6 +14,7 @@ export default function BlogPage() {
   useEffect(() => {
     getPosts()
       .then(data => setPosts(data.filter(p => p.published)))
+      .catch(e => console.error('Failed to load posts:', e))
       .finally(() => setLoading(false))
   }, [])
 

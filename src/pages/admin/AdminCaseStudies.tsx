@@ -36,8 +36,14 @@ export default function AdminCaseStudies() {
     try {
       if (editing) await updateCaseStudy(editing.id, data)
       else await createCaseStudy(data)
-      await load(); setShowForm(false)
-    } finally { setSaving(false) }
+      await load()
+      setShowForm(false)
+    } catch (e) {
+      alert('Failed to save case study: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const set = (k: keyof Form, v: string | boolean) => setForm(f => ({ ...f, [k]: v }))
@@ -68,7 +74,7 @@ export default function AdminCaseStudies() {
                     <td className="px-6 py-4"><span className={`liquid-glass rounded-lg px-2 py-0.5 text-xs border ${c.published ? 'border-green-400/30 text-green-300' : 'border-white/20 text-gray-300'}`}>{c.published ? 'Published' : 'Draft'}</span></td>
                     <td className="px-6 py-4"><div className="flex gap-2 justify-end">
                       <button onClick={() => openEdit(c)} className="text-xs text-gray-300 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 transition-colors">Edit</button>
-                      <button onClick={async () => { if (window.confirm('Delete?')) { await deleteCaseStudy(c.id); load() } }} className="text-xs text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg border border-red-400/20 transition-colors">Delete</button>
+                      <button onClick={async () => { if (window.confirm('Delete?')) { try { await deleteCaseStudy(c.id); await load() } catch (e) { alert('Failed to delete case study: ' + (e instanceof Error ? e.message : 'Unknown error')); console.error(e) } } }} className="text-xs text-red-400 hover:text-red-300 px-3 py-1.5 rounded-lg border border-red-400/20 transition-colors">Delete</button>
                     </div></td>
                   </tr>
                 ))}

@@ -9,14 +9,9 @@ function formatStat(num: number): string {
 }
 
 export default function GlobalStatsSection() {
-  const [pulse, setPulse] = useState(false)
   const [stats, setStats] = useState({ livePlayers: 0, totalVisits: 0, likeRatio: 0 })
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const t = setInterval(() => setPulse(p => !p), 2000)
-    return () => clearInterval(t)
-  }, [])
 
   useEffect(() => {
     fetch('/api/roblox-stats')
@@ -37,9 +32,9 @@ export default function GlobalStatsSection() {
 
   if (loading) {
     return (
-      <section className="bg-black pb-16 px-6 md:px-12 lg:px-16">
+      <section className="bg-black pb-10 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-12 animate-pulse h-48" />
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 md:p-7 animate-pulse h-28" />
         </div>
       </section>
     )
@@ -50,42 +45,38 @@ export default function GlobalStatsSection() {
   const displayRatio = stats.likeRatio > 0 ? `${stats.likeRatio}%` : '—';
 
   return (
-    <section className="bg-black pb-16 px-6 md:px-12 lg:px-16">
+    <section className="bg-black pb-10 px-6 md:px-12 lg:px-16">
       <div className="max-w-7xl mx-auto">
         <SectionReveal>
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 divide-y md:divide-y-0 md:divide-x divide-white/[0.08]">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 md:p-7">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-7 divide-y md:divide-y-0 md:divide-x divide-white/[0.08]">
               
               {/* Live Players */}
-              <div className="flex flex-col items-center justify-center pt-6 md:pt-0 first:pt-0">
-                <div className="flex items-center gap-2 mb-4">
-                  <span
-                    className="w-2.5 h-2.5 rounded-full bg-green-400"
-                    style={{ opacity: pulse ? 1 : 0.3, transition: 'opacity 800ms ease' }}
-                  />
+              <div className="flex flex-col items-center justify-center pt-4 md:pt-0 first:pt-0">
+                <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium">Live Players</span>
                 </div>
-                <p className="text-5xl md:text-6xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
+                <p className="text-4xl md:text-5xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
                   {displayPlayers}
                 </p>
               </div>
 
               {/* Total Visits */}
-              <div className="flex flex-col items-center justify-center pt-8 md:pt-0">
-                <div className="flex items-center gap-2 mb-4">
+              <div className="flex flex-col items-center justify-center pt-5 md:pt-0">
+                <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium">Total Visits</span>
                 </div>
-                <p className="text-5xl md:text-6xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
+                <p className="text-4xl md:text-5xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
                   {displayVisits}
                 </p>
               </div>
 
               {/* Average Like Ratio */}
-              <div className="flex flex-col items-center justify-center pt-8 md:pt-0">
-                <div className="flex items-center gap-2 mb-4">
+              <div className="flex flex-col items-center justify-center pt-5 md:pt-0">
+                <div className="flex items-center gap-2 mb-2">
                   <span className="text-xs text-gray-400 uppercase tracking-[0.15em] font-medium">Avg Like Ratio</span>
                 </div>
-                <p className="text-5xl md:text-6xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
+                <p className="text-4xl md:text-5xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
                   {displayRatio}
                 </p>
               </div>

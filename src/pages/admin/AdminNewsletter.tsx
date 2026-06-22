@@ -7,7 +7,10 @@ export default function AdminNewsletter() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getNewsletterSubscribers().then(data => setSubs(data.reverse())).finally(() => setLoading(false))
+    getNewsletterSubscribers()
+      .then(data => setSubs(data.reverse()))
+      .catch(e => console.error('Failed to load subscribers:', e))
+      .finally(() => setLoading(false))
   }, [])
 
   const copyAll = () => {

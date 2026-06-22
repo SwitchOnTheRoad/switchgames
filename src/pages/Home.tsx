@@ -23,7 +23,7 @@ export default function Home() {
   useEffect(() => {
     getGames().then(setGames).catch(() => {})
     getPosts()
-      .then(data => setPosts(data.filter(p => p.published)))
+      .then(data => setPosts(data.filter(p => p.published && p.title && p.slug)))
       .catch(() => {})
   }, [])
 
@@ -179,32 +179,34 @@ export default function Home() {
 
 
       {/* ─── BLOG PREVIEW ─────────────────────────────────── */}
-      {latestPosts.length > 0 && (
-        <section className="bg-black py-24 px-6 md:px-12 lg:px-16">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
-              <div>
+      <section className="bg-black py-24 px-6 md:px-12 lg:px-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-10">
+            <div>
 
-                <SectionReveal delay={60}><h2 className="text-4xl md:text-5xl font-medium" style={{ letterSpacing: '-0.03em' }}>News & Updates</h2></SectionReveal>
-              </div>
-              <SectionReveal>
-                <Link to="/blog">
-                  <button className="hidden md:flex btn-pill btn-pill-sm">
-                    All Posts <span style={{ fontSize: 11 }}>↗</span>
-                  </button>
-                </Link>
-              </SectionReveal>
+              <SectionReveal delay={60}><h2 className="text-4xl md:text-5xl font-medium" style={{ letterSpacing: '-0.03em' }}>News & Updates</h2></SectionReveal>
             </div>
             <SectionReveal>
+              <Link to="/blog">
+                <button className="hidden md:flex btn-pill btn-pill-sm">
+                  All Posts <span style={{ fontSize: 11 }}>↗</span>
+                </button>
+              </Link>
+            </SectionReveal>
+          </div>
+          <SectionReveal>
+            {latestPosts.length > 0 ? (
               <div className="grid md:grid-cols-3 gap-5">
                 {latestPosts.map(post => (
                   <BlogCard key={post.id} post={post} />
                 ))}
               </div>
-            </SectionReveal>
-          </div>
-        </section>
-      )}
+            ) : (
+              <p className="text-gray-400 py-8">No posts yet. Check back soon.</p>
+            )}
+          </SectionReveal>
+        </div>
+      </section>
 
       {/* ─── STUDIO ───────────────────────────────────────── */}
       <section id="studio" className="bg-black py-28 px-6 md:px-12 lg:px-16">
@@ -254,7 +256,6 @@ export default function Home() {
             ].map((step, i) => (
               <SectionReveal key={step.n} delay={i * 80}>
                 <div className="rounded-2xl p-6 border border-white/[0.06] h-full bg-white/[0.02]">
-                  <p className="text-xs uppercase tracking-[0.15em] text-gray-500 mb-4">{step.n}</p>
                   <h3 className="text-lg font-medium mb-2" style={{ letterSpacing: '-0.02em' }}>{step.title}</h3>
                   <p className="text-sm text-gray-400" style={{ lineHeight: 1.6 }}>{step.desc}</p>
                 </div>

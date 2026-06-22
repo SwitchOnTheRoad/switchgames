@@ -621,6 +621,42 @@
       "device": "desktop",
       "timestamp": "2026-06-21T20:31:26.158Z",
       "date": "2026-06-21"
+    },
+    {
+      "id": "8aa6b911-b0bc-46b2-9008-5a03e6391abf",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-21T22:34:28.739Z",
+      "date": "2026-06-21"
+    },
+    {
+      "id": "821df3c0-2277-4985-ac7d-8b36f5dc1943",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-21T22:34:28.737Z",
+      "date": "2026-06-21"
+    },
+    {
+      "id": "611368e1-d6ed-4eb3-9328-16ecf663f574",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-21T22:34:28.928Z",
+      "date": "2026-06-21"
+    },
+    {
+      "id": "a02cbc9b-b7d9-4c2a-aad4-fec17566fcee",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-21T22:34:28.949Z",
+      "date": "2026-06-21"
     }
   ],
   "events": []

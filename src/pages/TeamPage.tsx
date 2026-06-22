@@ -3,15 +3,18 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import SEOMeta from '../components/SEOMeta'
 import SectionReveal from '../components/SectionReveal'
-import { getTeam } from '../api'
-import type { TeamMember } from '../types'
+import HeroBgSlideshow from '../components/HeroBgSlideshow'
+import { getGames, getTeam } from '../api'
+import type { Game, TeamMember } from '../types'
 
 export default function TeamPage() {
   const [team, setTeam] = useState<TeamMember[]>([])
+  const [games, setGames] = useState<Game[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getTeam().then(setTeam).finally(() => setLoading(false))
+    getGames().then(setGames).catch(() => {})
   }, [])
 
   return (
@@ -21,11 +24,13 @@ export default function TeamPage() {
 
       {/* ── HERO ── */}
       <section className="pt-40 pb-20 px-6 md:px-12 lg:px-16 relative overflow-hidden">
-        <div className="absolute inset-0 z-0" style={{ opacity: 0.07 }}>
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4" type="video/mp4" />
-          </video>
-        </div>
+        <HeroBgSlideshow games={games} scaleFactor={1} />
+        <div className="absolute inset-0 bg-black/65 z-[1]" />
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)' }}
+        />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">
           <SectionReveal>
             <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Team</p>

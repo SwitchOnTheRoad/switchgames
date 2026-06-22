@@ -66,6 +66,7 @@ export default function AdminGames() {
       await load()
       setShowForm(false)
     } catch (e) {
+      alert('Failed to save game: ' + (e instanceof Error ? e.message : 'Unknown error'))
       console.error(e)
     } finally {
       setSaving(false)
@@ -74,8 +75,13 @@ export default function AdminGames() {
 
   const handleDelete = async (game: Game) => {
     if (!window.confirm(`Delete "${game.title}"?`)) return
-    await deleteGame(game.id)
-    await load()
+    try {
+      await deleteGame(game.id)
+      await load()
+    } catch (e) {
+      alert('Failed to delete game: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    }
   }
 
   const set = (key: keyof GameForm, val: string | boolean) =>

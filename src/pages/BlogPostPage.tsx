@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import DOMPurify from 'dompurify'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import { getPostBySlug } from '../api'
@@ -79,7 +80,7 @@ export default function BlogPostPage() {
 
           <div
             className="post-content"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
           />
           <div className="mt-12 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             <ShareButtons title={post.title} />

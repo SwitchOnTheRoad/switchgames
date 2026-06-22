@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import DOMPurify from 'dompurify'
 import { getPosts, createPost, updatePost, deletePost } from '../../api'
 import FileUpload from '../../components/FileUpload'
 import type { Post } from '../../types'
@@ -83,6 +84,7 @@ export default function AdminBlog() {
       await load()
       setShowForm(false)
     } catch (e) {
+      alert('Failed to save post: ' + (e instanceof Error ? e.message : 'Unknown error'))
       console.error(e)
     } finally {
       setSaving(false)
@@ -91,8 +93,13 @@ export default function AdminBlog() {
 
   const handleDelete = async (post: Post) => {
     if (!window.confirm(`Delete "${post.title}"?`)) return
-    await deletePost(post.id)
-    await load()
+    try {
+      await deletePost(post.id)
+      await load()
+    } catch (e) {
+      alert('Failed to delete post: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    }
   }
 
   const set = (key: keyof PostForm, val: string | boolean) =>
@@ -200,7 +207,7 @@ export default function AdminBlog() {
                   {tab === 'write' ? (
                     <textarea value={form.content} onChange={e => set('content', e.target.value)} className={INPUT + ' resize-none font-mono text-xs'} rows={10} placeholder="<p>Write your post content here using HTML tags.</p>" />
                   ) : (
-                    <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm min-h-[240px] post-content" dangerouslySetInnerHTML={{ __html: form.content || '<p class="text-gray-500">Nothing to preview yet.</p>' }} />
+                    <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm min-h-[240px] post-content" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(form.content || '<p class="text-gray-500">Nothing to preview yet.</p>') }} />
                   )}
                 </div>
 

@@ -32,8 +32,13 @@ export default function AdminApplications() {
 
   const handleDelete = async (a: JobApplication) => {
     if (!window.confirm(`Delete application from ${a.name}?`)) return
-    await deleteApplication(a.id)
-    await load()
+    try {
+      await deleteApplication(a.id)
+      await load()
+    } catch (e) {
+      alert('Failed to delete application: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
+    }
   }
 
   const handleStatus = async (a: JobApplication, status: JobApplication['status']) => {
@@ -41,6 +46,9 @@ export default function AdminApplications() {
     try {
       const updated = await updateApplication(a.id, { status })
       setApplications(prev => prev.map(x => x.id === a.id ? { ...x, ...updated, status } : x))
+    } catch (e) {
+      alert('Failed to update status: ' + (e instanceof Error ? e.message : 'Unknown error'))
+      console.error(e)
     } finally {
       setUpdating(null)
     }
