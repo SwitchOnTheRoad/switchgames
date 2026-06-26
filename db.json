@@ -1,23 +1,25 @@
 {
   "games": [
-    {}
+    {
+      "title": "Make A Soccer Empire",
+      "genre": " Incremental ",
+      "description": "",
+      "videoUrl": "",
+      "imageUrl": "/uploads/1782424831906-drg2geklw7.png",
+      "robloxUrl": "https://www.roblox.com/games/119404325889807/Make-A-Soccer-Empire#stats",
+      "visits": "",
+      "featured": true,
+      "comingSoon": false,
+      "createdAt": "2026-06-25T22:00:54.270Z",
+      "id": "64a0172a-ab01-4b7c-bfa6-d2fbc4320b12"
+    }
   ],
-  "posts": [
-    {}
-  ],
-  "jobs": [
-    {}
-  ],
+  "posts": [],
+  "jobs": [],
   "contacts": [],
-  "team": [
-    {}
-  ],
-  "caseStudies": [
-    {}
-  ],
-  "newsletter": [
-    {}
-  ],
+  "team": [],
+  "caseStudies": [],
+  "newsletter": [],
   "pageviews": [
     {
       "id": "f145f714-10e1-41b1-be53-dbd2f8bee8e4",
@@ -657,7 +659,211 @@
       "device": "desktop",
       "timestamp": "2026-06-21T22:34:28.949Z",
       "date": "2026-06-21"
+    },
+    {
+      "id": "81f2b91e-efce-4f56-b1d5-3b97bfd525e6",
+      "path": "/uploads/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:36:40.785Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "fdfab097-17f8-4643-aedc-fb4b239f0109",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:36:43.988Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "fc4e55dd-6843-488a-a990-3ffa0d5719f4",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:36:43.991Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "fbc051cd-18a3-42a9-a399-619ed7472342",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:36:56.680Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "efe816f1-8bf3-4c56-bf8a-dddf5261f3a7",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:36:56.682Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "5f37eefd-97b7-4f5e-a6df-3429b48e4f3a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:00.255Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "1ab33dcf-f405-45d6-ab35-8e33cb321cba",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:00.257Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "cbdd1428-2730-4d0f-8c5a-081442f76648",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:06.595Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "cd42d9f2-3cf8-4449-ace6-e3469036efc1",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:06.597Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "7931c906-b8d0-4762-9840-80c307357d0f",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:41.726Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "70afa2d4-957a-4142-9ff1-5cd97aed19b7",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:41.727Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "d4bd4715-9ec1-42c7-89df-111149cb6987",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:42.655Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "bcfb7a36-4fc9-4a8c-8141-cdb2b11db119",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:37:42.677Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "5ec3a00a-3bcd-40f8-931c-ce8d21cd9dc7",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:40:17.149Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "69155393-0966-4c93-9efa-bd87a5aec6c2",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:40:17.150Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "7f3249f6-f7fa-4688-a1ec-e503465e7d32",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:41:25.028Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "03272407-111a-407f-9f80-4829d9a0120b",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:41:25.029Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "f5d60132-68c1-4b0c-8d3c-eaf84b3634ee",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:42:22.184Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "edac1a0b-3c9c-4351-b382-7def89d0b3c7",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:42:22.185Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "afac66e0-383e-4bf2-8630-20008803c22f",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:54:05.672Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "ee561bd5-f154-4c18-89e7-e2fdde987370",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T21:54:05.671Z",
+      "date": "2026-06-25"
+    },
+    {
+      "id": "08686535-50a9-4189-b69d-5768f3d1e12d",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-06-25T22:01:19.253Z",
+      "date": "2026-06-25"
     }
   ],
-  "events": []
+  "events": [],
+  "siteSettings": [
+    {
+      "id": "general",
+      "youtubeHeroLink": "https://www.youtube.com/embed/o5nqLxMAwhs"
+    }
+  ]
 }

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import SplashScreen from './components/SplashScreen'
 import CookieBanner from './components/CookieBanner'
 import usePageTracking from './hooks/usePageTracking'
+import useScrollToTop from './hooks/useScrollToTop'
 import Home from './pages/Home'
 import GamesPage from './pages/GamesPage'
 import GameDetailPage from './pages/GameDetailPage'
@@ -27,6 +28,7 @@ import AdminTeam from './pages/admin/AdminTeam'
 import AdminCaseStudies from './pages/admin/AdminCaseStudies'
 import AdminNewsletter from './pages/admin/AdminNewsletter'
 import AdminApplications from './pages/admin/AdminApplications'
+import AdminSettings from './pages/admin/AdminSettings'
 import ProtectedRoute from './pages/admin/ProtectedRoute'
 
 import TermsPage from './pages/TermsPage'
@@ -34,6 +36,8 @@ import PrivacyPage from './pages/PrivacyPage'
 
 function AppInner() {
   usePageTracking()
+  useScrollToTop()
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -61,6 +65,7 @@ function AppInner() {
         <Route path="team" element={<AdminTeam />} />
         <Route path="case-studies" element={<AdminCaseStudies />} />
         <Route path="newsletter" element={<AdminNewsletter />} />
+        <Route path="settings" element={<AdminSettings />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

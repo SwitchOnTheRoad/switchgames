@@ -41,21 +41,21 @@ export default function AdminGames() {
   const openEdit = (game: Game) => {
     setEditing(game)
     setForm({
-      title: game.title,
-      genre: game.genre,
-      description: game.description,
-      videoUrl: game.videoUrl,
+      title: game.title || '',
+      genre: game.genre || '',
+      description: game.description || '',
+      videoUrl: game.videoUrl || '',
       imageUrl: game.imageUrl || '',
       robloxUrl: game.robloxUrl || '',
-      visits: game.visits,
-      featured: game.featured,
+      visits: game.visits || '',
+      featured: game.featured || false,
       comingSoon: game.comingSoon || false,
     })
     setShowForm(true)
   }
 
   const handleSave = async () => {
-    if (!form.title.trim()) return
+    if (!(form.title || '').trim()) return
     setSaving(true)
     try {
       if (editing) {
@@ -153,8 +153,8 @@ export default function AdminGames() {
       )}
 
       {showForm && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 overflow-y-auto px-4 py-8" onClick={() => setShowForm(false)}>
-          <div className="liquid-glass rounded-2xl border border-white/20 p-8 w-full max-w-lg mx-auto" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] overflow-y-auto px-4 py-8 flex items-start justify-center" onClick={() => setShowForm(false)}>
+          <div className="rounded-2xl border border-white/20 p-8 w-full max-w-lg mt-8" style={{ background: 'rgba(20,20,20,0.98)' }} onClick={e => e.stopPropagation()}>
             <h2 className="text-xl font-semibold mb-6" style={{ letterSpacing: '-0.02em' }}>
               {editing ? 'Edit Game' : 'New Game'}
             </h2>
@@ -207,7 +207,7 @@ export default function AdminGames() {
             </div>
 
             <div className="flex gap-3 mt-8">
-              <button onClick={handleSave} disabled={saving || !form.title.trim()} className="flex-1 bg-white text-black py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-40">
+              <button onClick={handleSave} disabled={saving || !(form.title || '').trim()} className="flex-1 bg-white text-black py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-40">
                 {saving ? 'Saving...' : editing ? 'Save Changes' : 'Add Game'}
               </button>
               <button onClick={() => setShowForm(false)} className="px-6 py-3 rounded-lg border border-white/20 text-sm text-gray-300 hover:text-white transition-colors">

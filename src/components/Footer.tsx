@@ -45,7 +45,7 @@ export default function Footer() {
 
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <p className="text-xs text-gray-500">© 2026 Switch. playswitchgames.com</p>
-          <div className="flex gap-6 text-xs text-gray-500">
+          <div className="flex flex-wrap gap-6 text-xs text-gray-500">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link>
             <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>
             <Link to="/press" className="hover:text-white transition-colors">Press</Link>

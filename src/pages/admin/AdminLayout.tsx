@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 const NAV_SECTIONS: { heading: string, items: { path: string, label: string, exact?: boolean }[] }[] = [
   { heading: 'Overview', items: [
     { path: '/admin', label: 'Dashboard', exact: true },
+    { path: '/admin/settings', label: 'Settings' },
   ]},
   { heading: 'Content', items: [
     { path: '/admin/games', label: 'Games' },

@@ -19,7 +19,7 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <div className="rounded-2xl border border-white/[0.06] px-8 py-8 max-w-xl mx-auto text-center bg-white/[0.02]">
+    <div className="rounded-2xl border border-white/[0.06] px-6 sm:px-8 py-8 max-w-xl mx-auto text-center bg-white/[0.02]">
 
       <h3 className="text-2xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>Stay in the loop.</h3>
       <p className="text-sm text-gray-400 mb-6" style={{ lineHeight: 1.6 }}>
@@ -29,7 +29,7 @@ export default function NewsletterSignup() {
       {status === 'done' ? (
         <p className="text-sm text-white py-3">You're in. ✓</p>
       ) : (
-        <form onSubmit={handleSubmit} className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
           <input
             type="email"
             value={email}

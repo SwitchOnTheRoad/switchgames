@@ -6,16 +6,12 @@ interface HeroBgSlideshowProps {
   scaleFactor?: number
 }
 
-// Each transition variant picks a slightly different animation feel
+// Each transition variant picks a slightly different animation feel (all zooming inward)
 const VARIANTS = [
-  // zoom-in
-  { from: 'scale(1.08) translateX(0px)',   to: 'scale(1.0) translateX(0px)' },
-  // pan right to left
-  { from: 'scale(1.06) translateX(2%)',    to: 'scale(1.0) translateX(-2%)' },
-  // pan left to right
-  { from: 'scale(1.06) translateX(-2%)',   to: 'scale(1.0) translateX(2%)' },
-  // zoom out
-  { from: 'scale(1.0) translateX(0px)',    to: 'scale(1.06) translateX(0px)' },
+  { from: 'scale(1.0)', to: 'scale(1.08)' },
+  { from: 'scale(1.0)', to: 'scale(1.06)' },
+  { from: 'scale(1.02)', to: 'scale(1.10)' },
+  { from: 'scale(1.01)', to: 'scale(1.07)' },
 ]
 
 const DURATION = 4500  // ms each slide stays on screen
@@ -152,7 +148,7 @@ function SlideBg({ game, variant, opacity, fadeTo, fadeDuration = 900, duration 
             src={game.imageUrl}
             alt={game.title}
             draggable={false}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(30px)' }}
           />
         ) : game.videoUrl ? (
           <video
@@ -160,7 +156,7 @@ function SlideBg({ game, variant, opacity, fadeTo, fadeDuration = 900, duration 
             loop
             muted
             playsInline
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(30px)' }}
           >
             <source src={game.videoUrl} type="video/mp4" />
           </video>

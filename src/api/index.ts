@@ -1,4 +1,4 @@
-import type { Game, Post, Job, JobApplication, Contact, TeamMember, CaseStudy, NewsletterSubscriber } from '../types'
+import type { Game, Post, Job, JobApplication, Contact, TeamMember, CaseStudy, NewsletterSubscriber, SiteSettings } from '../types'
 
 const BASE = '/api'
 
@@ -168,6 +168,29 @@ export async function subscribeNewsletter(email: string): Promise<void> {
 export async function getNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
   const res = await fetch(`${BASE}/newsletter`)
   if (!res.ok) throw new Error('Failed to fetch subscribers')
+  return res.json()
+}
+
+// ─── Site Settings ────────────────────────────────────────────────────────────
+export async function getSiteSettings(): Promise<SiteSettings> {
+  const res = await fetch(`${BASE}/siteSettings/general`)
+  if (!res.ok) {
+    // If not found, return a default empty state rather than throwing
+    return { id: 'general', youtubeHeroLink: '' }
+  }
+  return res.json()
+}
+export async function updateSiteSettings(data: Partial<SiteSettings>): Promise<SiteSettings> {
+  const res = await fetch(`${BASE}/siteSettings/general`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+  if (!res.ok) {
+    // If it doesn't exist, try creating it
+    if (res.status === 404) {
+      const createRes = await fetch(`${BASE}/siteSettings`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, id: 'general' }) })
+      if (!createRes.ok) throw new Error('Failed to create site settings')
+      return createRes.json()
+    }
+    throw new Error('Failed to update site settings')
+  }
   return res.json()
 }
 

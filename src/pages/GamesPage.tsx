@@ -41,7 +41,7 @@ export default function GamesPage() {
             </h1>
           </SectionReveal>
           <SectionReveal delay={120}>
-            <div className="flex gap-2 mb-8">
+            <div className="flex flex-wrap gap-2 mb-8">
               <p className="text-xs tracking-[0.15em] uppercase text-gray-500 self-center mr-3">Sort by</p>
               {(['all', 'featured'] as Filter[]).map(f => (
                 <button
@@ -73,7 +73,7 @@ export default function GamesPage() {
           </SectionReveal>
 
           {loading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="rounded-2xl h-64 animate-pulse border border-white/5 bg-white/[0.02]" />
               ))}
@@ -82,7 +82,7 @@ export default function GamesPage() {
             <p className="text-gray-500 py-20 text-center">No games found.</p>
           ) : (
             <SectionReveal>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {filtered.map(game => (
                   <GameCard key={game.id} game={game} size="md" />
                 ))}

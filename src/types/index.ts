@@ -94,3 +94,8 @@ export interface NewsletterSubscriber {
   email: string
   createdAt: string
 }
+
+export interface SiteSettings {
+  id: string
+  youtubeHeroLink: string
+}

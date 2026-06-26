@@ -124,7 +124,7 @@ export default function GameDetailPage() {
               <h2 className="text-2xl font-normal mb-8" style={{ letterSpacing: '-0.03em' }}>More games</h2>
             </SectionReveal>
             <SectionReveal delay={60}>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {related.map(g => (
                   <Link key={g.id} to={`/games/${g.id}`}>
                     <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06]" style={{ height: 200 }}>

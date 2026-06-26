@@ -9,15 +9,16 @@ import GameCarousel from '../components/GameCarousel'
 import HeroBgSlideshow from '../components/HeroBgSlideshow'
 import GrowthChart from '../components/GrowthChart'
 import BlogCard from '../components/BlogCard'
-import { getGames, getPosts } from '../api'
 import SEOMeta from '../components/SEOMeta'
 import GlobalStatsSection from '../components/GlobalStatsSection'
-import type { Game, Post } from '../types'
+import { getSiteSettings, getGames, getPosts } from '../api'
+import type { Game, Post, SiteSettings } from '../types'
 
 
 export default function Home() {
   const [games, setGames] = useState<Game[]>([])
   const [posts, setPosts] = useState<Post[]>([])
+  const [settings, setSettings] = useState<SiteSettings | null>(null)
   const [slideIndex, setSlideIndex] = useState(0)
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function Home() {
     getPosts()
       .then(data => setPosts(data.filter(p => p.published && p.title && p.slug)))
       .catch(() => {})
+    getSiteSettings().then(setSettings).catch(() => {})
   }, [])
 
   // Keep dot indicator in sync with slideshow (4.5s per slide)
@@ -45,7 +47,7 @@ export default function Home() {
       <SEOMeta />
 
       {/* ─── HERO ─────────────────────────────────────────── */}
-      <section className="relative h-screen w-full flex items-center overflow-hidden bg-black">
+      <section className="relative min-h-screen w-full flex items-center overflow-hidden bg-black">
 
           {/* Game thumbnail slideshow background */}
           <HeroBgSlideshow games={games} scaleFactor={1} />
@@ -58,44 +60,61 @@ export default function Home() {
           }} />
 
           <div className="relative z-10 w-full mx-auto px-6 md:px-12 lg:px-16 pt-24 pb-16" style={{ maxWidth: '1500px' }}>
-            <div className="flex flex-col items-start text-left max-w-3xl">
-              <AnimatedHeading
-                text="We build&#10;worlds."
-                className="font-medium mb-6 text-white w-full"
-                style={{ fontSize: 'clamp(3.5rem, 10vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.92 }}
-                delay={200}
-                charDelay={32}
-              />
+            <div className={`flex flex-col ${settings?.youtubeHeroLink ? 'lg:flex-row' : ''} items-center gap-10 lg:gap-14`}>
+              <div className={`flex flex-col items-start text-left w-full ${settings?.youtubeHeroLink ? 'lg:w-auto lg:min-w-[340px] lg:max-w-[400px] lg:flex-shrink-0' : 'max-w-3xl'}`}>
+                <AnimatedHeading
+                  text="We build&#10;worlds."
+                  className="font-medium mb-6 text-white w-full"
+                  style={{ fontSize: settings?.youtubeHeroLink ? 'clamp(2.8rem, 6vw, 5.5rem)' : 'clamp(3.5rem, 10vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.92 }}
+                  delay={200}
+                  charDelay={32}
+                />
 
-              <FadeIn delay={1100} className="text-base md:text-lg text-gray-400 mb-10 max-w-lg" style={{ lineHeight: 1.65 }}>
-                <p>We build living worlds on Roblox and scale them through continuous live-ops.</p>
-              </FadeIn>
+                <FadeIn delay={1100} className="text-base md:text-lg text-gray-400 mb-10 max-w-lg" style={{ lineHeight: 1.65 }}>
+                  <p>We build living worlds on Roblox and scale them through continuous live-ops.</p>
+                </FadeIn>
 
-              <FadeIn delay={1500}>
-                <div className="flex flex-wrap gap-4 mb-10">
-                  <Link to="/games">
-                    <button className="btn-pill btn-pill-solid">
-                      See Our Games
-                    </button>
-                  </Link>
-                  <a href="/contact">
-                    <button className="btn-pill">
-                      Work With Us <span style={{ fontSize: 12 }}>↗</span>
-                    </button>
-                  </a>
-                </div>
-              </FadeIn>
+                <FadeIn delay={1500}>
+                  <div className="flex flex-wrap gap-4 mb-10">
+                    <Link to="/games">
+                      <button className="btn-pill btn-pill-solid">
+                        See Our Games
+                      </button>
+                    </Link>
+                    <a href="/contact">
+                      <button className="btn-pill">
+                        Work With Us <span style={{ fontSize: 12 }}>↗</span>
+                      </button>
+                    </a>
+                  </div>
+                </FadeIn>
 
-              {/* Slide dot indicators */}
-              {slideGames.length > 1 && (
-                <FadeIn delay={1800}>
-                  <div className="hero-slide-dots">
-                    {slideGames.map((_, i) => (
-                      <div
-                        key={i}
-                        className={`hero-slide-dot${i === slideIndex ? ' active' : ''}`}
-                      />
-                    ))}
+                {/* Slide dot indicators */}
+                {slideGames.length > 1 && (
+                  <FadeIn delay={1800}>
+                    <div className="hero-slide-dots">
+                      {slideGames.map((_, i) => (
+                        <div
+                          key={i}
+                          className={`hero-slide-dot${i === slideIndex ? ' active' : ''}`}
+                        />
+                      ))}
+                    </div>
+                  </FadeIn>
+                )}
+              </div>
+
+              {settings?.youtubeHeroLink && (
+                <FadeIn delay={1500} className="w-full lg:flex-1 lg:min-w-0">
+                  <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/50">
+                    <iframe
+                      src={settings.youtubeHeroLink}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
                   </div>
                 </FadeIn>
               )}

@@ -124,7 +124,7 @@ export default function ContactPage() {
             {/* Right: Form */}
             <SectionReveal>
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs uppercase tracking-[0.15em] text-gray-500 mb-2">Name *</label>
                     <input
