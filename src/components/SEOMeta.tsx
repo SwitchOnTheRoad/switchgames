@@ -12,7 +12,7 @@ const DEFAULT_DESC = 'UGC game development studio. We build games for culture, a
 const DEFAULT_IMAGE = '/logo.png'
 
 export default function SEOMeta({ title, description = DEFAULT_DESC, image = DEFAULT_IMAGE, url }: Props) {
-  const fullTitle = title ? `${title} | ${SITE}` : `${SITE} | UGC Game Development`
+  const fullTitle = title ? `${title} | ${SITE}` : SITE
 
   useEffect(() => {
     document.title = fullTitle
