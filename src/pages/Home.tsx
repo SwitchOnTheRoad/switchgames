@@ -62,6 +62,7 @@ export default function Home() {
   const [posts, setPosts] = useState<Post[]>([])
   const [settings, setSettings] = useState<SiteSettings | null>(null)
   const [slideIndex, setSlideIndex] = useState(0)
+  const [heroVideoReady, setHeroVideoReady] = useState(false)
 
   useEffect(() => {
     getGames().then(setGames).catch(() => {})
@@ -84,18 +85,25 @@ export default function Home() {
   const latestPosts = posts.slice(0, 3)
   const heroYouTubeEmbedUrl = getHeroYouTubeEmbedUrl(settings?.youtubeHeroLink)
 
+  useEffect(() => {
+    setHeroVideoReady(false)
+    if (!heroYouTubeEmbedUrl) return
+    const id = window.setTimeout(() => setHeroVideoReady(true), 2400)
+    return () => window.clearTimeout(id)
+  }, [heroYouTubeEmbedUrl])
+
   return (
     <div className="bg-black text-white min-h-screen">
       <Nav />
       <SEOMeta />
 
-      {/* ─── HERO ─────────────────────────────────────────── */}
+      {/* â”€â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative min-h-screen w-full flex items-center overflow-hidden bg-black">
 
           {/* Game thumbnail slideshow background */}
           <HeroBgSlideshow games={games} scaleFactor={1} />
 
-          {/* Dark overlay — lighter so thumbnails pop */}
+          {/* Dark overlay â€” lighter so thumbnails pop */}
           <div className="absolute inset-0 bg-black/55 z-[1]" />
           {/* Vignette edges */}
           <div className="absolute inset-0 z-[1] pointer-events-none" style={{
@@ -126,7 +134,7 @@ export default function Home() {
                     </Link>
                     <a href="/contact">
                       <button className="btn-pill">
-                        Work With Us <span style={{ fontSize: 12 }}>↗</span>
+                        Work With Us <span style={{ fontSize: 12 }}>â†—</span>
                       </button>
                     </a>
                   </div>
@@ -149,13 +157,14 @@ export default function Home() {
 
               {heroYouTubeEmbedUrl && (
                 <FadeIn delay={1500} className="w-full lg:flex-1 lg:min-w-0">
-                  <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/50">
+                  <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/50 relative">
                     <iframe
                       src={heroYouTubeEmbedUrl}
                       title="Hero video"
                       frameBorder="0"
                       allow="autoplay; encrypted-media; picture-in-picture"
-                      className="w-full h-full pointer-events-none"
+                      loading="eager"
+                      className={`w-full h-full pointer-events-none transition-opacity duration-700 ${heroVideoReady ? 'opacity-100' : 'opacity-0'}`}
                     />
                   </div>
                 </FadeIn>
@@ -169,7 +178,7 @@ export default function Home() {
       </section>
 
 
-      {/* ─── GAMES ────────────────────────────────────────── */}
+      {/* â”€â”€â”€ GAMES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="games" className="bg-black py-16">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-8 px-6 md:px-12 lg:px-16">
@@ -180,7 +189,7 @@ export default function Home() {
             <SectionReveal>
               <Link to="/games">
                 <button className="btn-pill btn-pill-sm">
-                  View All <span style={{ fontSize: 11 }}>↗</span>
+                  View All <span style={{ fontSize: 11 }}>â†—</span>
                 </button>
               </Link>
             </SectionReveal>
@@ -200,10 +209,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── GLOBAL STATS ──────────────────────────────────── */}
+      {/* â”€â”€â”€ GLOBAL STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <GlobalStatsSection />
 
-      {/* ─── IMPACT ──────────────────────────────────── */}
+      {/* â”€â”€â”€ IMPACT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="impact" className="bg-black py-28 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           {/* Left Text */}
@@ -239,7 +248,7 @@ export default function Home() {
       </section>
 
 
-      {/* ─── BLOG PREVIEW ─────────────────────────────────── */}
+      {/* â”€â”€â”€ BLOG PREVIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="bg-black py-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10">
@@ -250,7 +259,7 @@ export default function Home() {
             <SectionReveal>
               <Link to="/blog">
                 <button className="hidden md:flex btn-pill btn-pill-sm">
-                  All Posts <span style={{ fontSize: 11 }}>↗</span>
+                  All Posts <span style={{ fontSize: 11 }}>â†—</span>
                 </button>
               </Link>
             </SectionReveal>
@@ -269,13 +278,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── STUDIO ───────────────────────────────────────── */}
+      {/* â”€â”€â”€ STUDIO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="studio" className="bg-black py-28 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <SectionReveal>
             <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06]" style={{ height: 520 }}>
               <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <source src="/backgroundvideo.mp4" type="video/mp4" />
+                <source src="/backgroundvideo.mov" type="video/quicktime" />
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
             </div>
@@ -299,7 +308,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── PROCESS ──────────────────────────────────────── */}
+      {/* â”€â”€â”€ PROCESS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="bg-black py-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto">
 
@@ -326,7 +335,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── CTA ──────────────────────────────────────────── */}
+      {/* â”€â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="contact" className="bg-black py-32 px-6 md:px-12 lg:px-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0" style={{ opacity: 0.18 }}>
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">

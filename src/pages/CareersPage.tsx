@@ -99,8 +99,6 @@ export default function CareersPage() {
             {BENEFITS.map((b, i) => (
               <SectionReveal key={b.n} delay={i * 60}>
                 <div className="rounded-2xl p-8 border border-white/[0.06] relative overflow-hidden h-full bg-white/[0.02]">
-
-                  <p className="text-xs uppercase tracking-[0.15em] text-gray-500 mb-3 relative z-10">{b.n}</p>
                   <h3 className="text-lg font-medium mb-2 relative z-10" style={{ letterSpacing: '-0.02em' }}>{b.title}</h3>
                   <p className="text-sm text-gray-400 relative z-10" style={{ lineHeight: 1.65 }}>{b.desc}</p>
                 </div>

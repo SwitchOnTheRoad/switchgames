@@ -857,6 +857,177 @@
       "device": "desktop",
       "timestamp": "2026-06-25T22:01:19.253Z",
       "date": "2026-06-25"
+    },
+    {
+      "id": "24d107ca-8ad6-4b8e-9065-acebf7c68f7f",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:42:36.969Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "aedc7626-0a78-4566-8fe2-0a07804c2186",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:42:36.971Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "e1a1eefb-421b-4a79-9ec7-9dbf1c90091a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:44:27.566Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "ca4af7cc-5234-4ad4-8ed8-d269731ad50f",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:44:27.567Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "7af0ce0b-425a-4ffc-b318-c5c042cc5206",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:44:43.444Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "45347604-8cfc-46ea-b03d-9be3b9240009",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:44:49.595Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "a7cdbed0-856a-44c6-8ba0-d675f1d3aec0",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:44:51.546Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "0ba79f29-b036-419c-8a32-ab31b582161c",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:45:24.584Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "eb0e2f7b-6ef3-4600-b41c-56d30da47c80",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:45:24.586Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "40f67c98-90cb-4924-b48f-70d3b953de50",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:45:24.667Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "e2168da4-2c50-429c-bbc1-50fd886d68c1",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T13:45:24.673Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "5a2a97da-ec64-43bf-a688-ee219688cb6f",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:19.046Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "6a48d5b5-4432-4e0f-aeaf-edf43aaaa93a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:19.048Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "b491da01-53ac-4712-b2b5-81325a890289",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:37.171Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "a55a52b8-fbbe-4f1c-b9dd-9f7c23511e5c",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:37.174Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "91584bdc-302b-47c0-8b51-84e06180d84c",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:37.257Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "c94a29c8-b2f7-44eb-a061-e7b594ad182a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:37.259Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "0c81cb11-fedc-43d3-a916-fdb414209542",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:45.048Z",
+      "date": "2026-07-01"
+    },
+    {
+      "id": "cc38aadc-d8ad-4718-8b32-33cca32cd25f",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-07-01T14:03:45.049Z",
+      "date": "2026-07-01"
     }
   ],
   "events": [],
