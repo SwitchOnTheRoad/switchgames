@@ -13,9 +13,6 @@ const DEPARTMENTS = ['All', 'Engineering', 'Design', 'Production', 'Marketing', 
 const BENEFITS = [
   { n: '01', title: 'Remote First', desc: 'Work from anywhere. We collaborate async and meet when it matters.' },
   { n: '02', title: 'Competitive Pay', desc: 'Fair compensation that reflects your skills and experience.' },
-  { n: '03', title: 'Game Access', desc: 'Free access to everything in our portfolio, including early builds.' },
-  { n: '04', title: 'Learning Budget', desc: 'Annual allowance for courses, books, or tools that help you grow.' },
-  { n: '05', title: 'Flexible Hours', desc: 'Core hours keep the team aligned, with flexibility around them.' },
   { n: '06', title: 'Small Team', desc: 'Your work has real impact. No bureaucracy, just building.' },
 ]
 
@@ -102,22 +99,7 @@ export default function CareersPage() {
             {BENEFITS.map((b, i) => (
               <SectionReveal key={b.n} delay={i * 60}>
                 <div className="rounded-2xl p-8 border border-white/[0.06] relative overflow-hidden h-full bg-white/[0.02]">
-                  {/* Faded number in bg */}
-                  <span
-                    className="absolute select-none pointer-events-none"
-                    style={{
-                      fontSize: 140,
-                      fontWeight: 700,
-                      opacity: 0.03,
-                      top: -30,
-                      right: -10,
-                      letterSpacing: -8,
-                      lineHeight: 1,
-                      color: '#fff',
-                    }}
-                  >
-                    {b.n}
-                  </span>
+
                   <p className="text-xs uppercase tracking-[0.15em] text-gray-500 mb-3 relative z-10">{b.n}</p>
                   <h3 className="text-lg font-medium mb-2 relative z-10" style={{ letterSpacing: '-0.02em' }}>{b.title}</h3>
                   <p className="text-sm text-gray-400 relative z-10" style={{ lineHeight: 1.65 }}>{b.desc}</p>

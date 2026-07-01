@@ -14,6 +14,48 @@ import GlobalStatsSection from '../components/GlobalStatsSection'
 import { getSiteSettings, getGames, getPosts } from '../api'
 import type { Game, Post, SiteSettings } from '../types'
 
+function getYouTubeVideoId(url: URL) {
+  if (url.hostname.includes('youtu.be')) {
+    return url.pathname.split('/').filter(Boolean)[0] || ''
+  }
+
+  if (url.searchParams.get('v')) {
+    return url.searchParams.get('v') || ''
+  }
+
+  const pathParts = url.pathname.split('/').filter(Boolean)
+  const marker = pathParts.findIndex(part => ['embed', 'shorts', 'live'].includes(part))
+  return marker >= 0 ? pathParts[marker + 1] || '' : ''
+}
+
+function getHeroYouTubeEmbedUrl(rawUrl?: string) {
+  if (!rawUrl) return ''
+
+  try {
+    const input = new URL(rawUrl)
+    const videoId = getYouTubeVideoId(input)
+    if (!videoId) return rawUrl
+
+    const params = new URLSearchParams({
+      autoplay: '1',
+      mute: '1',
+      playsinline: '1',
+      controls: '0',
+      disablekb: '1',
+      fs: '0',
+      modestbranding: '1',
+      rel: '0',
+      iv_load_policy: '3',
+      loop: '1',
+      playlist: videoId,
+    })
+
+    return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`
+  } catch {
+    return rawUrl
+  }
+}
+
 
 export default function Home() {
   const [games, setGames] = useState<Game[]>([])
@@ -40,6 +82,7 @@ export default function Home() {
   }, [slideGames.length])
 
   const latestPosts = posts.slice(0, 3)
+  const heroYouTubeEmbedUrl = getHeroYouTubeEmbedUrl(settings?.youtubeHeroLink)
 
   return (
     <div className="bg-black text-white min-h-screen">
@@ -60,12 +103,12 @@ export default function Home() {
           }} />
 
           <div className="relative z-10 w-full mx-auto px-6 md:px-12 lg:px-16 pt-24 pb-16" style={{ maxWidth: '1500px' }}>
-            <div className={`flex flex-col ${settings?.youtubeHeroLink ? 'lg:flex-row' : ''} items-center gap-10 lg:gap-14`}>
-              <div className={`flex flex-col items-start text-left w-full ${settings?.youtubeHeroLink ? 'lg:w-auto lg:min-w-[340px] lg:max-w-[400px] lg:flex-shrink-0' : 'max-w-3xl'}`}>
+            <div className={`flex flex-col ${heroYouTubeEmbedUrl ? 'lg:flex-row' : ''} items-center gap-10 lg:gap-14`}>
+              <div className={`flex flex-col items-start text-left w-full ${heroYouTubeEmbedUrl ? 'lg:w-auto lg:min-w-[340px] lg:max-w-[400px] lg:flex-shrink-0' : 'max-w-3xl'}`}>
                 <AnimatedHeading
                   text="We build&#10;worlds."
                   className="font-medium mb-6 text-white w-full"
-                  style={{ fontSize: settings?.youtubeHeroLink ? 'clamp(2.8rem, 6vw, 5.5rem)' : 'clamp(3.5rem, 10vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.92 }}
+                  style={{ fontSize: heroYouTubeEmbedUrl ? 'clamp(2.8rem, 6vw, 5.5rem)' : 'clamp(3.5rem, 10vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.92 }}
                   delay={200}
                   charDelay={32}
                 />
@@ -104,16 +147,15 @@ export default function Home() {
                 )}
               </div>
 
-              {settings?.youtubeHeroLink && (
+              {heroYouTubeEmbedUrl && (
                 <FadeIn delay={1500} className="w-full lg:flex-1 lg:min-w-0">
                   <div className="aspect-video w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/50">
                     <iframe
-                      src={settings.youtubeHeroLink}
-                      title="YouTube video player"
+                      src={heroYouTubeEmbedUrl}
+                      title="Hero video"
                       frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full"
+                      allow="autoplay; encrypted-media; picture-in-picture"
+                      className="w-full h-full pointer-events-none"
                     />
                   </div>
                 </FadeIn>
