@@ -91,14 +91,14 @@ export default function TeamPage() {
                         <div className="flex gap-3 mt-4">
                           {member.twitter && (
                             <a href={member.twitter} target="_blank" rel="noopener noreferrer"
-                              className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
-                              Twitter ↗
+                               className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
+                              Twitter
                             </a>
                           )}
                           {member.linkedin && (
                             <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
-                              className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
-                              LinkedIn ↗
+                               className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
+                              LinkedIn
                             </a>
                           )}
                         </div>

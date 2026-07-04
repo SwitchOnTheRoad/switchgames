@@ -76,7 +76,7 @@ export default function GameDetailPage() {
             {game.robloxUrl && (
               <a href={game.robloxUrl} target="_blank" rel="noopener noreferrer">
                 <button className="btn-pill btn-pill-solid">
-                  Play on Roblox ↗
+                  Play on Roblox
                 </button>
               </a>
             )}

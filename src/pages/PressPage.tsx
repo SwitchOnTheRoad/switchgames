@@ -86,7 +86,7 @@ export default function PressPage() {
                     For interviews, features, and press enquiries, we reply within 24 hours.
                   </p>
                   <a href="mailto:press@playswitchgames.com" className="text-sm font-medium hover:text-gray-300 transition-colors">
-                    press@playswitchgames.com ↗
+                    press@playswitchgames.com
                   </a>
                 </div>
                 <div className="mt-8 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>

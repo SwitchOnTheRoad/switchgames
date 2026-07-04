@@ -40,12 +40,6 @@ function getHeroYouTubeEmbedUrl(rawUrl?: string) {
       autoplay: '1',
       mute: '1',
       playsinline: '1',
-      controls: '0',
-      disablekb: '1',
-      fs: '0',
-      modestbranding: '1',
-      rel: '0',
-      iv_load_policy: '3',
       loop: '1',
       playlist: videoId,
     })
@@ -134,7 +128,7 @@ export default function Home() {
                     </Link>
                     <a href="/contact">
                       <button className="btn-pill">
-                        Work With Us <span style={{ fontSize: 12 }}>â†—</span>
+                        Work With Us
                       </button>
                     </a>
                   </div>
@@ -163,8 +157,9 @@ export default function Home() {
                       title="Hero video"
                       frameBorder="0"
                       allow="autoplay; encrypted-media; picture-in-picture"
+                      allowFullScreen
                       loading="eager"
-                      className={`w-full h-full pointer-events-none transition-opacity duration-700 ${heroVideoReady ? 'opacity-100' : 'opacity-0'}`}
+                      className={`w-full h-full transition-opacity duration-700 ${heroVideoReady ? 'opacity-100' : 'opacity-0'}`}
                     />
                   </div>
                 </FadeIn>
@@ -189,7 +184,7 @@ export default function Home() {
             <SectionReveal>
               <Link to="/games">
                 <button className="btn-pill btn-pill-sm">
-                  View All <span style={{ fontSize: 11 }}>â†—</span>
+                  View All
                 </button>
               </Link>
             </SectionReveal>
@@ -259,7 +254,7 @@ export default function Home() {
             <SectionReveal>
               <Link to="/blog">
                 <button className="hidden md:flex btn-pill btn-pill-sm">
-                  All Posts <span style={{ fontSize: 11 }}>â†—</span>
+                  All Posts
                 </button>
               </Link>
             </SectionReveal>
@@ -284,7 +279,7 @@ export default function Home() {
           <SectionReveal>
             <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06]" style={{ height: 520 }}>
               <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <source src="/backgroundvideo.mov" type="video/quicktime" />
+                <source src="/backgroundvideo.mp4" type="video/mp4" />
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
             </div>
@@ -359,9 +354,11 @@ export default function Home() {
           </SectionReveal>
           <SectionReveal delay={180}>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="btn-pill btn-pill-solid">
-                Start a Project
-              </button>
+              <Link to="/contact">
+                <button className="btn-pill btn-pill-solid">
+                  Start a Project
+                </button>
+              </Link>
               <a href="mailto:hello@playswitchgames.com">
                 <button className="btn-pill">
                   hello@playswitchgames.com

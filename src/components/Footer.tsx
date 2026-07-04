@@ -36,9 +36,8 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-3">
               <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-1">Social</p>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Twitter / X</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Instagram</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Roblox</a>
+              <a href="https://x.com/Switchstudiosr" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">Twitter / X</a>
+              <a href="https://www.roblox.com/users/4493703983/profile" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">Roblox</a>
             </div>
           </div>
         </div>

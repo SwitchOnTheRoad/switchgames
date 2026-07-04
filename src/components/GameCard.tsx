@@ -45,7 +45,7 @@ export default function GameCard({ game, size = 'md' }: Props) {
         )}
         {game.robloxUrl && (
           <div className="rounded-full px-3 py-1 border border-white/15 bg-black/40">
-            <span className="text-xs text-gray-400 uppercase tracking-[0.1em]">Play ↗</span>
+            <span className="text-xs text-gray-400 uppercase tracking-[0.1em]">Play</span>
           </div>
         )}
       </div>

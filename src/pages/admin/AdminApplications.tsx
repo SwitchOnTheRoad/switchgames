@@ -178,7 +178,7 @@ export default function AdminApplications() {
                       {a.cvUrl && (
                         <MetaCell label="CV">
                           <a href={a.cvUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                            Download ↗
+                            Download
                           </a>
                         </MetaCell>
                       )}
