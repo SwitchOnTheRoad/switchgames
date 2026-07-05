@@ -296,7 +296,7 @@ export default function AdminDashboard() {
           ) : (
             <Link to="/admin/contacts" className="text-sm text-white hover:text-gray-300 transition-colors flex items-center justify-between">
               <span>{counts.contacts} total enquiries</span>
-              <span>View all →</span>
+              <span>View all</span>
             </Link>
           )}
         </div>

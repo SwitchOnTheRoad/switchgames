@@ -78,7 +78,9 @@ export default function App() {
     <>
       {splash && <SplashScreen onDone={() => setSplash(false)} />}
       <CookieBanner />
-      <AppInner />
+      <div className="w-full overflow-x-hidden min-h-screen flex flex-col relative">
+        <AppInner />
+      </div>
     </>
   )
 }

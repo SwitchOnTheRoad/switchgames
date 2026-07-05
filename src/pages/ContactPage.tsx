@@ -108,7 +108,7 @@ export default function ContactPage() {
                 <div className="space-y-4">
                   {[
                     { label: 'Email', value: 'hello@playswitchgames.com', href: 'mailto:hello@playswitchgames.com' },
-                    { label: 'Careers', value: 'See open roles →', href: '/careers' },
+                    { label: 'Careers', value: 'See open roles', href: '/careers' },
                   ].map(item => (
                     <div key={item.label} className="rounded-xl px-5 py-4 border border-white/[0.06] bg-white/[0.02]">
                       <p className="text-xs uppercase tracking-[0.15em] text-gray-500 mb-1">{item.label}</p>

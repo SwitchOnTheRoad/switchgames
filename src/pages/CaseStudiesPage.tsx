@@ -83,7 +83,7 @@ export default function CaseStudiesPage() {
                         <p className="text-xs uppercase tracking-widest text-gray-300 mb-2">{c.brand}</p>
                         <h3 className="text-xl font-semibold mb-2" style={{ letterSpacing: '-0.02em' }}>{c.title}</h3>
                         <p className="text-sm text-gray-300" style={{ lineHeight: 1.65 }}>{c.excerpt}</p>
-                        <p className="text-xs text-white/40 mt-4 uppercase tracking-widest group-hover:text-white transition-colors">Read case study →</p>
+                        <p className="text-xs text-white/40 mt-4 uppercase tracking-widest group-hover:text-white transition-colors">Read case study</p>
                       </div>
                     </div>
                   </Link>

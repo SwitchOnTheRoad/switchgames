@@ -16,12 +16,15 @@ export default function GameCarousel({ games }: { games: Game[] }) {
   }
 
   const scrollDir = useRef<1 | -1>(1)
+  const isInteracting = useRef(false)
 
   useEffect(() => {
     const el = scrollRef.current
     if (!el || games.length === 0) return
 
     const t = setInterval(() => {
+      if (isInteracting.current) return
+
       const maxScroll = el.scrollWidth - el.clientWidth
       
       if (scrollDir.current === 1 && el.scrollLeft >= maxScroll - 10) {
@@ -51,7 +54,13 @@ export default function GameCarousel({ games }: { games: Game[] }) {
   if (!games.length) return null
 
   return (
-    <div className="game-carousel-wrap">
+    <div 
+      className="game-carousel-wrap"
+      onMouseEnter={() => isInteracting.current = true}
+      onMouseLeave={() => isInteracting.current = false}
+      onTouchStart={() => isInteracting.current = true}
+      onTouchEnd={() => isInteracting.current = false}
+    >
       {/* Scroll track */}
       <div
         ref={scrollRef}

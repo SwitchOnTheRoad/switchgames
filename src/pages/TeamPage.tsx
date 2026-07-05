@@ -32,9 +32,7 @@ export default function TeamPage() {
         />
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">
-          <SectionReveal>
-            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Team</p>
-          </SectionReveal>
+
           <SectionReveal delay={60}>
             <h1 className="text-5xl md:text-7xl font-medium mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
               The people<br />behind Switch.
@@ -117,7 +115,7 @@ export default function TeamPage() {
                     </div>
                     <h3 className="text-lg font-medium mb-2" style={{ letterSpacing: '-0.02em' }}>Join Switch</h3>
                     <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>
-                      We're building the team. See open roles →
+                      We're building the team. See open roles
                     </p>
                   </div>
                 </a>

@@ -277,7 +277,7 @@ export default function Home() {
       <section id="studio" className="bg-black py-28 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <SectionReveal>
-            <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06]" style={{ height: 520 }}>
+            <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06] h-64 md:h-[520px]">
               <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 <source src="/backgroundvideo.mp4" type="video/mp4" />
               </video>
