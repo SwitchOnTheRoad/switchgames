@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"node server.cjs\"",
+    "dev": "concurrently \"npx vite\" \"node server.cjs\"",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "server": "node server.cjs",
@@ -12,13 +12,17 @@
   },
   "dependencies": {
     "@types/dompurify": "^3.0.5",
+    "clsx": "^2.1.1",
     "dompurify": "^3.4.11",
     "dotenv": "^17.4.2",
+    "framer-motion": "^12.42.2",
+    "lucide-react": "^1.25.0",
     "mongoose": "^9.6.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.0",
-    "resend": "^3.2.0"
+    "resend": "^3.2.0",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

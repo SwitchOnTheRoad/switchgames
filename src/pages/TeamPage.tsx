@@ -6,6 +6,7 @@ import SectionReveal from '../components/SectionReveal'
 import HeroBgSlideshow from '../components/HeroBgSlideshow'
 import { getGames, getTeam } from '../api'
 import type { Game, TeamMember } from '../types'
+import { Twitter, Linkedin } from 'lucide-react'
 
 export default function TeamPage() {
   const [team, setTeam] = useState<TeamMember[]>([])
@@ -59,48 +60,51 @@ export default function TeamPage() {
             <div className="grid md:grid-cols-3 gap-5">
               {team.map((member, i) => (
                 <SectionReveal key={member.id} delay={i * 80}>
-                  <div className="rounded-2xl border border-white/[0.06] overflow-hidden group bg-white/[0.02]">
+                  <div className="rounded-2xl border border-white/[0.06] overflow-hidden group bg-white/[0.02] flex flex-col h-full">
                     {/* Avatar */}
-                    <div className="relative h-64 flex items-center justify-center overflow-hidden">
-                      {member.imageUrl ? (
-                        <img
-                          src={member.imageUrl}
-                          alt={member.name}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.02)' }}>
-                          <span className="text-5xl font-semibold text-white/10" style={{ letterSpacing: '-0.04em' }}>
-                            {member.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="pt-8 px-6 flex justify-center">
+                      <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-white/10 relative z-10 flex-shrink-0 bg-white/5">
+                        {member.imageUrl ? (
+                          <img
+                            src={member.imageUrl}
+                            alt={member.name}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <span className="text-3xl font-semibold text-white/20" style={{ letterSpacing: '-0.04em' }}>
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Info */}
-                    <div className="p-6">
+                    <div className="p-6 flex-1 flex flex-col items-center text-center">
                       <h3 className="text-lg font-semibold mb-0.5" style={{ letterSpacing: '-0.02em' }}>{member.name}</h3>
                       <p className="text-sm text-gray-400 mb-3">{member.role}</p>
-                      {member.bio && (
-                        <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>{member.bio}</p>
-                      )}
-                      {(member.twitter || member.linkedin) && (
-                        <div className="flex gap-3 mt-4">
-                          {member.twitter && (
-                            <a href={member.twitter} target="_blank" rel="noopener noreferrer"
-                               className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
-                              Twitter
-                            </a>
-                          )}
-                          {member.linkedin && (
-                            <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
-                               className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
-                              LinkedIn
-                            </a>
-                          )}
-                        </div>
-                      )}
+                      
+                      <div className="text-sm text-gray-400 mb-6 flex-1" style={{ lineHeight: 1.65 }}>
+                        {member.bio}
+                      </div>
+
+                      <div className="flex gap-3 mt-auto min-h-[40px] items-center justify-center w-full">
+                        {member.twitter && (
+                          <a href={member.twitter} target="_blank" rel="noopener noreferrer"
+                             className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+                             title="Twitter">
+                            <Twitter size={18} />
+                          </a>
+                        )}
+                        {member.linkedin && (
+                          <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
+                             className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+                             title="LinkedIn">
+                            <Linkedin size={18} />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </SectionReveal>
