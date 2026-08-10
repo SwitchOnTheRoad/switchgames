@@ -10,7 +10,8 @@ import HeroBgSlideshow from '../components/HeroBgSlideshow'
 import GrowthChart from '../components/GrowthChart'
 import BlogCard from '../components/BlogCard'
 import SEOMeta from '../components/SEOMeta'
-import GlobalStatsSection from '../components/GlobalStatsSection'
+import PortfolioStatsSection from '../components/PortfolioStatsSection'
+import ContactBanner from '../components/ContactBanner'
 import { getSiteSettings, getGames, getPosts } from '../api'
 import type { Game, Post, SiteSettings } from '../types'
 
@@ -204,10 +205,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€â”€ GLOBAL STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <GlobalStatsSection />
+      {/* ─── PORTFOLIO STATS ─────────────────────────────────── */}
+      <PortfolioStatsSection />
+      <ContactBanner />
 
-      {/* â”€â”€â”€ IMPACT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ───────────────────────────────────────────────────────────────────────────── */}
       <section id="impact" className="bg-black py-28 px-6 md:px-12 lg:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           {/* Left Text */}
