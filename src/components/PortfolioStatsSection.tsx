@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import SectionReveal from './SectionReveal'
 
 function formatStat(num: number): string {
@@ -59,7 +60,7 @@ export default function PortfolioStatsSection() {
             {/* Card 1: Visits (Spans 2 rows) */}
             <div className="lg:row-span-2 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 lg:p-8 flex flex-col relative overflow-hidden h-[300px] lg:h-[400px]">
               <div className="relative z-10">
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-4 block">01 / VISITS</span>
+                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-4 block">VISITS</span>
                 <h3 className="text-6xl md:text-8xl font-bold mb-4" style={{ letterSpacing: '-0.04em' }}>
                   {displayVisits}
                 </h3>
@@ -81,8 +82,25 @@ export default function PortfolioStatsSection() {
                     </linearGradient>
                   </defs>
                   <path d="M0 190 Q 200 190, 400 50 L 400 200 L 0 200 Z" fill="url(#gradientFill)" />
-                  <path d="M0 190 Q 200 190, 400 50" fill="none" stroke="url(#gradientLine)" strokeWidth="3" />
-                  <circle cx="150" cy="165" r="4" fill="#FF5C00" className="drop-shadow-[0_0_8px_rgba(255,92,0,0.8)]" />
+                  <motion.path 
+                    d="M0 190 Q 200 190, 400 50" 
+                    fill="none" 
+                    stroke="url(#gradientLine)" 
+                    strokeWidth="3" 
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+                  />
+                  <motion.circle 
+                    cx="150" 
+                    cy="165" 
+                    r="4" 
+                    fill="#FF5C00" 
+                    className="drop-shadow-[0_0_8px_rgba(255,92,0,0.8)]"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  />
                 </svg>
               </div>
             </div>
@@ -91,7 +109,7 @@ export default function PortfolioStatsSection() {
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between relative overflow-hidden h-[180px] lg:h-auto">
               <div className="relative z-10">
                 <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary inline-block animate-pulse"></span> 02 / LIVE
+                  <span className="w-2 h-2 rounded-full bg-primary inline-block animate-pulse"></span> LIVE
                 </span>
                 <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
                   {displayPlayers}
@@ -103,8 +121,25 @@ export default function PortfolioStatsSection() {
               {/* Jagged Line SVG Chart Background */}
               <div className="absolute bottom-0 right-0 w-3/4 h-1/2 pointer-events-none flex items-end justify-end">
                 <svg viewBox="0 0 200 100" preserveAspectRatio="none" className="w-full h-full opacity-80">
-                  <path d="M0 90 L 30 70 L 60 90 L 100 50 L 130 70 L 160 40 L 200 20" fill="none" stroke="#FF5C00" strokeWidth="2.5" />
-                  <circle cx="100" cy="50" r="3" fill="#FF5C00" className="drop-shadow-[0_0_6px_rgba(255,92,0,0.8)]" />
+                  <motion.path 
+                    d="M0 90 L 30 70 L 60 90 L 100 50 L 130 70 L 160 40 L 200 20" 
+                    fill="none" 
+                    stroke="#FF5C00" 
+                    strokeWidth="2.5" 
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
+                  />
+                  <motion.circle 
+                    cx="100" 
+                    cy="50" 
+                    r="3" 
+                    fill="#FF5C00" 
+                    className="drop-shadow-[0_0_6px_rgba(255,92,0,0.8)]"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 1.0 }}
+                  />
                 </svg>
               </div>
             </div>
@@ -112,7 +147,7 @@ export default function PortfolioStatsSection() {
             {/* Card 3: Favorites */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between h-[180px] lg:h-auto">
               <div>
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">03 / FAVORITES</span>
+                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">FAVORITES</span>
                 <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
                   {displayFavorites}
                 </h3>
@@ -125,7 +160,7 @@ export default function PortfolioStatsSection() {
             {/* Card 4: Likes */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between h-[180px] lg:h-auto">
               <div>
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">04 / LIKES</span>
+                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">LIKES</span>
                 <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
                   {displayLikes}
                 </h3>
@@ -138,7 +173,7 @@ export default function PortfolioStatsSection() {
             {/* Card 5: Community */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between h-[180px] lg:h-auto">
               <div>
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">05 / COMMUNITY</span>
+                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">COMMUNITY</span>
                 <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
                   {displayCommunity}
                 </h3>

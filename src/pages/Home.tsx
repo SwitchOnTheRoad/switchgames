@@ -102,7 +102,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/55 z-[1]" />
           {/* Vignette edges */}
           <div className="absolute inset-0 z-[1] pointer-events-none" style={{
-            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%)'
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(11,15,25,0.65) 100%)'
           }} />
 
           <div className="relative z-10 w-full mx-auto px-6 md:px-12 lg:px-16 pt-24 pb-16" style={{ maxWidth: '1500px' }}>

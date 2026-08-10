@@ -65,7 +65,7 @@ export default function Nav() {
       <div
         className="fixed inset-0 z-40 md:hidden"
         style={{
-          background: 'rgba(0,0,0,0.97)',
+          background: 'rgba(11,15,25,0.97)',
           opacity: open ? 1 : 0,
           pointerEvents: open ? 'all' : 'none',
           transition: 'opacity 300ms ease',

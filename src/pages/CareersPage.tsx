@@ -50,7 +50,7 @@ export default function CareersPage() {
         <div className="absolute inset-0 bg-black/65 z-[1]" />
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)' }}
+          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(11,15,25,0.7) 100%)' }}
         />
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
 

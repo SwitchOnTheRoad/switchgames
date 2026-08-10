@@ -31,7 +31,7 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-black text-white flex">
-      <aside className="w-56 fixed top-0 left-0 h-full flex flex-col px-3 py-5 overflow-y-auto" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.95)' }}>
+      <aside className="w-56 fixed top-0 left-0 h-full flex flex-col px-3 py-5 overflow-y-auto" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', background: 'rgba(11,15,25,0.95)' }}>
         <Link to="/" className="flex items-center gap-3 px-3 mb-6">
           <img src="/logo.png" alt="Switch" className="h-8 w-8 object-contain" />
           <div><p className="text-sm font-semibold" style={{ letterSpacing: '-0.02em' }}>Switch</p><p className="text-xs text-gray-300">Admin</p></div>
