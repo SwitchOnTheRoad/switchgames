@@ -73,17 +73,17 @@ export default function PortfolioStatsSection() {
                 <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="w-full h-full">
                   <defs>
                     <linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#FF5C00" />
-                      <stop offset="100%" stopColor="#FF5C00" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="#8B5CF6" />
+                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.5" />
                     </linearGradient>
                     <linearGradient id="gradientFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#FF5C00" stopOpacity="0.2" />
-                      <stop offset="100%" stopColor="#FF5C00" stopOpacity="0" />
+                      <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.2" />
+                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
                     </linearGradient>
                   </defs>
                   <path d="M0 190 Q 200 190, 400 50 L 400 200 L 0 200 Z" fill="url(#gradientFill)" />
                   <motion.path 
-                    d="M0 190 Q 200 190, 400 50" 
+                     d="M0 190 Q 200 190, 400 50" 
                     fill="none" 
                     stroke="url(#gradientLine)" 
                     strokeWidth="3" 
@@ -95,8 +95,8 @@ export default function PortfolioStatsSection() {
                     cx="150" 
                     cy="165" 
                     r="4" 
-                    fill="#FF5C00" 
-                    className="drop-shadow-[0_0_8px_rgba(255,92,0,0.8)]"
+                    fill="#8B5CF6" 
+                    className="drop-shadow-[0_0_8px_rgba(139,92,246,0.8)]"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.8 }}
@@ -124,7 +124,7 @@ export default function PortfolioStatsSection() {
                   <motion.path 
                     d="M0 90 L 30 70 L 60 90 L 100 50 L 130 70 L 160 40 L 200 20" 
                     fill="none" 
-                    stroke="#FF5C00" 
+                    stroke="#8B5CF6" 
                     strokeWidth="2.5" 
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
@@ -134,8 +134,8 @@ export default function PortfolioStatsSection() {
                     cx="100" 
                     cy="50" 
                     r="3" 
-                    fill="#FF5C00" 
-                    className="drop-shadow-[0_0_6px_rgba(255,92,0,0.8)]"
+                    fill="#8B5CF6" 
+                    className="drop-shadow-[0_0_6px_rgba(139,92,246,0.8)]"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 1.0 }}

@@ -1487,6 +1487,348 @@
       "device": "desktop",
       "timestamp": "2026-08-09T05:57:50.389Z",
       "date": "2026-08-09"
+    },
+    {
+      "id": "14d14b18-5aef-4e2a-abb8-097c45e382da",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:27.463Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "c1adffc0-527d-420e-a0bb-309c0d24b9f2",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:27.461Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "f96cde59-acd3-4423-8081-bf79c6e0e11d",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:31.345Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "e4c3d756-284a-47c1-a7a8-d4267c66576b",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:31.346Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "9c4e270c-60a0-4322-85ea-b28c92393584",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:45.071Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "96710da3-2bfe-402d-aa1b-136a1a82ea1b",
+      "path": "/team",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:46.153Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "c25ae8f3-49f7-463f-abe6-67f70d6a31f7",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:52:47.694Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "c21fc080-d92f-4e7d-8910-8db3b9a927e0",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:54:40.781Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "eba9417f-bab1-4a4a-81e1-ff7a885d1e82",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:54:40.780Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "999d2cf6-e2d6-4355-b16f-0ee405bc4acf",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:54:52.970Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "1f77cf93-d9cd-44dd-b293-696645e4fba3",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T22:54:54.387Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "c05ad4db-6bd0-4caa-a70b-15743bc45ce7",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:22:05.737Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "9c935f00-1709-4c9e-a3bd-8903018a1910",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:22:05.739Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "b9cc2daa-b4a3-49cc-b327-af006716f048",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:23:16.280Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "4c942e94-1b74-47e6-ac32-beefaa1f40d0",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:23:17.593Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "283c263e-99d0-48a5-a792-3aef0ab5fa7f",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:23:17.596Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "09bd3064-3d62-47a8-b12c-fef7ac670cfd",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:23:18.383Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "59a03ea9-febb-488c-b9a8-9288546b1f02",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-10T23:23:18.407Z",
+      "date": "2026-08-10"
+    },
+    {
+      "id": "c908e86d-89d7-4f79-b88d-ff10ff0411bd",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:29:55.847Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "7acda03b-f519-44a7-a5e3-6161a0b14bdf",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "mobile",
+      "timestamp": "2026-08-12T04:29:55.984Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "ca603226-5d6f-48bf-962a-fdb5c6b83056",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "mobile",
+      "timestamp": "2026-08-12T04:29:55.989Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "daa007fe-c844-4118-9e40-e2d2a606a57a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:29:55.849Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "6b097828-4f80-44b4-8697-07040c2817e2",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:30:24.370Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "82bd8d29-4770-4e91-ae3b-b5e285b93388",
+      "path": "/team",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:30:25.510Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "6086bd89-dd4b-42c1-873d-872802030a2f",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:30:26.354Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "665a8dd6-9d7d-40f9-92c2-0da4cd2696de",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "mobile",
+      "timestamp": "2026-08-12T04:32:07.895Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "d906a9bd-ace8-4588-ba1b-d572ad5f4e4d",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "mobile",
+      "timestamp": "2026-08-12T04:47:47.052Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "11a6685c-bb88-4a10-b5a8-b8eaea376a4a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "mobile",
+      "timestamp": "2026-08-12T04:47:47.054Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "542290bb-c7c4-4d2b-89f5-39a39a14628b",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:02.814Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "852e6065-06ae-4860-983f-9f0b7c2e477e",
+      "path": "/team",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:04.381Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "e0efc60f-04c5-421b-b2ab-dbb838b71c1e",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:05.134Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "fca4e98d-9617-4c3c-8b59-b45bcc0b29fa",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:05.834Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "3095315b-a104-41fd-8e3b-3a2ffa33d13d",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:06.609Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "63a6a35d-ae4c-4838-9f0c-579ea560d805",
+      "path": "/team",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:07.332Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "539c7892-cae0-4a39-80de-364d50f022fb",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:08.403Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "2d6776ef-81a0-48fd-9814-ed5d6a2256fe",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:08.791Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "0ac6702b-3fd6-4de9-947d-b6a0af1f744c",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:13.885Z",
+      "date": "2026-08-12"
+    },
+    {
+      "id": "700b09de-18e0-4c88-8c41-2db8a2468cf1",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-12T04:48:15.222Z",
+      "date": "2026-08-12"
     }
   ],
   "events": [],

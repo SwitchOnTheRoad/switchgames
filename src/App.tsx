@@ -33,6 +33,9 @@ import ProtectedRoute from './pages/admin/ProtectedRoute'
 
 import TermsPage from './pages/TermsPage'
 import PrivacyPage from './pages/PrivacyPage'
+import ValuationPage from './pages/ValuationPage'
+
+import GamingBackground from './components/GamingBackground'
 
 function AppInner() {
   usePageTracking()
@@ -54,6 +57,7 @@ function AppInner() {
       <Route path="/work/:slug" element={<CaseStudyDetailPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
+      <Route path="/valuation" element={<ValuationPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
         <Route index element={<AdminDashboard />} />
@@ -78,7 +82,8 @@ export default function App() {
     <>
       {splash && <SplashScreen onDone={() => setSplash(false)} />}
       <CookieBanner />
-      <div className="w-full overflow-x-hidden min-h-screen flex flex-col relative">
+      <div className="w-full overflow-x-hidden min-h-screen flex flex-col relative bg-[#050814]">
+        <GamingBackground />
         <AppInner />
       </div>
     </>
