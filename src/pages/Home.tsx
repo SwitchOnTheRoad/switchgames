@@ -174,20 +174,14 @@ export default function Home() {
       </section>
 
 
-      {/* â”€â”€â”€ GAMES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <section id="games" className="bg-black py-16">
+      {/* ─── GAMES ──────────────────────────────────────────────────────── */}
+      <section id="games" className="bg-black py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-8 px-6 md:px-12 lg:px-16">
-            <div>
-
-              <SectionReveal delay={60}><h2 className="text-4xl md:text-5xl font-medium" style={{ letterSpacing: '-0.03em' }}>Our Games</h2></SectionReveal>
-            </div>
-            <SectionReveal>
-              <Link to="/games">
-                <button className="btn-pill btn-pill-sm">
-                  View All
-                </button>
-              </Link>
+          <div className="text-center mb-10 px-6">
+            <SectionReveal delay={60}>
+              <h2 className="text-4xl md:text-5xl font-medium text-white" style={{ letterSpacing: '-0.03em' }}>
+                Our Top Hits
+              </h2>
             </SectionReveal>
           </div>
 
@@ -202,6 +196,16 @@ export default function Home() {
               <GameCarousel games={games} />
             </SectionReveal>
           )}
+
+          <div className="flex justify-center mt-10 px-6">
+            <SectionReveal delay={200}>
+              <Link to="/games">
+                <button className="btn-pill btn-pill-sm">
+                  View Full Games Catalog
+                </button>
+              </Link>
+            </SectionReveal>
+          </div>
         </div>
       </section>
 
@@ -277,9 +281,9 @@ export default function Home() {
 
       {/* â”€â”€â”€ STUDIO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section id="studio" className="bg-black py-28 px-6 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-[1.3fr_0.7fr] gap-12 lg:gap-16 items-center">
           <SectionReveal>
-            <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06] h-64 md:h-[520px]">
+            <div className="rounded-2xl overflow-hidden relative group border border-white/[0.06] aspect-video w-full">
               <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 <source src="/backgroundvideo.mp4" type="video/mp4" />
               </video>
@@ -287,7 +291,7 @@ export default function Home() {
             </div>
           </SectionReveal>
 
-          <div>
+          <div className="max-w-md">
 
             <SectionReveal delay={60}><h2 className="text-4xl md:text-5xl font-medium mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.0 }}>We are Switch.</h2></SectionReveal>
             <SectionReveal delay={120}>
@@ -333,14 +337,14 @@ export default function Home() {
       </section>
 
       {/* â”€â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <section id="contact" className="bg-black py-32 px-6 md:px-12 lg:px-16 relative overflow-hidden">
-        <div className="absolute inset-0 z-0" style={{ opacity: 0.18 }}>
+      <section id="contact" className="bg-black py-32 px-6 md:px-12 lg:px-16 relative z-20 overflow-hidden">
+        <div className="absolute inset-0 z-0" style={{ opacity: 0.12 }}>
           <video autoPlay loop muted playsInline className="w-full h-full object-cover">
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260421_102157_ad7d8fd0-1039-4516-8d40-db76927cc9c5.mp4" type="video/mp4" />
           </video>
         </div>
         <div className="absolute inset-0 bg-black/55 z-[1]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-[2] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-[2] pointer-events-none" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
 

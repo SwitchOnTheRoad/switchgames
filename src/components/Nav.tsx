@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const LINKS = [
   { path: '/', label: 'HOME' },
   { path: '/games', label: 'GAMES' },
-  { path: '/team', label: 'ABOUT' },
+  { path: '/team', label: 'TEAM' },
   { path: '/careers', label: 'CAREERS' },
   { path: '/contact', label: 'CONTACT' },
 ]
@@ -12,6 +12,9 @@ const LINKS = [
 export default function Nav() {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
+
+  const [visible, setVisible] = useState(true)
+  const [prevScrollPos, setPrevScrollPos] = useState(0)
 
   // Close menu on route change
   useEffect(() => { setOpen(false) }, [pathname])
@@ -22,24 +25,45 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  // Swipe up on scroll down, slide down on scroll up
+  useEffect(() => {
+    const handleScroll = () => {
+      if (open) return // Don't hide if mobile menu is open
+      const currentScrollPos = window.scrollY
+      if (currentScrollPos > prevScrollPos && currentScrollPos > 80) {
+        setVisible(false)
+      } else {
+        setVisible(true)
+      }
+      setPrevScrollPos(currentScrollPos)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [prevScrollPos, open])
+
   const isActive = (path: string) =>
     path === '/' ? pathname === '/' : pathname === path || pathname.startsWith(path + '/')
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 lg:px-16">
-        <div className="flex items-center justify-between max-w-7xl mx-auto py-6">
+      <nav 
+        className="fixed top-6 left-0 right-0 z-50 px-4 md:px-8 pointer-events-none flex justify-center transition-transform duration-300 ease-in-out"
+        style={{
+          transform: visible ? 'translateY(0)' : 'translateY(-120%)'
+        }}
+      >
+        <div className="w-full max-w-5xl bg-black/60 backdrop-blur-md border border-white/[0.08] rounded-full px-6 py-3.5 md:px-8 flex items-center justify-between shadow-xl shadow-black/45 pointer-events-auto transition-all duration-300">
           <Link to="/" className="flex items-center">
-            <img src="/logo.png" alt="Switch" className="h-9 w-9 object-contain" />
+            <img src="/logo.png" alt="Switch" className="h-7 w-7 md:h-8 md:w-8 object-contain" />
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-8 lg:gap-10">
             {LINKS.map(l => (
               <Link
                 key={l.path}
                 to={l.path}
-                className={`text-[13px] font-medium tracking-[0.12em] transition-colors ${
+                className={`text-[12px] font-medium tracking-[0.12em] transition-colors ${
                   isActive(l.path) ? 'text-white' : 'text-gray-400 hover:text-white'
                 }`}
               >

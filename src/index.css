@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,12 +10,18 @@ html, body {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 400;
-  background: #050814;
+  background: linear-gradient(to bottom, #030514 0%, #010103 100%);
+  background-attachment: fixed;
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700 !important;
 }
 
 /* ─── Dark Card (replaces glassmorphism) ──────────────── */
@@ -54,14 +63,14 @@ body {
 }
 
 .btn-pill-solid {
-  background: #8B5CF6;
+  background: #1e60ff;
   color: #fff;
-  border-color: #8B5CF6;
+  border-color: #1e60ff;
 }
 
 .btn-pill-solid:hover {
-  background: #7C3AED;
-  border-color: #7C3AED;
+  background: #004ce6;
+  border-color: #004ce6;
 }
 
 /* Blog post content */
@@ -75,7 +84,7 @@ body {
 .post-content blockquote { border-left: 2px solid rgba(255,255,255,0.15); padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #737373; }
 
 ::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: #050814; }
+::-webkit-scrollbar-track { background: #020308; }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 2px; }
 
 /* ─── Hero Background Slideshow ─────────────────────── */
@@ -438,9 +447,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.055);
+  color: rgba(255, 255, 255, 0.015);
   animation: icon-float 6s ease-in-out infinite, icon-fade-in 1.2s ease both;
   will-change: transform, opacity;
+  pointer-events: auto;
+  transition: color 400ms ease, opacity 400ms ease;
+}
+
+.gaming-bg-grid .icon-cell:hover {
+  color: rgba(30, 96, 255, 0.15);
+  opacity: 0.3 !important;
 }
 
 .gaming-bg-grid .icon-cell svg {

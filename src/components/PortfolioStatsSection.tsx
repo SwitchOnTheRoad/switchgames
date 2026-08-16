@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import SectionReveal from './SectionReveal'
 
@@ -7,6 +7,61 @@ function formatStat(num: number): string {
   if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M+';
   if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K+';
   return num.toString();
+}
+
+// Reusable Count-Up Animation Component
+function AnimatedCounter({ value, duration = 2 }: { value: number; duration?: number }) {
+  const [count, setCount] = useState(0)
+  const elementRef = useRef<HTMLSpanElement>(null)
+  const [hasStarted, setHasStarted] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setHasStarted(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!hasStarted) return
+
+    let start = 0
+    const end = value
+    if (start === end) return
+
+    const totalMilliseconds = duration * 1000
+    const startTime = performance.now()
+
+    const updateCount = (now: number) => {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / totalMilliseconds, 1)
+      
+      // Easing function (easeOutQuad)
+      const easeProgress = progress * (2 - progress)
+      
+      setCount(Math.floor(easeProgress * end))
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCount)
+      } else {
+        setCount(end)
+      }
+    }
+
+    requestAnimationFrame(updateCount)
+  }, [value, duration, hasStarted])
+
+  return <span ref={elementRef}>{formatStat(count)}</span>
 }
 
 export default function PortfolioStatsSection() {
@@ -45,12 +100,6 @@ export default function PortfolioStatsSection() {
     )
   }
 
-  const displayPlayers = formatStat(stats.livePlayers);
-  const displayVisits = formatStat(stats.totalVisits);
-  const displayFavorites = formatStat(stats.favorites);
-  const displayLikes = formatStat(stats.likes);
-  const displayCommunity = formatStat(stats.community);
-
   return (
     <section className="bg-black pb-10 px-6 md:px-12 lg:px-16">
       <div className="max-w-7xl mx-auto">
@@ -60,9 +109,9 @@ export default function PortfolioStatsSection() {
             {/* Card 1: Visits (Spans 2 rows) */}
             <div className="lg:row-span-2 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 lg:p-8 flex flex-col relative overflow-hidden h-[300px] lg:h-[400px]">
               <div className="relative z-10">
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-4 block">VISITS</span>
-                <h3 className="text-6xl md:text-8xl font-bold mb-4" style={{ letterSpacing: '-0.04em' }}>
-                  {displayVisits}
+                <span className="text-[#1e60ff] text-xs font-bold uppercase tracking-widest mb-4 block">VISITS</span>
+                <h3 className="text-6xl md:text-8xl font-medium mb-4" style={{ letterSpacing: '-0.04em' }}>
+                  <AnimatedCounter value={stats.totalVisits} />
                 </h3>
                 <p className="text-sm text-gray-400 max-w-[250px] leading-relaxed">
                   Total combined visits across all published experiences.
@@ -73,33 +122,35 @@ export default function PortfolioStatsSection() {
                 <svg viewBox="0 0 400 200" preserveAspectRatio="none" className="w-full h-full">
                   <defs>
                     <linearGradient id="gradientLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#8B5CF6" />
-                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="#1e60ff" />
+                      <stop offset="100%" stopColor="#1e60ff" stopOpacity="0.5" />
                     </linearGradient>
                     <linearGradient id="gradientFill" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.2" />
-                      <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
+                      <stop offset="0%" stopColor="#1e60ff" stopOpacity="0.25" />
+                      <stop offset="100%" stopColor="#1e60ff" stopOpacity="0" />
                     </linearGradient>
                   </defs>
-                  <path d="M0 190 Q 200 190, 400 50 L 400 200 L 0 200 Z" fill="url(#gradientFill)" />
+                  
+                  {/* Glowing Fill: animates in view */}
                   <motion.path 
-                     d="M0 190 Q 200 190, 400 50" 
+                    d="M0 190 Q 200 190, 400 50 L 400 200 L 0 200 Z" 
+                    fill="url(#gradientFill)" 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
+                  />
+
+                  {/* Draw-in Line Path: animates in view */}
+                  <motion.path 
+                    d="M0 190 Q 200 190, 400 50" 
                     fill="none" 
                     stroke="url(#gradientLine)" 
                     strokeWidth="3" 
                     initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
-                  />
-                  <motion.circle 
-                    cx="150" 
-                    cy="165" 
-                    r="4" 
-                    fill="#8B5CF6" 
-                    className="drop-shadow-[0_0_8px_rgba(139,92,246,0.8)]"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
                   />
                 </svg>
               </div>
@@ -108,37 +159,46 @@ export default function PortfolioStatsSection() {
             {/* Card 2: Live */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between relative overflow-hidden h-[180px] lg:h-auto">
               <div className="relative z-10">
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary inline-block animate-pulse"></span> LIVE
+                <span className="text-[#1e60ff] text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+                  LIVE
                 </span>
-                <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
-                  {displayPlayers}
+                <h3 className="text-5xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>
+                  <AnimatedCounter value={stats.livePlayers} />
                 </h3>
                 <p className="text-sm text-gray-400 max-w-[200px] leading-relaxed">
                   Concurrent players across our portfolio right now.
                 </p>
               </div>
               {/* Jagged Line SVG Chart Background */}
-              <div className="absolute bottom-0 right-0 w-3/4 h-1/2 pointer-events-none flex items-end justify-end">
+              <div className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none">
                 <svg viewBox="0 0 200 100" preserveAspectRatio="none" className="w-full h-full opacity-80">
+                  <defs>
+                    <linearGradient id="gradientFillLive" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#1e60ff" stopOpacity="0.25" />
+                      <stop offset="100%" stopColor="#1e60ff" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Glowing Fill: animates in view */}
+                  <motion.path 
+                    d="M0 90 L 30 70 L 60 90 L 100 50 L 130 70 L 160 40 L 200 20 L 200 100 L 0 100 Z" 
+                    fill="url(#gradientFillLive)" 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.8 }}
+                  />
+
+                  {/* Draw-in Line Path: animates in view */}
                   <motion.path 
                     d="M0 90 L 30 70 L 60 90 L 100 50 L 130 70 L 160 40 L 200 20" 
                     fill="none" 
-                    stroke="#8B5CF6" 
+                    stroke="#1e60ff" 
                     strokeWidth="2.5" 
                     initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
-                  />
-                  <motion.circle 
-                    cx="100" 
-                    cy="50" 
-                    r="3" 
-                    fill="#8B5CF6" 
-                    className="drop-shadow-[0_0_6px_rgba(139,92,246,0.8)]"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 1.0 }}
                   />
                 </svg>
               </div>
@@ -147,9 +207,9 @@ export default function PortfolioStatsSection() {
             {/* Card 3: Favorites */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between h-[180px] lg:h-auto">
               <div>
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">FAVORITES</span>
-                <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
-                  {displayFavorites}
+                <span className="text-[#1e60ff] text-xs font-bold uppercase tracking-widest mb-3 block">FAVORITES</span>
+                <h3 className="text-5xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>
+                  <AnimatedCounter value={stats.favorites} />
                 </h3>
                 <p className="text-sm text-gray-400 max-w-[200px] leading-relaxed">
                   Total favorites across all of our experiences.
@@ -160,9 +220,9 @@ export default function PortfolioStatsSection() {
             {/* Card 4: Likes */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between h-[180px] lg:h-auto">
               <div>
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">LIKES</span>
-                <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
-                  {displayLikes}
+                <span className="text-[#1e60ff] text-xs font-bold uppercase tracking-widest mb-3 block">LIKES</span>
+                <h3 className="text-5xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>
+                  <AnimatedCounter value={stats.likes} />
                 </h3>
                 <p className="text-sm text-gray-400 max-w-[200px] leading-relaxed">
                   Combined likes earned across the portfolio.
@@ -173,9 +233,9 @@ export default function PortfolioStatsSection() {
             {/* Card 5: Community */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex flex-col justify-between h-[180px] lg:h-auto">
               <div>
-                <span className="text-primary text-xs font-bold uppercase tracking-widest mb-3 block">COMMUNITY</span>
-                <h3 className="text-5xl font-bold mb-2" style={{ letterSpacing: '-0.03em' }}>
-                  {displayCommunity}
+                <span className="text-[#1e60ff] text-xs font-bold uppercase tracking-widest mb-3 block">COMMUNITY</span>
+                <h3 className="text-5xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>
+                  <AnimatedCounter value={stats.community} />
                 </h3>
                 <p className="text-sm text-gray-400 max-w-[200px] leading-relaxed">
                   Members across our connected Roblox groups.

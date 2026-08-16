@@ -79,7 +79,7 @@ function DonutChart({ slices }: { slices: { label: string; value: number; color:
             />
           )
         })}
-        <circle cx={cx} cy={cy} r={r - strokeW} fill="#050814" />
+        <circle cx={cx} cy={cy} r={r - strokeW} fill="#020308" />
         <text x={cx} y={cy + 1} textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="10" fontWeight="500">{total}</text>
       </svg>
       <div className="flex flex-col gap-1.5">

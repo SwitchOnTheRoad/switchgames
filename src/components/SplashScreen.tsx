@@ -12,7 +12,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, background: '#050814',
+      position: 'fixed', inset: 0, background: '#020308',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 9999,
       opacity: phase === 'out' ? 0 : 1,
@@ -21,7 +21,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
       {/* ring pulse behind logo */}
       <div style={{
         position: 'absolute',
-        width: 120, height: 120,
+        width: 220, height: 220,
         borderRadius: '50%',
         border: '1px solid rgba(255,255,255,0.15)',
         opacity: phase === 'hold' ? 0 : phase === 'in' ? 0 : 1,
@@ -33,7 +33,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
         src="/logo.png"
         alt="Switch"
         style={{
-          width: 72, height: 72,
+          width: 144, height: 144,
           objectFit: 'contain',
           opacity: phase === 'in' ? 0 : 1,
           filter: phase === 'in' ? 'blur(10px)' : 'blur(0px)',

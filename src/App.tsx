@@ -82,7 +82,7 @@ export default function App() {
     <>
       {splash && <SplashScreen onDone={() => setSplash(false)} />}
       <CookieBanner />
-      <div className="w-full overflow-x-hidden min-h-screen flex flex-col relative bg-[#050814]">
+      <div className="w-full overflow-x-hidden min-h-screen flex flex-col relative bg-transparent">
         <GamingBackground />
         <AppInner />
       </div>

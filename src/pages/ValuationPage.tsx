@@ -90,7 +90,7 @@ function Field({
           min={min}
           value={value}
           onChange={e => onChange(Number(e.target.value))}
-          className={`w-full bg-white/5 border border-white/10 text-white text-sm px-3 py-2.5 outline-none focus:border-[#8B5CF6]/60 focus:bg-white/8 transition-all
+          className={`w-full bg-white/5 border border-white/10 text-white text-sm px-3 py-2.5 outline-none focus:border-[#1e60ff]/60 focus:bg-white/8 transition-all
             ${prefix ? 'rounded-r-lg' : suffix ? 'rounded-l-lg' : 'rounded-lg'}`}
         />
         {suffix && (
@@ -122,7 +122,7 @@ function Toggle({
       </div>
       <button
         onClick={() => onChange(!value)}
-        className={`relative w-11 h-6 rounded-full flex-shrink-0 transition-colors ${value ? 'bg-[#8B5CF6]' : 'bg-white/15'}`}
+        className={`relative w-11 h-6 rounded-full flex-shrink-0 transition-colors ${value ? 'bg-[#1e60ff]' : 'bg-white/15'}`}
       >
         <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all ${value ? 'left-6' : 'left-1'}`} />
       </button>
@@ -133,8 +133,8 @@ function Toggle({
 function SectionHeader({ icon: Icon, title, subtitle }: { icon: LucideIcon, title: string, subtitle?: string }) {
   return (
     <div className="flex items-center gap-3 mb-6">
-      <div className="w-9 h-9 rounded-lg bg-[#8B5CF6]/15 border border-[#8B5CF6]/20 flex items-center justify-center flex-shrink-0">
-        <Icon size={17} className="text-[#8B5CF6]" />
+      <div className="w-9 h-9 rounded-lg bg-[#1e60ff]/15 border border-[#1e60ff]/20 flex items-center justify-center flex-shrink-0">
+        <Icon size={17} className="text-[#1e60ff]" />
       </div>
       <div>
         <h3 className="text-white font-semibold text-sm">{title}</h3>
@@ -181,10 +181,10 @@ function Results({ result }: { result: ValuationResult }) {
   return (
     <div className="space-y-6">
       {/* Headline */}
-      <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#8B5CF6]/8 via-transparent to-transparent p-8 text-center relative overflow-hidden">
+      <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#1e60ff]/8 via-transparent to-transparent p-8 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-dot-pattern opacity-20 pointer-events-none" />
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8B5CF6] mb-3">Automated Valuation Estimate</p>
-        <div className="text-7xl md:text-8xl font-black text-white tracking-tight mb-2 tabular-nums">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1e60ff] mb-3">Automated Valuation Estimate</p>
+        <div className="text-7xl md:text-8xl font-medium text-white tracking-tight mb-2 tabular-nums">
           {fmt(result.headline)}
         </div>
         <p className="text-gray-400 text-sm">
@@ -255,7 +255,7 @@ function Results({ result }: { result: ValuationResult }) {
                 <span className="text-[11px] text-gray-400 w-44 flex-shrink-0">{m.label}</span>
                 <span className="text-[10px] text-gray-500 w-8 flex-shrink-0">{m.weight}</span>
                 <div className="flex-1 h-1.5 bg-white/8 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#8B5CF6] rounded-full transition-all" style={{ width: `${barPct}%` }} />
+                  <div className="h-full bg-[#1e60ff] rounded-full transition-all" style={{ width: `${barPct}%` }} />
                 </div>
                 <span className="text-[11px] font-mono text-white w-16 text-right tabular-nums">{fmt(m.value)}</span>
               </div>
@@ -295,7 +295,7 @@ function Results({ result }: { result: ValuationResult }) {
           { label: 'Risk Tier',          value: result.riskTier,         icon: Shield },
         ].map(s => (
           <div key={s.label} className="rounded-xl border border-white/8 bg-white/3 p-4 text-center">
-            <s.icon size={14} className="text-[#8B5CF6] mx-auto mb-2" />
+            <s.icon size={14} className="text-[#1e60ff] mx-auto mb-2" />
             <p className="text-base font-bold text-white">{s.value}</p>
             <p className="text-[10px] text-gray-500 mt-1">{s.label}</p>
           </div>
@@ -313,7 +313,7 @@ function Results({ result }: { result: ValuationResult }) {
       </div>
 
       <Link to="/contact">
-        <button className="w-full py-4 rounded-xl bg-[#8B5CF6] text-white font-bold text-sm uppercase tracking-wider hover:bg-[#7C3AED] transition-colors flex items-center justify-center gap-2 mt-2">
+        <button className="w-full py-4 rounded-xl bg-[#1e60ff] text-white font-bold text-sm uppercase tracking-wider hover:bg-[#004ce6] transition-colors flex items-center justify-center gap-2 mt-2">
           Submit for Human Review <ArrowRight size={15} />
         </button>
       </Link>
@@ -439,11 +439,11 @@ export default function ValuationPage() {
       <div className="max-w-3xl mx-auto px-6 py-28">
         {/* Header */}
         <div className="mb-14">
-          <div className="inline-flex items-center gap-2 bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[#8B5CF6] uppercase tracking-wider mb-6">
+          <div className="inline-flex items-center gap-2 bg-[#1e60ff]/10 border border-[#1e60ff]/20 rounded-full px-4 py-1.5 text-xs font-semibold text-[#1e60ff] uppercase tracking-wider mb-6">
             <Zap size={11} />
             Game Valuation Engine
           </div>
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-4" style={{ letterSpacing: '-0.03em' }}>
+          <h1 className="text-5xl md:text-6xl font-medium tracking-tight mb-4" style={{ letterSpacing: '-0.03em' }}>
             What's your<br />game worth?
           </h1>
           <p className="text-gray-400 text-lg max-w-xl leading-relaxed">
@@ -459,9 +459,9 @@ export default function ValuationPage() {
                 onClick={() => setStep(i)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   i === step
-                    ? 'bg-[#8B5CF6] text-white'
+                    ? 'bg-[#1e60ff] text-white'
                     : i < step
-                    ? 'bg-[#8B5CF6]/20 text-[#8B5CF6]'
+                    ? 'bg-[#1e60ff]/20 text-[#1e60ff]'
                     : 'bg-white/5 text-gray-500'
                 }`}
               >
@@ -470,7 +470,7 @@ export default function ValuationPage() {
                 <span className="sm:hidden">{i + 1}</span>
               </button>
               {i < STEPS.length - 1 && (
-                <div className={`h-px flex-1 min-w-[12px] ${i < step ? 'bg-[#8B5CF6]/40' : 'bg-white/8'}`} />
+                <div className={`h-px flex-1 min-w-[12px] ${i < step ? 'bg-[#1e60ff]/40' : 'bg-white/8'}`} />
               )}
             </div>
           ))}
@@ -483,10 +483,10 @@ export default function ValuationPage() {
 
         {/* Live preview while editing */}
         {result && !showResults && (
-          <div className="rounded-xl border border-[#8B5CF6]/20 bg-[#8B5CF6]/5 p-4 flex items-center justify-between mb-6">
+          <div className="rounded-xl border border-[#1e60ff]/20 bg-[#1e60ff]/5 p-4 flex items-center justify-between mb-6">
             <div>
-              <p className="text-xs text-[#8B5CF6] uppercase tracking-wider font-bold mb-1">Live Estimate</p>
-              <p className="text-3xl font-black text-white tabular-nums">{fmt(result.headline)}</p>
+              <p className="text-xs text-[#1e60ff] uppercase tracking-wider font-bold mb-1">Live Estimate</p>
+              <p className="text-3xl font-medium text-white tabular-nums">{fmt(result.headline)}</p>
             </div>
             <div className="text-right">
               <span className={`text-xs font-bold px-3 py-1.5 rounded-full border ${TIER_COLORS[result.riskTier]}`}>
@@ -519,7 +519,7 @@ export default function ValuationPage() {
                 if (inputs.revenue28d > 0) setShowResults(true)
               }}
               disabled={inputs.revenue28d <= 0}
-              className="flex items-center gap-2 px-8 py-3 rounded-xl bg-[#8B5CF6] text-white font-bold text-sm hover:bg-[#7C3AED] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-8 py-3 rounded-xl bg-[#1e60ff] text-white font-bold text-sm hover:bg-[#004ce6] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <CheckCircle2 size={15} /> Run Valuation
             </button>
@@ -534,7 +534,7 @@ export default function ValuationPage() {
             { icon: Shield as LucideIcon, title: 'Downside Cap', desc: 'Max Justifiable ceiling prevents paying more than worst-case recovery can support.' },
           ] as Array<{ icon: LucideIcon; title: string; desc: string }>).map(item => (
             <div key={item.title} className="flex gap-3">
-              <item.icon size={16} className="text-[#8B5CF6] mt-0.5 flex-shrink-0" />
+              <item.icon size={16} className="text-[#1e60ff] mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-white mb-1">{item.title}</p>
                 <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
