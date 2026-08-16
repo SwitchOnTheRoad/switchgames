@@ -232,6 +232,52 @@ server.get('/api/roblox-stats', async (req, res) => {
   }
 })
 
+// Specific games endpoint that merges live Roblox API stats
+server.get('/api/games', async (req, res) => {
+  try {
+    let games = []
+    if (shouldUseMongo()) {
+      games = await mongoose.connection.db.collection('games').find(req.query).toArray()
+    } else {
+      const { items } = getLocalCollection('games')
+      games = Object.keys(req.query).length ? items.filter(item => matchesQuery(item, req.query)) : items
+    }
+
+    // Fetch live Roblox stats for each game
+    const gamesWithStats = await Promise.all(games.map(async (game) => {
+      const placeId = extractPlaceId(game.robloxUrl)
+      if (!placeId) return { ...game, livePlayers: 0 }
+
+      try {
+        if (!universeIdCache[placeId]) {
+          const data = await fetchRobloxJson(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`)
+          if (data.universeId) universeIdCache[placeId] = data.universeId
+        }
+
+        const universeId = universeIdCache[placeId]
+        if (universeId) {
+          const stats = await fetchRobloxJson(`https://games.roblox.com/v1/games?universeIds=${universeId}`)
+          const gameData = stats.data?.[0]
+          if (gameData) {
+            return {
+              ...game,
+              livePlayers: gameData.playing || 0,
+              visits: gameData.visits ? (gameData.visits >= 1_000_000 ? `${(gameData.visits / 1_000_000).toFixed(1)}M+` : gameData.visits.toLocaleString()) : game.visits
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch live Roblox stats for game:', game.title, err.message)
+      }
+      return { ...game, livePlayers: 0 }
+    }))
+
+    res.json(gamesWithStats)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // Dynamic REST API routes. Uses MongoDB when connected, otherwise db.json.
 server.get('/api/:collection', async (req, res) => {
   try {

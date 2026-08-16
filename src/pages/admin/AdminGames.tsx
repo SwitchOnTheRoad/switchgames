@@ -15,6 +15,9 @@ const EMPTY_FORM: GameForm = {
   visits: '',
   featured: false,
   comingSoon: false,
+  longDescription: '',
+  features: '',
+  gallery: '',
 }
 
 export default function AdminGames() {
@@ -50,6 +53,9 @@ export default function AdminGames() {
       visits: game.visits || '',
       featured: game.featured || false,
       comingSoon: game.comingSoon || false,
+      longDescription: game.longDescription || '',
+      features: game.features || '',
+      gallery: game.gallery || '',
     })
     setShowForm(true)
   }
@@ -193,6 +199,48 @@ export default function AdminGames() {
 
               <Field label="Visits (optional)">
                 <input type="text" value={form.visits} onChange={e => set('visits', e.target.value)} className={INPUT} placeholder="e.g. 150M+" />
+              </Field>
+
+              <Field label="Detailed Description (Long Description)">
+                <textarea 
+                  value={form.longDescription || ''} 
+                  onChange={e => set('longDescription', e.target.value)} 
+                  className={INPUT + ' resize-none'} 
+                  rows={4} 
+                  placeholder="Detailed description of gameplay, mechanics, and design. Supports markdown or plain text." 
+                />
+              </Field>
+
+              <Field label="Key Highlights & Features (comma-separated)">
+                <input 
+                  type="text" 
+                  value={form.features || ''} 
+                  onChange={e => set('features', e.target.value)} 
+                  className={INPUT} 
+                  placeholder="e.g. Co-op Mode, Live Rankings, Weekly Events" 
+                />
+              </Field>
+
+              <FileUpload
+                label="Add Image to Gallery"
+                type="image"
+                value=""
+                onChange={url => {
+                  if (url) {
+                    const current = form.gallery ? form.gallery.trim() + '\n' + url : url
+                    set('gallery', current)
+                  }
+                }}
+              />
+
+              <Field label="Gallery Image URLs (one per line)">
+                <textarea 
+                  value={form.gallery || ''} 
+                  onChange={e => set('gallery', e.target.value)} 
+                  className={INPUT + ' resize-none'} 
+                  rows={3} 
+                  placeholder="Paste image URLs or upload them above (one per line)" 
+                />
               </Field>
 
               <label className="flex items-center gap-3 cursor-pointer">

@@ -2270,6 +2270,87 @@
       "device": "desktop",
       "timestamp": "2026-08-16T03:26:33.824Z",
       "date": "2026-08-16"
+    },
+    {
+      "id": "586b1477-59e8-4a9d-98d4-f12afd305337",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:01:30.177Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "a9d2c67e-2c10-415e-9764-51bb6e5ba559",
+      "path": "/games/64a0172a-ab01-4b7c-bfa6-d2fbc4320b12",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:04:58.105Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "5bb5e20a-b79e-4e4c-97bc-60671d361d4f",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:07:47.329Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "740e17a2-ebcb-4e8e-8316-cdc013246e6b",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:08:13.433Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "8753447b-464a-4a2b-bf50-e8a8d3106534",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:10:48.681Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "47ad242f-207a-44b5-8259-1fa2f7040b6a",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:10:55.446Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "64cc6490-ffe5-4f0c-a5c9-f66c7c6395bf",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:12:00.707Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "f6621132-e4b0-40b0-9f32-1d1d73f3631c",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:12:01.942Z",
+      "date": "2026-08-16"
+    },
+    {
+      "id": "275d4181-d081-49d1-ae08-0570da47dc0e",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-08-16T04:16:04.707Z",
+      "date": "2026-08-16"
     }
   ],
   "events": [],

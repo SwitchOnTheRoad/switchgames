@@ -4,7 +4,7 @@ import { getPageViews, getEvents, getContacts, getGames, getPosts, getJobs, getN
 import type { PageView } from '../../api'
 
 // ─── Mini SVG line chart ──────────────────────────────────────────────────────
-function LineChart({ data, color = '#fff', height = 60 }: { data: number[]; color?: string; height?: number }) {
+function LineChart({ data, color = '#1e60ff', height = 60 }: { data: number[]; color?: string; height?: number }) {
   if (data.length < 2) return <div style={{ height }} className="flex items-center justify-center"><p className="text-xs text-gray-300">Not enough data</p></div>
   const max = Math.max(...data, 1)
   const w = 100 / (data.length - 1)
@@ -14,7 +14,7 @@ function LineChart({ data, color = '#fff', height = 60 }: { data: number[]; colo
     <svg width="100%" height={height} viewBox={`0 0 100 ${height}`} preserveAspectRatio="none">
       <defs>
         <linearGradient id={`grad-${color.replace('#','')}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.2" />
+          <stop offset="0%" stopColor={color} stopOpacity="0.25" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -38,12 +38,13 @@ function BarChart({ data, labels, height = 100 }: { data: number[]; labels: stri
             className="w-full rounded-t-md transition-all duration-500"
             style={{
               height: `${(v / max) * (height - 20)}px`,
-              background: 'rgba(255,255,255,0.15)',
+              background: 'linear-gradient(to top, rgba(30, 96, 255, 0.45), rgba(30, 96, 255, 0.85))',
+              boxShadow: '0 0 10px rgba(30, 96, 255, 0.1)',
               minHeight: v > 0 ? 2 : 0,
             }}
             title={`${labels[i]}: ${v}`}
           />
-          <span className="text-gray-300" style={{ fontSize: 9, textAlign: 'center' }}>{labels[i]}</span>
+          <span className="text-gray-400 font-medium" style={{ fontSize: 9, textAlign: 'center' }}>{labels[i]}</span>
         </div>
       ))}
     </div>
@@ -98,8 +99,8 @@ function DonutChart({ slices }: { slices: { label: string; value: number; color:
 // ─── Stat card ────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub, trend }: { label: string; value: string | number; sub?: string; trend?: number }) {
   return (
-    <div className="liquid-glass rounded-2xl p-6 border border-white/10">
-      <p className="text-xs uppercase tracking-widest text-gray-300 mb-3">{label}</p>
+    <div className="liquid-glass rounded-2xl p-6 border border-white/10 hover:border-[#1e60ff]/30 hover:bg-[#1e60ff]/5 transition-all duration-300">
+      <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-3">{label}</p>
       <p className="text-4xl font-normal mb-1" style={{ letterSpacing: '-0.04em' }}>{value}</p>
       <div className="flex items-center gap-2">
         {trend !== undefined && (
@@ -107,7 +108,7 @@ function StatCard({ label, value, sub, trend }: { label: string; value: string |
             {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}%
           </span>
         )}
-        {sub && <p className="text-xs text-gray-300">{sub}</p>}
+        {sub && <p className="text-xs text-gray-400">{sub}</p>}
       </div>
     </div>
   )
@@ -153,14 +154,14 @@ export default function AdminDashboard() {
   const devices = ['mobile', 'tablet', 'desktop'].map(d => ({
     label: d.charAt(0).toUpperCase() + d.slice(1),
     value: pageviews.filter(p => p.device === d).length,
-    color: d === 'mobile' ? '#fff' : d === 'tablet' ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)',
+    color: d === 'mobile' ? '#1e60ff' : d === 'tablet' ? 'rgba(30, 96, 255, 0.65)' : 'rgba(30, 96, 255, 0.3)',
   }))
 
   // Browsers
   const browserCounts: Record<string, number> = {}
   pageviews.forEach(p => { browserCounts[p.browser] = (browserCounts[p.browser] || 0) + 1 })
   const browsers = Object.entries(browserCounts).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([label, value], i) => ({
-    label, value, color: ['#fff', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.35)', 'rgba(255,255,255,0.2)'][i],
+    label, value, color: ['#1e60ff', 'rgba(30, 96, 255, 0.7)', 'rgba(30, 96, 255, 0.45)', 'rgba(30, 96, 255, 0.2)'][i],
   }))
 
   const today = pageviews.filter(p => p.date === new Date().toISOString().split('T')[0]).length
@@ -195,8 +196,8 @@ export default function AdminDashboard() {
           { label: 'Subscribers', value: counts.subscribers, path: '/admin/newsletter' },
         ].map(s => (
           <Link key={s.label} to={s.path}>
-            <div className="liquid-glass rounded-2xl px-5 py-5 border border-white/10 hover:border-white/20 transition-colors cursor-pointer h-full">
-              <p className="text-xs uppercase tracking-widest text-gray-300 mb-2">{s.label}</p>
+            <div className="liquid-glass rounded-2xl px-5 py-5 border border-white/10 hover:border-[#1e60ff]/30 hover:bg-[#1e60ff]/5 transition-all duration-300 cursor-pointer h-full">
+              <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-2">{s.label}</p>
               <p className="text-3xl font-normal" style={{ letterSpacing: '-0.04em' }}>{s.value}</p>
             </div>
           </Link>
@@ -217,27 +218,27 @@ export default function AdminDashboard() {
         {/* Views over time */}
         <div className="md:col-span-2 liquid-glass rounded-2xl p-6 border border-white/10">
           <div className="flex items-center justify-between mb-4">
-            <p className="text-xs uppercase tracking-widest text-gray-300">Page Views — Last 14 Days</p>
+            <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold">Page Views — Last 14 Days</p>
             <p className="text-sm font-medium">{viewsByDay.reduce((a, b) => a + b, 0)} total</p>
           </div>
           {pageviews.length === 0 ? (
             <div className="flex items-center justify-center h-16">
-              <p className="text-xs text-gray-300">No data yet — views appear once people visit your site</p>
+              <p className="text-xs text-gray-400">No data yet — views appear once people visit your site</p>
             </div>
           ) : (
             <LineChart data={viewsByDay} height={80} />
           )}
           <div className="flex justify-between mt-2">
-            <span className="text-gray-300" style={{ fontSize: 9 }}>{dayLabels[0]}</span>
-            <span className="text-gray-300" style={{ fontSize: 9 }}>{dayLabels[dayLabels.length - 1]}</span>
+            <span className="text-gray-400" style={{ fontSize: 9 }}>{dayLabels[0]}</span>
+            <span className="text-gray-400" style={{ fontSize: 9 }}>{dayLabels[dayLabels.length - 1]}</span>
           </div>
         </div>
 
         {/* Devices */}
         <div className="liquid-glass rounded-2xl p-6 border border-white/10">
-          <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">Devices</p>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-4">Devices</p>
           {pageviews.length === 0 ? (
-            <p className="text-xs text-gray-300">No data yet</p>
+            <p className="text-xs text-gray-400">No data yet</p>
           ) : (
             <DonutChart slices={devices} />
           )}
@@ -248,9 +249,9 @@ export default function AdminDashboard() {
 
         {/* Top pages */}
         <div className="liquid-glass rounded-2xl p-6 border border-white/10">
-          <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">Top Pages</p>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-4">Top Pages</p>
           {topPages.length === 0 ? (
-            <p className="text-xs text-gray-300">No data yet</p>
+            <p className="text-xs text-gray-400">No data yet</p>
           ) : (
             <div className="space-y-3">
               {topPages.map(([path, count]) => {
@@ -259,10 +260,10 @@ export default function AdminDashboard() {
                   <div key={path}>
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-300 truncate flex-1 mr-4">{path || '/'}</span>
-                      <span className="flex-shrink-0">{count}</span>
+                      <span className="flex-shrink-0 font-medium">{count}</span>
                     </div>
                     <div className="h-1 rounded-full bg-white/5 overflow-hidden">
-                      <div className="h-full rounded-full bg-white/30 transition-all duration-500" style={{ width: `${pct}%` }} />
+                      <div className="h-full rounded-full bg-[#1e60ff] transition-all duration-500" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 )
@@ -273,9 +274,9 @@ export default function AdminDashboard() {
 
         {/* Daily bar chart */}
         <div className="liquid-glass rounded-2xl p-6 border border-white/10">
-          <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">Views by Day (Last 7)</p>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-4">Views by Day (Last 7)</p>
           {pageviews.length === 0 ? (
-            <p className="text-xs text-gray-300">No data yet</p>
+            <p className="text-xs text-gray-400">No data yet</p>
           ) : (
             <BarChart data={viewsByDay.slice(-7)} labels={dayLabels.slice(-7)} height={100} />
           )}
@@ -285,18 +286,18 @@ export default function AdminDashboard() {
       {/* Browsers + referrers */}
       <div className="grid md:grid-cols-2 gap-3">
         <div className="liquid-glass rounded-2xl p-6 border border-white/10">
-          <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">Browsers</p>
-          {browsers.length === 0 ? <p className="text-xs text-gray-300">No data yet</p> : <DonutChart slices={browsers} />}
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-4">Browsers</p>
+          {browsers.length === 0 ? <p className="text-xs text-gray-400">No data yet</p> : <DonutChart slices={browsers} />}
         </div>
 
         <div className="liquid-glass rounded-2xl p-6 border border-white/10">
-          <p className="text-xs uppercase tracking-widest text-gray-300 mb-4">Recent Enquiries</p>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#1e60ff] font-bold mb-4">Recent Enquiries</p>
           {counts.contacts === 0 ? (
-            <p className="text-xs text-gray-300">No enquiries yet</p>
+            <p className="text-xs text-gray-400">No enquiries yet</p>
           ) : (
-            <Link to="/admin/contacts" className="text-sm text-white hover:text-gray-300 transition-colors flex items-center justify-between">
+            <Link to="/admin/contacts" className="text-sm text-white hover:text-[#1e60ff] transition-colors flex items-center justify-between">
               <span>{counts.contacts} total enquiries</span>
-              <span>View all</span>
+              <span className="text-[#1e60ff] font-semibold hover:underline">View all →</span>
             </Link>
           )}
         </div>

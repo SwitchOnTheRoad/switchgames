@@ -10,6 +10,9 @@ export interface Game {
   featured: boolean
   comingSoon: boolean
   createdAt: string
+  longDescription?: string
+  features?: string
+  gallery?: string
 }
 
 export interface Post {

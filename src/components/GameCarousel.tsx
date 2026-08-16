@@ -5,21 +5,24 @@ import {
   ChevronRight,
   Play,
   Users,
-  Star,
 } from 'lucide-react'
+
+interface GameWithStats extends Game {
+  livePlayers?: number
+}
 
 export default function GameCarousel({ games: apiGames }: { games: Game[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
-  const gamesList = apiGames
+  const gamesList = apiGames as GameWithStats[]
 
-  // Auto slideshow (rotates every 5 seconds)
+  // Auto slideshow (rotates every 5 seconds, resets when activeIndex changes to avoid hijacking manual switching)
   useEffect(() => {
     if (gamesList.length <= 1) return
     const interval = setInterval(() => {
       setActiveIndex(prev => (prev + 1) % gamesList.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [gamesList.length])
+  }, [gamesList.length, activeIndex])
 
   const nextSlide = () => {
     if (gamesList.length === 0) return
@@ -76,11 +79,6 @@ export default function GameCarousel({ games: apiGames }: { games: Game[] }) {
 
           {/* Bottom Left Game Details Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-12 z-10 flex flex-col gap-3 pointer-events-none">
-            {/* Genre Badge */}
-            <span className="text-[10px] text-[#1e60ff] font-medium uppercase tracking-[0.15em] bg-[#1e60ff]/15 border border-[#1e60ff]/20 py-1.5 px-3 rounded-full w-fit">
-              {activeGame.genre}
-            </span>
-
             {/* Game Name */}
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium text-white leading-tight tracking-tight">
               {activeGame.title}
@@ -95,8 +93,7 @@ export default function GameCarousel({ games: apiGames }: { games: Game[] }) {
                 </span>
               )}
               <span className="flex items-center gap-1.5 bg-white/5 border border-white/5 py-1.5 px-4 rounded-full backdrop-blur-md">
-                <Star size={13} className="text-[#1e60ff]" fill="currentColor" />
-                94% Likes
+                {activeGame.livePlayers !== undefined ? activeGame.livePlayers.toLocaleString() : '0'} Playing
               </span>
             </div>
           </div>
