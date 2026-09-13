@@ -19,6 +19,7 @@ export interface Post {
   excerpt: string
   content: string
   coverVideoUrl: string
+  imageUrl?: string
   publishedAt: string
   published: boolean
   author: string

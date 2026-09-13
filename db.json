@@ -1919,6 +1919,24 @@
       "device": "desktop",
       "timestamp": "2026-09-13T00:32:42.396Z",
       "date": "2026-09-13"
+    },
+    {
+      "id": "b86778fa-4d7f-4b77-8d45-eac7fb11ac3a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T14:03:59.288Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "9f05943a-55f9-43f3-811b-e5016ba10034",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T14:03:59.290Z",
+      "date": "2026-09-13"
     }
   ],
   "events": [],

@@ -6,6 +6,7 @@ const LINKS = [
   { path: '/games', label: 'GAMES' },
   { path: '/team', label: 'TEAM' },
   { path: '/careers', label: 'CAREERS' },
+  { path: '/blog', label: 'BLOG' },
   { path: '/contact', label: 'CONTACT' },
 ]
 
@@ -27,8 +28,8 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="fixed top-4 md:top-8 left-0 right-0 z-50 px-4 flex justify-center pointer-events-none">
-        <div className="flex items-center justify-between w-full max-w-5xl liquid-glass rounded-full px-6 md:px-10 py-3 md:py-4 pointer-events-auto shadow-2xl shadow-black/50">
+      <nav className="fixed top-0 left-0 right-0 z-[9999] pointer-events-none">
+        <div className="flex items-center justify-between w-full px-6 md:px-12 lg:px-16 py-4 lg:py-5 pointer-events-auto bg-[#080808]/80 backdrop-blur-xl border-b border-white/[0.05] shadow-xl shadow-black/50">
           <Link to="/" className="flex items-center group">
             <img src="/logo.png" alt="Switch" className="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-105 transition-transform" />
           </Link>
@@ -71,7 +72,7 @@ export default function Nav() {
 
       {/* Mobile menu overlay */}
       <div
-        className="fixed inset-0 z-40 lg:hidden"
+        className="fixed inset-0 z-[9998] lg:hidden"
         style={{
           background: 'rgba(0,0,0,0.97)',
           opacity: open ? 1 : 0,

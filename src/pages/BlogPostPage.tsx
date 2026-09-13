@@ -44,16 +44,21 @@ export default function BlogPostPage() {
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <Nav />
 
-      {post.coverVideoUrl && (
+      {post.imageUrl ? (
+        <div className="relative h-[55vh] overflow-hidden">
+          <img src={post.imageUrl} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
+        </div>
+      ) : post.coverVideoUrl ? (
         <div className="relative h-[55vh] overflow-hidden">
           <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
             <source src={post.coverVideoUrl} type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
         </div>
-      )}
+      ) : null}
 
-      <div className={`px-6 md:px-12 lg:px-16 pb-24 ${post.coverVideoUrl ? 'pt-0' : 'pt-32'}`}>
+      <div className={`px-6 md:px-12 lg:px-16 pb-24 ${post.imageUrl || post.coverVideoUrl ? 'pt-0' : 'pt-32'}`}>
         <div className="max-w-3xl mx-auto">
           <Link
             to="/blog"

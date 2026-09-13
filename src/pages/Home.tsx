@@ -164,8 +164,8 @@ export default function Home() {
         </section>
 
         {/* ─── IMPACT ──────────────────────────────────── */}
-        <section id="impact" className="bg-transparent py-28 px-6 md:px-12 lg:px-16">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <section id="impact" className="bg-transparent py-16 md:py-28 px-6 md:px-12 lg:px-16">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Left Text */}
             <div className="flex flex-col justify-center">
               <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-bold mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.0 }}>The Switch<br />Effect.</h2></SectionReveal>
@@ -199,7 +199,7 @@ export default function Home() {
 
 
         {/* ─── BLOG PREVIEW ─────────────────────────────────── */}
-        <section className="bg-transparent py-24 px-6 md:px-12 lg:px-16">
+        <section className="bg-transparent py-16 md:py-24 px-6 md:px-12 lg:px-16">
           <div className="max-w-7xl mx-auto relative">
             {/* Floating standalone Robux */}
             <div 
@@ -224,8 +224,8 @@ export default function Home() {
               {latestPosts.length > 0 ? (
                 <div className="grid md:grid-cols-3 gap-6">
                   {latestPosts.map(post => (
-                    <div className="liquid-glass p-2">
-                      <BlogCard key={post.id} post={post} />
+                    <div key={post.id} className="liquid-glass p-2">
+                      <BlogCard post={post} />
                     </div>
                   ))}
                 </div>
@@ -239,7 +239,7 @@ export default function Home() {
         </section>
 
         {/* ─── STUDIO ───────────────────────────────────────── */}
-        <section id="studio" className="bg-transparent py-32 px-6 md:px-12 lg:px-16 flex justify-center">
+        <section id="studio" className="bg-transparent py-16 md:py-32 px-6 md:px-12 lg:px-16 flex justify-center">
           <div className="max-w-7xl w-full relative flex flex-col md:block">
             
             {/* The Video Layer (Large and Cinematic) */}
