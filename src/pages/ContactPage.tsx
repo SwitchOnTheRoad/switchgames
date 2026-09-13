@@ -1,3 +1,4 @@
+import RobuxPattern from '../components/RobuxPattern'
 import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import Nav from '../components/Nav'
@@ -57,14 +58,15 @@ export default function ContactPage() {
 
   if (status === 'sent') {
     return (
-      <div className="bg-black text-white min-h-screen flex flex-col">
-        <Nav />
+      <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex flex-col">
+        <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
+      <div className="relative z-10"><Nav /></div>
         <div className="flex-1 flex items-center justify-center px-6">
           <div className="text-center max-w-md">
             <div className="rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-8 border border-white/10 bg-white/[0.03]">
               <span style={{ fontSize: 28 }}>✓</span>
             </div>
-            <h1 className="text-3xl font-medium mb-4" style={{ letterSpacing: '-0.03em' }}>Message sent.</h1>
+            <h1 className="text-3xl font-bold mb-4" style={{ letterSpacing: '-0.03em' }}>Message sent.</h1>
             <p className="text-gray-400 mb-8" style={{ lineHeight: 1.7 }}>
               Thanks for reaching out. We read every message and will get back to you within 48 hours.
             </p>
@@ -75,16 +77,17 @@ export default function ContactPage() {
             </Link>
           </div>
         </div>
-        <Footer />
+        <div className="relative z-10"><Footer /></div>
       </div>
     )
   }
 
   return (
-    <div className="bg-black text-white min-h-screen">
-      <Nav />
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
+      <div className="relative z-10"><Nav /></div>
 
-      <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16">
+      <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-20 items-start">
 
@@ -94,7 +97,7 @@ export default function ContactPage() {
 
               </SectionReveal>
               <SectionReveal delay={60}>
-                <h1 className="text-5xl md:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+                <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
                   Let's build<br />something.
                 </h1>
               </SectionReveal>
@@ -201,7 +204,11 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <Footer />
+      <div className="relative z-10"><Footer /></div>
     </div>
   )
 }
+
+
+
+

@@ -5,6 +5,7 @@ import GameCard from '../components/GameCard'
 import SectionReveal from '../components/SectionReveal'
 import { getGames } from '../api'
 import SEOMeta from '../components/SEOMeta'
+import RobuxPattern from '../components/RobuxPattern'
 import type { Game } from '../types'
 
 type Filter = 'all' | 'featured'
@@ -26,18 +27,23 @@ export default function GamesPage() {
     .filter(g => !search || g.title.toLowerCase().includes(search.toLowerCase()) || g.genre.toLowerCase().includes(search.toLowerCase()))
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden">
+        <RobuxPattern />
+      </div>
       <Nav />
       <SEOMeta title="Games" description="All Switch games. Explore our portfolio of Roblox titles." />
 
-      <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16">
-        <div className="max-w-7xl mx-auto">
+      <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16 relative z-10">
+        <div className="max-w-7xl mx-auto relative">
+
+          
           <SectionReveal>
 
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-6xl font-medium mb-6" style={{ letterSpacing: '-0.04em' }}>
-              All our games.
+            <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{ letterSpacing: '-0.04em' }}>
+              All our games
             </h1>
           </SectionReveal>
           <SectionReveal delay={120}>
@@ -96,3 +102,6 @@ export default function GamesPage() {
     </div>
   )
 }
+
+
+

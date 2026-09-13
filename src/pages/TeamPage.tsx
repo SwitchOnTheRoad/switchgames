@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import SEOMeta from '../components/SEOMeta'
 import SectionReveal from '../components/SectionReveal'
 import HeroBgSlideshow from '../components/HeroBgSlideshow'
+import RobuxPattern from '../components/RobuxPattern'
 import { getGames, getTeam } from '../api'
 import type { Game, TeamMember } from '../types'
 
@@ -18,12 +19,17 @@ export default function TeamPage() {
   }, [])
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
       <SEOMeta title="Team" description="Meet the people building Switch." />
-      <Nav />
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[120vh]">
+          <RobuxPattern />
+        </div>
+      </div>
+      <div className="relative z-20"><Nav /></div>
 
       {/* ── HERO ── */}
-      <section className="pt-40 pb-20 px-6 md:px-12 lg:px-16 relative overflow-hidden">
+      <section className="pt-40 pb-20 px-6 md:px-12 lg:px-16 relative overflow-hidden z-10">
         <HeroBgSlideshow games={games} scaleFactor={1} />
         <div className="absolute inset-0 bg-black/65 z-[1]" />
         <div
@@ -32,24 +38,17 @@ export default function TeamPage() {
         />
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">
-          <SectionReveal>
-            <p className="text-xs tracking-[0.2em] uppercase text-gray-500 mb-3">Team</p>
-          </SectionReveal>
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-7xl font-medium mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
-              The people<br />behind Switch.
+            <h1 className="text-5xl md:text-7xl font-bold mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+              The people<br />behind Switch
             </h1>
           </SectionReveal>
-          <SectionReveal delay={120}>
-            <p className="text-base md:text-lg text-gray-400 max-w-xl" style={{ lineHeight: 1.7 }}>
-              Small team. Big output. Every person here shapes what we build and how we build it.
-            </p>
-          </SectionReveal>
+
         </div>
       </section>
 
       {/* ── TEAM GRID ── */}
-      <section className="pb-24 px-6 md:px-12 lg:px-16">
+      <section className="pb-24 pt-16 px-6 md:px-12 lg:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
           {loading ? (
             <div className="grid md:grid-cols-3 gap-5">
@@ -61,7 +60,7 @@ export default function TeamPage() {
             <div className="grid md:grid-cols-3 gap-5">
               {team.map((member, i) => (
                 <SectionReveal key={member.id} delay={i * 80}>
-                  <div className="rounded-2xl border border-white/[0.06] overflow-hidden group bg-white/[0.02]">
+                  <div className="liquid-glass liquid-glass-hover overflow-hidden group">
                     {/* Avatar */}
                     <div className="relative h-64 flex items-center justify-center overflow-hidden">
                       {member.imageUrl ? (
@@ -82,26 +81,34 @@ export default function TeamPage() {
 
                     {/* Info */}
                     <div className="p-6">
-                      <h3 className="text-lg font-semibold mb-0.5" style={{ letterSpacing: '-0.02em' }}>{member.name}</h3>
-                      <p className="text-sm text-gray-400 mb-3">{member.role}</p>
-                      {member.bio && (
-                        <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>{member.bio}</p>
-                      )}
-                      {(member.twitter || member.linkedin) && (
-                        <div className="flex gap-3 mt-4">
-                          {member.twitter && (
-                            <a href={member.twitter} target="_blank" rel="noopener noreferrer"
-                              className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
-                              Twitter ↗
-                            </a>
-                          )}
-                          {member.linkedin && (
-                            <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
-                              className="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-[0.12em]">
-                              LinkedIn ↗
-                            </a>
-                          )}
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="text-lg font-bold mb-0.5" style={{ letterSpacing: '-0.02em' }}>{member.name}</h3>
+                          <p className="text-sm text-gray-400">{member.role}</p>
                         </div>
+                        {(member.twitter || member.linkedin) && (
+                          <div className="flex gap-2 mt-1">
+                            {member.twitter && (
+                              <a href={member.twitter} target="_blank" rel="noopener noreferrer"
+                                className="text-gray-500 hover:text-white transition-colors">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                </svg>
+                              </a>
+                            )}
+                            {member.linkedin && (
+                              <a href={member.linkedin} target="_blank" rel="noopener noreferrer"
+                                className="text-gray-500 hover:text-white transition-colors">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg>
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      {member.bio && (
+                        <p className="text-sm text-gray-400 mt-3" style={{ lineHeight: 1.65 }}>{member.bio}</p>
                       )}
                     </div>
                   </div>
@@ -115,7 +122,7 @@ export default function TeamPage() {
                     <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-5 group-hover:border-white/25 transition-colors">
                       <span className="text-2xl text-gray-400">+</span>
                     </div>
-                    <h3 className="text-lg font-medium mb-2" style={{ letterSpacing: '-0.02em' }}>Join Switch</h3>
+                    <h3 className="text-lg font-bold mb-2" style={{ letterSpacing: '-0.02em' }}>Join Switch</h3>
                     <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>
                       We're building the team. See open roles →
                     </p>
@@ -127,7 +134,7 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <Footer />
+      <div className="relative z-10"><Footer /></div>
     </div>
   )
 }

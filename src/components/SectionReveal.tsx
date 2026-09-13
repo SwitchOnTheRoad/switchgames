@@ -36,8 +36,8 @@ export default function SectionReveal({ children, className = '', style, delay =
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(22px)',
-        transition: `opacity 700ms ease ${delay}ms, transform 700ms ease ${delay}ms`,
+        transform: visible ? 'translateY(0)' : 'translateY(30px)',
+        transition: `opacity 900ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 900ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
         ...style,
       }}
     >

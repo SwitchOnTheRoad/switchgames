@@ -18,7 +18,7 @@ export default function CaseStudiesPage() {
   }, [])
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <SEOMeta title="Case Studies" description="How Switch builds live-ops driven experiences inside Roblox that players actually love." />
       <Nav />
 
@@ -44,7 +44,7 @@ export default function CaseStudiesPage() {
             </div>
           ) : cases.length === 0 ? (
             <SectionReveal>
-              <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-16 text-center max-w-xl mx-auto">
+              <div className="liquid-glass p-16 text-center max-w-xl mx-auto">
                 <p className="text-3xl mb-4" style={{ letterSpacing: '-0.03em' }}>Coming soon.</p>
                 <p className="text-sm text-gray-300 mb-8" style={{ lineHeight: 1.7 }}>
                   We're scaling our next live-ops hit. Want to partner with us?
@@ -81,7 +81,7 @@ export default function CaseStudiesPage() {
                       </div>
                       <div className="p-6">
                         <p className="text-xs uppercase tracking-widest text-gray-300 mb-2">{c.brand}</p>
-                        <h3 className="text-xl font-semibold mb-2" style={{ letterSpacing: '-0.02em' }}>{c.title}</h3>
+                        <h3 className="text-xl font-bold mb-2" style={{ letterSpacing: '-0.02em' }}>{c.title}</h3>
                         <p className="text-sm text-gray-300" style={{ lineHeight: 1.65 }}>{c.excerpt}</p>
                         <p className="text-xs text-white/40 mt-4 uppercase tracking-widest group-hover:text-white transition-colors">Read case study →</p>
                       </div>

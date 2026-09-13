@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const LINKS = [
   { path: '/', label: 'HOME' },
   { path: '/games', label: 'GAMES' },
-  { path: '/team', label: 'ABOUT' },
+  { path: '/team', label: 'TEAM' },
   { path: '/careers', label: 'CAREERS' },
   { path: '/contact', label: 'CONTACT' },
 ]
@@ -27,20 +27,20 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 lg:px-16">
-        <div className="flex items-center justify-between max-w-7xl mx-auto py-6">
-          <Link to="/" className="flex items-center">
-            <img src="/logo.png" alt="Switch" className="h-9 w-9 object-contain" />
+      <nav className="fixed top-4 md:top-8 left-0 right-0 z-50 px-4 flex justify-center pointer-events-none">
+        <div className="flex items-center justify-between w-full max-w-5xl liquid-glass rounded-full px-6 md:px-10 py-3 md:py-4 pointer-events-auto shadow-2xl shadow-black/50">
+          <Link to="/" className="flex items-center group">
+            <img src="/logo.png" alt="Switch" className="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-105 transition-transform" />
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-8 lg:gap-12">
             {LINKS.map(l => (
               <Link
                 key={l.path}
                 to={l.path}
-                className={`text-[13px] font-medium tracking-[0.12em] transition-colors ${
-                  isActive(l.path) ? 'text-white' : 'text-gray-400 hover:text-white'
+                className={`text-[13px] font-semibold tracking-[0.12em] transition-all hover:-translate-y-0.5 ${
+                  isActive(l.path) ? 'text-white drop-shadow-md' : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {l.label}
@@ -48,15 +48,23 @@ export default function Nav() {
             ))}
           </div>
 
+          <div className="hidden md:block">
+            <Link to="/contact">
+              <button className="btn-pill btn-pill-sm !border-white/20 hover:!border-white hover:bg-white hover:text-black shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                Get in Touch
+              </button>
+            </Link>
+          </div>
+
           {/* Hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-1.5 rounded-lg hover:bg-white/5 transition-colors"
+            className="md:hidden flex flex-col gap-1.5 p-2 rounded-full hover:bg-white/10 transition-colors border border-transparent hover:border-white/20"
             onClick={() => setOpen(o => !o)}
             aria-label="Menu"
           >
-            <span className="block w-5 h-px bg-white transition-all duration-300" style={{ transform: open ? 'translateY(5px) rotate(45deg)' : 'none' }} />
+            <span className="block w-5 h-px bg-white transition-all duration-300" style={{ transform: open ? 'translateY(7px) rotate(45deg)' : 'none' }} />
             <span className="block w-5 h-px bg-white transition-all duration-300" style={{ opacity: open ? 0 : 1 }} />
-            <span className="block w-5 h-px bg-white transition-all duration-300" style={{ transform: open ? 'translateY(-5px) rotate(-45deg)' : 'none' }} />
+            <span className="block w-5 h-px bg-white transition-all duration-300" style={{ transform: open ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
           </button>
         </div>
       </nav>

@@ -19,7 +19,7 @@ const FACTS = [
 
 export default function PressPage() {
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <SEOMeta title="Press" description="Press kit, assets, and media contact for Switch, UGC game development studio." />
       <Nav />
 
@@ -103,7 +103,7 @@ export default function PressPage() {
 
               <div className="grid md:grid-cols-3 gap-4">
                 {ASSETS.map(asset => (
-                  <div key={asset.label} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
+                  <div key={asset.label} className="liquid-glass overflow-hidden">
                     <div className="h-28 flex items-center justify-center p-6" style={{ background: 'rgba(255,255,255,0.02)' }}>
                       <img src={asset.file} alt={asset.label} className="h-12 w-12 object-contain" />
                     </div>

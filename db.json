@@ -857,6 +857,1068 @@
       "device": "desktop",
       "timestamp": "2026-06-25T22:01:19.253Z",
       "date": "2026-06-25"
+    },
+    {
+      "id": "4a7817c1-dc0d-4b3d-ad69-d0b8e70907be",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:31:56.208Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "d02dbf84-3506-4ace-8c67-5f07ea3b88fc",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:31:56.210Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "f3729af9-182c-4816-8b8a-5550ed893254",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:39:34.184Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "e45633f3-e401-4dc4-8953-830c7fe30870",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:39:36.368Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "d3e6b923-bb12-4ef6-a751-ce194bae1a9b",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:44:16.716Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "5a8e2bc9-3fb4-46b1-9595-26f6ddb07fed",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:44:16.717Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "b3733a27-fdd6-4222-be0e-8aec47d77dcb",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:55:49.994Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "03d2b740-0bb8-4bf4-9fc5-85265638cbf4",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T17:55:49.995Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "7f4bb1b0-b674-46ed-9332-40cbe28172c2",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T18:22:26.135Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "01bf5365-62cf-4819-84c5-eea7c451d0fa",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T18:22:26.138Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "85b03c61-4897-4f9f-9593-961835740726",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T18:33:03.579Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "075ee11d-046e-4547-a953-ad5cd2d5c7e3",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T18:33:03.581Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "4b100216-5480-455e-a3da-cbe82914ead3",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T18:56:52.708Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "41dbd6ed-2a84-4a31-b52a-744c1f120a29",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T18:56:52.710Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "387e7d6c-30e0-4fc1-8106-e344f4e75d70",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T19:08:19.122Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "42422249-0516-4b80-97a8-36b21d815e21",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T19:08:19.123Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "7f32c366-76db-4953-b287-4a06eef33fb1",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T20:45:50.718Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "6eecc741-40c7-4489-8bc4-ddbc5ad75caa",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T20:45:50.720Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "fa203b9f-4818-4e06-aab1-4f313ef74f28",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T21:07:46.334Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "f7a786ca-c315-4def-9e41-84a4366f1721",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-11T21:07:46.336Z",
+      "date": "2026-09-11"
+    },
+    {
+      "id": "3db0afc3-b744-41c9-afe9-cc972baf61c1",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T16:42:33.128Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "2a3cf393-dc46-4b61-989b-9cb1316962ff",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T16:42:36.335Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "12f6100d-39df-4c5a-87a7-ddd2498b0abf",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T16:42:42.820Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "31a24484-2739-4df4-b028-dc91d738990d",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T16:42:44.583Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "501e88cd-8185-4c00-ba6b-b87ecc13643e",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T17:14:56.950Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "52fe1a23-d6f7-4122-87cb-c78395ec205d",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T17:15:00.017Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "c8f91444-46e2-4e69-b91d-853f339acd8a",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T17:15:01.871Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "d93adf1b-6ffc-4a74-91aa-7c70c97d5658",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T17:18:06.593Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "872fdd9c-5922-4a4c-8211-6715ab8037a2",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T17:18:07.649Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "32f9cea4-4dce-4785-84d7-ef3064a3b641",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T18:29:35.658Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "fe488782-6448-4fb6-863c-ab9dbab59fe2",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T18:29:35.659Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "245ead32-76bc-42b5-b6d8-7d2ae2ccf5e0",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:22:50.537Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "f2c18974-f11e-4a5e-ad2b-15bffb7684fd",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:22:51.524Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "f2e13591-329c-4e75-9e67-3b9b41d3e6bc",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:47:05.005Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "f189bdac-5914-458a-997a-6fb0886baec9",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:47:06.708Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "262c575d-078a-4c47-b918-1ef1b5b0520b",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:47:07.659Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "d1385b13-da99-47ee-a1a4-1d4f0bf7b1ef",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:47:08.276Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "68c74d2d-683b-4f5a-8157-06d76a9f1e54",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:47:09.552Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "d86673ae-f2bf-48b5-b733-71c0c8fab7f7",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:47:49.119Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "532fd0e3-561c-4a26-b825-39bda563252a",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:49:34.982Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "893afad1-8206-4b3a-9242-19c87f1364f7",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:51:13.423Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "ebfb702a-9a18-40d8-a518-7ee2d5bb2c6d",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:51:14.753Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "8070f56c-d896-4db8-b9c0-b2e928d37a1b",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:51:18.007Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "be6b4470-4e7a-4738-8813-54d7adefda8f",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:51:20.678Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "0e716c00-dd9e-4fb0-850f-c605bc49db13",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:51:35.510Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "9202c3da-324e-468d-90e2-7354fc11904e",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:55:27.804Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "80940403-535d-421f-a12b-b0c2578e384a",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:55:29.705Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "deb8ece6-766f-4601-9b92-5f355e3d3ea0",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:55:31.027Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "de879757-552e-42b2-975e-5700f6541c18",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:55:38.194Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "b4a4147b-51f6-4dda-be0e-0057a45a3bc8",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:55:47.651Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "c09fffd2-b6c1-4489-9e8d-c378518b6b79",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T20:55:48.046Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "4bbc3d38-f2b3-425c-897e-2996f7ce18c7",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:26:12.936Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "18ef5e6b-623c-4eed-a3e3-952c97fff94f",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:27:43.418Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "724b2bc0-f8b9-4987-bec7-9f36a9e26e6b",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:32:14.267Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "e1215fd6-ba76-4d93-8166-b12d7b12562a",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:48:47.492Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "39375797-9316-4243-8d6e-f7d734742f18",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:48:50.169Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "453ae430-f672-47ff-8a5d-a56765b6170b",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:48:51.916Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "5eaf12b6-eb33-460f-9204-af685cc4bc84",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:59:42.143Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "0e2b435b-529c-476e-aeaa-3df593bd98ec",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:59:44.897Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "bfbe8f78-dd5e-423c-999f-0d1dc71c9ca1",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T21:59:52.790Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "0ddb2bba-c5f9-4fce-9426-b57746d93f32",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:00:39.280Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "22f21103-9334-47e1-b172-71f992595249",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:00:46.056Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "72d4850d-60dd-4771-9245-8d5d66a2f37e",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:14:09.437Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "0cbaea7a-5ba7-4542-9b24-5fcafdbb77fd",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:14:09.439Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "f1e395c8-6bf6-457a-939a-a41e10f78c44",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:14:09.785Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "183d6db3-0f19-4157-8322-28a6cb6b6252",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:14:09.787Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "a4de6a12-bbcc-4cb4-900d-058ed596707e",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:46.309Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "6059208d-de87-41a5-bb77-23ae4927522c",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:48.871Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "1e6d82e5-a0aa-448a-886f-fcb7b0bcaeda",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:49.962Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "215788cc-8adf-460b-b54e-b3af0e55c59e",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:54.310Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "8d3591ac-fc89-406d-ac1f-03a4f4ca32be",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:55.058Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "81d2e463-4615-4702-b558-761ff66aff7f",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:58.619Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "929d9dc2-e3a1-48fd-8806-e161171381b9",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:18:59.938Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "c9105863-3fdd-4270-bea0-88af4f24c523",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:23:00.595Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "86a3b537-8fcc-4d9a-9384-f75671cdfcbe",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:25:17.636Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "d10604f5-d881-40ae-9ca9-f225315ec48b",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T22:25:24.829Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "254942f3-1aae-484c-adcc-78ee15432305",
+      "path": "/blog",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:18:37.510Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "15196328-2b98-405c-ba5f-c4f42b5757f1",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:18:39.045Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "cf6c3da4-b2f6-4ca8-b47f-3ed7c12f4c0c",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:29:53.894Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "cc5622c3-7fb3-4aa8-b513-414d82ab3fcc",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:29:53.896Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "e9d8b4c9-9df0-4e0d-9605-dcc2cf593143",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:51:48.141Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "abb4cda1-9ab6-434a-afb4-c44f6b735c05",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:51:57.091Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "37238f52-71a7-481a-8001-1cee4c3b5653",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:51:58.451Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "a3a22162-5791-4a3f-93a2-d1bcf8d77e8c",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:52:05.013Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "85a35a3a-e547-4f7d-b9da-244b2eba0920",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:56:55.350Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "6da0d7e8-e891-4842-b7f9-c432b3b32a76",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:56:55.351Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "aba26a3a-be06-42a1-9f48-e3aee00d2339",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:57:21.028Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "59fb0a56-80f8-41e7-82fe-ded0684a6c3a",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-12T23:58:47.273Z",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "f9ff6673-de85-4b38-b5c6-3d5cb3433a91",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:05:18.454Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "09571942-d42a-4668-9bac-fa955cb0b10b",
+      "path": "/games/64a0172a-ab01-4b7c-bfa6-d2fbc4320b12",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:05:22.709Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "d4087037-d81e-424a-9a22-9b890ed24db4",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:05:25.384Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "18885b8b-c549-4cc7-ad8a-7e0b7b4cfdfe",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:05:28.116Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "fee3d349-b538-4bee-901f-80574558f908",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:05:39.421Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "faeecd33-a7b9-4978-84ee-844875af2213",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:05:47.223Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "da7f0da4-5f2a-403a-a5a2-93b15aa9955b",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:06:01.406Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "310a8e0f-cf60-4940-a9d4-b44bda34586e",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:10:50.461Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "c1195cde-619c-4e37-9ecb-b1e1f495bb48",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:10:50.999Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "5f13e59d-c834-4a54-b1a2-698161551c17",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:12:06.292Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "d7ba7b52-9415-42bf-9cee-131c0151225c",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:12:08.194Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "df72af5e-797f-4f8c-bef3-e1da0a87c02e",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:12:09.153Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "3a684abf-cb73-4a0d-9c2c-7c9e7b1fa018",
+      "path": "/games",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:14:39.306Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "ea00ece8-a613-4c4c-a93c-49a5da16f218",
+      "path": "/team",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:14:45.868Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "4a2168e9-3daa-443a-8917-521253a812a4",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:14:55.572Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "ef46cbd9-c164-4dc2-9e6a-c3290ae5756d",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:14:55.573Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "b4829215-f02b-4d94-823e-9ac49148b93c",
+      "path": "/",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:15:05.892Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "62383361-ff53-47fa-a042-33345a01666d",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:15:16.731Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "4eddad89-b14f-41b2-bcb8-bf6b646fa6be",
+      "path": "/",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:15:21.104Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "abf583c0-3331-4b8c-8f5a-2dc095eb4753",
+      "path": "/games",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:15:23.604Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "f3141f6d-efa0-4435-8629-97eb62a7972f",
+      "path": "/",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:26:02.400Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "2380b35a-dfea-4942-9a83-a010d7c10273",
+      "path": "/games",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:26:10.475Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "4cc4b2e4-753b-47ce-aa2b-2e1adccc2cdf",
+      "path": "/team",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:27:03.581Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "c7b8b4e7-d3fa-4dbc-ad37-1c46f887d634",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:31:39.626Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "ec1d22ac-d3c4-4b40-9c4a-bc84b555bfd0",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:31:39.627Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "f496828e-060b-4d7d-8122-f968de49d899",
+      "path": "/team",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:31:52.844Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "8674a81b-abc3-464b-b103-f17181208a06",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:32:29.127Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "c82831f5-22bb-478a-90f8-eba9a3d8c48c",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:32:29.839Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "8bedc02f-2580-4aae-bb75-6a9f9ede89d4",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:32:42.395Z",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "aea27ea2-8b7f-498b-a157-7b26cb3f101b",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/team",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-09-13T00:32:42.396Z",
+      "date": "2026-09-13"
     }
   ],
   "events": [],

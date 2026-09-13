@@ -3,7 +3,7 @@ import Nav from '../components/Nav'
 
 export default function NotFoundPage() {
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex flex-col">
       <Nav />
       <div className="flex-1 flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute inset-0 z-0" style={{ opacity: 0.06 }}>

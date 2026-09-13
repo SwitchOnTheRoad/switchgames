@@ -1,6 +1,8 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
+import RobuxPattern from '../../components/RobuxPattern'
 
 const NAV_SECTIONS: { heading: string, items: { path: string, label: string, exact?: boolean }[] }[] = [
+
   { heading: 'Overview', items: [
     { path: '/admin', label: 'Dashboard', exact: true },
     { path: '/admin/settings', label: 'Settings' },
@@ -30,8 +32,11 @@ export default function AdminLayout() {
     exact ? pathname === path : pathname === path || pathname.startsWith(path + '/')
 
   return (
-    <div className="min-h-screen bg-black text-white flex">
-      <aside className="w-56 fixed top-0 left-0 h-full flex flex-col px-3 py-5 overflow-y-auto" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.95)' }}>
+    <div className="min-h-screen bg-black text-white flex bg-pattern">
+      <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden">
+        <RobuxPattern />
+      </div>
+      <aside className="w-56 fixed top-0 left-0 h-full flex flex-col px-3 py-5 overflow-y-auto z-20" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.95)' }}>
         <Link to="/" className="flex items-center gap-3 px-3 mb-6">
           <img src="/logo.png" alt="Switch" className="h-8 w-8 object-contain" />
           <div><p className="text-sm font-semibold" style={{ letterSpacing: '-0.02em' }}>Switch</p><p className="text-xs text-gray-300">Admin</p></div>
@@ -58,7 +63,10 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      <main className="flex-1 ml-56 p-8 min-h-screen"><Outlet /></main>
+      <main className="flex-1 ml-56 p-8 min-h-screen relative z-10"><Outlet /></main>
     </div>
   )
 }
+
+
+

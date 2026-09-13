@@ -37,25 +37,24 @@ export default function GameCard({ game, size = 'md' }: Props) {
         </div>
       )}
 
-      <div className="absolute top-4 left-4 z-10 flex gap-2" style={{ zIndex: game.comingSoon ? 6 : 10 }}>
+      <div className="absolute top-4 left-4 z-10" style={{ zIndex: game.comingSoon ? 6 : 10 }}>
         {game.featured && (
-          <div className="rounded-full px-3 py-1 border border-white/15 bg-black/40">
-            <span className="text-xs text-gray-400 uppercase tracking-[0.1em]">Featured</span>
-          </div>
-        )}
-        {game.robloxUrl && (
-          <div className="rounded-full px-3 py-1 border border-white/15 bg-black/40">
-            <span className="text-xs text-gray-400 uppercase tracking-[0.1em]">Play ↗</span>
-          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFD700" className="drop-shadow-[0_0_6px_rgba(255,215,0,0.5)]">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-        <div className="rounded-full px-2.5 py-0.5 inline-block mb-2 border border-white/10 bg-black/40">
-          <span className="text-xs text-gray-400 uppercase tracking-[0.1em]">{game.genre}</span>
+      <div className="absolute bottom-0 left-0 right-0 p-4 z-10 flex items-end justify-between">
+        <div>
+          <h3 className={`font-semibold ${size === 'lg' ? 'text-2xl' : 'text-base'}`} style={{ letterSpacing: '-0.02em' }}>{game.title}</h3>
+          {game.visits && <p className="text-xs text-gray-500 mt-0.5">{game.visits} visits</p>}
         </div>
-        <h3 className={`font-semibold ${size === 'lg' ? 'text-2xl' : 'text-base'}`} style={{ letterSpacing: '-0.02em' }}>{game.title}</h3>
-        {game.visits && <p className="text-xs text-gray-500 mt-0.5">{game.visits} visits</p>}
+        <div className="w-10 h-10 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center shrink-0 group-hover:bg-white/25 transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
       </div>
     </div>
   )

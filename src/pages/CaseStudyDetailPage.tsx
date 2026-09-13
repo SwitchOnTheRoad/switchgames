@@ -16,11 +16,11 @@ export default function CaseStudyDetailPage() {
     getCaseStudyBySlug(slug).then(setCs).catch(() => setCs(null)).finally(() => setLoading(false))
   }, [slug])
 
-  if (loading) return <div className="bg-black min-h-screen flex items-center justify-center"><div className="w-8 h-8 rounded-full border border-white/20 animate-pulse" /></div>
-  if (!cs) return <div className="bg-black text-white min-h-screen flex items-center justify-center"><div className="text-center"><p className="text-gray-300 mb-4">Not found.</p><Link to="/work" className="text-white underline text-sm">← Work</Link></div></div>
+  if (loading) return <div className="bg-[#080808] bg-pattern min-h-screen flex items-center justify-center"><div className="w-8 h-8 rounded-full border border-white/20 animate-pulse" /></div>
+  if (!cs) return <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex items-center justify-center"><div className="text-center"><p className="text-gray-300 mb-4">Not found.</p><Link to="/work" className="text-white underline text-sm">← Work</Link></div></div>
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <SEOMeta title={`${cs.brand} × Switch`} description={cs.excerpt} />
       <Nav />
 

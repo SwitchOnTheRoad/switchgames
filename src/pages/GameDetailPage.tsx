@@ -30,13 +30,13 @@ export default function GameDetailPage() {
   }, [id])
 
   if (loading) return (
-    <div className="bg-black min-h-screen flex items-center justify-center">
+    <div className="bg-[#080808] bg-pattern min-h-screen flex items-center justify-center">
       <div className="w-8 h-8 rounded-full border border-white/20 animate-pulse" />
     </div>
   )
 
   if (!game) return (
-    <div className="bg-black text-white min-h-screen flex items-center justify-center">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex items-center justify-center">
       <div className="text-center">
         <p className="text-gray-300 mb-4">Game not found.</p>
         <Link to="/games" className="text-white underline text-sm">← Back to Games</Link>
@@ -45,7 +45,7 @@ export default function GameDetailPage() {
   )
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <SEOMeta title={game.title} description={game.description} image={game.imageUrl} />
       <Nav />
 

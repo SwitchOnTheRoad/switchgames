@@ -23,7 +23,7 @@ export default function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="bg-black text-white min-h-screen flex items-center justify-center">
+      <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex items-center justify-center">
         <p className="text-gray-300 text-sm">Loading...</p>
       </div>
     )
@@ -31,7 +31,7 @@ export default function BlogPostPage() {
 
   if (error || !post) {
     return (
-      <div className="bg-black text-white min-h-screen flex items-center justify-center">
+      <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-300 mb-4">Post not found.</p>
           <Link to="/blog" className="text-white underline text-sm">← Back to blog</Link>
@@ -41,7 +41,7 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <Nav />
 
       {post.coverVideoUrl && (

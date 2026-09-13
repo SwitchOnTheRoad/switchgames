@@ -33,7 +33,7 @@ export default function JobApplicationPage() {
 
   if (loading) {
     return (
-      <div className="bg-black text-white min-h-screen">
+      <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
         <Nav />
         <main className="min-h-[70vh] flex items-center justify-center px-6">
           <div className="w-full max-w-3xl space-y-4">
@@ -49,7 +49,7 @@ export default function JobApplicationPage() {
 
   if (notFound || !job) {
     return (
-      <div className="bg-black text-white min-h-screen">
+      <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
         <Nav />
         <SEOMeta title="Role not found" description="This role is no longer available." />
         <main className="min-h-[70vh] flex items-center justify-center px-6 text-center">
@@ -137,7 +137,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <Nav />
       <SEOMeta title={`Apply for ${job.title}`} description={`Apply for the ${job.title} role at Switch.`} />
 
@@ -150,7 +150,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
           <div className="grid lg:grid-cols-[0.75fr_1.25fr] gap-10 lg:gap-14 items-start">
             <aside className="lg:sticky lg:top-28">
               <p className="text-xs tracking-[0.18em] uppercase text-gray-500 mb-3">Apply for</p>
-              <h1 className="text-4xl md:text-5xl font-medium mb-5" style={{ letterSpacing: '-0.04em', lineHeight: 1 }}>
+              <h1 className="text-4xl md:text-5xl font-bold mb-5" style={{ letterSpacing: '-0.04em', lineHeight: 1 }}>
                 {job.title}
               </h1>
               <div className="flex flex-wrap gap-2 mb-6">
@@ -161,7 +161,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
               <p className="text-sm text-gray-400" style={{ lineHeight: 1.75 }}>{job.description}</p>
             </aside>
 
-            <section className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden">
+            <section className="liquid-glass overflow-hidden">
               {step === 'success' ? (
                 <div className="p-8 md:p-12 min-h-[520px] flex flex-col justify-center">
                   <div
@@ -170,7 +170,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
                   >
                     OK
                   </div>
-                  <h2 className="text-3xl font-medium mb-3" style={{ letterSpacing: '-0.03em' }}>Application sent.</h2>
+                  <h2 className="text-3xl font-bold mb-3" style={{ letterSpacing: '-0.03em' }}>Application sent.</h2>
                   <p className="text-gray-400 text-sm max-w-md mb-8" style={{ lineHeight: 1.7 }}>
                     Thanks for applying for <span className="text-white font-medium">{job.title}</span>. We'll review your application and get back to you within a few days.
                   </p>
@@ -179,7 +179,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
               ) : (
                 <form onSubmit={handleSubmit} noValidate>
                   <div className="px-6 md:px-8 py-6 border-b border-white/[0.07]">
-                    <h2 className="text-2xl font-medium" style={{ letterSpacing: '-0.03em' }}>Your application</h2>
+                    <h2 className="text-2xl font-bold" style={{ letterSpacing: '-0.03em' }}>Your application</h2>
                     <p className="text-sm text-gray-500 mt-1">Tell us who you are and why this role fits.</p>
                   </div>
 

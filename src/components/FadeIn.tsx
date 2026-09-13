@@ -19,7 +19,12 @@ export function FadeIn({ children, delay = 0, duration = 800, className = '', st
   return (
     <div
       className={className}
-      style={{ opacity: visible ? 1 : 0, transition: `opacity ${duration}ms ease`, ...style }}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(16px)',
+        transition: `opacity ${duration}ms cubic-bezier(0.22, 1, 0.36, 1), transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`,
+        ...style
+      }}
     >
       {children}
     </div>
