@@ -46,9 +46,11 @@ export default function BlogPage() {
             <p className="text-gray-300 py-20 text-center">No posts yet. Check back soon.</p>
           ) : (
             <SectionReveal>
-              <div className="grid md:grid-cols-3 gap-5">
+              <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:snap-none md:pb-0">
                 {posts.map(post => (
-                  <BlogCard key={post.id} post={post} />
+                  <div key={post.id} className="flex-shrink-0 w-[80vw] snap-center md:w-auto md:flex-shrink">
+                    <BlogCard post={post} />
+                  </div>
                 ))}
               </div>
             </SectionReveal>

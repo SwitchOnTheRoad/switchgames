@@ -164,7 +164,7 @@ export default function Home() {
         </section>
 
         {/* ─── IMPACT ──────────────────────────────────── */}
-        <section id="impact" className="bg-transparent py-16 md:py-28 px-6 md:px-12 lg:px-16">
+        <section id="impact" className="bg-transparent py-10 md:py-28 px-6 md:px-12 lg:px-16">
           <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Left Text */}
             <div className="flex flex-col justify-center">
@@ -190,7 +190,7 @@ export default function Home() {
 
             {/* Right Chart */}
             <SectionReveal>
-              <div className="liquid-glass group" style={{ height: 520, padding: '24px 0 48px' }}>
+              <div className="liquid-glass group h-[320px] md:h-[520px]" style={{ padding: '24px 0 48px' }}>
                 <GrowthChart />
               </div>
             </SectionReveal>
@@ -222,9 +222,9 @@ export default function Home() {
             </div>
             <SectionReveal>
               {latestPosts.length > 0 ? (
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-2 px-2 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:snap-none md:pb-0 md:mx-0 md:px-0">
                   {latestPosts.map(post => (
-                    <div key={post.id} className="liquid-glass p-2">
+                    <div key={post.id} className="liquid-glass p-2 flex-shrink-0 w-[80vw] snap-center md:w-auto md:flex-shrink">
                       <BlogCard post={post} />
                     </div>
                   ))}
@@ -239,7 +239,7 @@ export default function Home() {
         </section>
 
         {/* ─── STUDIO ───────────────────────────────────────── */}
-        <section id="studio" className="bg-transparent py-16 md:py-32 px-6 md:px-12 lg:px-16 flex justify-center">
+        <section id="studio" className="bg-transparent py-10 md:py-32 px-6 md:px-12 lg:px-16 flex justify-center">
           <div className="max-w-7xl w-full relative flex flex-col md:block">
             
             {/* The Video Layer (Large and Cinematic) */}
@@ -262,12 +262,12 @@ export default function Home() {
                     <img 
                       src="/bloxy.png" 
                       alt="Bloxy Award" 
-                      className="w-48 md:w-64 lg:w-72 h-auto object-contain drop-shadow-[0_0_20px_rgba(218,165,32,0.5)] relative z-10 group-hover:scale-110 group-hover:drop-shadow-[0_0_40px_rgba(255,215,0,0.8)] transition-all duration-500 group-hover:-translate-y-4" 
+                      className="w-28 md:w-64 lg:w-72 h-auto object-contain drop-shadow-[0_0_20px_rgba(218,165,32,0.5)] relative z-10 group-hover:scale-110 group-hover:drop-shadow-[0_0_40px_rgba(255,215,0,0.8)] transition-all duration-500 group-hover:-translate-y-4" 
                     />
                   </div>
                 </div>
                 
-                <div className="w-full md:w-9/12 lg:w-8/12 rounded-[2rem] overflow-hidden relative shadow-2xl border border-white/10" style={{ height: 'max(600px, 60vh)' }}>
+                <div className="w-full md:w-9/12 lg:w-8/12 rounded-[2rem] overflow-hidden relative shadow-2xl border border-white/10 h-[350px] md:h-[max(600px,60vh)]">
                 <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
                   <source src="/backgroundvideo.mp4" type="video/mp4" />
                 </video>
@@ -278,7 +278,7 @@ export default function Home() {
             </SectionReveal>
 
             {/* The Floating Text Glass Panel (Overlapping on Desktop, Stacked on Mobile) */}
-            <div className="relative md:absolute md:top-1/2 md:right-0 md:transform md:-translate-y-1/2 w-full md:w-5/12 lg:w-5/12 z-10 -mt-20 md:mt-0 px-4 md:px-0">
+            <div className="relative md:absolute md:top-1/2 md:right-0 md:transform md:-translate-y-1/2 w-full md:w-5/12 lg:w-5/12 z-10 -mt-10 md:mt-0 px-4 md:px-0">
               {/* Floating standalone Robux */}
               <div 
                 className="absolute z-50 pointer-events-none" 
@@ -287,7 +287,7 @@ export default function Home() {
                 <img src="/gold-robux-new.png" alt="" className="w-40 h-40 md:w-48 md:h-48 object-contain drop-shadow-2xl" />
               </div>
               <SectionReveal delay={150}>
-                <div className="liquid-glass liquid-glass-hover p-8 md:p-14 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-[#0a0a0a]/70 border-white/10">
+                <div className="liquid-glass liquid-glass-hover p-6 md:p-14 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-[#0a0a0a]/70 border-white/10">
                   <h2 className="text-4xl md:text-6xl font-bold mb-8 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.0 }}>
                     We are Switch.
                   </h2>
