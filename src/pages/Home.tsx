@@ -387,17 +387,12 @@ export default function Home() {
                         ].map((box, boxIdx) => (
                           <div 
                             key={boxIdx}
-                            className="absolute"
-                            style={{
-                              left: box.left,
-                              width: '33.333%',
-                              bottom: '30%',
-                              height: '50%',
-                            }}
+                            className="absolute drop-shadow-2xl flex flex-col items-center justify-center pointer-events-none w-[22%]" 
+                            style={{ top: '35%', left: box.left, transform: 'translate(-50%, -50%)' }}
                           >
-                            <img src="/gold-box.png" alt="" className="w-full h-full object-contain pointer-events-none mix-blend-luminosity brightness-[1.1] contrast-[1.1]" />
-                            <div className="absolute inset-0 flex items-center justify-center -translate-y-[15%]">
-                              <span className="text-white font-bold text-2xl md:text-3xl lg:text-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] tracking-wide transform -skew-x-[20deg] rotate-[-5deg]">
+                            <img src="/gold-box.png" alt="" className="w-full h-auto object-contain" />
+                            <div className="absolute inset-0 flex items-center justify-center pt-[12%]">
+                              <span className="text-white font-black text-[clamp(0.5rem,2.5vw,1rem)] lg:text-base text-center px-4 leading-tight uppercase tracking-[0.15em]" style={{ textShadow: '0px 2px 4px rgba(0,0,0,0.5)' }}>
                                 {box.text}
                               </span>
                             </div>
@@ -413,19 +408,14 @@ export default function Home() {
                           { left: '33.333%', text: 'Partnerships' },
                           { left: '66.666%', text: 'Acquisitions' }
                         ].map((box, boxIdx) => (
-                          <div
+                          <div 
                             key={boxIdx}
-                            className="absolute"
-                            style={{
-                              left: box.left,
-                              width: '33.333%',
-                              bottom: '30%',
-                              height: '50%',
-                            }}
+                            className="absolute drop-shadow-2xl flex flex-col items-center justify-center pointer-events-none w-[22%]" 
+                            style={{ top: '35%', left: box.left, transform: 'translate(-50%, -50%)' }}
                           >
-                            <img src="/gold-box.png" alt="" className="w-full h-full object-contain pointer-events-none mix-blend-luminosity brightness-[1.1] contrast-[1.1]" />
-                            <div className="absolute inset-0 flex items-center justify-center -translate-y-[15%]">
-                              <span className="text-white font-bold text-2xl md:text-3xl lg:text-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] tracking-wide transform -skew-x-[20deg] rotate-[-5deg]">
+                            <img src="/gold-box.png" alt="" className="w-full h-auto object-contain" />
+                            <div className="absolute inset-0 flex items-center justify-center pt-[12%]">
+                              <span className="text-white font-black text-[clamp(0.5rem,2.5vw,1rem)] lg:text-base text-center px-4 leading-tight uppercase tracking-[0.15em]" style={{ textShadow: '0px 2px 4px rgba(0,0,0,0.5)' }}>
                                 {box.text}
                               </span>
                             </div>
