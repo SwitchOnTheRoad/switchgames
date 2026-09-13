@@ -37,7 +37,7 @@ export default function BlogPage() {
           </SectionReveal>
 
           {loading ? (
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid lg:grid-cols-3 gap-5">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="rounded-2xl h-72 animate-pulse border border-white/[0.06] bg-white/[0.02]" />
               ))}
@@ -46,9 +46,9 @@ export default function BlogPage() {
             <p className="text-gray-300 py-20 text-center">No posts yet. Check back soon.</p>
           ) : (
             <SectionReveal>
-              <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:snap-none md:pb-0">
+              <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:snap-none lg:pb-0">
                 {posts.map(post => (
-                  <div key={post.id} className="flex-shrink-0 w-[80vw] snap-center md:w-auto md:flex-shrink">
+                  <div key={post.id} className="flex-shrink-0 w-[80vw] snap-center lg:w-auto lg:flex-shrink">
                     <BlogCard post={post} />
                   </div>
                 ))}
