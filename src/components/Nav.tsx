@@ -34,12 +34,12 @@ export default function Nav() {
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8 lg:gap-12">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-12">
             {LINKS.map(l => (
               <Link
                 key={l.path}
                 to={l.path}
-                className={`text-[13px] font-semibold tracking-[0.12em] transition-all hover:-translate-y-0.5 ${
+                className={`text-[12px] xl:text-[13px] font-semibold tracking-[0.12em] transition-all hover:-translate-y-0.5 ${
                   isActive(l.path) ? 'text-white drop-shadow-md' : 'text-gray-400 hover:text-white'
                 }`}
               >
@@ -48,7 +48,7 @@ export default function Nav() {
             ))}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <Link to="/contact">
               <button className="btn-pill btn-pill-sm !border-white/20 hover:!border-white hover:bg-white hover:text-black shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                 Get in Touch
@@ -58,7 +58,7 @@ export default function Nav() {
 
           {/* Hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2 rounded-full hover:bg-white/10 transition-colors border border-transparent hover:border-white/20"
+            className="lg:hidden flex flex-col gap-1.5 p-2 rounded-full hover:bg-white/10 transition-colors border border-transparent hover:border-white/20"
             onClick={() => setOpen(o => !o)}
             aria-label="Menu"
           >
@@ -71,7 +71,7 @@ export default function Nav() {
 
       {/* Mobile menu overlay */}
       <div
-        className="fixed inset-0 z-40 md:hidden"
+        className="fixed inset-0 z-40 lg:hidden"
         style={{
           background: 'rgba(0,0,0,0.97)',
           opacity: open ? 1 : 0,

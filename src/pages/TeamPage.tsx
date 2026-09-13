@@ -62,7 +62,7 @@ export default function TeamPage() {
                 <SectionReveal key={member.id} delay={i * 80}>
                   <div className="liquid-glass liquid-glass-hover overflow-hidden group">
                     {/* Avatar */}
-                    <div className="relative h-64 flex items-center justify-center overflow-hidden">
+                    <div className="relative aspect-[4/3] md:aspect-auto md:h-64 flex items-center justify-center overflow-hidden">
                       {member.imageUrl ? (
                         <img
                           src={member.imageUrl}

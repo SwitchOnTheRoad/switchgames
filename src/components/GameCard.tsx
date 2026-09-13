@@ -17,8 +17,11 @@ export default function GameCard({ game, size = 'md' }: Props) {
 
   return (
     <div
-      className="rounded-2xl overflow-hidden relative group cursor-pointer border border-white/[0.06] bg-white/[0.02]"
-      style={{ height: size === 'lg' ? '100%' : heights[size], minHeight: size === 'lg' ? '480px' : undefined }}
+      className={`rounded-2xl overflow-hidden relative group cursor-pointer border border-white/[0.06] bg-white/[0.02] ${
+        size === 'lg' ? 'h-full min-h-[480px] md:min-h-[500px]' : 
+        size === 'sm' ? 'aspect-video' : 
+        'aspect-[4/3] sm:aspect-video lg:aspect-auto lg:h-[260px]'
+      }`}
       onClick={handleClick}
     >
       {game.imageUrl ? (

@@ -66,7 +66,7 @@ export default function Home() {
                   <AnimatedHeading
                     text="We build&#10;hit games."
                     className="font-bold mb-6 text-white w-full drop-shadow-2xl whitespace-nowrap"
-                    style={{ fontSize: settings?.youtubeHeroLink ? 'clamp(3rem, 7vw, 5.5rem)' : 'clamp(4rem, 11vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}
+                    style={{ fontSize: settings?.youtubeHeroLink ? 'clamp(2.5rem, 7vw, 5.5rem)' : 'clamp(3.5rem, 11vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}
                     delay={200}
                     charDelay={30}
                   />
@@ -373,12 +373,12 @@ export default function Home() {
                 `}</style>
                 <div 
                   className="flex whitespace-nowrap will-change-transform w-max"
-                  style={{ minWidth: '320vw', animation: 'conveyor-scroll 48s linear infinite' }}
+                  style={{ animation: 'conveyor-scroll 48s linear infinite' }}
                 >
                   {[0, 1].map((loopIdx) => (
                     <React.Fragment key={loopIdx}>
                       {/* Segment A */}
-                      <div className="relative w-[80vw] shrink-0">
+                      <div className="relative w-[240vw] md:w-[120vw] lg:w-[80vw] shrink-0">
                         <img src="/conveyor-seamless-v6.png" alt="" className="w-full h-auto object-cover pointer-events-none drop-shadow-2xl" />
                         {[
                           { left: '0%', text: 'Game Design' },
@@ -387,12 +387,17 @@ export default function Home() {
                         ].map((box, boxIdx) => (
                           <div 
                             key={boxIdx}
-                            className="absolute w-48 md:w-64 lg:w-72 drop-shadow-2xl flex flex-col items-center justify-center pointer-events-none" 
-                            style={{ top: '35%', left: box.left, transform: 'translate(-50%, -50%)' }}
+                            className="absolute"
+                            style={{
+                              left: box.left,
+                              width: '33.333%',
+                              bottom: '30%',
+                              height: '50%',
+                            }}
                           >
-                            <img src="/gold-box.png" alt="" className="w-full h-auto object-contain" />
-                            <div className="absolute inset-0 flex items-center justify-center pt-[12%]">
-                              <span className="text-white font-black text-xs md:text-sm lg:text-base text-center px-4 leading-tight uppercase tracking-[0.15em]" style={{ textShadow: '0px 2px 4px rgba(0,0,0,0.5)' }}>
+                            <img src="/gold-box.png" alt="" className="w-full h-full object-contain pointer-events-none mix-blend-luminosity brightness-[1.1] contrast-[1.1]" />
+                            <div className="absolute inset-0 flex items-center justify-center -translate-y-[15%]">
+                              <span className="text-white font-bold text-2xl md:text-3xl lg:text-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] tracking-wide transform -skew-x-[20deg] rotate-[-5deg]">
                                 {box.text}
                               </span>
                             </div>
@@ -401,21 +406,26 @@ export default function Home() {
                       </div>
                       
                       {/* Segment B */}
-                      <div className="relative w-[80vw] shrink-0">
+                      <div className="relative w-[240vw] md:w-[120vw] lg:w-[80vw] shrink-0">
                         <img src="/conveyor-seamless-v6.png" alt="" className="w-full h-auto object-cover pointer-events-none drop-shadow-2xl" />
                         {[
                           { left: '0%', text: 'Monetization' },
                           { left: '33.333%', text: 'Partnerships' },
                           { left: '66.666%', text: 'Acquisitions' }
                         ].map((box, boxIdx) => (
-                          <div 
+                          <div
                             key={boxIdx}
-                            className="absolute w-48 md:w-64 lg:w-72 drop-shadow-2xl flex flex-col items-center justify-center pointer-events-none" 
-                            style={{ top: '35%', left: box.left, transform: 'translate(-50%, -50%)' }}
+                            className="absolute"
+                            style={{
+                              left: box.left,
+                              width: '33.333%',
+                              bottom: '30%',
+                              height: '50%',
+                            }}
                           >
-                            <img src="/gold-box.png" alt="" className="w-full h-auto object-contain" />
-                            <div className="absolute inset-0 flex items-center justify-center pt-[12%]">
-                              <span className="text-white font-black text-xs md:text-sm lg:text-base text-center px-4 leading-tight uppercase tracking-[0.15em]" style={{ textShadow: '0px 2px 4px rgba(0,0,0,0.5)' }}>
+                            <img src="/gold-box.png" alt="" className="w-full h-full object-contain pointer-events-none mix-blend-luminosity brightness-[1.1] contrast-[1.1]" />
+                            <div className="absolute inset-0 flex items-center justify-center -translate-y-[15%]">
+                              <span className="text-white font-bold text-2xl md:text-3xl lg:text-4xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] tracking-wide transform -skew-x-[20deg] rotate-[-5deg]">
                                 {box.text}
                               </span>
                             </div>

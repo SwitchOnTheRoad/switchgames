@@ -3,10 +3,10 @@ import type { Post } from '../types'
 
 export default function BlogCard({ post }: { post: Post }) {
   return (
-    <Link to={`/blog/${post.slug}`} className="block group">
+    <Link to={`/blog/${post.slug}`} className="block group h-full">
       <div className="rounded-2xl overflow-hidden border border-white/[0.06] h-full bg-white/[0.02]">
         {post.coverVideoUrl && (
-          <div className="relative h-44 overflow-hidden">
+          <div className="relative aspect-video md:aspect-auto md:h-44 overflow-hidden">
             <video
               autoPlay loop muted playsInline
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
