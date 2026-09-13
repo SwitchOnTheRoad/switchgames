@@ -60,7 +60,7 @@ export default function ContactPage() {
     return (
       <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 flex flex-col">
         <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
-      <div className="relative z-10"><Nav /></div>
+      <div className="relative z-50"><Nav /></div>
         <div className="flex-1 flex items-center justify-center px-6">
           <div className="text-center max-w-md">
             <div className="rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-8 border border-white/10 bg-white/[0.03]">
@@ -85,7 +85,7 @@ export default function ContactPage() {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
-      <div className="relative z-10"><Nav /></div>
+      <div className="relative z-50"><Nav /></div>
 
       <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16 relative z-10">
         <div className="max-w-6xl mx-auto">

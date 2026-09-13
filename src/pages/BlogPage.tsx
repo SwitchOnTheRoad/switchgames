@@ -22,7 +22,7 @@ export default function BlogPage() {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
-      <div className="relative z-10"><Nav /></div>
+      <div className="relative z-50"><Nav /></div>
       <SEOMeta title="Blog" description="News and updates from Switch studio." />
 
       <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16 relative z-10">

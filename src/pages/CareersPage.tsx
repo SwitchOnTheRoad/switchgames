@@ -48,7 +48,7 @@ export default function CareersPage() {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
-      <div className="relative z-10"><Nav /></div>
+      <div className="relative z-50"><Nav /></div>
       <SEOMeta title="Careers" description="Join Switch. Build the future of gaming." />
 
       {/* ── HERO ─────────────────────────────────────────── */}
