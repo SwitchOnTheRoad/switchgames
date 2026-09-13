@@ -73,7 +73,7 @@ export default function CareersPage() {
       </section>
 
       {/* ── VISITS CHART ─────────────────────────────────── */}
-      <section className="bg-transparent w-full relative z-[100]">
+      <section className="bg-transparent w-full relative">
         <SectionReveal>
           <VisitsChart />
         </SectionReveal>

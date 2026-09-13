@@ -35,7 +35,7 @@ export default function VisitsChart() {
   const formattedVisits = currentVisits.toLocaleString('en-US')
 
   return (
-    <div ref={wrapRef} className="relative w-full h-[350px] md:h-[450px] bg-transparent group">
+    <div ref={wrapRef} className="relative w-full h-[350px] md:h-[450px] bg-transparent group pointer-events-none">
       
       {/* SVG Container (Clipped) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[2.5rem] md:rounded-none">
