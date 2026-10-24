@@ -116,7 +116,7 @@ server.post('/api/send-email', async (req, res) => {
     const resend = new Resend(RESEND_KEY)
     const { name, email, company, enquiryType, message } = req.body
     await resend.emails.send({
-      from: 'Switch <noreply@playswitchgames.com>',
+      from: 'The Block <noreply@playswitchgames.com>',
       to: ['hello@playswitchgames.com'],
       replyTo: email,
       subject: `New enquiry: ${enquiryType || 'General'} - ${name}`,

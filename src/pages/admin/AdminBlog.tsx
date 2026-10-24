@@ -12,9 +12,10 @@ const EMPTY_FORM: PostForm = {
   excerpt: '',
   content: '',
   coverVideoUrl: '',
+  imageUrl: '',
   publishedAt: new Date().toISOString().split('T')[0],
   published: false,
-  author: 'Switch Team',
+  author: 'The Block Team',
 }
 
 function slugify(text: string) {
@@ -62,7 +63,8 @@ export default function AdminBlog() {
       slug: post.slug,
       excerpt: post.excerpt,
       content: post.content,
-      coverVideoUrl: post.coverVideoUrl,
+      coverVideoUrl: post.coverVideoUrl || '',
+      imageUrl: post.imageUrl || '',
       publishedAt: post.publishedAt.split('T')[0],
       published: post.published,
       author: post.author,
@@ -212,10 +214,19 @@ export default function AdminBlog() {
                 </div>
 
                 <FileUpload
-                  label="Cover Video or Image (optional)"
-                  type="any"
-                  value={form.coverVideoUrl}
+                  label="Cover Image (recommended for blog cards)"
+                  type="image"
+                  value={form.imageUrl || ''}
+                  onChange={url => set('imageUrl', url)}
+                  placeholder="Upload an image or paste URL"
+                />
+
+                <FileUpload
+                  label="Cover Video (optional — plays if no image is set)"
+                  type="video"
+                  value={form.coverVideoUrl || ''}
                   onChange={url => set('coverVideoUrl', url)}
+                  placeholder="Upload a video or paste URL"
                 />
 
                 <Field label="Publish Date">

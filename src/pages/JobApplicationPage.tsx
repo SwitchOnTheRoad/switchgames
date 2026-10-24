@@ -55,7 +55,7 @@ export default function JobApplicationPage() {
         <main className="min-h-[70vh] flex items-center justify-center px-6 text-center">
           <div>
             <p className="text-gray-400 mb-4">This role is no longer available.</p>
-            <Link to="/careers" className="btn-pill btn-pill-solid">Back to Careers</Link>
+            <Link to="/careers" className="btn-primary">Back to Careers</Link>
           </div>
         </main>
         <Footer />
@@ -139,7 +139,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <Nav />
-      <SEOMeta title={`Apply for ${job.title}`} description={`Apply for the ${job.title} role at Switch.`} />
+      <SEOMeta title={`Apply for ${job.title}`} description={`Apply for the ${job.title} role at The Block.`} />
 
       <main className="pt-32 pb-20 px-6 md:px-12 lg:px-16">
         <div className="max-w-6xl mx-auto">
@@ -150,13 +150,13 @@ function ApplicationPageContent({ job }: { job: Job }) {
           <div className="grid lg:grid-cols-[0.75fr_1.25fr] gap-10 lg:gap-14 items-start">
             <aside className="lg:sticky lg:top-28">
               <p className="text-xs tracking-[0.18em] uppercase text-gray-500 mb-3">Apply for</p>
-              <h1 className="text-4xl md:text-5xl font-bold mb-5" style={{ letterSpacing: '-0.04em', lineHeight: 1 }}>
+              <h1 className="text-4xl md:text-5xl font-extrabold font-heading mb-5" style={{ letterSpacing: '-0.035em', lineHeight: 1.05 }}>
                 {job.title}
               </h1>
               <div className="flex flex-wrap gap-2 mb-6">
-                <span className="rounded-full px-3 py-1 text-xs border border-white/15 text-gray-400">{job.department}</span>
-                <span className="rounded-full px-3 py-1 text-xs border border-white/15 text-gray-400">{job.location}</span>
-                <span className="rounded-full px-3 py-1 text-xs border border-white/15 text-gray-400">{job.type}</span>
+                <span className="rounded-md px-3 py-1 text-xs border border-white/15 text-gray-400 font-medium">{job.department}</span>
+                <span className="rounded-md px-3 py-1 text-xs border border-white/15 text-gray-400 font-medium">{job.location}</span>
+                <span className="rounded-md px-3 py-1 text-xs border border-white/15 text-gray-400 font-medium">{job.type}</span>
               </div>
               <p className="text-sm text-gray-400" style={{ lineHeight: 1.75 }}>{job.description}</p>
             </aside>
@@ -168,18 +168,18 @@ function ApplicationPageContent({ job }: { job: Job }) {
                     className="w-16 h-16 rounded-full flex items-center justify-center mb-6 text-2xl"
                     style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
                   >
-                    OK
+                    ✓
                   </div>
-                  <h2 className="text-3xl font-bold mb-3" style={{ letterSpacing: '-0.03em' }}>Application sent.</h2>
+                  <h2 className="text-3xl font-extrabold font-heading mb-3" style={{ letterSpacing: '-0.03em' }}>Application sent.</h2>
                   <p className="text-gray-400 text-sm max-w-md mb-8" style={{ lineHeight: 1.7 }}>
                     Thanks for applying for <span className="text-white font-medium">{job.title}</span>. We'll review your application and get back to you within a few days.
                   </p>
-                  <Link to="/careers" className="btn-pill btn-pill-solid w-fit">Done</Link>
+                  <Link to="/careers" className="btn-primary w-fit">Done</Link>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} noValidate>
                   <div className="px-6 md:px-8 py-6 border-b border-white/[0.07]">
-                    <h2 className="text-2xl font-bold" style={{ letterSpacing: '-0.03em' }}>Your application</h2>
+                    <h2 className="text-2xl font-extrabold font-heading" style={{ letterSpacing: '-0.03em' }}>Your application</h2>
                     <p className="text-sm text-gray-500 mt-1">Tell us who you are and why this role fits.</p>
                   </div>
 
@@ -263,7 +263,7 @@ function ApplicationPageContent({ job }: { job: Job }) {
                       <button
                         type="submit"
                         disabled={submitting || cvUploading}
-                        className="btn-pill btn-pill-solid justify-center"
+                        className="btn-primary justify-center"
                         style={{ opacity: submitting || cvUploading ? 0.6 : 1 }}
                       >
                         {submitting ? 'Sending...' : 'Submit application'}

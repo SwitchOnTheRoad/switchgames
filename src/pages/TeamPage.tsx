@@ -20,7 +20,7 @@ export default function TeamPage() {
 
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
-      <SEOMeta title="Team" description="Meet the people building Switch." />
+      <SEOMeta title="Team" description="Meet the people building The Block." />
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-[120vh]">
           <RobuxPattern />
@@ -39,8 +39,8 @@ export default function TeamPage() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
-              The people<br />behind Switch
+            <h1 className="text-5xl md:text-7xl font-extrabold font-heading mb-6" style={{ letterSpacing: '-0.035em', lineHeight: 0.98 }}>
+              The people<br />behind The Block
             </h1>
           </SectionReveal>
 
@@ -122,7 +122,7 @@ export default function TeamPage() {
                     <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-5 group-hover:border-white/25 transition-colors">
                       <span className="text-2xl text-gray-400">+</span>
                     </div>
-                    <h3 className="text-lg font-bold mb-2" style={{ letterSpacing: '-0.02em' }}>Join Switch</h3>
+                    <h3 className="text-lg font-bold mb-2" style={{ letterSpacing: '-0.02em' }}>Join The Block</h3>
                     <p className="text-sm text-gray-400" style={{ lineHeight: 1.65 }}>
                       We're building the team. See open roles →
                     </p>

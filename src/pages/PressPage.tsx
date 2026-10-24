@@ -20,7 +20,7 @@ const FACTS = [
 export default function PressPage() {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
-      <SEOMeta title="Press" description="Press kit, assets, and media contact for Switch, UGC game development studio." />
+      <SEOMeta title="Press" description="Press kit, assets, and media contact for The Block, UGC game development studio." />
       <Nav />
 
       <div className="pt-40 pb-24 px-6 md:px-12 lg:px-16">
@@ -31,13 +31,13 @@ export default function PressPage() {
 
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-6xl font-normal mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+            <h1 className="text-5xl md:text-6xl font-extrabold font-heading mb-6" style={{ letterSpacing: '-0.035em', lineHeight: 0.98 }}>
               Media Kit
             </h1>
           </SectionReveal>
           <SectionReveal delay={120}>
             <p className="text-base md:text-lg text-gray-300 mb-16 max-w-xl" style={{ lineHeight: 1.7 }}>
-              Everything you need to write about Switch. For press enquiries, email us directly.
+              Everything you need to write about The Block. For press enquiries, email us directly.
             </p>
           </SectionReveal>
 
@@ -46,14 +46,14 @@ export default function PressPage() {
             <div className="rounded-2xl p-8 border border-white/[0.06] bg-white/[0.02] mb-6">
 
               <p className="text-sm text-gray-300 mb-4" style={{ lineHeight: 1.8 }}>
-                Switch is a UGC game development studio specialising in Roblox, the platform with over 80 million daily active users. We build original games and scale immersive experiences, helping developers retain and engage players over the long term through continuous live-ops.
+                The Block is a UGC game development studio specialising in Roblox, the platform with over 80 million daily active users. We build original games and scale immersive experiences, helping developers retain and engage players over the long term through continuous live-ops.
               </p>
               <p className="text-sm text-gray-300" style={{ lineHeight: 1.8 }}>
-                Founded in 2026 and based in London, Switch combines deep game design expertise with cultural fluency to create worlds players return to and communities they grow with.
+                Founded in 2026 and based in London, The Block combines deep game design expertise with cultural fluency to create worlds players return to and communities they grow with.
               </p>
               <button
-                onClick={() => navigator.clipboard.writeText("Switch is a UGC game development studio specialising in Roblox...")}
-                className="mt-4 text-xs text-gray-400 hover:text-white transition-colors uppercase tracking-[0.1em] border border-white/10 bg-white/[0.02] rounded-full px-4 py-2 inline-block"
+                onClick={() => navigator.clipboard.writeText("The Block is a UGC game development studio specialising in Roblox...")}
+                className="mt-4 text-xs text-gray-400 hover:text-white transition-colors uppercase tracking-[0.1em] border border-white/10 bg-white/[0.02] rounded-lg px-4 py-2 inline-block font-sans font-medium"
               >
                 Copy Text
               </button>
@@ -132,7 +132,7 @@ export default function PressPage() {
                 <div>
                   <p className="text-white font-medium mb-2">✓ You may</p>
                   <ul className="space-y-1.5">
-                    <li>Use the Switch name and logo in editorial coverage</li>
+                    <li>Use the The Block name and logo in editorial coverage</li>
                     <li>Reference our games and statistics in articles</li>
                     <li>Use approved assets from this media kit</li>
                   </ul>

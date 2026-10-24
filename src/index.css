@@ -1,16 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700;800&display=swap');
+
+@font-face {
+  font-family: 'Builder Extended';
+  src: url('/fonts/BuilderExtended-ExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Builder Extended';
+  src: url('/fonts/BuilderExtended-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Builder Sans';
+  src: url('/fonts/BuilderSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Builder Sans';
+  src: url('/fonts/BuilderSans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Builder Sans';
+  src: url('/fonts/BuilderSans-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Builder Sans';
+  src: url('/fonts/BuilderSans-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Builder Sans', 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 400;
   background: #000;
   color: #fff;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Builder Extended', 'Builder Sans', sans-serif;
 }
 
 /* ─── True Liquid Glass ──────────────── */
@@ -32,43 +85,99 @@ body {
   }
 }
 
-/* ─── Pill Button (primary outlined style from bound.win) ── */
-.btn-pill {
+/* ─── Modern Buttons (Fuego Style) ── */
+.btn-pill,
+.btn-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 24px;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: transparent;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-family: 'Rubik', 'Builder Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   cursor: pointer;
-  transition: background 250ms ease, color 250ms ease, border-color 250ms ease;
+  transition: all 180ms ease;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.btn-pill:hover {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
+.btn-pill:hover,
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
-.btn-pill-sm {
-  padding: 7px 18px;
+.btn-pill-solid,
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #3559f6;
+  color: #fff;
+  font-family: 'Rubik', 'Builder Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 180ms ease;
+  box-shadow: 0 4px 14px rgba(53, 89, 246, 0.35);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-pill-solid:hover,
+.btn-primary:hover {
+  background: #4668ff;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(53, 89, 246, 0.5);
+}
+
+.btn-pill-sm,
+.btn-sm {
+  padding: 8px 18px;
   font-size: 13px;
+  border-radius: 8px;
 }
 
-.btn-pill-solid {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 22px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  font-family: 'Rubik', 'Builder Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 180ms ease;
+  text-decoration: none;
 }
 
-.btn-pill-solid:hover {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(255, 255, 255, 0.85);
+.btn-nav:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #fff;
 }
 
 /* Blog post content */

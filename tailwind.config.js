@@ -3,6 +3,12 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: { 
     extend: {
+      fontFamily: {
+        sans: ['"Builder Sans"', 'Rubik', 'system-ui', 'sans-serif'],
+        heading: ['"Builder Extended"', '"Builder Sans"', 'system-ui', 'sans-serif'],
+        extended: ['"Builder Extended"', 'system-ui', 'sans-serif'],
+        rubik: ['Rubik', 'sans-serif'],
+      },
       animation: {
         'blob': 'blob 10s infinite alternate',
       },

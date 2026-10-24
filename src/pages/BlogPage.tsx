@@ -23,7 +23,7 @@ export default function BlogPage() {
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
       <div className="relative z-50"><Nav /></div>
-      <SEOMeta title="Blog" description="News and updates from Switch studio." />
+      <SEOMeta title="Blog" description="News and updates from The Block studio." />
 
       <div className="pt-32 pb-24 px-6 md:px-12 lg:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
@@ -31,7 +31,7 @@ export default function BlogPage() {
 
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-6xl font-normal mb-12" style={{ letterSpacing: '-0.04em' }}>
+            <h1 className="text-5xl md:text-6xl font-extrabold font-heading mb-12" style={{ letterSpacing: '-0.035em' }}>
               News & Updates
             </h1>
           </SectionReveal>

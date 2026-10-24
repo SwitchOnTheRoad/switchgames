@@ -13,7 +13,7 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-12">
           <div>
-            <img src="/logo.png" alt="Switch" className="h-10 w-10 object-contain mb-3" />
+            <img src="/logo.png" alt="The Block" className="h-10 w-auto object-contain mb-3" />
             <p className="text-sm text-gray-500 max-w-xs" style={{ lineHeight: 1.65 }}>
               UGC game development for culture and the communities that shape it.
             </p>
@@ -21,6 +21,7 @@ export default function Footer() {
           <div className="flex gap-10 md:gap-16 text-sm flex-wrap">
             <div className="flex flex-col gap-3">
               <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-1">Studio</p>
+              <Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link>
               <Link to="/games" className="text-gray-400 hover:text-white transition-colors">Games</Link>
               <Link to="/work" className="text-gray-400 hover:text-white transition-colors">Work</Link>
               <Link to="/team" className="text-gray-400 hover:text-white transition-colors">Team</Link>
@@ -44,7 +45,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <p className="text-xs text-gray-500">© 2026 Switch. playswitchgames.com</p>
+          <p className="text-xs text-gray-500">© 2026 The Block. playswitchgames.com</p>
           <div className="flex flex-wrap gap-6 text-xs text-gray-500">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link>
             <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>

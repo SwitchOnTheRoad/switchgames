@@ -12,7 +12,6 @@ import BlogPostPage from './pages/BlogPostPage'
 import ContactPage from './pages/ContactPage'
 import CareersPage from './pages/CareersPage'
 import JobApplicationPage from './pages/JobApplicationPage'
-import TeamPage from './pages/TeamPage'
 import PressPage from './pages/PressPage'
 import CaseStudiesPage from './pages/CaseStudiesPage'
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage'
@@ -24,15 +23,16 @@ import AdminGames from './pages/admin/AdminGames'
 import AdminBlog from './pages/admin/AdminBlog'
 import AdminCareers from './pages/admin/AdminCareers'
 import AdminContacts from './pages/admin/AdminContacts'
-import AdminTeam from './pages/admin/AdminTeam'
 import AdminCaseStudies from './pages/admin/AdminCaseStudies'
 import AdminNewsletter from './pages/admin/AdminNewsletter'
 import AdminApplications from './pages/admin/AdminApplications'
 import AdminSettings from './pages/admin/AdminSettings'
+import AdminValues from './pages/admin/AdminValues'
 import ProtectedRoute from './pages/admin/ProtectedRoute'
 
 import TermsPage from './pages/TermsPage'
 import PrivacyPage from './pages/PrivacyPage'
+import AboutPage from './pages/AboutPage'
 
 function AppInner() {
   usePageTracking()
@@ -41,6 +41,7 @@ function AppInner() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/games" element={<GamesPage />} />
       <Route path="/games/:id" element={<GameDetailPage />} />
       <Route path="/blog" element={<BlogPage />} />
@@ -48,7 +49,6 @@ function AppInner() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/careers" element={<CareersPage />} />
       <Route path="/careers/:id/apply" element={<JobApplicationPage />} />
-      <Route path="/team" element={<TeamPage />} />
       <Route path="/press" element={<PressPage />} />
       <Route path="/work" element={<CaseStudiesPage />} />
       <Route path="/work/:slug" element={<CaseStudyDetailPage />} />
@@ -58,11 +58,11 @@ function AppInner() {
       <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
         <Route index element={<AdminDashboard />} />
         <Route path="games" element={<AdminGames />} />
+        <Route path="values" element={<AdminValues />} />
         <Route path="blog" element={<AdminBlog />} />
         <Route path="careers" element={<AdminCareers />} />
         <Route path="contacts" element={<AdminContacts />} />
         <Route path="applications" element={<AdminApplications />} />
-        <Route path="team" element={<AdminTeam />} />
         <Route path="case-studies" element={<AdminCaseStudies />} />
         <Route path="newsletter" element={<AdminNewsletter />} />
         <Route path="settings" element={<AdminSettings />} />

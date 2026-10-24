@@ -22,9 +22,9 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-6">
       <div className="liquid-glass rounded-2xl p-8 w-full max-w-sm border border-white/20">
-        <img src="/logo.png" alt="Switch" className="h-10 w-10 object-contain mb-6" />
+        <img src="/logo.png" alt="The Block" className="h-10 w-auto object-contain mb-6" />
         <h1 className="text-2xl font-semibold mb-1" style={{ letterSpacing: '-0.03em' }}>Admin</h1>
-        <p className="text-sm text-gray-300 mb-8">Sign in to manage Switch content.</p>
+        <p className="text-sm text-gray-300 mb-8">Sign in to manage The Block content.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

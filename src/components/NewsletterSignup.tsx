@@ -21,7 +21,7 @@ export default function NewsletterSignup() {
   return (
     <div className="rounded-2xl border border-white/[0.06] px-6 sm:px-8 py-8 max-w-xl mx-auto text-center bg-white/[0.02]">
 
-      <h3 className="text-2xl font-medium mb-2" style={{ letterSpacing: '-0.03em' }}>Stay in the loop.</h3>
+      <h3 className="text-2xl font-extrabold font-heading mb-2" style={{ letterSpacing: '-0.03em' }}>Stay in the loop.</h3>
       <p className="text-sm text-gray-400 mb-6" style={{ lineHeight: 1.6 }}>
         New games, live-ops insights, and studio updates, straight to your inbox.
       </p>
@@ -36,12 +36,12 @@ export default function NewsletterSignup() {
             onChange={e => setEmail(e.target.value)}
             placeholder="your@email.com"
             required
-            className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-full px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors"
+            className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-lg px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors"
           />
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="btn-pill btn-pill-solid flex-shrink-0 disabled:opacity-40"
+            className="btn-primary flex-shrink-0 disabled:opacity-40"
           >
             {status === 'sending' ? '...' : 'Subscribe'}
           </button>

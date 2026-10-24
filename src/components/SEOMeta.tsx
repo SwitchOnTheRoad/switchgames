@@ -7,7 +7,7 @@ interface Props {
   url?: string
 }
 
-const SITE = 'Switch'
+const SITE = 'The Block'
 const DEFAULT_DESC = 'UGC game development studio. We build games for culture, and operate them for the long term.'
 const DEFAULT_IMAGE = '/logo.png'
 

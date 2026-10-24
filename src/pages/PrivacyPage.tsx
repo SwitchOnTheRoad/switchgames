@@ -6,14 +6,14 @@ import SectionReveal from '../components/SectionReveal'
 export default function PrivacyPage() {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
-      <SEOMeta title="Privacy Policy" description="Privacy policy for Switch services." />
+      <SEOMeta title="Privacy Policy" description="Privacy policy for The Block services." />
       <Nav />
 
       <section className="pt-40 pb-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-3xl mx-auto">
           <SectionReveal>
             <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Legal</p>
-            <h1 className="text-4xl md:text-5xl font-normal mb-10" style={{ letterSpacing: '-0.03em' }}>Privacy Policy</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold font-heading mb-10" style={{ letterSpacing: '-0.035em' }}>Privacy Policy</h1>
           </SectionReveal>
 
           <div className="space-y-8 text-gray-300 leading-relaxed">

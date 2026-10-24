@@ -100,3 +100,12 @@ export interface SiteSettings {
   id: string
   youtubeHeroLink: string
 }
+
+export interface ValueCard {
+  id: string
+  title: string
+  image: string
+  paragraphs: string[]
+  order?: number
+  createdAt?: string
+}

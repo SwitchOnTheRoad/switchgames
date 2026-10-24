@@ -1,4 +1,4 @@
-import type { Game, Post, Job, JobApplication, Contact, TeamMember, CaseStudy, NewsletterSubscriber, SiteSettings } from '../types'
+import type { Game, Post, Job, JobApplication, Contact, TeamMember, CaseStudy, NewsletterSubscriber, SiteSettings, ValueCard } from '../types'
 
 const BASE = '/api'
 
@@ -192,6 +192,34 @@ export async function updateSiteSettings(data: Partial<SiteSettings>): Promise<S
     throw new Error('Failed to update site settings')
   }
   return res.json()
+}
+
+// ─── Values Carousel ─────────────────────────────────────────────────────────
+export async function getValues(): Promise<ValueCard[]> {
+  const res = await fetch(`${BASE}/values`)
+  if (!res.ok) throw new Error('Failed to fetch values')
+  return res.json()
+}
+export async function createValue(data: Omit<ValueCard, 'id'>): Promise<ValueCard> {
+  const res = await fetch(`${BASE}/values`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...data, id: crypto.randomUUID() }),
+  })
+  if (!res.ok) throw new Error('Failed to create value card')
+  return res.json()
+}
+export async function updateValue(id: string, data: Partial<ValueCard>): Promise<ValueCard> {
+  const res = await fetch(`${BASE}/values/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) throw new Error('Failed to update value card')
+  return res.json()
+}
+export async function deleteValue(id: string): Promise<void> {
+  await fetch(`${BASE}/values/${id}`, { method: 'DELETE' })
 }
 
 // ─── Analytics ────────────────────────────────────────────────────────────────

@@ -69,13 +69,13 @@ export default function GameDetailPage() {
               <div className="rounded-full px-3 py-1 inline-block mb-3 border border-white/10 bg-white/[0.02]">
                 <span className="text-xs text-gray-300 uppercase tracking-wider">{game.genre}</span>
               </div>
-              <h1 className="text-5xl md:text-7xl font-normal" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+              <h1 className="text-5xl md:text-7xl font-extrabold font-heading" style={{ letterSpacing: '-0.035em', lineHeight: 0.98 }}>
                 {game.title}
               </h1>
             </div>
             {game.robloxUrl && (
               <a href={game.robloxUrl} target="_blank" rel="noopener noreferrer">
-                <button className="btn-pill btn-pill-solid">
+                <button className="btn-primary">
                   Play on Roblox ↗
                 </button>
               </a>
@@ -110,7 +110,7 @@ export default function GameDetailPage() {
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-widest text-gray-300 mb-1">Studio</p>
-                  <p className="text-sm font-medium">Switch</p>
+                  <p className="text-sm font-medium">The Block</p>
                 </div>
               </div>
             </SectionReveal>

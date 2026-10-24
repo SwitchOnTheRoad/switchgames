@@ -8,7 +8,7 @@ const BEFORE = [
   { x: 38, y: 65 },
 ]
 
-const PIVOT_X = 38  // the "Switch" moment
+const PIVOT_X = 38  // the "The Block" moment
 
 const AFTER = [
   { x: 38, y: 65 },

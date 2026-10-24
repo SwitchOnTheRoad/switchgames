@@ -44,19 +44,33 @@ export default function BlogPostPage() {
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
       <Nav />
 
-      {post.imageUrl ? (
-        <div className="relative h-[55vh] overflow-hidden">
-          <img src={post.imageUrl} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
-        </div>
-      ) : post.coverVideoUrl ? (
-        <div className="relative h-[55vh] overflow-hidden">
-          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-            <source src={post.coverVideoUrl} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
-        </div>
-      ) : null}
+      {(() => {
+        const isVideo = (url?: string) => Boolean(url && /\.(mp4|webm|mov|ogg)(\?.*)?$/i.test(url))
+        const videoSrc = isVideo(post.coverVideoUrl) ? post.coverVideoUrl : (isVideo(post.imageUrl) ? post.imageUrl : undefined)
+        const imageSrc = post.imageUrl && !isVideo(post.imageUrl)
+          ? post.imageUrl
+          : (post.coverVideoUrl && !isVideo(post.coverVideoUrl) ? post.coverVideoUrl : undefined)
+
+        if (imageSrc) {
+          return (
+            <div className="relative h-[55vh] overflow-hidden">
+              <img src={imageSrc} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
+            </div>
+          )
+        }
+        if (videoSrc) {
+          return (
+            <div className="relative h-[55vh] overflow-hidden">
+              <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black" />
+            </div>
+          )
+        }
+        return null
+      })()}
 
       <div className={`px-6 md:px-12 lg:px-16 pb-24 ${post.imageUrl || post.coverVideoUrl ? 'pt-0' : 'pt-32'}`}>
         <div className="max-w-3xl mx-auto">
@@ -75,7 +89,7 @@ export default function BlogPostPage() {
             {post.author}
           </p>
 
-          <h1 className="text-4xl md:text-5xl font-normal mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 1.0 }}>
+          <h1 className="text-4xl md:text-5xl font-extrabold font-heading mb-6" style={{ letterSpacing: '-0.035em', lineHeight: 1.05 }}>
             {post.title}
           </h1>
 

@@ -21,7 +21,7 @@ export default function CaseStudyDetailPage() {
 
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
-      <SEOMeta title={`${cs.brand} × Switch`} description={cs.excerpt} />
+      <SEOMeta title={`${cs.brand} × The Block`} description={cs.excerpt} />
       <Nav />
 
       {/* Cover */}
@@ -41,10 +41,10 @@ export default function CaseStudyDetailPage() {
           ← Work
         </Link>
         <p className="text-xs uppercase tracking-widest text-gray-300 mb-2">{cs.brand}</p>
-        <h1 className="text-4xl md:text-5xl font-normal mb-4" style={{ letterSpacing: '-0.04em', lineHeight: 1.0 }}>{cs.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold font-heading mb-4" style={{ letterSpacing: '-0.035em', lineHeight: 1.05 }}>{cs.title}</h1>
         <div className="flex flex-wrap gap-2 mb-10 pb-10" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {cs.tags.map(tag => (
-            <span key={tag} className="rounded-full px-3 py-1 text-xs text-gray-400 border border-white/10 bg-white/[0.02]">{tag}</span>
+            <span key={tag} className="rounded-md px-3 py-1 text-xs text-gray-400 border border-white/10 bg-white/[0.02] font-medium">{tag}</span>
           ))}
         </div>
 
@@ -72,7 +72,7 @@ export default function CaseStudyDetailPage() {
         <div className="mt-16 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <p className="text-sm text-gray-300 mb-4">Want results like this for your game?</p>
           <Link to="/contact">
-            <button className="btn-pill btn-pill-solid">
+            <button className="btn-primary">
               Work With Us
             </button>
           </Link>

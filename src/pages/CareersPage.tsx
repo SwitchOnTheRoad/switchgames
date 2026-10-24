@@ -12,12 +12,12 @@ import type { Game, Job } from '../types'
 const DEPARTMENTS = ['All', 'Engineering', 'Design', 'Production', 'Marketing', 'Other']
 
 const BENEFITS = [
-  { n: '01', title: 'Remote First', desc: 'Work from anywhere. We collaborate async and meet when it matters.' },
-  { n: '02', title: 'Competitive Pay', desc: 'Fair compensation that reflects your skills and experience.' },
-  { n: '03', title: 'Game Access', desc: 'Free access to everything in our portfolio, including early builds.' },
-  { n: '04', title: 'Learning Budget', desc: 'Annual allowance for courses, books, or tools that help you grow.' },
-  { n: '05', title: 'Flexible Hours', desc: 'Core hours keep the team aligned, with flexibility around them.' },
-  { n: '06', title: 'Small Team', desc: 'Your work has real impact. No bureaucracy, just building.' },
+  { title: 'Remote First', desc: 'Work from anywhere. We collaborate async and meet when it matters.' },
+  { title: 'Competitive Pay', desc: 'Fair compensation that reflects your skills and experience.' },
+  { title: 'Game Access', desc: 'Free access to everything in our portfolio, including early builds.' },
+  { title: 'Learning Budget', desc: 'Annual allowance for courses, books, or tools that help you grow.' },
+  { title: 'Flexible Hours', desc: 'Core hours keep the team aligned, with flexibility around them.' },
+  { title: 'Small Team', desc: 'Your work has real impact. No bureaucracy, just building.' },
 ]
 
 const TYPE_COLORS: Record<string, string> = {
@@ -49,7 +49,7 @@ export default function CareersPage() {
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[120vh] pointer-events-none z-0 overflow-hidden"><RobuxPattern /></div>
       <div className="relative z-50"><Nav /></div>
-      <SEOMeta title="Careers" description="Join Switch. Build the future of gaming." />
+      <SEOMeta title="Careers" description="Join The Block. Build the future of gaming." />
 
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="min-h-[70vh] bg-transparent relative flex items-center overflow-hidden">
@@ -63,11 +63,11 @@ export default function CareersPage() {
 
         <div className="relative z-10 px-6 md:px-12 lg:px-16 pt-32 pb-16 max-w-5xl">
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold font-heading mb-6 text-white" style={{ letterSpacing: '-0.035em', lineHeight: 0.98 }}>
             Build the future<br />of gaming.
           </h1>
           <p className="text-base md:text-lg text-gray-400 max-w-lg" style={{ lineHeight: 1.7 }}>
-            We're a small team doing big things. If you want your work to be played by millions, Switch is the place.
+            We're a small team doing big things. If you want your work to be played by millions, The Block is the place.
           </p>
         </div>
       </section>
@@ -84,7 +84,7 @@ export default function CareersPage() {
         <div className="max-w-5xl mx-auto">
 
           <SectionReveal delay={60}>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8" style={{ letterSpacing: '-0.03em' }}>
+            <h2 className="text-4xl md:text-5xl font-extrabold font-heading mb-8" style={{ letterSpacing: '-0.035em' }}>
               {jobs.length > 0 ? `${jobs.length} open position${jobs.length !== 1 ? 's' : ''}.` : 'Open positions.'}
             </h2>
           </SectionReveal>
@@ -96,7 +96,7 @@ export default function CareersPage() {
                 <button
                   key={d}
                   onClick={() => setDept(d)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
                     dept === d ? 'bg-white text-black border-white' : 'border-white/15 text-gray-400 hover:text-white hover:border-white/30'
                   }`}
                 >
@@ -117,7 +117,7 @@ export default function CareersPage() {
             <SectionReveal>
               <div className="liquid-glass text-center p-10">
                 <p className="text-gray-400 mb-4">No open roles in this department right now.</p>
-                <Link to="/contact?topic=careers" className="btn-pill btn-pill-sm">
+                <Link to="/contact?topic=careers" className="btn-secondary btn-sm">
                   <span>
                     Send us your CV anyway <span style={{ fontSize: 11 }}>↗</span>
                   </span>
@@ -176,7 +176,7 @@ export default function CareersPage() {
                         )}
                         <Link
                           to={`/careers/${job.id}/apply`}
-                          className="btn-pill btn-pill-solid"
+                          className="btn-primary"
                         >
                           Apply for this role <span style={{ fontSize: 11 }}>↗</span>
                         </Link>
@@ -196,7 +196,7 @@ export default function CareersPage() {
                   <p className="font-medium mb-1">Don't see your role?</p>
                   <p className="text-sm text-gray-400">We're always open to exceptional people. Send us your CV and tell us what you'd bring.</p>
                 </div>
-                <a href="mailto:hello@playswitchgames.com" className="flex-shrink-0 btn-pill">
+                <a href="mailto:hello@playswitchgames.com" className="flex-shrink-0 btn-secondary">
                   Get in Touch <span style={{ fontSize: 11 }}>↗</span>
                 </a>
               </div>

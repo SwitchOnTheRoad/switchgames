@@ -19,7 +19,7 @@ export default function CaseStudiesPage() {
 
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
-      <SEOMeta title="Case Studies" description="How Switch builds live-ops driven experiences inside Roblox that players actually love." />
+      <SEOMeta title="Case Studies" description="How The Block builds live-ops driven experiences inside Roblox that players actually love." />
       <Nav />
 
       <div className="pt-40 pb-24 px-6 md:px-12 lg:px-16">
@@ -28,7 +28,7 @@ export default function CaseStudiesPage() {
 
           </SectionReveal>
           <SectionReveal delay={60}>
-            <h1 className="text-5xl md:text-6xl font-normal mb-4" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+            <h1 className="text-5xl md:text-6xl font-extrabold font-heading mb-4" style={{ letterSpacing: '-0.035em', lineHeight: 0.98 }}>
               Case Studies
             </h1>
           </SectionReveal>
@@ -45,12 +45,12 @@ export default function CaseStudiesPage() {
           ) : cases.length === 0 ? (
             <SectionReveal>
               <div className="liquid-glass p-16 text-center max-w-xl mx-auto">
-                <p className="text-3xl mb-4" style={{ letterSpacing: '-0.03em' }}>Coming soon.</p>
+                <p className="text-3xl font-extrabold font-heading mb-4" style={{ letterSpacing: '-0.03em' }}>Coming soon.</p>
                 <p className="text-sm text-gray-300 mb-8" style={{ lineHeight: 1.7 }}>
                   We're scaling our next live-ops hit. Want to partner with us?
                 </p>
                 <Link to="/contact">
-                  <button className="btn-pill btn-pill-solid">
+                  <button className="btn-primary">
                     Get in Touch
                   </button>
                 </Link>

@@ -18,7 +18,7 @@ export default function NotFoundPage() {
           >
             404
           </p>
-          <h1 className="text-3xl font-normal mb-3" style={{ letterSpacing: '-0.03em', marginTop: '-2rem' }}>
+          <h1 className="text-3xl font-extrabold font-heading mb-3" style={{ letterSpacing: '-0.03em', marginTop: '-2rem' }}>
             Page not found.
           </h1>
           <p className="text-gray-300 text-sm mb-8" style={{ lineHeight: 1.7 }}>
@@ -26,12 +26,12 @@ export default function NotFoundPage() {
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link to="/">
-              <button className="btn-pill btn-pill-solid">
+              <button className="btn-primary">
                 Back to Home
               </button>
             </Link>
             <Link to="/games">
-              <button className="btn-pill">
+              <button className="btn-secondary">
                 See Games
               </button>
             </Link>

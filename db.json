@@ -20,6 +20,58 @@
   "team": [],
   "caseStudies": [],
   "newsletter": [],
+  "values": [
+    {
+      "id": "players-first",
+      "title": "PLAYERS COME FIRST",
+      "image": "/values/value-1.jpg",
+      "paragraphs": [
+        "We build for players because we understand what keeps communities engaged.",
+        "Every update is shaped around stronger experiences, lasting trust and long-term growth."
+      ],
+      "order": 1
+    },
+    {
+      "id": "ownership",
+      "title": "WE TAKE OWNERSHIP",
+      "image": "/values/value-2.jpg",
+      "paragraphs": [
+        "We take responsibility for every game and partnership we support.",
+        "When something can be improved, we step in, solve it and keep pushing the experience forward."
+      ],
+      "order": 2
+    },
+    {
+      "id": "focused",
+      "title": "WE STAY FOCUSED",
+      "image": "/values/value-3.jpg",
+      "paragraphs": [
+        "We focus on the ideas that can make the greatest difference.",
+        "Every decision is deliberate, allowing us to put our time, energy and expertise where they create the most value."
+      ],
+      "order": 3
+    },
+    {
+      "id": "execution",
+      "title": "EXECUTION IS EVERYTHING",
+      "image": "/values/value-4.jpg",
+      "paragraphs": [
+        "Ambitious visions require relentless craftsmanship and technical precision.",
+        "From frictionless core loops to high-fidelity visual design, we obsess over the details that turn good games into legends."
+      ],
+      "order": 4
+    },
+    {
+      "id": "long-term",
+      "title": "BUILT TO LAST",
+      "image": "/values/value-5.jpg",
+      "paragraphs": [
+        "We don't chase quick spikes or fleeting hype cycles.",
+        "We engineer sustainable in-game economies and multi-year live-ops designed to keep player communities thriving for the long run."
+      ],
+      "order": 5
+    }
+  ],
   "pageviews": [
     {
       "id": "f145f714-10e1-41b1-be53-dbd2f8bee8e4",
@@ -1937,6 +1989,366 @@
       "device": "desktop",
       "timestamp": "2026-09-13T14:03:59.290Z",
       "date": "2026-09-13"
+    },
+    {
+      "id": "aab86105-e7db-4642-a6c2-384135987fa6",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-21T18:44:16.536Z",
+      "date": "2026-10-21"
+    },
+    {
+      "id": "d53177a4-0bd8-485d-a203-ada05f65fee9",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-21T18:44:17.588Z",
+      "date": "2026-10-21"
+    },
+    {
+      "id": "e0590e1a-4957-4122-be51-a8d69b0760dd",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-21T18:44:33.319Z",
+      "date": "2026-10-21"
+    },
+    {
+      "id": "ac24f4e2-057d-4cf0-8d9a-bb48454310b6",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-21T18:44:38.458Z",
+      "date": "2026-10-21"
+    },
+    {
+      "id": "97835859-316d-4583-9588-79572121ec52",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-21T19:40:27.608Z",
+      "date": "2026-10-21"
+    },
+    {
+      "id": "995ade91-19f7-42e8-a9b2-b3387336763b",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-21T19:40:27.610Z",
+      "date": "2026-10-21"
+    },
+    {
+      "id": "eb6a3d5f-950d-4731-a423-f140b2296a49",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:32:43.907Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "25683c44-c6d6-4fd8-9965-30c8d571ca9d",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:32:43.908Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "a68aca94-f466-427d-9fdf-86469d3ef3f5",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:00.815Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "6d872626-8e87-4d3f-b297-0848afcf25f9",
+      "path": "/games",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:06.970Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "cb138154-2bbc-4e1e-b054-b345b3ceb3ef",
+      "path": "/blog",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:08.729Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "d9f07854-114e-4662-ac50-7505025ca100",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:09.915Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "a5586e7f-adc3-4fd2-ad26-fdeafc1bf38b",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:12.016Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "3f40b66a-4be6-4430-bfa1-953548bf4c8a",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:14.770Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "63e423b4-49d4-4a6c-870b-666dc29d53e5",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:45.481Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "bf97c24f-3b2f-4da1-82a0-236888a96056",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:33:47.627Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "0b82022a-b207-4010-86a7-56ed21068aa1",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:34:01.708Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "2d2de6b3-f4c0-469f-a8df-3b21cb807bc2",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:38:25.296Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "bfa8d94a-ee4d-458a-864d-2e27d0073d81",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:38:25.299Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "7e0a2d0e-f10a-4f7b-9ab0-ec10860d9bb9",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:49:54.520Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "dc203746-174f-4760-bc14-8b5a08ecb1c9",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:49:54.522Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "1d3fe197-aec9-4c7c-a073-ee95b2b15725",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:55:02.276Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "388c383c-3bf8-4a71-9118-65a2f366548f",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:55:02.273Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "9825e85e-4da9-4c4b-bb76-7fa3a4d24e04",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:55:16.897Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "ea52d303-a95f-4db7-a930-b5f7dabc13dc",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T13:55:16.898Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "8b5f2d3d-8fed-449a-939f-1c319ba3feb3",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T14:14:04.841Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "29b37432-d783-48fc-b5a2-acf9e756e919",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T14:55:56.768Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "fd7487e3-0351-46b1-bdb4-5b4013dc5607",
+      "path": "/",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T14:55:56.770Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "1dbea3b5-1c43-4e60-aefc-446246de9bac",
+      "path": "/about",
+      "referrer": "http://localhost:5173/",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T14:55:59.905Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "f537e481-c6d2-4afe-91d8-18f55c51483f",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T16:09:49.042Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "67869a67-e766-4156-95a3-c3781b6e97b1",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T16:09:49.044Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "063fd9b2-00d0-4b36-9f00-9081de29ae7f",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T19:57:07.921Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "4712065e-df0d-47ad-8121-d363c6943e58",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T19:57:07.923Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "9a6543f2-472e-4bfc-a366-4344768ef2bd",
+      "path": "/careers",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T20:06:49.726Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "48addc70-d31a-4f9d-a214-6b4a270aea0b",
+      "path": "/",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T20:06:55.247Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "9f83088f-95d9-488a-9f64-81d2ffbef92b",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T20:27:12.169Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "09cc4ca9-9811-4778-9e34-9171dd26a886",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T21:57:07.479Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "083160f8-ada0-439e-90bd-55be3ebf9ee8",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T21:57:07.481Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "f02697b5-6466-43ab-bc45-2cb23de0819e",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T22:18:48.405Z",
+      "date": "2026-10-22"
+    },
+    {
+      "id": "a0a4b7c4-4aff-40f3-961e-ac5f2d9194d6",
+      "path": "/about",
+      "referrer": "http://localhost:5173/about",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-22T22:18:48.407Z",
+      "date": "2026-10-22"
     }
   ],
   "events": [],

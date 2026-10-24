@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const LINKS = [
-  { path: '/', label: 'HOME' },
-  { path: '/games', label: 'GAMES' },
-  { path: '/team', label: 'TEAM' },
-  { path: '/careers', label: 'CAREERS' },
-  { path: '/blog', label: 'BLOG' },
-  { path: '/contact', label: 'CONTACT' },
+  { path: '/', label: 'Home' },
+  { path: '/about', label: 'About' },
+  { path: '/games', label: 'Games' },
+  { path: '/careers', label: 'Careers' },
+  { path: '/blog', label: 'Blog' },
 ]
 
 export default function Nav() {
@@ -31,17 +30,17 @@ export default function Nav() {
       <nav className="fixed top-0 left-0 right-0 z-[9999] pointer-events-none">
         <div className="flex items-center justify-between w-full px-6 md:px-12 lg:px-16 py-4 lg:py-5 pointer-events-auto bg-[#080808]/80 backdrop-blur-xl border-b border-white/[0.05] shadow-xl shadow-black/50">
           <Link to="/" className="flex items-center group">
-            <img src="/logo.png" alt="Switch" className="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-105 transition-transform" />
+            <img src="/logo.png" alt="The Block" className="h-8 md:h-9 w-auto object-contain group-hover:scale-105 transition-transform" />
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-12">
+          <div className="hidden lg:flex items-center gap-7 xl:gap-11">
             {LINKS.map(l => (
               <Link
                 key={l.path}
                 to={l.path}
-                className={`text-[12px] xl:text-[13px] font-semibold tracking-[0.12em] transition-all hover:-translate-y-0.5 ${
-                  isActive(l.path) ? 'text-white drop-shadow-md' : 'text-gray-400 hover:text-white'
+                className={`text-[14px] xl:text-[15px] font-heading font-semibold tracking-[-0.01em] transition-all hover:-translate-y-0.5 ${
+                  isActive(l.path) ? 'text-white drop-shadow-md' : 'text-white/70 hover:text-white'
                 }`}
               >
                 {l.label}
@@ -51,8 +50,8 @@ export default function Nav() {
 
           <div className="hidden lg:block">
             <Link to="/contact">
-              <button className="btn-pill btn-pill-sm !border-white/20 hover:!border-white hover:bg-white hover:text-black shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                Get in Touch
+              <button className="btn-nav">
+                Contact
               </button>
             </Link>
           </div>
@@ -86,9 +85,8 @@ export default function Nav() {
               <Link
                 key={l.path}
                 to={l.path}
-                className="text-4xl font-normal text-white hover:text-gray-400 transition-colors py-2"
+                className="text-4xl font-heading font-semibold text-white hover:text-gray-400 transition-colors py-2 tracking-tight"
                 style={{
-                  letterSpacing: '-0.02em',
                   opacity: open ? 1 : 0,
                   transform: open ? 'translateY(0)' : 'translateY(16px)',
                   transition: `opacity 400ms ease ${i * 60}ms, transform 400ms cubic-bezier(0.22,1,0.36,1) ${i * 60}ms`,
@@ -107,8 +105,8 @@ export default function Nav() {
             }}
           >
             <Link to="/contact">
-              <button className="btn-pill btn-pill-solid w-full py-4 text-base mb-4">
-                Get in Touch
+              <button className="btn-primary w-full py-4 text-base mb-4">
+                Contact
               </button>
             </Link>
             <p className="text-xs text-gray-500 text-center">hello@playswitchgames.com</p>

@@ -6,14 +6,14 @@ import SectionReveal from '../components/SectionReveal'
 export default function TermsPage() {
   return (
     <div className="bg-[#080808] bg-pattern text-white min-h-screen font-sans selection:bg-white/20">
-      <SEOMeta title="Terms and Conditions" description="Terms and conditions for using Switch services." />
+      <SEOMeta title="Terms and Conditions" description="Terms and conditions for using The Block services." />
       <Nav />
 
       <section className="pt-40 pb-24 px-6 md:px-12 lg:px-16">
         <div className="max-w-3xl mx-auto">
           <SectionReveal>
             <p className="text-xs tracking-widest uppercase text-gray-300 mb-3">Legal</p>
-            <h1 className="text-4xl md:text-5xl font-normal mb-10" style={{ letterSpacing: '-0.03em' }}>Terms and Conditions</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold font-heading mb-10" style={{ letterSpacing: '-0.035em' }}>Terms and Conditions</h1>
           </SectionReveal>
 
           <div className="space-y-8 text-gray-300 leading-relaxed">
@@ -27,14 +27,14 @@ export default function TermsPage() {
             <SectionReveal delay={150}>
               <h2 className="text-xl font-bold text-white mb-4">2. Description of Service</h2>
               <p>
-                Switch is a UGC game development studio that builds experiences on platforms like Roblox. We provide information about our games, studio updates, and live-ops services.
+                The Block is a UGC game development studio that builds experiences on platforms like Roblox. We provide information about our games, studio updates, and live-ops services.
               </p>
             </SectionReveal>
 
             <SectionReveal delay={200}>
               <h2 className="text-xl font-bold text-white mb-4">3. Intellectual Property</h2>
               <p>
-                All content on this website, including but not limited to text, graphics, logos, and code, is the property of Switch or its content suppliers and is protected by international copyright laws.
+                All content on this website, including but not limited to text, graphics, logos, and code, is the property of The Block or its content suppliers and is protected by international copyright laws.
               </p>
             </SectionReveal>
 
@@ -48,7 +48,7 @@ export default function TermsPage() {
             <SectionReveal delay={300}>
               <h2 className="text-xl font-bold text-white mb-4">5. Limitation of Liability</h2>
               <p>
-                Switch shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.
+                The Block shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use our services.
               </p>
             </SectionReveal>
 

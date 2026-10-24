@@ -2,25 +2,31 @@ import { Link } from 'react-router-dom'
 import type { Post } from '../types'
 
 export default function BlogCard({ post }: { post: Post }) {
+  const isVideo = (url?: string) => Boolean(url && /\.(mp4|webm|mov|ogg)(\?.*)?$/i.test(url))
+  const videoSrc = isVideo(post.coverVideoUrl) ? post.coverVideoUrl : (isVideo(post.imageUrl) ? post.imageUrl : undefined)
+  const imageSrc = post.imageUrl && !isVideo(post.imageUrl)
+    ? post.imageUrl
+    : (post.coverVideoUrl && !isVideo(post.coverVideoUrl) ? post.coverVideoUrl : undefined)
+
   return (
     <Link to={`/blog/${post.slug}`} className="block group h-full">
       <div className="rounded-2xl overflow-hidden border border-white/[0.06] h-full bg-white/[0.02]">
-        {post.imageUrl ? (
-          <div className="relative aspect-video md:aspect-auto md:h-44 overflow-hidden">
+        {imageSrc ? (
+          <div className="relative aspect-video md:aspect-auto md:h-44 overflow-hidden bg-black/40">
             <img 
-              src={post.imageUrl} 
+              src={imageSrc} 
               alt={post.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </div>
-        ) : post.coverVideoUrl ? (
-          <div className="relative aspect-video md:aspect-auto md:h-44 overflow-hidden">
+        ) : videoSrc ? (
+          <div className="relative aspect-video md:aspect-auto md:h-44 overflow-hidden bg-black/40">
             <video
               autoPlay loop muted playsInline
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             >
-              <source src={post.coverVideoUrl} type="video/mp4" />
+              <source src={videoSrc} type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </div>

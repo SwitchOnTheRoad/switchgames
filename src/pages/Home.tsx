@@ -11,6 +11,7 @@ import GrowthChart from '../components/GrowthChart'
 import BlogCard from '../components/BlogCard'
 import SEOMeta from '../components/SEOMeta'
 import CCUChart from '../components/CCUChart'
+import ScrollTextHighlight from '../components/ScrollTextHighlight'
 import { getSiteSettings, getGames, getPosts } from '../api'
 import type { Game, Post, SiteSettings } from '../types'
 
@@ -41,7 +42,7 @@ export default function Home() {
   const latestPosts = posts.slice(0, 3)
 
   return (
-    <div className="bg-[#080808] bg-pattern text-white min-h-screen relative overflow-x-hidden">
+    <div className="bg-[#080808] bg-pattern text-white min-h-screen relative [overflow-x:clip]">
       
       <div className="relative z-10">
         <Nav />
@@ -65,8 +66,8 @@ export default function Home() {
                 <div className={`flex flex-col items-start text-left w-full ${settings?.youtubeHeroLink ? 'lg:w-auto lg:min-w-[340px] lg:max-w-[400px] lg:flex-shrink-0' : 'max-w-3xl'}`}>
                   <AnimatedHeading
                     text="We build&#10;hit games."
-                    className="font-bold mb-6 text-white w-full drop-shadow-2xl whitespace-nowrap"
-                    style={{ fontSize: settings?.youtubeHeroLink ? 'clamp(2.5rem, 7vw, 5.5rem)' : 'clamp(3.5rem, 11vw, 8.5rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}
+                    className="font-extrabold font-heading mb-6 text-white w-full drop-shadow-2xl whitespace-nowrap"
+                    style={{ fontSize: settings?.youtubeHeroLink ? 'clamp(2.5rem, 7vw, 5.5rem)' : 'clamp(3.5rem, 11vw, 8.5rem)', letterSpacing: '-0.035em', lineHeight: 0.98 }}
                     delay={200}
                     charDelay={30}
                   />
@@ -78,13 +79,13 @@ export default function Home() {
                   <FadeIn delay={1500}>
                     <div className="flex flex-wrap gap-4 mb-10">
                       <Link to="/games">
-                        <button className="btn-pill btn-pill-solid shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                        <button className="btn-primary">
                           See Our Games
                         </button>
                       </Link>
                       <a href="/contact">
-                        <button className="btn-pill bg-white/10 backdrop-blur-md">
-                          Work With Us <span style={{ fontSize: 12 }}>↗</span>
+                        <button className="btn-secondary">
+                          Work With Us <span style={{ fontSize: 13 }}>↗</span>
                         </button>
                       </a>
                     </div>
@@ -107,7 +108,7 @@ export default function Home() {
 
                 {settings?.youtubeHeroLink && (
                   <FadeIn delay={1500} className="w-full lg:flex-1 lg:min-w-0 relative">
-                    <div className="aspect-video w-full rounded-2xl overflow-hidden liquid-glass relative z-10">
+                    <div className="aspect-video w-full rounded-2xl overflow-hidden liquid-glass relative z-10 lg:translate-x-8">
                       <iframe
                         src={settings.youtubeHeroLink}
                         title="YouTube video player"
@@ -125,17 +126,19 @@ export default function Home() {
             <div className="absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-[#080808] to-transparent z-10 pointer-events-none" />
         </section>
 
+        {/* ─── SCROLL HIGHLIGHT STATEMENT ───────────────────── */}
+        <ScrollTextHighlight />
 
         {/* ─── GAMES ────────────────────────────────────────── */}
         <section id="games" className="bg-transparent py-16">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-end justify-between mb-8 px-6 md:px-12 lg:px-16">
               <div>
-                <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-bold" style={{ letterSpacing: '-0.03em' }}>Our Games</h2></SectionReveal>
+                <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-extrabold font-heading" style={{ letterSpacing: '-0.035em' }}>Our Games</h2></SectionReveal>
               </div>
               <SectionReveal>
                 <Link to="/games">
-                  <button className="btn-pill btn-pill-sm liquid-glass !border-white/20 hover:bg-white/20">
+                  <button className="btn-pill-sm btn-secondary !border-white/20 hover:bg-white/20">
                     View All <span style={{ fontSize: 11 }}>↗</span>
                   </button>
                 </Link>
@@ -168,7 +171,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left Text */}
             <div className="flex flex-col justify-center">
-              <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-bold mb-6" style={{ letterSpacing: '-0.03em', lineHeight: 1.0 }}>The Switch<br />Effect.</h2></SectionReveal>
+              <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-extrabold font-heading mb-6" style={{ letterSpacing: '-0.035em', lineHeight: 1.0 }}>The Block<br />Effect.</h2></SectionReveal>
               <SectionReveal delay={120}>
                 <p className="text-base md:text-lg text-gray-200 mb-5" style={{ lineHeight: 1.7 }}>
                   Before us, your game might be struggling to find its footing or growing at a snail's pace. We change the trajectory.
@@ -181,7 +184,7 @@ export default function Home() {
               </SectionReveal>
               <SectionReveal delay={240}>
                 <Link to="/contact">
-                  <button className="btn-pill btn-pill-solid shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                  <button className="btn-primary">
                     Partner With Us
                   </button>
                 </Link>
@@ -210,11 +213,11 @@ export default function Home() {
             </div>
             <div className="flex items-end justify-between mb-10">
               <div>
-                <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-bold" style={{ letterSpacing: '-0.03em' }}>News & Updates</h2></SectionReveal>
+                <SectionReveal delay={60}><h2 className="text-4xl md:text-6xl font-extrabold font-heading" style={{ letterSpacing: '-0.035em' }}>News & Updates</h2></SectionReveal>
               </div>
               <SectionReveal>
                 <Link to="/blog">
-                  <button className="hidden md:flex btn-pill btn-pill-sm liquid-glass !border-white/20 hover:bg-white/20">
+                  <button className="hidden md:flex btn-pill-sm btn-secondary !border-white/20 hover:bg-white/20">
                     All Posts <span style={{ fontSize: 11 }}>↗</span>
                   </button>
                 </Link>
@@ -288,8 +291,8 @@ export default function Home() {
               </div>
               <SectionReveal delay={150}>
                 <div className="liquid-glass liquid-glass-hover p-6 lg:p-14 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-[#0a0a0a]/70 border-white/10">
-                  <h2 className="text-4xl lg:text-6xl font-bold mb-8 text-white" style={{ letterSpacing: '-0.03em', lineHeight: 1.0 }}>
-                    We are Switch.
+                  <h2 className="text-4xl lg:text-6xl font-extrabold font-heading mb-8 text-white" style={{ letterSpacing: '-0.035em', lineHeight: 1.0 }}>
+                    We are The Block.
                   </h2>
                   <p className="text-base md:text-lg text-gray-200 mb-6" style={{ lineHeight: 1.7 }}>
                     Roblox reaches over 80 million daily active players. We help brands and creators tap into that audience with high-retention gameplay.
@@ -299,7 +302,7 @@ export default function Home() {
                   </p>
                   <div className="flex items-center gap-6 pt-6 border-t border-white/10">
                     <div className="flex flex-col">
-                      <span className="text-3xl font-bold text-white tracking-tight">80M+</span>
+                      <span className="text-3xl font-extrabold font-heading text-white tracking-tight">80M+</span>
                       <span className="text-xs uppercase tracking-[0.2em] text-gray-500 mt-1 font-semibold">Daily Players</span>
                     </div>
                   </div>
@@ -321,7 +324,7 @@ export default function Home() {
             </div>
             <SectionReveal delay={60}>
               <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-6xl font-bold" style={{ letterSpacing: '-0.03em' }}>
+                <h2 className="text-4xl md:text-6xl font-extrabold font-heading" style={{ letterSpacing: '-0.035em' }}>
                   Execution is everything.
                 </h2>
               </div>
@@ -333,23 +336,15 @@ export default function Home() {
               
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 relative z-10">
                 {[
-                  { n: '01', title: 'Discovery', desc: 'We learn your game, audience, and goals. We find the live-ops strategy that fits.' },
-                  { n: '02', title: 'Design', desc: 'World concept, visual identity, game loop. Every detail designed before a single block is placed.' },
-                  { n: '03', title: 'Build', desc: 'Our developers and designers build fast, with weekly playtests and full transparency.' },
-                  { n: '04', title: 'Launch', desc: 'We handle publishing, QA, and post-launch analytics. You own the world.' },
+                  { title: 'Discovery', desc: 'We learn your game, audience, and goals. We find the live-ops strategy that fits.' },
+                  { title: 'Design', desc: 'World concept, visual identity, game loop. Every detail designed before a single block is placed.' },
+                  { title: 'Build', desc: 'Our developers and designers build fast, with weekly playtests and full transparency.' },
+                  { title: 'Launch', desc: 'We handle publishing, QA, and post-launch analytics. You own the world.' },
                 ].map((step, i) => (
-                  <SectionReveal key={step.n} delay={i * 120}>
+                  <SectionReveal key={step.title} delay={i * 120}>
                     <div className="relative group flex flex-col h-full">
-                      {/* Connecting Line (hidden on last item and mobile) */}
-                      {i !== 3 && (
-                        <div className="hidden md:block absolute top-7 left-[40%] w-[120%] h-[1px] bg-gradient-to-r from-white/20 via-white/10 to-transparent pointer-events-none" />
-                      )}
-                      
-                      <div className="w-14 h-14 rounded-full border border-white/20 bg-black/50 backdrop-blur-md flex items-center justify-center text-lg font-bold mb-6 group-hover:scale-110 group-hover:bg-white group-hover:text-black group-hover:border-white transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.05)] group-hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] z-10">
-                        {step.n}
-                      </div>
-                      
-                      <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">{step.title}</h3>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#3B82F6] mb-6 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                      <h3 className="text-2xl font-bold font-heading mb-3 text-white tracking-tight">{step.title}</h3>
                       <p className="text-sm text-gray-400 font-sans" style={{ lineHeight: 1.7 }}>{step.desc}</p>
                     </div>
                   </SectionReveal>
@@ -359,7 +354,7 @@ export default function Home() {
 
             {/* OVERSIZED CONVEYOR BELT */}
             <SectionReveal delay={100}>
-              <h2 className="text-4xl md:text-5xl font-bold text-center mt-32 mb-8 text-white drop-shadow-lg" style={{ letterSpacing: '-0.03em' }}>
+              <h2 className="text-4xl md:text-5xl font-extrabold font-heading text-center mt-32 mb-8 text-white drop-shadow-lg" style={{ letterSpacing: '-0.035em' }}>
                 What we do
               </h2>
             </SectionReveal>
@@ -442,8 +437,8 @@ export default function Home() {
 
           <div className="max-w-4xl mx-auto text-center relative z-10 py-16">
             <SectionReveal delay={60}>
-              <h2 className="font-bold mb-6 text-white drop-shadow-lg" style={{ fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', letterSpacing: '-0.04em', lineHeight: 0.95 }}>
-                Ready to Switch?
+              <h2 className="font-extrabold font-heading mb-6 text-white drop-shadow-lg" style={{ fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', letterSpacing: '-0.035em', lineHeight: 0.98 }}>
+                Ready to Build?
               </h2>
             </SectionReveal>
             <SectionReveal delay={120}>
@@ -453,11 +448,13 @@ export default function Home() {
             </SectionReveal>
             <SectionReveal delay={180}>
               <div className="flex flex-wrap gap-4 justify-center">
-                <button className="btn-pill btn-pill-solid shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-                  Start a Project
-                </button>
+                <Link to="/contact">
+                  <button className="btn-primary">
+                    Start a Project
+                  </button>
+                </Link>
                 <a href="mailto:hello@playswitchgames.com">
-                  <button className="btn-pill bg-white/10 backdrop-blur-md border-white/30">
+                  <button className="btn-secondary border-white/20">
                     hello@playswitchgames.com
                   </button>
                 </a>

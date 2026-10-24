@@ -31,9 +31,9 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
 
       <img
         src="/logo.png"
-        alt="Switch"
+        alt="The Block"
         style={{
-          width: 72, height: 72,
+          width: 'auto', height: 72, maxWidth: 160,
           objectFit: 'contain',
           opacity: phase === 'in' ? 0 : 1,
           filter: phase === 'in' ? 'blur(10px)' : 'blur(0px)',

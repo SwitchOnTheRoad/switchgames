@@ -15,7 +15,7 @@ const ENQUIRY_TYPES = [
   'General Enquiry',
 ]
 
-const INPUT = 'w-full bg-white/[0.04] border border-white/[0.08] rounded-full px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors'
+const INPUT = 'w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors font-sans'
 
 export default function ContactPage() {
   const [searchParams] = useSearchParams()
@@ -26,7 +26,7 @@ export default function ContactPage() {
     email: '',
     company: '',
     enquiryType: isCareers ? 'Careers' : '',
-    message: isCareers ? "Hi Switch team, I'd like to send my CV for future roles." : '',
+    message: isCareers ? "Hi team at The Block, I'd like to send my CV for future roles." : '',
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
@@ -71,7 +71,7 @@ export default function ContactPage() {
               Thanks for reaching out. We read every message and will get back to you within 48 hours.
             </p>
             <Link to="/">
-              <button className="btn-pill btn-pill-solid">
+              <button className="btn-primary">
                 Back to Home
               </button>
             </Link>
@@ -97,7 +97,7 @@ export default function ContactPage() {
 
               </SectionReveal>
               <SectionReveal delay={60}>
-                <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{ letterSpacing: '-0.04em', lineHeight: 0.95 }}>
+                <h1 className="text-5xl md:text-6xl font-extrabold font-heading mb-6" style={{ letterSpacing: '-0.035em', lineHeight: 0.98 }}>
                   Let's build<br />something.
                 </h1>
               </SectionReveal>
@@ -163,7 +163,7 @@ export default function ContactPage() {
                         key={type}
                         type="button"
                         onClick={() => set('enquiryType', type)}
-                        className={`px-4 py-2 rounded-full text-sm transition-colors border ${
+                        className={`px-4 py-2 rounded-lg text-sm transition-colors border font-sans ${
                           form.enquiryType === type
                             ? 'bg-white text-black border-white'
                             : 'border-white/15 text-gray-400 hover:text-white hover:border-white/30'
@@ -180,7 +180,7 @@ export default function ContactPage() {
                   <textarea
                     value={form.message}
                     onChange={e => set('message', e.target.value)}
-                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors resize-none" rows={6}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-5 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/20 transition-colors resize-none font-sans" rows={6}
                     placeholder="Tell us what you're working on, what you need, or just say hi."
                     required
                   />
@@ -193,7 +193,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === 'sending' || !form.name || !form.email || !form.message}
-                  className="w-full btn-pill btn-pill-solid py-4 text-sm disabled:opacity-40"
+                  className="w-full btn-primary py-4 text-sm disabled:opacity-40"
                 >
                   {status === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>

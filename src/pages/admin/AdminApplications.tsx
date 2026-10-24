@@ -214,7 +214,7 @@ export default function AdminApplications() {
                       {/* CTA buttons */}
                       <div className="flex items-center gap-2">
                         <a
-                          href={`mailto:${a.email}?subject=Your application for ${encodeURIComponent(a.jobTitle)} at Switch`}
+                          href={`mailto:${a.email}?subject=Your application for ${encodeURIComponent(a.jobTitle)} at The Block`}
                           className="bg-white text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors"
                         >
                           Reply via Email
