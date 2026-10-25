@@ -12,6 +12,7 @@ import BlogCard from '../components/BlogCard'
 import SEOMeta from '../components/SEOMeta'
 import CCUChart from '../components/CCUChart'
 import ScrollTextHighlight from '../components/ScrollTextHighlight'
+import YourGameBanner from '../components/YourGameBanner'
 import { getSiteSettings, getGames, getPosts } from '../api'
 import type { Game, Post, SiteSettings } from '../types'
 
@@ -200,6 +201,10 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ─── ABOUT US BANNER ───────────────────────────────── */}
+        <SectionReveal>
+          <YourGameBanner studioName="THE BLOCK" headline="About Us" buttonLink="/about" />
+        </SectionReveal>
 
         {/* ─── BLOG PREVIEW ─────────────────────────────────── */}
         <section className="bg-transparent py-16 md:py-24 px-6 md:px-12 lg:px-16">
@@ -241,76 +246,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── STUDIO ───────────────────────────────────────── */}
-        <section id="studio" className="bg-transparent py-10 lg:py-32 px-6 md:px-12 lg:px-16 flex justify-center">
-          <div className="max-w-7xl w-full relative flex flex-col lg:block">
-            
-            {/* The Video Layer (Large and Cinematic) */}
-            <SectionReveal>
-              <div className="relative">
-                {/* Bloxy Award floating on the left corner of the video */}
-                <style>{`
-                  @keyframes bloxy-float {
-                    0% { transform: translateY(0px) rotate(0deg); }
-                    50% { transform: translateY(-15px) rotate(3deg); }
-                    100% { transform: translateY(0px) rotate(0deg); }
-                  }
-                `}</style>
-                <div 
-                  className="absolute z-50 pointer-events-none" 
-                  style={{ bottom: '-30px', left: '-30px', animation: 'bloxy-float 6s ease-in-out infinite' }}
-                >
-                  <div className="relative group cursor-pointer pointer-events-auto">
-                    <div className="absolute inset-0 bg-[#DAA520] opacity-30 blur-3xl rounded-full group-hover:opacity-70 group-hover:blur-2xl transition-all duration-500" />
-                    <img 
-                      src="/bloxy.png" 
-                      alt="Bloxy Award" 
-                      className="w-28 lg:w-64 xl:w-72 h-auto object-contain drop-shadow-[0_0_20px_rgba(218,165,32,0.5)] relative z-10 group-hover:scale-110 group-hover:drop-shadow-[0_0_40px_rgba(255,215,0,0.8)] transition-all duration-500 group-hover:-translate-y-4" 
-                    />
-                  </div>
-                </div>
-                
-                <div className="w-full lg:w-9/12 rounded-[2rem] overflow-hidden relative shadow-2xl border border-white/10 h-[350px] lg:h-[max(600px,60vh)]">
-                <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-                  <source src="/backgroundvideo.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-black/80 pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none lg:hidden" />
-              </div>
-              </div>
-            </SectionReveal>
-
-            {/* The Floating Text Glass Panel (Overlapping on Desktop, Stacked on Mobile) */}
-            <div className="relative lg:absolute lg:top-1/2 lg:right-0 lg:transform lg:-translate-y-1/2 w-full lg:w-5/12 z-10 -mt-10 lg:mt-0 px-4 lg:px-0">
-              {/* Floating standalone Robux */}
-              <div 
-                className="absolute z-50 pointer-events-none" 
-                style={{ top: '-70px', right: '-40px', animation: 'robux-float-v2 7.5s ease-in-out infinite' }}
-              >
-                <img src="/gold-robux-new.png" alt="" className="w-40 h-40 lg:w-48 lg:h-48 object-contain drop-shadow-2xl" />
-              </div>
-              <SectionReveal delay={150}>
-                <div className="liquid-glass liquid-glass-hover p-6 lg:p-14 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-[#0a0a0a]/70 border-white/10">
-                  <h2 className="text-4xl lg:text-6xl font-extrabold font-heading mb-8 text-white" style={{ letterSpacing: '-0.035em', lineHeight: 1.0 }}>
-                    We are The Block.
-                  </h2>
-                  <p className="text-base md:text-lg text-gray-200 mb-6" style={{ lineHeight: 1.7 }}>
-                    Roblox reaches over 80 million daily active players. We help brands and creators tap into that audience with high-retention gameplay.
-                  </p>
-                  <p className="text-base text-gray-400 mb-10" style={{ lineHeight: 1.7 }}>
-                    Our studio specializes in full-cycle game development, monetization design, and post-launch live-ops to keep your player base growing.
-                  </p>
-                  <div className="flex items-center gap-6 pt-6 border-t border-white/10">
-                    <div className="flex flex-col">
-                      <span className="text-3xl font-extrabold font-heading text-white tracking-tight">80M+</span>
-                      <span className="text-xs uppercase tracking-[0.2em] text-gray-500 mt-1 font-semibold">Daily Players</span>
-                    </div>
-                  </div>
-                </div>
-              </SectionReveal>
-            </div>
-          </div>
-        </section>
 
         {/* ─── PROCESS ──────────────────────────────────────── */}
         <section className="bg-transparent pt-24 pb-8 px-6 md:px-12 lg:px-16">
@@ -343,7 +278,6 @@ export default function Home() {
                 ].map((step, i) => (
                   <SectionReveal key={step.title} delay={i * 120}>
                     <div className="relative group flex flex-col h-full">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#3B82F6] mb-6 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                       <h3 className="text-2xl font-bold font-heading mb-3 text-white tracking-tight">{step.title}</h3>
                       <p className="text-sm text-gray-400 font-sans" style={{ lineHeight: 1.7 }}>{step.desc}</p>
                     </div>

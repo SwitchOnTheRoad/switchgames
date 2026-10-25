@@ -2349,6 +2349,105 @@
       "device": "desktop",
       "timestamp": "2026-10-22T22:18:48.407Z",
       "date": "2026-10-22"
+    },
+    {
+      "id": "96a8b989-e6d9-486d-90e8-5b949d8888a0",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:31:10.106Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "614c3195-131f-4636-a9c9-a77e2d307ba3",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:31:10.108Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "334f1aa9-286d-4903-a5c5-3e9ad937013c",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:34:12.675Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "39c74d18-287b-44ba-b7b2-67c9d7c9297c",
+      "path": "/",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:34:12.675Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "6226c9b1-1a9c-4c36-8fd9-e8d3fa146b02",
+      "path": "/about",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:53:14.623Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "d15a4536-a9b6-4617-9d74-55625439711e",
+      "path": "/careers",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:53:28.050Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "b16ae45f-89c0-4b7f-ae95-2f8f30d6e3ed",
+      "path": "/blog",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:53:29.957Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "8d7516e9-1c8b-4973-ad55-78675bd2978b",
+      "path": "/contact",
+      "referrer": "direct",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T11:53:32.499Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "b1a64e2c-bf9a-4e17-bec9-aadc9909ba5e",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/contact",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T13:51:12.454Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "b8697b50-6d1b-4297-bfb4-88c522486a92",
+      "path": "/contact",
+      "referrer": "http://localhost:5173/contact",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T13:51:12.455Z",
+      "date": "2026-10-25"
+    },
+    {
+      "id": "553e12cb-5563-47c6-a972-983331280146",
+      "path": "/",
+      "referrer": "http://localhost:5173/contact",
+      "browser": "Chrome",
+      "device": "desktop",
+      "timestamp": "2026-10-25T13:51:15.268Z",
+      "date": "2026-10-25"
     }
   ],
   "events": [],

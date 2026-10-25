@@ -37,9 +37,8 @@ export default function AdminLayout() {
         <RobuxPattern />
       </div>
       <aside className="w-56 fixed top-0 left-0 h-full flex flex-col px-3 py-5 overflow-y-auto z-20" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', background: 'rgba(0,0,0,0.95)' }}>
-        <Link to="/" className="flex items-center gap-3 px-3 mb-6">
-          <img src="/logo.png" alt="The Block" className="h-8 w-auto object-contain" />
-          <div><p className="text-sm font-semibold" style={{ letterSpacing: '-0.02em' }}>The Block</p><p className="text-xs text-gray-300">Admin</p></div>
+        <Link to="/" className="flex items-center px-3 mb-6">
+          <img src="/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
         </Link>
 
         <nav className="flex flex-col gap-5 flex-1">
